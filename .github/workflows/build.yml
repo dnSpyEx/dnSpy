@@ -33,7 +33,7 @@ jobs:
             build-dir: net8.0-windows\win-x64\publish
 
     steps:
-      - uses: actions/checkout@v4.1.6
+      - uses: actions/checkout@v4.1.7
         with:
           submodules: true
 
