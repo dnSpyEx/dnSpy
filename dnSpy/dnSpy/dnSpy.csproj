@@ -102,6 +102,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EleCho.WpfSuite" Version="0.6.0" />
     <PackageReference Include="Iced" Version="$(IcedVersion)" />
     <PackageReference Include="Microsoft.VisualStudio.Composition" Version="$(MSVSCompositionVersion)" />
     <PackageReference Include="Microsoft.VisualStudio.Language.Intellisense" Version="$(MSVSIntellisenseVersion)" />

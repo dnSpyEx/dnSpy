@@ -58,13 +58,43 @@ namespace dnSpy.Controls {
 
 		static WinSysButton() => DefaultStyleKeyProperty.OverrideMetadata(typeof(WinSysButton), new FrameworkPropertyMetadata(typeof(WinSysButton)));
 
-		public WinSysButton() => Loaded += WinSysButton_Loaded;
+		public WinSysButton() {
+			Loaded += WinSysButton_Loaded;
+			Click += WinSysButton_Click;
+		}
 
 		void WinSysButton_Loaded(object? sender, RoutedEventArgs e) {
 			Loaded -= WinSysButton_Loaded;
 			window = Window.GetWindow(this);
 			if (window is not null) // null if in design mode
 				window.StateChanged += window_StateChanged;
+		}
+
+		void WinSysButton_Click(object sender, RoutedEventArgs e) {
+
+			if (window is null)
+				return;
+
+			switch (CurrentWinSysType) {
+			case CurrentWinSysType.Minimize:
+				WindowUtils.Minimize(window);
+				break;
+
+			case CurrentWinSysType.Maximize:
+				WindowUtils.Maximize(window);
+				break;
+
+			case CurrentWinSysType.Restore:
+				WindowUtils.Restore(window);
+				break;
+
+			case CurrentWinSysType.Close:
+				window.Close();
+				break;
+
+			default:
+				throw new ArgumentException("Invalid CurrentWinSysType");
+			}
 		}
 
 		void window_StateChanged(object? sender, EventArgs e) => OnWinSysTypeChanged(WinSysType);
@@ -95,32 +125,6 @@ namespace dnSpy.Controls {
 
 			default:
 				throw new ArgumentException("Invalid WinSysType");
-			}
-		}
-
-		protected override void OnClick() {
-			if (window is null)
-				return;
-
-			switch (CurrentWinSysType) {
-			case CurrentWinSysType.Minimize:
-				WindowUtils.Minimize(window);
-				break;
-
-			case CurrentWinSysType.Maximize:
-				WindowUtils.Maximize(window);
-				break;
-
-			case CurrentWinSysType.Restore:
-				WindowUtils.Restore(window);
-				break;
-
-			case CurrentWinSysType.Close:
-				window.Close();
-				break;
-
-			default:
-				throw new ArgumentException("Invalid CurrentWinSysType");
 			}
 		}
 	}

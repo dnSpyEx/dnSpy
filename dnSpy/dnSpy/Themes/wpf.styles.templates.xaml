@@ -22,7 +22,8 @@
                     xmlns:disasmsettingsx86="clr-namespace:dnSpy.Disassembly.X86"
                     xmlns:disasmviewersettings="clr-namespace:dnSpy.Disassembly.Viewer"
                     xmlns:bm="clr-namespace:dnSpy.Bookmarks.Settings"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ws="https://schemas.elecho.dev/wpfsuite">
 
     <!--
     The styles and templates were copied from aero.normalcolor.xaml and later updated to
@@ -5375,10 +5376,13 @@
                                     Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ShowMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" >
                                     <img:DsImage ImageReference="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SystemMenuImage}" />
                                 </ctrls:SysMenuButton>
-                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" WindowChrome.IsHitTestVisibleInChrome="True">
-                                    <ctrls:WinSysButton x:Name="minButton" WinSysType="Minimize" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ShowMinimizeButton, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                    <ctrls:WinSysButton x:Name="maxButton" WinSysType="Maximize" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ShowMaximizeButton, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                    <ctrls:WinSysButton x:Name="closeButton" WinSysType="Close" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ShowCloseButton, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                    <ctrls:WinSysButton x:Name="minButton" WinSysType="Minimize" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ShowMinimizeButton, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                        ws:WindowOption.IsMinimumButton="True"/>
+                                    <ctrls:WinSysButton x:Name="maxButton" WinSysType="Maximize" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ShowMaximizeButton, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                        ws:WindowOption.IsMaximumButton="True"/>
+                                    <ctrls:WinSysButton x:Name="closeButton" WinSysType="Close" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ShowCloseButton, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                                        ws:WindowOption.IsCloseButton="True"/>
                                 </StackPanel>
                                 <TextBlock
                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}"
