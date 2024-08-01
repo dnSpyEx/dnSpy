@@ -23,7 +23,7 @@
                     xmlns:disasmviewersettings="clr-namespace:dnSpy.Disassembly.Viewer"
                     xmlns:bm="clr-namespace:dnSpy.Bookmarks.Settings"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ws="https://schemas.elecho.dev/wpfsuite">
+                    xmlns:ws="clr-namespace:EleCho.WpfSuite">
 
     <!--
     The styles and templates were copied from aero.normalcolor.xaml and later updated to
