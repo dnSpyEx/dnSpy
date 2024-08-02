@@ -28,12 +28,12 @@ namespace EleCho.WpfSuite {
 		static readonly Version s_versionWindows10 = new Version(10, 0);
 
 		/// <summary>
-		/// DWM 支持 Corner, BorderColor, CaptionColor, TextColor
+		/// DWM Supports Corner, BorderColor, CaptionColor, TextColor
 		/// </summary>
 		static readonly Version s_versionWindows11_22000 = new Version(10, 0, 22000);
 
 		/// <summary>
-		/// DWM 支持暗色模式与 Backdrop 属性
+		/// DWM Supports Dark mode and Backdrop property
 		/// </summary>
 		static readonly Version s_versionWindows11_22621 = new Version(10, 0, 22621);
 
@@ -59,8 +59,6 @@ namespace EleCho.WpfSuite {
 		/// </summary>
 		public static bool CanSetAccent => s_versionCurrentWindows >= s_versionWindows10_1809;
 
-
-
 		/// <summary>
 		/// Get value of Backdrop property
 		/// </summary>
@@ -79,7 +77,6 @@ namespace EleCho.WpfSuite {
 		public static void SetBackdrop(DependencyObject obj, WindowBackdrop value) {
 			obj.SetValue(BackdropProperty, value);
 		}
-
 
 		/// <summary>
 		/// Get value of Corner property
@@ -100,7 +97,6 @@ namespace EleCho.WpfSuite {
 			obj.SetValue(CornerProperty, value);
 		}
 
-
 		/// <summary>
 		/// Get value of CaptionColor property
 		/// </summary>
@@ -119,7 +115,6 @@ namespace EleCho.WpfSuite {
 		public static void SetCaptionColor(DependencyObject obj, WindowOptionColor value) {
 			obj.SetValue(CaptionColorProperty, value);
 		}
-
 
 		/// <summary>
 		/// Get value of TextColor property
@@ -140,7 +135,6 @@ namespace EleCho.WpfSuite {
 			obj.SetValue(TextColorProperty, value);
 		}
 
-
 		/// <summary>
 		/// Get value of BorderColor property
 		/// </summary>
@@ -159,7 +153,6 @@ namespace EleCho.WpfSuite {
 		public static void SetBorderColor(DependencyObject obj, WindowOptionColor value) {
 			obj.SetValue(BorderColorProperty, value);
 		}
-
 
 		/// <summary>
 		/// Get value of IsDarkMode property
@@ -180,7 +173,6 @@ namespace EleCho.WpfSuite {
 			obj.SetValue(IsDarkModeProperty, value);
 		}
 
-
 		/// <summary>
 		/// Get value of AccentState property
 		/// </summary>
@@ -199,7 +191,6 @@ namespace EleCho.WpfSuite {
 		public static void SetAccentState(DependencyObject obj, WindowAccentState value) {
 			obj.SetValue(AccentStateProperty, value);
 		}
-
 
 		/// <summary>
 		/// Get value of AccentBorder property
@@ -220,7 +211,6 @@ namespace EleCho.WpfSuite {
 			obj.SetValue(AccentBorderProperty, value);
 		}
 
-
 		/// <summary>
 		/// Get value of AccentGradientColor property
 		/// </summary>
@@ -240,7 +230,6 @@ namespace EleCho.WpfSuite {
 			obj.SetValue(AccentGradientColorProperty, value);
 		}
 
-
 		/// <summary>
 		/// Get value of IsCaptionVisible property
 		/// </summary>
@@ -258,7 +247,6 @@ namespace EleCho.WpfSuite {
 		public static void SetIsCaptionVisible(DependencyObject obj, bool value) {
 			obj.SetValue(IsCaptionVisibleProperty, value);
 		}
-
 
 		/// <summary>
 		/// Get value of IsCaptionMenuVisible property
@@ -278,7 +266,6 @@ namespace EleCho.WpfSuite {
 			obj.SetValue(IsCaptionMenuVisibleProperty, value);
 		}
 
-
 		/// <summary>
 		/// Get value of IsMaximumButton property
 		/// </summary>
@@ -296,7 +283,6 @@ namespace EleCho.WpfSuite {
 		public static void SetIsMaximumButton(DependencyObject obj, bool value) {
 			obj.SetValue(IsMaximumButtonProperty, value);
 		}
-
 
 		/// <summary>
 		/// Get value of IsMinimumButton property
@@ -316,7 +302,6 @@ namespace EleCho.WpfSuite {
 			obj.SetValue(IsMinimumButtonProperty, value);
 		}
 
-
 		/// <summary>
 		/// Get value of IsCloseButton property
 		/// </summary>
@@ -334,8 +319,6 @@ namespace EleCho.WpfSuite {
 		public static void SetIsCloseButton(DependencyObject obj, bool value) {
 			obj.SetValue(IsCloseButtonProperty, value);
 		}
-
-
 
 		/// <summary>
 		/// The DependencyProperty of Backdrop property
@@ -420,7 +403,6 @@ namespace EleCho.WpfSuite {
 		/// </summary>
 		public static readonly DependencyProperty IsCloseButtonProperty =
 			DependencyProperty.RegisterAttached("IsCloseButton", typeof(bool), typeof(WindowOption), new FrameworkPropertyMetadata(false, OnIsCloseButtonChanged));
-
 
 		#region DependencyProperty Callbacks
 
@@ -938,7 +920,6 @@ namespace EleCho.WpfSuite {
 
 		#endregion
 
-
 		#region Utilities
 
 		private static int CreateColorInteger(Color color) {
@@ -1048,7 +1029,6 @@ namespace EleCho.WpfSuite {
 		}
 
 		#endregion
-
 
 		#region Final Logic
 

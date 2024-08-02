@@ -71,7 +71,6 @@ namespace dnSpy.Controls {
 		}
 
 		void WinSysButton_Click(object sender, RoutedEventArgs e) {
-
 			if (window is null)
 				return;
 

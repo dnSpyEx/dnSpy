@@ -106,9 +106,9 @@ namespace EleCho.WpfSuite {
 			}
 
 			public enum WindowCompositionAttribute {
-				// 省略其他未使用的字段
+				// Omit other unused fields
 				WcaAccentPolicy = 19,
-				// 省略其他未使用的字段
+				// Omit other unused fields
 			}
 
 			public enum DwmWindowAttribute {
@@ -139,38 +139,22 @@ namespace EleCho.WpfSuite {
 				LAST
 			}
 
-			// Token: 0x0200002E RID: 46
 			[Flags]
 			public enum SetWindowPosFlags {
-				// Token: 0x04000368 RID: 872
 				ASYNCWINDOWPOS = 16384,
-				// Token: 0x04000369 RID: 873
 				DEFERERASE = 8192,
-				// Token: 0x0400036A RID: 874
 				DRAWFRAME = 32,
-				// Token: 0x0400036B RID: 875
 				FRAMECHANGED = 32,
-				// Token: 0x0400036C RID: 876
 				HIDEWINDOW = 128,
-				// Token: 0x0400036D RID: 877
 				NOACTIVATE = 16,
-				// Token: 0x0400036E RID: 878
 				NOCOPYBITS = 256,
-				// Token: 0x0400036F RID: 879
 				NOMOVE = 2,
-				// Token: 0x04000370 RID: 880
 				NOOWNERZORDER = 512,
-				// Token: 0x04000371 RID: 881
 				NOREDRAW = 8,
-				// Token: 0x04000372 RID: 882
 				NOREPOSITION = 512,
-				// Token: 0x04000373 RID: 883
 				NOSENDCHANGING = 1024,
-				// Token: 0x04000374 RID: 884
 				NOSIZE = 1,
-				// Token: 0x04000375 RID: 885
 				NOZORDER = 4,
-				// Token: 0x04000376 RID: 886
 				SHOWWINDOW = 64
 			}
 		}
