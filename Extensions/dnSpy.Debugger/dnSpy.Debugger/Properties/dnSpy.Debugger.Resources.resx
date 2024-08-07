@@ -1587,4 +1587,7 @@ Do you wish to continue?</value>
   <data name="Column_LoadModule" xml:space="preserve">
     <value>Load</value>
   </data>
+  <data name="DbgSettings_DontAutoUpdateDebugLaunchSettings" xml:space="preserve">
+    <value>Don't auto update debugger launch settings unless first time since dnSpy launch</value>
+  </data>  
 </root>
