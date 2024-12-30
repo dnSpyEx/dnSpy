@@ -172,6 +172,7 @@ namespace dnSpy_Console {
 		bool createResX = true;
 		bool decompileBaml = true;
 		bool colorizeOutput;
+		bool generateSDKStyleProjects;
 		Guid projectGuid = Guid.NewGuid();
 		int numThreads;
 		int mdToken;
@@ -478,6 +479,10 @@ namespace dnSpy_Console {
 					case "--recursive":
 						isRecursive = true;
 						break;
+					
+					case "--generateSDKStyleProjects":
+						generateSDKStyleProjects = true;
+						break;
 
 					case "-o":
 					case "--output-dir":
@@ -750,6 +755,7 @@ namespace dnSpy_Console {
 				options.CreateDecompilerOutput = textWriter => new TextWriterDecompilerOutput(textWriter, GetIndenter());
 				if (createSlnFile && !string.IsNullOrEmpty(slnName))
 					options.SolutionFilename = slnName;
+				options.GenerateSDKStyleProjects = generateSDKStyleProjects;
 				var creator = new MSBuildProjectCreator(options);
 				creator.Create();
 			}
