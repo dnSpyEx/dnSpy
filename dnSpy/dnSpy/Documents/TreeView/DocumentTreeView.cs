@@ -856,7 +856,7 @@ namespace dnSpy.Documents.TreeView {
 							break;
 						if (!urlUri.IsFile)
 							break;
-						filename = urlUri.AbsolutePath;
+						filename = urlUri.LocalPath;
 					}
 					else
 						break;
