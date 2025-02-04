@@ -318,4 +318,7 @@
   <data name="MissingArgument" xml:space="preserve">
     <value>Chybějící argument</value>
   </data>
+  <data name="CmdLineDescription_SdkProject" xml:space="preserve">
+    <value>generovat soubory projektu ve stylu SDK</value>
+  </data>
 </root>

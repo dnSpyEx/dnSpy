@@ -318,4 +318,7 @@
   <data name="MissingArgument" xml:space="preserve">
     <value>Argumento em falta</value>
   </data>
+  <data name="CmdLineDescription_SdkProject" xml:space="preserve">
+    <value>gerar ficheiros de projeto no estilo SDK</value>
+  </data>
 </root>

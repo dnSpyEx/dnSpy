@@ -318,4 +318,7 @@
   <data name="MissingArgument" xml:space="preserve">
     <value>Hiányzó argumentum</value>
   </data>
+  <data name="CmdLineDescription_SdkProject" xml:space="preserve">
+    <value>SDK-stílusú projektfájlok generálása</value>
+  </data>
 </root>

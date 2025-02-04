@@ -172,7 +172,7 @@ namespace dnSpy_Console {
 		bool createResX = true;
 		bool decompileBaml = true;
 		bool colorizeOutput;
-		bool generateSDKStyleProjects;
+		bool sdkProject;
 		Guid projectGuid = Guid.NewGuid();
 		int numThreads;
 		int mdToken;
@@ -332,6 +332,7 @@ namespace dnSpy_Console {
 			}
 		}
 		static readonly UsageInfo[] usageInfos = new UsageInfo[] {
+			new UsageInfo("--sdk-project", null, dnSpy_Console_Resources.CmdLineDescription_SdkProject),
 			new UsageInfo("--asm-path", dnSpy_Console_Resources.CmdLinePath, dnSpy_Console_Resources.CmdLineDescription_AsmPath),
 			new UsageInfo("--user-gac", dnSpy_Console_Resources.CmdLinePath, dnSpy_Console_Resources.CmdLineDescription_UserGAC),
 			new UsageInfo("--no-gac", null, dnSpy_Console_Resources.CmdLineDescription_NoGAC),
@@ -428,6 +429,7 @@ namespace dnSpy_Console {
 			"recursive",
 			"output-dir",
 			"lang",
+			"sdk-project",
 			"asm-path",
 			"user-gac",
 			"gac",
@@ -480,8 +482,8 @@ namespace dnSpy_Console {
 						isRecursive = true;
 						break;
 					
-					case "--generateSDKStyleProjects":
-						generateSDKStyleProjects = true;
+					case "--sdk-project":
+						sdkProject = true;
 						break;
 
 					case "-o":
@@ -755,7 +757,7 @@ namespace dnSpy_Console {
 				options.CreateDecompilerOutput = textWriter => new TextWriterDecompilerOutput(textWriter, GetIndenter());
 				if (createSlnFile && !string.IsNullOrEmpty(slnName))
 					options.SolutionFilename = slnName;
-				options.GenerateSDKStyleProjects = generateSDKStyleProjects;
+				options.SdkProject = sdkProject;
 				var creator = new MSBuildProjectCreator(options);
 				creator.Create();
 			}

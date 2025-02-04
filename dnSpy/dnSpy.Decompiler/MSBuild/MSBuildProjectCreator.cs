@@ -114,7 +114,7 @@ namespace dnSpy.Decompiler.MSBuild {
 					options.CancellationToken.ThrowIfCancellationRequested();
 					try {
 						ProjectWriterBase writer;
-						if (options.GenerateSDKStyleProjects)
+						if (options.SdkProject)
 							writer = new SdkProjectWriter(p, p.Options.ProjectVersion ?? options.ProjectVersion, projects, options.UserGACPaths);
 						else
 							writer = new DefaultProjectWriter(p, p.Options.ProjectVersion ?? options.ProjectVersion, projects, options.UserGACPaths);
