@@ -166,7 +166,7 @@ namespace dnSpy.Documents.Tabs {
 					options.ProjectVersion = vm.ProjectVersion;
 					if (vm.CreateSolution)
 						options.SolutionFilename = vm.SolutionFilename;
-					options.SdkProject = vm.UseSDKStyleProjectFormat;
+					options.GenerateSDKStyleProjects = vm.UseSDKStyleProjectFormat;
 					options.Logger = this;
 					options.ProgressListener = this;
 

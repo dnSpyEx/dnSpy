@@ -757,7 +757,7 @@ namespace dnSpy_Console {
 				options.CreateDecompilerOutput = textWriter => new TextWriterDecompilerOutput(textWriter, GetIndenter());
 				if (createSlnFile && !string.IsNullOrEmpty(slnName))
 					options.SolutionFilename = slnName;
-				options.SdkProject = sdkProject;
+				options.GenerateSDKStyleProjects = sdkProject;
 				var creator = new MSBuildProjectCreator(options);
 				creator.Create();
 			}
