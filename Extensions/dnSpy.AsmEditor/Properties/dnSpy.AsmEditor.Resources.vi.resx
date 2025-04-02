@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -2311,5 +2311,11 @@ Hầu hết các tùy chọn sẽ được khởi tạo lại khi hộp này đ�
   </data>
   <data name="Type_Flags_Visibility" xml:space="preserve">
     <value>Visibilit_y</value>
+  </data>
+  <data name="LoadDependenciesCommand" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LoadAllDependenciesCommand" xml:space="preserve">
+    <value />
   </data>
 </root>
