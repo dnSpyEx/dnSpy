@@ -2312,4 +2312,10 @@ nutný, pokud jsou metody obfuskovány</value>
   <data name="Type_Flags_Visibility" xml:space="preserve">
     <value>Viditelnost</value>
   </data>
+  <data name="LoadDependenciesCommand" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LoadAllDependenciesCommand" xml:space="preserve">
+    <value />
+  </data>
 </root>
