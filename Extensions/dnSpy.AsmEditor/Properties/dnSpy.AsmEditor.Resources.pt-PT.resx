@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
     Microsoft ResX Schema
@@ -2313,5 +2313,11 @@ A maioria das opções serão re-inicializados quando essa caixa de seleção é
   </data>
   <data name="Type_Flags_Visibility" xml:space="preserve">
     <value>Visibilidade</value>
+  </data>
+  <data name="LoadDependenciesCommand" xml:space="preserve">
+    <value />
+  </data>
+  <data name="LoadAllDependenciesCommand" xml:space="preserve">
+    <value />
   </data>
 </root>
