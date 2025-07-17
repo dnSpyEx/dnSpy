@@ -63,19 +63,25 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 		internal static string ToFixedSizeHexadecimalArray(StringBuilder sb, ulong value, int bytesCount, bool upper) {
 			sb.Clear();
 
-			int digitRemains = bytesCount << 1;
 			char hexHigh = upper ? (char)('A' - 10) : (char)('a' - 10);
-			while (digitRemains > 0) {
-				int digit = (int)(value & 0xF);
+			while (bytesCount > 0) {
+				int ldigit = (int)(value & 0xF);
 				value >>= 4;
-				digitRemains--;
+				int hdigit = (int)(value & 0xF);
+				value >>= 4;
+				bytesCount--;
 
-				if (digit > 9)
-					sb.Append((char)(digit + hexHigh));
+				if (hdigit > 9)
+					sb.Append((char)(hdigit + hexHigh));
 				else
-					sb.Append((char)(digit + '0'));
+					sb.Append((char)(hdigit + '0'));
 
-				if ((digitRemains & 1) == 0 && digitRemains != 0)
+				if (ldigit > 9)
+					sb.Append((char)(ldigit + hexHigh));
+				else
+					sb.Append((char)(ldigit + '0'));
+
+				if (bytesCount != 0)
 					sb.Append(' ');
 			}
 
