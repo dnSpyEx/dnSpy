@@ -192,6 +192,9 @@
   <data name="CopyMDTokenCommand" xml:space="preserve">
     <value>_Копіювати Токен Метаданних</value>
   </data>
+  <data name="CopyFullNameCommand" xml:space="preserve">
+    <value>Скопіювати повне ім'я</value>
+  </data>
   <data name="CouldNotStartBrowser" xml:space="preserve">
     <value>Не вдалося запустити браузер</value>
   </data>
