@@ -2309,4 +2309,7 @@
   <data name="Type_Flags_Visibility" xml:space="preserve">
     <value>Видиміст_ть</value>
   </data>
+  <data name="CloseAllFrameworkAssembliesCommand" xml:space="preserve">
+    <value>Закрити усі збірки фреймворка</value>
+  </data>
 </root>

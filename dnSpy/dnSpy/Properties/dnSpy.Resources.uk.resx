@@ -492,6 +492,9 @@
   <data name="ResourcesFolder" xml:space="preserve">
     <value>Ресурси</value>
   </data>
+  <data name="RestartAsAdministratorCommand" xml:space="preserve">
+    <value>Перезапустити як Адміністратор</value>
+  </data>
   <data name="SaveKey" xml:space="preserve">
     <value>Ctrl+S</value>
   </data>
