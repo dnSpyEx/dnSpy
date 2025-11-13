@@ -40,8 +40,8 @@
     <DnSpyAssemblyCopyright>Copyright (C) 2014-2020 de4dot@gmail.com</DnSpyAssemblyCopyright>
 
     <!-- AD0001: buggy Roslyn analyzer(s) crash, disable that warning -->
-    <!-- WFAC010: Prevent warning about app.manifest properties -->
-    <NoWarn>NU1701;AD0001;WFAC010;NETSDK1189</NoWarn>
+    <!-- WFAC010,WFO0003: Prevent warning about app.manifest properties -->
+    <NoWarn>NU1701;AD0001;WFAC010;NETSDK1189;WFO0003</NoWarn>
     <NoWarn Condition=" '$(IsDotNetFramework)' == 'true' ">$(NoWarn);CS8767</NoWarn>
 
     <!-- Update app.config whenever some of these versions change (eg. dnlib version) -->
