@@ -28,6 +28,7 @@ using System.Windows.Media.Imaging;
 using dnlib.DotNet;
 using dnlib.DotNet.Resources;
 using dnSpy.Contracts.DnSpy.Properties;
+using dnSpy.Contracts.Utilities;
 
 namespace dnSpy.Contracts.Documents.TreeView.Resources {
 	/// <summary>
@@ -47,19 +48,8 @@ namespace dnSpy.Contracts.Documents.TreeView.Resources {
 			if (!SerializedImageUtilities.CheckType(module, typeName, SystemWindowsFormsImageListStreamer))
 				return false;
 
-			var dict = Deserializer.Deserialize(SystemWindowsFormsImageListStreamer.DefinitionAssembly.FullName, SystemWindowsFormsImageListStreamer.ReflectionFullName, serializedData);
-			// ImageListStreamer loops over every item looking for "Data" (case insensitive)
-			foreach (var v in dict.Values) {
-				var d = v.Value as byte[];
-				if (d is null)
-					continue;
-				if ("Data".Equals(v.Name, StringComparison.OrdinalIgnoreCase)) {
-					imageData = d;
-					return true;
-				}
-			}
-
-			return false;
+			imageData = SafeBinaryFormatter.DeserializeToByteArray(serializedData, "System.Windows.Forms.ImageListStreamer", "Data");
+			return imageData is not null;
 		}
 
 		static readonly AssemblyRef SystemWindowsForms = new AssemblyRefUser(new AssemblyNameInfo("System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"));

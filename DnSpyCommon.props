@@ -60,6 +60,7 @@
     <NuGetVersion>7.0.0</NuGetVersion>
     <DbgShimVersion>9.0.652701</DbgShimVersion>
     <SCImmutableVersion>10.0.0</SCImmutableVersion>
+    <NrbfVersion>10.0.0</NrbfVersion>
   </PropertyGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)Build\ConvertToNetstandardReferences\ConvertToNetstandardReferences.tasks" Condition=" '$(IsDotNet)' == 'true' " />

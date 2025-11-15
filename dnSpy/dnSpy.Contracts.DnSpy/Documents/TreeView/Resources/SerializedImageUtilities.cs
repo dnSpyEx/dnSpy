@@ -24,6 +24,7 @@ using System.IO;
 using System.Text;
 using dnlib.DotNet;
 using dnlib.DotNet.Resources;
+using dnSpy.Contracts.Utilities;
 
 namespace dnSpy.Contracts.Documents.TreeView.Resources {
 	/// <summary>
@@ -55,18 +56,8 @@ namespace dnSpy.Contracts.Documents.TreeView.Resources {
 
 			if (CouldBeBitmap(module, typeName)) {
 				if (format == SerializationFormat.BinaryFormatter) {
-					var dict = Deserializer.Deserialize(SystemDrawingBitmap.DefinitionAssembly.FullName, SystemDrawingBitmap.ReflectionFullName, serializedData);
-					// Bitmap loops over every item looking for "Data" (case insensitive)
-					foreach (var v in dict.Values) {
-						var d = v.Value as byte[];
-						if (d is null)
-							continue;
-						if ("Data".Equals(v.Name, StringComparison.OrdinalIgnoreCase)) {
-							imageData = d;
-							return true;
-						}
-					}
-					return false;
+					imageData = SafeBinaryFormatter.DeserializeToByteArray(serializedData, "System.Drawing.Bitmap", "Data", true);
+					return imageData is not null;
 				}
 				if (format == SerializationFormat.ActivatorStream) {
 					imageData = serializedData;
@@ -80,10 +71,7 @@ namespace dnSpy.Contracts.Documents.TreeView.Resources {
 
 			if (CouldBeIcon(module, typeName)) {
 				if (format == SerializationFormat.BinaryFormatter) {
-					var dict = Deserializer.Deserialize(SystemDrawingIcon.DefinitionAssembly.FullName, SystemDrawingIcon.ReflectionFullName, serializedData);
-					if (!dict.TryGetValue("IconData", out var info))
-						return false;
-					imageData = info.Value as byte[];
+					imageData = SafeBinaryFormatter.DeserializeToByteArray(serializedData, "System.Drawing.Icon", "IconData");
 					return imageData is not null;
 				}
 				if (format == SerializationFormat.ActivatorStream || format == SerializationFormat.TypeConverterByteArray) {
