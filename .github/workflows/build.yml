@@ -20,11 +20,14 @@ jobs:
           shell: pwsh
     strategy:
       matrix:
-        platform: [netframework, net-x86, net-x64]
+        platform: [netframework, net, net-x86, net-x64]
         include:
           - platform: netframework
             package-name: netframework
             build-dir: net48
+          - platform: net
+            package-name: net
+            build-dir: net10.0-windows
           - platform: net-x86
             package-name: net-win32
             build-dir: net10.0-windows\win-x86\publish
