@@ -112,7 +112,6 @@ namespace dnSpy.Documents.TreeView {
 				ShowAssemblyPublicKeyToken = documentTreeViewSettings.ShowAssemblyPublicKeyToken,
 				ShowToken = documentTreeViewSettings.ShowToken,
 				Decompiler = decompilerService.Decompiler,
-				DeserializeResources = documentTreeViewSettings.DeserializeResources,
 				CanDragAndDrop = isGlobal,
 			};
 
@@ -235,10 +234,6 @@ namespace dnSpy.Documents.TreeView {
 
 			case nameof(documentTreeViewSettings.SingleClickExpandsTreeViewChildren):
 				context.SingleClickExpandsChildren = documentTreeViewSettings.SingleClickExpandsTreeViewChildren;
-				break;
-
-			case nameof(documentTreeViewSettings.DeserializeResources):
-				context.DeserializeResources = documentTreeViewSettings.DeserializeResources;
 				break;
 
 			default:

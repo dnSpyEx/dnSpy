@@ -1671,7 +1671,7 @@ namespace dnSpy.AsmEditor.Resources {
 				Name = string.Empty,
 				ResourceData = new BuiltInResourceData(ResourceTypeCode.String, string.Empty),
 			});
-			var data = new ResourceElementVM(options, module, documentTreeViewSettings.DeserializeResources);
+			var data = new ResourceElementVM(options, module);
 			var win = new ResourceElementDlg();
 			win.Title = dnSpy_AsmEditor_Resources.CreateResourceCommand2;
 			win.DataContext = data;
@@ -1850,7 +1850,7 @@ namespace dnSpy.AsmEditor.Resources {
 				throw new InvalidOperationException();
 
 			var options = new ResourceElementOptions(rsrcElNode.ResourceElement);
-			var data = new ResourceElementVM(options, module, documentTreeViewSettings.DeserializeResources);
+			var data = new ResourceElementVM(options, module);
 			data.CanChangeType = false;
 			var win = new ResourceElementDlg();
 			win.Title = dnSpy_AsmEditor_Resources.EditResourceCommand2;
