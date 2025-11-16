@@ -1,0 +1,84 @@
+<UserControl x:Class="dnSpy.StringSearcher.StringsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:dnSpy.StringSearcher"
+             xmlns:p="clr-namespace:dnSpy.StringSearcher.Properties"
+             xmlns:mvvm="clr-namespace:dnSpy.Contracts.MVVM;assembly=dnSpy.Contracts.DnSpy"
+             xmlns:img="clr-namespace:dnSpy.Contracts.Images;assembly=dnSpy.Contracts.DnSpy"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=local:StringsControlVM}">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0">
+                <Label Content="{x:Static p:dnSpy_StringSearcher_Resources.ReferencesSearch}" DockPanel.Dock="Left" />
+                <TextBox Name="searchTextBox" Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=100}" />
+            </DockPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button
+                    Margin="0 0 0 0"
+                    Focusable="False"
+                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    ToolTipService.ShowOnDisabled="True"
+                    Command="{Binding RefreshCommand}"
+                    ToolTip="{x:Static p:dnSpy_StringSearcher_Resources.ReferencesRefresh}">
+                    <img:DsImage ImageReference="{x:Static img:DsImages.Refresh}" />
+                </Button>
+            </StackPanel>
+        </Grid>
+        <ListView
+            Name="searchListView"
+            SelectionMode="Single"
+            VirtualizingStackPanel.IsVirtualizing="True"
+            VirtualizingStackPanel.VirtualizationMode="Standard"
+            mvvm:GridViewColumnSorter.ColumnProvider="{Binding}"
+            ItemsSource="{Binding StringLiteralsView}"
+            SelectedItem="{Binding SelectedStringReference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ListView.View>
+                <GridView AllowsColumnReorder="True">
+                    <GridView.Columns>
+                        <GridViewColumn
+                            mvvm:GridViewColumnSorter.Id="{x:Static local:StringsWindowColumnIds.Literal}"
+                            Header="{x:Static p:dnSpy_StringSearcher_Resources.ColumnLiteral}"
+                            Width="600">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="local:StringReference">
+                                    <ContentPresenter Content="{Binding LiteralUI}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn
+                            mvvm:GridViewColumnSorter.Id="{x:Static local:StringsWindowColumnIds.Method}"
+                            Header="{x:Static p:dnSpy_StringSearcher_Resources.ColumnMethod}"
+                            Width="500">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="local:StringReference">
+                                    <ContentPresenter Content="{Binding ReferrerUI}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn
+                            mvvm:GridViewColumnSorter.Id="{x:Static local:StringsWindowColumnIds.Module}"
+                            Header="{x:Static p:dnSpy_StringSearcher_Resources.ColumnModule}"
+                            Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="local:StringReference">
+                                    <ContentPresenter Content="{Binding ModuleUI}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</UserControl>
