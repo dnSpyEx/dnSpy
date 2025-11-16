@@ -56,7 +56,7 @@ namespace dnSpy.Contracts.Documents.TreeView.Resources {
 
 			if (CouldBeBitmap(module, typeName)) {
 				if (format == SerializationFormat.BinaryFormatter) {
-					imageData = SafeBinaryFormatter.DeserializeToByteArray(serializedData, "System.Drawing.Bitmap", "Data", true);
+					imageData = SerializationUtilities.DeserializeToByteArray(serializedData, "System.Drawing.Bitmap", "Data", true);
 					return imageData is not null;
 				}
 				if (format == SerializationFormat.ActivatorStream) {
@@ -71,7 +71,7 @@ namespace dnSpy.Contracts.Documents.TreeView.Resources {
 
 			if (CouldBeIcon(module, typeName)) {
 				if (format == SerializationFormat.BinaryFormatter) {
-					imageData = SafeBinaryFormatter.DeserializeToByteArray(serializedData, "System.Drawing.Icon", "IconData");
+					imageData = SerializationUtilities.DeserializeToByteArray(serializedData, "System.Drawing.Icon", "IconData");
 					return imageData is not null;
 				}
 				if (format == SerializationFormat.ActivatorStream || format == SerializationFormat.TypeConverterByteArray) {
@@ -151,44 +151,69 @@ namespace dnSpy.Contracts.Documents.TreeView.Resources {
 			var data = (byte[])((BuiltInResourceData)resElem.ResourceData).Data;
 			bool isIcon = BitConverter.ToUInt32(data, 0) == 0x00010000;
 
-			object obj;
-			string typeName;
-			if (isIcon) {
-				obj = new System.Drawing.Icon(new MemoryStream(data));
-				typeName = SystemDrawingIcon.AssemblyQualifiedName;
-			}
-			else {
-				obj = new System.Drawing.Bitmap(new MemoryStream(data));
-				typeName = SystemDrawingBitmap.AssemblyQualifiedName;
-			}
-
 			byte[] serializedData;
 			if (format == SerializationFormat.BinaryFormatter) {
-				serializedData = SerializationUtilities.Serialize(obj);
+				serializedData = isIcon
+					? SerializationUtilities.SerializeIcon(data, default, SystemDrawingAsm.FullName)
+					: SerializationUtilities.SerializeBitmap(data, SystemDrawingAsm.FullName);
 			}
-			else if (format == SerializationFormat.TypeConverterByteArray) {
-				var converter = TypeDescriptor.GetConverter(obj.GetType());
-				var byteArr = converter.ConvertTo(obj, typeof(byte[]));
-				if (byteArr is not byte[] d)
-					throw new InvalidOperationException("Failed to serialize image");
-				serializedData = d;
-			}
-			else if (format == SerializationFormat.ActivatorStream) {
-				using (var stream = new MemoryStream()) {
-					if (obj is System.Drawing.Bitmap bitmap)
-						bitmap.Save(stream, bitmap.RawFormat);
-					else
-						((System.Drawing.Icon)obj).Save(stream);
-					serializedData = stream.ToArray();
+			else {
+				using var memoryStream = new MemoryStream(data);
+				using IDisposable obj = isIcon ? new System.Drawing.Icon(memoryStream) : new System.Drawing.Bitmap(memoryStream);
+				if (format == SerializationFormat.TypeConverterByteArray) {
+					var converter = TypeDescriptor.GetConverter(obj.GetType());
+					var byteArr = converter.ConvertTo(obj, typeof(byte[]));
+					if (byteArr is not byte[] d)
+						throw new InvalidOperationException("Failed to serialize image");
+					serializedData = d;
 				}
+				else if (format == SerializationFormat.ActivatorStream) {
+					using (var stream = new MemoryStream()) {
+						if (obj is System.Drawing.Bitmap bitmap)
+							bitmap.Save(stream, bitmap.RawFormat);
+						else
+							((System.Drawing.Icon)obj).Save(stream);
+						serializedData = stream.ToArray();
+					}
+				}
+				else
+					throw new ArgumentOutOfRangeException(nameof(format));
 			}
-			else
-				throw new ArgumentOutOfRangeException(nameof(format));
 
+			string typeName = isIcon ? SystemDrawingIcon.AssemblyQualifiedName : SystemDrawingBitmap.AssemblyQualifiedName;
 			return new ResourceElement {
 				Name = resElem.Name,
 				ResourceData = new BinaryResourceData(new UserResourceType(typeName, ResourceTypeCode.UserTypes), serializedData, format),
 			};
+		}
+
+		/// <summary>
+		/// Creates a serialized image
+		/// </summary>
+		/// <param name="filename">Filename of image</param>
+		/// <returns></returns>
+		public static ResourceElement CreateSerializedImage(string filename) =>
+			CreateSerializedImage(File.ReadAllBytes(filename), filename);
+
+		static ResourceElement CreateSerializedImage(byte[] data, string filename) {
+			string typeName;
+			byte[] serializedData;
+			if (filename.EndsWith(".ico", StringComparison.OrdinalIgnoreCase)) {
+				serializedData = SerializationUtilities.SerializeIcon(data, default, SystemDrawingAsm.FullName);
+				typeName = SystemDrawingIcon.AssemblyQualifiedName;
+			}
+			else {
+				serializedData = SerializationUtilities.SerializeBitmap(data, SystemDrawingAsm.FullName);
+				typeName = SystemDrawingBitmap.AssemblyQualifiedName;
+			}
+
+			var userType = new UserResourceType(typeName, ResourceTypeCode.UserTypes);
+			var rsrcElem = new ResourceElement {
+				Name = Path.GetFileName(filename),
+				ResourceData = new BinaryResourceData(userType, serializedData, SerializationFormat.BinaryFormatter),
+			};
+
+			return rsrcElem;
 		}
 	}
 }

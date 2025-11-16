@@ -1258,7 +1258,7 @@ namespace dnSpy.AsmEditor.Resources {
 			for (int i = 0; i < fnames.Length; i++) {
 				var fn = fnames[i];
 				try {
-					var node = (DocumentTreeNodeData)treeView.Create(resourceNodeFactory.Create(module, SerializationUtilities.CreateSerializedImage(fn), treeNodeGroup)).Data;
+					var node = (DocumentTreeNodeData)treeView.Create(resourceNodeFactory.Create(module, SerializedImageUtilities.CreateSerializedImage(fn), treeNodeGroup)).Data;
 					newNodes.Add(new NodeAndResourceElement(node));
 				}
 				catch (Exception ex) {
