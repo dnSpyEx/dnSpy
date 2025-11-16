@@ -47,19 +47,8 @@ namespace dnSpy.Contracts.Documents.TreeView.Resources {
 			if (!SerializedImageUtilities.CheckType(module, typeName, SystemWindowsFormsImageListStreamer))
 				return false;
 
-			var dict = Deserializer.Deserialize(SystemWindowsFormsImageListStreamer.DefinitionAssembly.FullName, SystemWindowsFormsImageListStreamer.ReflectionFullName, serializedData);
-			// ImageListStreamer loops over every item looking for "Data" (case insensitive)
-			foreach (var v in dict.Values) {
-				var d = v.Value as byte[];
-				if (d is null)
-					continue;
-				if ("Data".Equals(v.Name, StringComparison.OrdinalIgnoreCase)) {
-					imageData = d;
-					return true;
-				}
-			}
-
-			return false;
+			imageData = SerializationUtilities.DeserializeToByteArray(serializedData, "System.Windows.Forms.ImageListStreamer", "Data");
+			return imageData is not null;
 		}
 
 		static readonly AssemblyRef SystemWindowsForms = new AssemblyRefUser(new AssemblyNameInfo("System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"));
@@ -89,11 +78,18 @@ namespace dnSpy.Contracts.Documents.TreeView.Resources {
 				imgList.Images.Add(wfBmp);
 			}
 
-			var obj = imgList.ImageStream;
+#pragma warning disable SYSLIB0050
+			var serInfo = new SerializationInfo(typeof(ImageListStreamer), new FormatterConverter());
+			imgList.ImageStream!.GetObjectData(serInfo, new StreamingContext(StreamingContextStates.All));
+			var shit = (byte[])serInfo.GetValue("Data", typeof(byte[]))!;
+#pragma warning restore SYSLIB0050
+
+			byte[] blob = SerializationUtilities.SerializeImageListStreamer(shit, SystemWindowsForms.FullName);
 			var typeName = SystemWindowsFormsImageListStreamer.AssemblyQualifiedName;
 			return new ResourceElement {
 				Name = opts.Name,
-				ResourceData = new BinaryResourceData(new UserResourceType(typeName, ResourceTypeCode.UserTypes), SerializationUtilities.Serialize(obj), SerializationFormat.BinaryFormatter),
+				ResourceData = new BinaryResourceData(new UserResourceType(typeName, ResourceTypeCode.UserTypes),
+					blob, SerializationFormat.BinaryFormatter),
 			};
 		}
 

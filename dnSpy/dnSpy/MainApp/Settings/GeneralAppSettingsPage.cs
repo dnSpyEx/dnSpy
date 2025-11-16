@@ -138,17 +138,6 @@ namespace dnSpy.MainApp.Settings {
 		}
 		bool restoreTabs;
 
-		public bool DeserializeResources {
-			get => deserializeResources;
-			set {
-				if (deserializeResources != value) {
-					deserializeResources = value;
-					OnPropertyChanged(nameof(DeserializeResources));
-				}
-			}
-		}
-		bool deserializeResources;
-
 		public bool UseMemoryMappedIO {
 			get => useMemoryMappedIO;
 			set {
@@ -191,7 +180,6 @@ namespace dnSpy.MainApp.Settings {
 			AllowMoreThanOneInstance = appSettings.AllowMoreThanOneInstance;
 			DecompileFullType = documentTabServiceSettings.DecompileFullType;
 			RestoreTabs = documentTabServiceSettings.RestoreTabs;
-			DeserializeResources = documentTreeViewSettings.DeserializeResources;
 			UseMemoryMappedIO = documentServiceSettings.UseMemoryMappedIO;
 			CheckForUpdateOnStartup = updateService.CheckForUpdatesOnStartup;
 		}
@@ -206,7 +194,6 @@ namespace dnSpy.MainApp.Settings {
 			appSettings.AllowMoreThanOneInstance = AllowMoreThanOneInstance;
 			documentTabServiceSettings.DecompileFullType = DecompileFullType;
 			documentTabServiceSettings.RestoreTabs = RestoreTabs;
-			documentTreeViewSettings.DeserializeResources = DeserializeResources;
 
 			if (documentServiceSettings.UseMemoryMappedIO != UseMemoryMappedIO) {
 				documentServiceSettings.UseMemoryMappedIO = UseMemoryMappedIO;

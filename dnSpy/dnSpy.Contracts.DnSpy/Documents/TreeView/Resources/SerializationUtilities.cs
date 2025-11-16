@@ -18,130 +18,260 @@
 */
 
 using System;
-using System.ComponentModel;
-using System.Globalization;
+using System.Formats.Nrbf;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using dnlib.DotNet.Resources;
-using dnSpy.Contracts.DnSpy.Properties;
 
 namespace dnSpy.Contracts.Documents.TreeView.Resources {
 	/// <summary>
-	/// Serialization utilities
+	/// Serialization utilities for BinaryFormatter
 	/// </summary>
 	public static class SerializationUtilities {
 		/// <summary>
-		/// Creates a serialized image
+		/// Extracts a byte array field from a serialized object
 		/// </summary>
-		/// <param name="filename">Filename of image</param>
-		/// <returns></returns>
-		public static ResourceElement CreateSerializedImage(string filename) {
-			using (var stream = File.OpenRead(filename))
-				return CreateSerializedImage(stream, filename);
-		}
+		/// <param name="data">The data blob</param>
+		/// <param name="typeName">The expected type name of the serialized object</param>
+		/// <param name="fieldName">The field name to extract</param>
+		/// <param name="ignoreCase">Set to <c>true</c> if the case of <paramref name="fieldName"/> should be ignored</param>
+		/// <returns>The byte array contained in the field</returns>
+		public static byte[]? DeserializeToByteArray(byte[] data, string typeName, string fieldName, bool ignoreCase = false) {
+			var rootRecord = NrbfDecoder.Decode(new MemoryStream(data));
+			if (rootRecord is not ClassRecord classRecord || classRecord.TypeName.FullName != typeName)
+				return null;
 
-		static ResourceElement CreateSerializedImage(Stream stream, string filename) {
-			object obj;
-			string typeName;
-			if (filename.EndsWith(".ico", StringComparison.OrdinalIgnoreCase)) {
-				obj = new System.Drawing.Icon(stream);
-				typeName = SerializedImageUtilities.SystemDrawingIcon.AssemblyQualifiedName;
-			}
-			else {
-				obj = new System.Drawing.Bitmap(stream);
-				typeName = SerializedImageUtilities.SystemDrawingBitmap.AssemblyQualifiedName;
-			}
-			var serializedData = Serialize(obj);
-
-			var userType = new UserResourceType(typeName, ResourceTypeCode.UserTypes);
-			var rsrcElem = new ResourceElement {
-				Name = Path.GetFileName(filename),
-				ResourceData = new BinaryResourceData(userType, serializedData, SerializationFormat.BinaryFormatter),
-			};
-
-			return rsrcElem;
-		}
-
-		/// <summary>
-		/// Serializes the object
-		/// </summary>
-		/// <param name="obj">Data</param>
-		/// <returns></returns>
-		public static byte[] Serialize(object? obj) {
-			if (obj is null)
-				return Array.Empty<byte>();
-
-			//TODO: The asm names of the saved types are saved in the serialized data. If the current
-			//		module is eg. a .NET 2.0 asm, you should replace the versions from 4.0.0.0 to 2.0.0.0.
-#pragma warning disable SYSLIB0011
-			var formatter = new BinaryFormatter();
-			var outStream = new MemoryStream();
-			formatter.Serialize(outStream, obj);
-#pragma warning restore SYSLIB0011
-			return outStream.ToArray();
-		}
-
-		/// <summary>
-		/// Deserializes the data
-		/// </summary>
-		/// <param name="data">Serialized data</param>
-		/// <param name="obj">Deserialized data</param>
-		/// <returns></returns>
-		public static string Deserialize(byte[] data, out object? obj) {
-			try {
-#pragma warning disable SYSLIB0011
-				obj = new BinaryFormatter().Deserialize(new MemoryStream(data));
-#pragma warning restore SYSLIB0011
-				return string.Empty;
-			}
-			catch (Exception ex) {
-				obj = null;
-				return string.Format(dnSpy_Contracts_DnSpy_Resources.CouldNotDeserializeData, ex.Message);
-			}
-		}
-
-		/// <summary>
-		/// Creates an object from a string
-		/// </summary>
-		/// <param name="targetType">Target type</param>
-		/// <param name="typeAsString">Data as a string</param>
-		/// <param name="obj">Updated with the deserialized data</param>
-		/// <returns></returns>
-		public static string CreateObjectFromString(Type targetType, string typeAsString, out object? obj) {
-			obj = null;
-			try {
-				var typeConverter = TypeDescriptor.GetConverter(targetType);
-				if (typeConverter.CanConvertFrom(null, typeof(string))) {
-					obj = typeConverter.ConvertFrom(null, CultureInfo.InvariantCulture, typeAsString);
-					return string.Empty;
+			if (ignoreCase) {
+				foreach (string memberName in classRecord.MemberNames) {
+					if (memberName.Equals(fieldName, StringComparison.OrdinalIgnoreCase)) {
+						fieldName = memberName;
+						break;
+					}
 				}
 			}
-			catch (Exception ex) {
-				return string.Format(dnSpy_Contracts_DnSpy_Resources.CouldNotConvertFromString, ex.Message);
-			}
 
-			return string.Format(dnSpy_Contracts_DnSpy_Resources.NoTypeConverter, targetType);
+			var arrayRecord = classRecord.GetArrayRecord(fieldName);
+			if (arrayRecord is null || arrayRecord.TypeName.FullName != "System.Byte[]")
+				return null;
+			return (byte[])arrayRecord.GetArray(typeof(byte[]));
 		}
 
 		/// <summary>
-		/// Converts data to a string
+		/// Serializes an icon
 		/// </summary>
-		/// <param name="obj">Data</param>
-		/// <returns></returns>
-		public static string? ConvertObjectToString(object obj) {
-			var objType = obj.GetType();
+		/// <param name="data">The icon data</param>
+		/// <param name="size">The icon size</param>
+		/// <param name="assemblyName">The assembly name to used in the serialized blob</param>
+		/// <returns>The serialized blob for use in BinaryFormatter</returns>
+		public static byte[] SerializeIcon(byte[] data, System.Drawing.Size size, string assemblyName) {
+			using var memoryStream = new MemoryStream();
+			using var writer = new BinaryWriter(memoryStream);
 
-			try {
-				var typeConverter = TypeDescriptor.GetConverter(objType);
-				if (typeConverter.CanConvertTo(null, typeof(string))) {
-					if (typeConverter.ConvertTo(null, CultureInfo.InvariantCulture, obj, typeof(string)) is string s)
-						return s;
+			const int libraryId = 2;
+			const int arrayId = 3;
+
+			WriteSerializationHeader(writer);
+			WriteBinaryLibrary(writer, libraryId, assemblyName);
+
+			// ClassWithMembersAndTypes
+			writer.Write((byte)0x5);
+			{
+				// ClassInfo
+				writer.Write(1);
+				writer.Write("System.Drawing.Icon");
+				writer.Write(2);
+				writer.Write("IconData");
+				writer.Write("IconSize");
+			}
+			{
+				// MemberInfo
+				writer.Write((byte)BinaryType.PrimitiveArray);
+				writer.Write((byte)BinaryType.Class);
+
+				writer.Write((byte)PrimitiveType.Byte);
+				writer.Write("System.Drawing.Size");
+				writer.Write(libraryId);
+			}
+			writer.Write(libraryId);
+			{
+				// MemberReference
+				writer.Write((byte)0x9);
+				writer.Write(arrayId);
+
+				// ClassWithMembersAndTypes
+				writer.Write((byte)0x5);
+				{
+					// ClassInfo
+					writer.Write(-4);
+					writer.Write("System.Drawing.Size");
+					writer.Write(2);
+					writer.Write("width");
+					writer.Write("height");
+				}
+				{
+					// MemberInfo
+					writer.Write((byte)BinaryType.Primitive);
+					writer.Write((byte)BinaryType.Primitive);
+
+					writer.Write((byte)PrimitiveType.Int32);
+					writer.Write((byte)PrimitiveType.Int32);
+				}
+				writer.Write(libraryId);
+				{
+					writer.Write(size.Width);
+					writer.Write(size.Height);
 				}
 			}
-			catch {
+
+			WriteByteArray(writer, arrayId, data);
+			WriteMessageEnd(writer);
+
+			return memoryStream.ToArray();
+		}
+
+		/// <summary>
+		/// Serializes a bitmap
+		/// </summary>
+		/// <param name="data">The bitmap data</param>
+		/// <param name="assemblyName">The assembly name to used in the serialized blob</param>
+		/// <returns>The serialized blob for use in BinaryFormatter</returns>
+		public static byte[] SerializeBitmap(byte[] data, string assemblyName) {
+			using var memoryStream = new MemoryStream();
+			using var writer = new BinaryWriter(memoryStream);
+
+			const int libraryId = 2;
+			const int arrayId = 3;
+
+			WriteSerializationHeader(writer);
+			WriteBinaryLibrary(writer, libraryId, assemblyName);
+
+			// ClassWithMembersAndTypes
+			writer.Write((byte)0x5);
+			{
+				// ClassInfo
+				writer.Write(1);
+				writer.Write("System.Drawing.Bitmap");
+				writer.Write(1);
+				writer.Write("Data");
+			}
+			{
+				// MemberInfo
+				writer.Write((byte)BinaryType.PrimitiveArray);
+				writer.Write((byte)PrimitiveType.Byte);
+			}
+			writer.Write(libraryId);
+			{
+				// MemberReference
+				writer.Write((byte)0x9);
+				writer.Write(arrayId);
 			}
 
-			return obj.ToString();
+			WriteByteArray(writer, arrayId, data);
+			WriteMessageEnd(writer);
+
+			return memoryStream.ToArray();
+		}
+
+		/// <summary>
+		/// Serializes an image list streamer
+		/// </summary>
+		/// <param name="data">The image list data</param>
+		/// <param name="assemblyName">The assembly name to used in the serialized blob</param>
+		/// <returns>The serialized blob for use in BinaryFormatter</returns>
+		public static byte[] SerializeImageListStreamer(byte[] data, string assemblyName) {
+			using var memoryStream = new MemoryStream();
+			using var writer = new BinaryWriter(memoryStream);
+
+			const int libraryId = 2;
+			const int arrayId = 3;
+
+			WriteSerializationHeader(writer);
+			WriteBinaryLibrary(writer, libraryId, assemblyName);
+
+			// ClassWithMembersAndTypes
+			writer.Write((byte)0x5);
+			{
+				// ClassInfo
+				writer.Write(1);
+				writer.Write("System.Windows.Forms.ImageListStreamer");
+				writer.Write(1);
+				writer.Write("Data");
+			}
+			{
+				// MemberInfo
+				writer.Write((byte)BinaryType.PrimitiveArray);
+				writer.Write((byte)PrimitiveType.Byte);
+			}
+			writer.Write(libraryId);
+			{
+				// MemberReference
+				writer.Write((byte)0x9);
+				writer.Write(arrayId);
+			}
+
+			WriteByteArray(writer, arrayId, data);
+			WriteMessageEnd(writer);
+
+			return memoryStream.ToArray();
+		}
+
+		private static void WriteByteArray(BinaryWriter writer, int id, byte[] data) {
+			// ArraySinglePrimitive
+			writer.Write((byte)0x0F);
+			{
+				// ArrayInfo
+				writer.Write(id);
+				writer.Write(data.Length);
+			}
+			writer.Write((byte)PrimitiveType.Byte);
+			writer.Write(data);
+		}
+
+		private static void WriteMessageEnd(BinaryWriter writer) {
+			writer.Write((byte)0x0B);
+		}
+
+		private static void WriteBinaryLibrary(BinaryWriter writer, int id, string assemblyName) {
+			writer.Write((byte)0xC);
+			writer.Write(id);
+			writer.Write(assemblyName);
+		}
+
+		private static void WriteSerializationHeader(BinaryWriter writer) {
+			writer.Write((byte)0);
+			writer.Write(1);
+			writer.Write(-1);
+			writer.Write(1);
+			writer.Write(0);
+		}
+
+		enum BinaryType : byte {
+			Primitive,
+			String,
+			Object,
+			SystemClass,
+			Class,
+			ObjectArray,
+			StringArray,
+			PrimitiveArray
+		}
+
+		enum PrimitiveType : byte {
+			Boolean = 1,
+			Byte,
+			Char,
+			Decimal = 5,
+			Double,
+			Int16,
+			Int32,
+			Int64,
+			SByte,
+			Single,
+			TimeSpan,
+			DateTime,
+			UInt16,
+			UInt32,
+			UInt64,
+			Null,
+			String
 		}
 	}
 }
