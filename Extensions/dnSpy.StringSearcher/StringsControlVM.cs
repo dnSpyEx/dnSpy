@@ -26,6 +26,8 @@ namespace dnSpy.StringSearcher {
 				],
 			};
 			Descs.SortedColumnChanged += (_, _) => UpdateSortDescriptions();
+
+			UpdateSortDescriptions();
 		}
 
 		public ObservableCollection<StringReference> StringLiterals { get; } = [];
@@ -64,7 +66,7 @@ namespace dnSpy.StringSearcher {
 		private void UpdateSortDescriptions() {
 			var direction = Descs.SortedColumn.Direction;
 			if (Descs.SortedColumn.Column is null || direction == GridViewSortDirection.Default) {
-				StringLiteralsView.CustomSort = null;
+				StringLiteralsView.CustomSort = new StringReferenceComparer(direction);
 				return;
 			}
 
@@ -80,8 +82,10 @@ namespace dnSpy.StringSearcher {
 			stringReferencesService.Refresh();
 		}
 
-		private sealed class ModuleComparer(GridViewSortDirection Direction) : Comparer<StringReference> {
-			public override int Compare(StringReference? x, StringReference? y) {
+		private class StringReferenceComparer(GridViewSortDirection Direction) : Comparer<StringReference> {
+			public GridViewSortDirection Direction { get; } = Direction;
+
+			public sealed override int Compare(StringReference? x, StringReference? y) {
 				if (x is null && y is null)
 					return 0;
 				if (x is null)
@@ -89,33 +93,58 @@ namespace dnSpy.StringSearcher {
 				if (y is null)
 					return 1;
 
+				return CompareInternal(x, y);
+			}
+
+			protected virtual int CompareInternal(StringReference x, StringReference y) {
+				int result = Direction switch {
+					GridViewSortDirection.Default or GridViewSortDirection.Ascending => x.Referrer.MDToken.CompareTo(y.Referrer.MDToken),
+					GridViewSortDirection.Descending => y.Referrer.MDToken.CompareTo(x.Referrer.MDToken),
+					_ => throw new ArgumentOutOfRangeException(),
+				};
+
+				if (result != 0) {
+					return result;
+				}
+
 				return Direction switch {
-					GridViewSortDirection.Ascending => x.Referrer.Module.Name.CompareTo(y.Referrer.Module.Name),
-					GridViewSortDirection.Descending => y.Referrer.Module.Name.CompareTo(x.Referrer.Module.Name),
-					GridViewSortDirection.Default => 0,
+					GridViewSortDirection.Default or GridViewSortDirection.Ascending => x.Offset.CompareTo(y.Offset),
+					GridViewSortDirection.Descending => y.Offset.CompareTo(x.Offset),
 					_ => throw new ArgumentOutOfRangeException(nameof(Direction)),
 				};
 			}
 		}
 
-		private sealed class MethodComparer(GridViewSortDirection Direction) : Comparer<StringReference> {
-			public override int Compare(StringReference? x, StringReference? y) {
-				if (x is null && y is null)
-					return 0;
-				if (x is null)
-					return -1;
-				if (y is null)
-					return 1;
-
-				return Direction switch {
-					GridViewSortDirection.Ascending => CompareInternal(x, y),
-					GridViewSortDirection.Descending => CompareInternal(y, x),
+		private sealed class ModuleComparer(GridViewSortDirection Direction) : StringReferenceComparer(Direction) {
+			protected override int CompareInternal(StringReference x, StringReference y) {
+				int result = Direction switch {
+					GridViewSortDirection.Ascending => x.Referrer.Module.Name.CompareTo(y.Referrer.Module.Name),
+					GridViewSortDirection.Descending => y.Referrer.Module.Name.CompareTo(x.Referrer.Module.Name),
 					GridViewSortDirection.Default => 0,
 					_ => throw new ArgumentOutOfRangeException(nameof(Direction)),
 				};
+
+				return result == 0
+					? base.CompareInternal(x, y)
+					: result;
+			}
+		}
+
+		private sealed class MethodComparer(GridViewSortDirection Direction) : StringReferenceComparer(Direction) {
+			protected override int CompareInternal(StringReference x, StringReference y) {
+				int result = Direction switch {
+					GridViewSortDirection.Ascending => CompareCore(x, y),
+					GridViewSortDirection.Descending => CompareCore(y, x),
+					GridViewSortDirection.Default => 0,
+					_ => throw new ArgumentOutOfRangeException(nameof(Direction)),
+				};
+
+				return result == 0
+					? base.CompareInternal(x, y)
+					: result;
 			}
 
-			private static int CompareInternal(StringReference x, StringReference y) {
+			private static int CompareCore(StringReference x, StringReference y) {
 				int result = x.Referrer.DeclaringType.Name.CompareTo(y.Referrer.DeclaringType.Name);
 				if (result == 0)
 					result = x.Referrer.Name.CompareTo(y.Referrer.Name);
@@ -123,21 +152,18 @@ namespace dnSpy.StringSearcher {
 			}
 		}
 
-		private sealed class LiteralComparer(GridViewSortDirection Direction) : Comparer<StringReference> {
-			public override int Compare(StringReference? x, StringReference? y) {
-				if (x is null && y is null)
-					return 0;
-				if (x is null)
-					return -1;
-				if (y is null)
-					return 1;
-
-				return Direction switch {
+		private sealed class LiteralComparer(GridViewSortDirection Direction) : StringReferenceComparer(Direction) {
+			protected override int CompareInternal(StringReference x, StringReference y) {
+				int result = Direction switch {
 					GridViewSortDirection.Ascending => x.Literal.CompareTo(y.Literal),
 					GridViewSortDirection.Descending => y.Literal.CompareTo(x.Literal),
 					GridViewSortDirection.Default => 0,
 					_ => throw new ArgumentOutOfRangeException(nameof(Direction)),
 				};
+
+				return result == 0
+					? base.CompareInternal(x, y)
+					: result;
 			}
 		}
 	}
