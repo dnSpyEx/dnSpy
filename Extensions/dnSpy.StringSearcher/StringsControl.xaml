@@ -12,16 +12,13 @@
              d:DataContext="{d:DesignInstance Type=local:StringsControlVM}">
     <DockPanel>
         <Grid DockPanel.Dock="Top">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0">
                 <Label Content="{x:Static p:dnSpy_StringSearcher_Resources.ReferencesSearch}" DockPanel.Dock="Left" />
-                <TextBox Name="searchTextBox" Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=100}" />
+                <TextBox Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=100}" />
             </DockPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal">
                 <Button

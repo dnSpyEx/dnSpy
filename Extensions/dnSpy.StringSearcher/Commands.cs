@@ -27,13 +27,8 @@ namespace dnSpy.StringSearcher {
 		}
 	}
 
-	[ExportMenuItem(
-		Header = "res:FindStringReferencesInModuleCommand",
-		Icon = DsImagesAttribute.Search,
-		Group = MenuConstants.GROUP_CTX_DOCUMENTS_OTHER,
-		Order = 0
-	)]
-	public class FindStringReferencesInModuleCommand : MenuItemBase {
+	[ExportMenuItem(Header = "res:FindStringReferencesInModuleCommand", Icon = DsImagesAttribute.Search, Group = MenuConstants.GROUP_CTX_DOCUMENTS_OTHER, Order = 0)]
+	sealed class FindStringReferencesInModuleCommand : MenuItemBase {
 		private readonly IDsToolWindowService toolWindowService;
 		private readonly IStringReferencesService stringReferencesService;
 
@@ -90,13 +85,7 @@ namespace dnSpy.StringSearcher {
 		}
 	}
 
-	[ExportMenuItem(
-		Header = "res:CopyStringLiteralCommand",
-		Group = StringSearcherConstants.GUID_CTX_GROUP_COPY,
-		Order = 0,
-		Icon = DsImagesAttribute.Copy,
-		InputGestureText = "res:ShortCutKeyCtrlC"
-	)]
+	[ExportMenuItem(Header = "res:CopyStringLiteralCommand", Group = StringSearcherConstants.GUID_CTX_GROUP_COPY, Order = 0, Icon = DsImagesAttribute.Copy, InputGestureText = "res:ShortCutKeyCtrlC")]
 	sealed class CopyStringLiteralCommand : ReferenceCommandBase {
 		[ImportingConstructor]
 		CopyStringLiteralCommand(Lazy<IStringReferencesService> service)
@@ -153,12 +142,7 @@ namespace dnSpy.StringSearcher {
 		protected override void Execute(IMenuItemContext context, StringReference reference) => Service.Value.FollowReference(reference, newTab);
 	}
 
-	[ExportMenuItem(
-		Header = "res:GoToReferenceInCodeCommand",
-		InputGestureText = "res:DoubleClick",
-		Group = StringSearcherConstants.GUID_CTX_GROUP_FOLLOW,
-		Order = 0
-	)]
+	[ExportMenuItem(Header = "res:GoToReferenceInCodeCommand", InputGestureText = "res:DoubleClick", Group = StringSearcherConstants.GUID_CTX_GROUP_FOLLOW, Order = 0)]
 	sealed class OpenReferenceCommand : OpenReferenceCommandBase {
 		[ImportingConstructor]
 		OpenReferenceCommand(Lazy<IStringReferencesService> service)
@@ -166,16 +150,11 @@ namespace dnSpy.StringSearcher {
 		}
 	}
 
-	[ExportMenuItem(
-		Header = "res:GoToReferenceInCodeNewTabCommand",
-		Group = StringSearcherConstants.GUID_CTX_GROUP_FOLLOW,
-		Order = 1
-	)]
+	[ExportMenuItem(Header = "res:GoToReferenceInCodeNewTabCommand", Group = StringSearcherConstants.GUID_CTX_GROUP_FOLLOW, Order = 1)]
 	sealed class OpenReferenceNewTabCommand : OpenReferenceCommandBase {
 		[ImportingConstructor]
 		OpenReferenceNewTabCommand(Lazy<IStringReferencesService> service)
 			: base(service, true) {
 		}
 	}
-
 }

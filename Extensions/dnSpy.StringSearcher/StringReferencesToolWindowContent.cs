@@ -9,14 +9,13 @@ namespace dnSpy.StringSearcher {
 	[Export(typeof(IToolWindowContentProvider))]
 	sealed class StringReferencesToolWindowContentProvider : IToolWindowContentProvider {
 		private readonly Lazy<IStringReferencesService> service;
+		private StringReferencesToolWindowContent? toolWindowContent;
 
-		public StringReferencesToolWindowContent DocumentTreeViewWindowContent
-			=> toolWindowContent ??= new StringReferencesToolWindowContent(service);
-		StringReferencesToolWindowContent? toolWindowContent;
+		public StringReferencesToolWindowContent DocumentTreeViewWindowContent => toolWindowContent ??= new(service);
 
 		[ImportingConstructor]
-		StringReferencesToolWindowContentProvider(Lazy<IStringReferencesService> stringSearcher) {
-			this.service = stringSearcher;
+		StringReferencesToolWindowContentProvider(Lazy<IStringReferencesService> service) {
+			this.service = service;
 		}
 
 		public IEnumerable<ToolWindowContentInfo> ContentInfos {
@@ -24,8 +23,7 @@ namespace dnSpy.StringSearcher {
 				yield return new ToolWindowContentInfo(
 					StringReferencesToolWindowContent.THE_GUID,
 					StringReferencesToolWindowContent.DEFAULT_LOCATION,
-					AppToolWindowConstants.DEFAULT_CONTENT_ORDER_BOTTOM_ANALYZER,
-					false
+					AppToolWindowConstants.DEFAULT_CONTENT_ORDER_BOTTOM_ANALYZER
 				);
 			}
 		}

@@ -40,7 +40,7 @@ namespace dnSpy.StringSearcher {
 
 		public StringsControl UIObject { get; }
 
-		object? IUIObjectProvider.UIObject => UIObject;
+		object IUIObjectProvider.UIObject => UIObject;
 
 		public IInputElement? FocusedElement => null;
 
@@ -148,7 +148,7 @@ namespace dnSpy.StringSearcher {
 			});
 		}
 
-		private bool GoTo(IDocumentTab tab, MethodDef method, uint ilOffset) {
+		private static bool GoTo(IDocumentTab tab, MethodDef method, uint ilOffset) {
 			if (tab.TryGetDocumentViewer() is { } documentViewer
 				&& documentViewer.GetMethodDebugService().FindByCodeOffset(method, ilOffset) is { } methodStatement) {
 				documentViewer.MoveCaretToPosition(methodStatement.Statement.TextSpan.Start);

@@ -8,7 +8,7 @@ using dnSpy.Contracts.MVVM;
 namespace dnSpy.StringSearcher {
 
 	public class StringsControlVM : ViewModelBase, IGridViewColumnDescsProvider {
-		private StringReferencesService stringReferencesService;
+		private readonly StringReferencesService stringReferencesService;
 		private StringReference? selectedStringLiteral;
 		private string filterText = string.Empty;
 
@@ -74,7 +74,7 @@ namespace dnSpy.StringSearcher {
 				StringsWindowColumnIds.Module => new ModuleComparer(direction),
 				StringsWindowColumnIds.Method => new MethodComparer(direction),
 				StringsWindowColumnIds.Literal => new LiteralComparer(direction),
-				_ => throw new NotImplementedException()
+				_ => throw new ArgumentOutOfRangeException(nameof(Descs))
 			};
 		}
 
@@ -155,8 +155,8 @@ namespace dnSpy.StringSearcher {
 		private sealed class LiteralComparer(GridViewSortDirection Direction) : StringReferenceComparer(Direction) {
 			protected override int CompareInternal(StringReference x, StringReference y) {
 				int result = Direction switch {
-					GridViewSortDirection.Ascending => x.Literal.CompareTo(y.Literal),
-					GridViewSortDirection.Descending => y.Literal.CompareTo(x.Literal),
+					GridViewSortDirection.Ascending => string.Compare(x.Literal, y.Literal, StringComparison.OrdinalIgnoreCase),
+					GridViewSortDirection.Descending => string.Compare(y.Literal, x.Literal, StringComparison.OrdinalIgnoreCase),
 					GridViewSortDirection.Default => 0,
 					_ => throw new ArgumentOutOfRangeException(nameof(Direction)),
 				};
