@@ -70,20 +70,20 @@ namespace dnSpy.StringSearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Method.
-        /// </summary>
-        public static string ColumnMethod {
-            get {
-                return ResourceManager.GetString("ColumnMethod", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Module.
         /// </summary>
         public static string ColumnModule {
             get {
                 return ResourceManager.GetString("ColumnModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Referrer.
+        /// </summary>
+        public static string ColumnReferrer {
+            get {
+                return ResourceManager.GetString("ColumnReferrer", resourceCulture);
             }
         }
         

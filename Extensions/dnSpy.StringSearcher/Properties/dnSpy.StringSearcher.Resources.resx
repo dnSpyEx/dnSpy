@@ -120,8 +120,8 @@
   <data name="ColumnLiteral" xml:space="preserve">
     <value>Literal</value>
   </data>
-  <data name="ColumnMethod" xml:space="preserve">
-    <value>Method</value>
+  <data name="ColumnReferrer" xml:space="preserve">
+    <value>Referrer</value>
   </data>
   <data name="ColumnModule" xml:space="preserve">
     <value>Module</value>

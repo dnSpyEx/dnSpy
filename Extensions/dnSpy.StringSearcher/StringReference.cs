@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using dnlib.DotNet;
 using dnSpy.Contracts.Decompiler;
@@ -13,32 +14,26 @@ namespace dnSpy.StringSearcher {
 		IClassificationFormatMap ClassificationFormatMap
 	);
 
-	public class StringReference(
-		string literal,
-		MethodDef referrer,
-		uint offset,
-		StringReferenceContext context)
-		: ViewModelBase {
+	public enum StringReferenceKind {
+		MethodBodyString
+	}
 
-		private const FormatterOptions DefaultFormatterOptions = FormatterOptions.Default & ~(
-			FormatterOptions.ShowParameterNames
-			| FormatterOptions.ShowFieldLiteralValues
-			| FormatterOptions.ShowReturnTypes
-		);
-
+	public abstract class StringReference(StringReferenceContext context, string literal, IMDTokenProvider referrer) : ViewModelBase {
 		private string? formatted;
 		private bool isVerbatim;
 		private FrameworkElement? literalUI;
 		private FrameworkElement? moduleUI;
 		private FrameworkElement? referrerUI;
 
+		public StringReferenceContext Context { get; } = context;
+
 		public string Literal { get; } = literal;
 
-		public MethodDef Referrer { get; } = referrer;
+		public IMDTokenProvider Referrer { get; } = referrer;
 
-		public uint Offset { get; } = offset;
+		public abstract StringReferenceKind Kind { get; }
 
-		public StringReferenceContext Context { get; } = context;
+		public ModuleDef Module => ((IOwnerModule)Referrer).Module;
 
 		public string FormattedLiteral => formatted ??= StringFormatter.ToFormattedString(Literal, out isVerbatim);
 
@@ -68,10 +63,14 @@ namespace dnSpy.StringSearcher {
 		}
 
 		private FrameworkElement CreateModuleUI() {
+			if (Referrer is not IOwnerModule { Module: { } module }) {
+				throw new InvalidOperationException();
+			}
+			
 			var writer = WriterCache.GetWriter();
 
 			try {
-				writer.WriteModule(Referrer.Module.Name);
+				writer.WriteModule(module.Name);
 
 				return Context.TextElementProvider.CreateTextElement(
 					Context.ClassificationFormatMap,
@@ -85,11 +84,37 @@ namespace dnSpy.StringSearcher {
 			}
 		}
 
-		private FrameworkElement CreateReferrerUI() {
+		protected abstract FrameworkElement CreateReferrerUI();
+
+		protected static class WriterCache {
+			static readonly TextClassifierTextColorWriter writer = new();
+			public static TextClassifierTextColorWriter GetWriter() => writer;
+			public static void FreeWriter(TextClassifierTextColorWriter writer) => writer.Clear();
+		}
+	}
+
+	public sealed class MethodBodyStringReference(StringReferenceContext context, string literal, MethodDef referrer, uint offset)
+		: StringReference(context, literal, referrer) {
+
+		private const FormatterOptions DefaultFormatterOptions = FormatterOptions.Default & ~(
+			FormatterOptions.ShowParameterNames
+			| FormatterOptions.ShowFieldLiteralValues
+			| FormatterOptions.ShowReturnTypes
+		);
+
+		public new MethodDef Referrer => (MethodDef)base.Referrer;
+
+		public override StringReferenceKind Kind => StringReferenceKind.MethodBodyString;
+
+		public uint Offset { get; } = offset;
+
+		protected override FrameworkElement CreateReferrerUI() {
 			var writer = WriterCache.GetWriter();
 
 			try {
 				Context.Decompiler.Write(writer, Referrer, DefaultFormatterOptions);
+				writer.Write(TextColor.Punctuation, "+");
+				writer.Write(TextColor.Label, $"IL_{Offset:X4}");
 
 				return Context.TextElementProvider.CreateTextElement(
 					Context.ClassificationFormatMap,
@@ -101,12 +126,6 @@ namespace dnSpy.StringSearcher {
 			finally {
 				WriterCache.FreeWriter(writer);
 			}
-		}
-
-		static class WriterCache {
-			static readonly TextClassifierTextColorWriter writer = new();
-			public static TextClassifierTextColorWriter GetWriter() => writer;
-			public static void FreeWriter(TextClassifierTextColorWriter writer) => writer.Clear();
 		}
 	}
 }

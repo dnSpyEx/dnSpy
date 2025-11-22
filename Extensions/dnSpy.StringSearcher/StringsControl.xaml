@@ -54,8 +54,8 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn
-                            mvvm:GridViewColumnSorter.Id="{x:Static local:StringsWindowColumnIds.Method}"
-                            Header="{x:Static p:dnSpy_StringSearcher_Resources.ColumnMethod}"
+                            mvvm:GridViewColumnSorter.Id="{x:Static local:StringsWindowColumnIds.Referrer}"
+                            Header="{x:Static p:dnSpy_StringSearcher_Resources.ColumnReferrer}"
                             Width="500">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="local:StringReference">

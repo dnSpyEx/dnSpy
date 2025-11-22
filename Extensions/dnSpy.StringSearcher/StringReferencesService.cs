@@ -114,15 +114,17 @@ namespace dnSpy.StringSearcher {
 
 			vm.StringLiterals.Clear();
 
-			Parallel.ForEach(selectedModules.SelectMany(x => x.GetTypes()), type => {
-				var items = new List<StringReference>();
-				foreach (var method in type.Methods) {
-					Analyze(context, method, items);
-				}
+			Task.Factory.StartNew(() => {
+				Parallel.ForEach(selectedModules.SelectMany(x => x.GetTypes()), type => {
+					var items = new List<StringReference>();
+					foreach (var method in type.Methods) {
+						Analyze(context, method, items);
+					}
 
-				if (items.Count > 0) {
-					dispatcher.BeginInvoke(addItems, [items]);
-				}
+					if (items.Count > 0) {
+						dispatcher.BeginInvoke(addItems, [items]);
+					}
+				});
 			});
 		}
 
@@ -133,7 +135,7 @@ namespace dnSpy.StringSearcher {
 
 			foreach (var instruction in body.Instructions) {
 				if (instruction is { OpCode.Code: Code.Ldstr, Operand: string { Length: > 0 } operand }) {
-					items.Add(new StringReference(operand, method, instruction.Offset, context));
+					items.Add(new MethodBodyStringReference(context, operand, method, instruction.Offset));
 				}
 			}
 		}
@@ -142,8 +144,14 @@ namespace dnSpy.StringSearcher {
 
 		public void FollowReference(StringReference reference, bool newTab) {
 			documentTabService.FollowReference(reference.Referrer, newTab, true, a => {
-				if (!a.HasMovedCaret && a.Success) {
-					a.HasMovedCaret = GoTo(a.Tab, reference.Referrer, reference.Offset);
+				if (a.HasMovedCaret || !a.Success) {
+					return;
+				}
+
+				switch (reference) {
+				case MethodBodyStringReference methodString:
+					a.HasMovedCaret = GoTo(a.Tab, methodString.Referrer, methodString.Offset);
+					break;
 				}
 			});
 		}
