@@ -15,10 +15,17 @@ namespace dnSpy.StringSearcher {
 	);
 
 	public enum StringReferenceKind {
-		MethodBodyString
+		MethodBodyString,
+		Constant
 	}
 
 	public abstract class StringReference(StringReferenceContext context, string literal, IMDTokenProvider referrer) : ViewModelBase {
+		protected const FormatterOptions DefaultFormatterOptions = FormatterOptions.Default & ~(
+			FormatterOptions.ShowParameterNames
+			| FormatterOptions.ShowFieldLiteralValues
+			| FormatterOptions.ShowReturnTypes
+		);
+
 		private string? formatted;
 		private bool isVerbatim;
 		private FrameworkElement? literalUI;
@@ -33,7 +40,7 @@ namespace dnSpy.StringSearcher {
 
 		public abstract StringReferenceKind Kind { get; }
 
-		public ModuleDef Module => ((IOwnerModule)Referrer).Module;
+		public abstract ModuleDef Module { get; }
 
 		public string FormattedLiteral => formatted ??= StringFormatter.ToFormattedString(Literal, out isVerbatim);
 
@@ -63,14 +70,10 @@ namespace dnSpy.StringSearcher {
 		}
 
 		private FrameworkElement CreateModuleUI() {
-			if (Referrer is not IOwnerModule { Module: { } module }) {
-				throw new InvalidOperationException();
-			}
-			
 			var writer = WriterCache.GetWriter();
 
 			try {
-				writer.WriteModule(module.Name);
+				writer.WriteModule(Module.Name);
 
 				return Context.TextElementProvider.CreateTextElement(
 					Context.ClassificationFormatMap,
@@ -96,15 +99,11 @@ namespace dnSpy.StringSearcher {
 	public sealed class MethodBodyStringReference(StringReferenceContext context, string literal, MethodDef referrer, uint offset)
 		: StringReference(context, literal, referrer) {
 
-		private const FormatterOptions DefaultFormatterOptions = FormatterOptions.Default & ~(
-			FormatterOptions.ShowParameterNames
-			| FormatterOptions.ShowFieldLiteralValues
-			| FormatterOptions.ShowReturnTypes
-		);
-
 		public new MethodDef Referrer => (MethodDef)base.Referrer;
 
 		public override StringReferenceKind Kind => StringReferenceKind.MethodBodyString;
+
+		public override ModuleDef Module => Referrer.Module;
 
 		public uint Offset { get; } = offset;
 
@@ -115,6 +114,45 @@ namespace dnSpy.StringSearcher {
 				Context.Decompiler.Write(writer, Referrer, DefaultFormatterOptions);
 				writer.Write(TextColor.Punctuation, "+");
 				writer.Write(TextColor.Label, $"IL_{Offset:X4}");
+
+				return Context.TextElementProvider.CreateTextElement(
+					Context.ClassificationFormatMap,
+					new TextClassifierContext(writer.Text, string.Empty, true, writer.Colors),
+					ContentTypes.Search,
+					TextElementFlags.FilterOutNewLines
+				);
+			}
+			finally {
+				WriterCache.FreeWriter(writer);
+			}
+		}
+	}
+
+	public sealed class ConstantStringReference(StringReferenceContext context, string literal, IHasConstant referrer)
+		: StringReference(context, literal, referrer) {
+
+		public new IHasConstant Referrer => (IHasConstant)base.Referrer;
+
+		public IMemberDef Container => Referrer switch {
+			FieldDef or PropertyDef => (IMemberDef)Referrer,
+			ParamDef param => param.DeclaringMethod,
+			_ => throw new ArgumentOutOfRangeException(nameof(Referrer)),
+		};
+
+		public override StringReferenceKind Kind => StringReferenceKind.Constant;
+
+		public override ModuleDef Module => Container.Module;
+
+		protected override FrameworkElement CreateReferrerUI() {
+			var writer = WriterCache.GetWriter();
+
+			try {
+				Context.Decompiler.Write(writer, Container, DefaultFormatterOptions);
+
+				if (Referrer is ParamDef param) {
+					writer.Write(TextColor.Punctuation, "@");
+					writer.Write(TextColor.Parameter, param.Name);
+				}
 
 				return Context.TextElementProvider.CreateTextElement(
 					Context.ClassificationFormatMap,

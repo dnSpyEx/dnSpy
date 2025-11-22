@@ -117,8 +117,18 @@ namespace dnSpy.StringSearcher {
 			Task.Factory.StartNew(() => {
 				Parallel.ForEach(selectedModules.SelectMany(x => x.GetTypes()), type => {
 					var items = new List<StringReference>();
+
+					if (type.HasFields)
+						AnalyzeConstantProviders(context, type.Fields, items);
+
+					if (type.HasProperties)
+						AnalyzeConstantProviders(context, type.Properties, items);
+
 					foreach (var method in type.Methods) {
-						Analyze(context, method, items);
+						if (method.HasParamDefs)
+							AnalyzeConstantProviders(context, method.ParamDefs, items);
+						if (method.HasBody && method.Body is { HasInstructions: true })
+							AnalyzeBody(context, method, items);
 					}
 
 					if (items.Count > 0) {
@@ -128,12 +138,16 @@ namespace dnSpy.StringSearcher {
 			});
 		}
 
-		private static void Analyze(StringReferenceContext context, MethodDef method, List<StringReference> items) {
-			if (!method.HasBody || method.Body is not { HasInstructions: true } body) {
-				return;
+		private static void AnalyzeConstantProviders(StringReferenceContext context, IEnumerable<IHasConstant> items, List<StringReference> result) {
+			foreach (var item in items) {
+				if (item.Constant is { Type: ElementType.String, Value: string { Length: > 0 } value }) {
+					result.Add(new ConstantStringReference(context, value, item));
+				}
 			}
+		}
 
-			foreach (var instruction in body.Instructions) {
+		private static void AnalyzeBody(StringReferenceContext context, MethodDef method, List<StringReference> items) {
+			foreach (var instruction in method.Body.Instructions) {
 				if (instruction is { OpCode.Code: Code.Ldstr, Operand: string { Length: > 0 } operand }) {
 					items.Add(new MethodBodyStringReference(context, operand, method, instruction.Offset));
 				}
