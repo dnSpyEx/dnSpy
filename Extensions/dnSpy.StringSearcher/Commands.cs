@@ -106,11 +106,7 @@ namespace dnSpy.StringSearcher {
 		}
 	}
 
-	[ExportMenuItem(
-		Header = "res:CopyRawStringLiteralCommand",
-		Group = StringSearcherConstants.GUID_CTX_GROUP_COPY,
-		Order = 1
-	)]
+	[ExportMenuItem(Header = "res:CopyRawStringLiteralCommand", Group = StringSearcherConstants.GUID_CTX_GROUP_COPY, Order = 1)]
 	sealed class CopyRawStringLiteralCommand : ReferenceCommandBase {
 		[ImportingConstructor]
 		CopyRawStringLiteralCommand(Lazy<IStringReferencesService> service)
