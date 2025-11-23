@@ -157,6 +157,11 @@ namespace dnSpy.StringSearcher {
 		}
 
 		private sealed class ReferrerComparer(GridViewSortDirection Direction) : StringReferenceComparer(Direction) {
+			[ThreadStatic]
+			private static Stack<ITypeDefOrRef>? cachedTypes1;
+			[ThreadStatic]
+			private static Stack<ITypeDefOrRef>? cachedTypes2;
+
 			protected override int CompareInternal(StringReference x, StringReference y) {
 				int result = Direction switch {
 					GridViewSortDirection.Ascending => CompareCore(x.Member, y.Member),
@@ -170,9 +175,9 @@ namespace dnSpy.StringSearcher {
 					: result;
 			}
 
-			private int CompareCore(IMemberRef x, IMemberRef y) {
-				var types1 = GetDeclaringTypes(x);
-				var types2 = GetDeclaringTypes(y);
+			private static int CompareCore(IMemberRef x, IMemberRef y) {
+				var types1 = GetDeclaringTypes(ref cachedTypes1, x);
+				var types2 = GetDeclaringTypes(ref cachedTypes2, y);
 
 				// First compare starting from the outermost types of each reference.
 				int result;
@@ -196,8 +201,14 @@ namespace dnSpy.StringSearcher {
 				return result;
 			}
 
-			private static Stack<ITypeDefOrRef> GetDeclaringTypes(IMemberRef member) {
-				var result = new Stack<ITypeDefOrRef>();
+			private static Stack<ITypeDefOrRef> GetDeclaringTypes(ref Stack<ITypeDefOrRef>? result, IMemberRef member) {
+				if (result is null) {
+					result = new Stack<ITypeDefOrRef>();
+				}
+				else {
+					result.Clear();
+				}
+
 				var current = member as ITypeDefOrRef ?? member.DeclaringType;
 				while (current is not null) {
 					result.Push(current);
