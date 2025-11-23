@@ -15,6 +15,7 @@ using dnSpy.Contracts.Documents.Tabs;
 using dnSpy.Contracts.Documents.Tabs.DocViewer;
 using dnSpy.Contracts.Images;
 using dnSpy.Contracts.Menus;
+using dnSpy.Contracts.MVVM;
 using dnSpy.Contracts.Text.Classification;
 using Microsoft.VisualStudio.Text.Classification;
 
@@ -77,21 +78,22 @@ namespace dnSpy.StringSearcher {
 				}
 			};
 
+			var listboxGuid = new Guid(StringSearcherConstants.GUID_STRINGS_LISTBOX);
 			menuService.InitializeContextMenu(
 				UIObject.ListView,
-				new Guid(StringSearcherConstants.GUID_STRINGS_LISTBOX),
+				listboxGuid,
 				new GuidObjectsProvider()
 			);
 
-			wpfCommandService.Add(new Guid(StringSearcherConstants.GUID_STRINGS_LISTBOX), UIObject.ListView);
+			wpfCommandService.Add(listboxGuid, UIObject.ListView);
+
+			var commands = wpfCommandService.GetCommands(listboxGuid);
+			commands.Add(new RelayCommand(_ => FollowSelectedReference(false)), ModifierKeys.None, Key.Enter);
+			commands.Add(new RelayCommand(_ => FollowSelectedReference(true)), ModifierKeys.Control, Key.Enter);
+			commands.Add(new RelayCommand(_ => FollowSelectedReference(true)), ModifierKeys.Shift, Key.Enter);
 
 			UIObject.ListView.MouseDoubleClick += (_, _) => {
 				FollowSelectedReference((Keyboard.Modifiers & ModifierKeys.Control) != 0);
-			};
-			UIObject.ListView.KeyUp += (_, e) => {
-				if (e.Key == Key.Enter) {
-					FollowSelectedReference((Keyboard.Modifiers & ModifierKeys.Control) != 0);
-				}
 			};
 		}
 
