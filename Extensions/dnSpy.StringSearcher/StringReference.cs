@@ -29,6 +29,7 @@ namespace dnSpy.StringSearcher {
 		private FrameworkElement? literalUI;
 		private FrameworkElement? moduleUI;
 		private FrameworkElement? referrerUI;
+		private ImageReference? referrerImage;
 
 		public StringReferenceContext Context { get; } = context;
 
@@ -52,9 +53,9 @@ namespace dnSpy.StringSearcher {
 
 		public FrameworkElement ReferrerUI => referrerUI ??= CreateReferrerUI();
 
-		public ImageReference ReferrerImage => Member switch {
+		public ImageReference ReferrerImage => referrerImage ??= Member switch {
 			MethodDef method => Context.DotNetImageService.GetImageReference(method),
-			FieldDef field => Context.DotNetImageService.GetImageReference(field),
+			FieldDef @field => Context.DotNetImageService.GetImageReference(@field),
 			PropertyDef property => Context.DotNetImageService.GetImageReference(property),
 			TypeDef type => Context.DotNetImageService.GetImageReference(type),
 			_ => Context.DotNetImageService.GetNamespaceImageReference()
