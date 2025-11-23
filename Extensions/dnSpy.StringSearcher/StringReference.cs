@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using dnlib.DotNet;
 using dnSpy.Contracts.Decompiler;
+using dnSpy.Contracts.Images;
 using dnSpy.Contracts.MVVM;
 using dnSpy.Contracts.Text;
 using dnSpy.Contracts.Text.Classification;
@@ -11,7 +12,8 @@ namespace dnSpy.StringSearcher {
 	public record StringReferenceContext(
 		IDecompiler Decompiler,
 		ITextElementProvider TextElementProvider,
-		IClassificationFormatMap ClassificationFormatMap
+		IClassificationFormatMap ClassificationFormatMap,
+		IDotNetImageService DotNetImageService
 	);
 
 	public enum StringReferenceKind {
@@ -55,6 +57,14 @@ namespace dnSpy.StringSearcher {
 		public FrameworkElement? ModuleUI => moduleUI ??= CreateModuleUI();
 
 		public FrameworkElement? ReferrerUI => referrerUI ??= CreateReferrerUI();
+
+		public ImageReference ReferrerImage => Member switch {
+			MethodDef method => Context.DotNetImageService.GetImageReference(method),
+			FieldDef field => Context.DotNetImageService.GetImageReference(field),
+			PropertyDef property => Context.DotNetImageService.GetImageReference(property),
+			TypeDef type => Context.DotNetImageService.GetImageReference(type),
+			_ => Context.DotNetImageService.GetNamespaceImageReference()
+		};
 
 		private FrameworkElement CreateLiteralUI() {
 			var writer = WriterCache.GetWriter();

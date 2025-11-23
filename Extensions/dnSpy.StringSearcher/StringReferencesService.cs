@@ -13,6 +13,7 @@ using dnSpy.Contracts.Controls;
 using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Documents.Tabs;
 using dnSpy.Contracts.Documents.Tabs.DocViewer;
+using dnSpy.Contracts.Images;
 using dnSpy.Contracts.Menus;
 using dnSpy.Contracts.Text.Classification;
 using Microsoft.VisualStudio.Text.Classification;
@@ -33,6 +34,7 @@ namespace dnSpy.StringSearcher {
 		private readonly ITextElementProvider textElementProvider;
 		private readonly IClassificationFormatMapService classificationFormatMapService;
 		private readonly IDocumentTabService documentTabService;
+		private readonly IDotNetImageService dotNetImageService;
 		private readonly Action<IEnumerable<StringReference>> addItems;
 		private readonly StringsControlVM vm;
 		private readonly Dispatcher dispatcher;
@@ -55,13 +57,14 @@ namespace dnSpy.StringSearcher {
 			IClassificationFormatMapService classificationFormatMapService,
 			IDocumentTabService documentTabService,
 			IMenuService menuService,
-			IWpfCommandService wpfCommandService) {
+			IWpfCommandService wpfCommandService,
+			IDotNetImageService dotNetImageService) {
 
 			this.decompilerService = decompilerService;
 			this.textElementProvider = textElementProvider;
 			this.classificationFormatMapService = classificationFormatMapService;
 			this.documentTabService = documentTabService;
-
+			this.dotNetImageService = dotNetImageService;
 			UIObject = new StringsControl {
 				DataContext = vm = new StringsControlVM(this)
 			};
@@ -109,7 +112,8 @@ namespace dnSpy.StringSearcher {
 			var context = new StringReferenceContext(
 				decompilerService.Decompiler,
 				textElementProvider,
-				classificationFormatMapService.GetClassificationFormatMap("UIMisc") // TODO: replace string with AppearanceCategoryConstants.UIMisc
+				classificationFormatMapService.GetClassificationFormatMap("UIMisc"), // TODO: replace string with AppearanceCategoryConstants.UIMisc
+				dotNetImageService
 			);
 
 			vm.StringLiterals.Clear();
