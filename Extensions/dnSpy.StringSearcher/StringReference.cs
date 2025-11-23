@@ -15,15 +15,17 @@ namespace dnSpy.StringSearcher {
 	);
 
 	public enum StringReferenceKind {
-		MethodBodyString,
-		Constant
+		IL,
+		Constant,
+		Attribute
 	}
 
-	public abstract class StringReference(StringReferenceContext context, string literal, IMDTokenProvider referrer) : ViewModelBase {
+	public abstract class StringReference(StringReferenceContext context, string literal, object referrer) : ViewModelBase {
 		protected const FormatterOptions DefaultFormatterOptions = FormatterOptions.Default & ~(
 			FormatterOptions.ShowParameterNames
 			| FormatterOptions.ShowFieldLiteralValues
 			| FormatterOptions.ShowReturnTypes
+			| FormatterOptions.ShowFieldTypes
 		);
 
 		private string? formatted;
@@ -36,11 +38,15 @@ namespace dnSpy.StringSearcher {
 
 		public string Literal { get; } = literal;
 
-		public IMDTokenProvider Referrer { get; } = referrer;
+		public object Referrer { get; } = referrer;
 
 		public abstract StringReferenceKind Kind { get; }
 
 		public abstract ModuleDef Module { get; }
+
+		public abstract IMemberRef Member { get; }
+
+		public abstract MDToken Token { get; }
 
 		public string FormattedLiteral => formatted ??= StringFormatter.ToFormattedString(Literal, out isVerbatim);
 
@@ -89,6 +95,16 @@ namespace dnSpy.StringSearcher {
 
 		protected abstract FrameworkElement CreateReferrerUI();
 
+		protected static void WriteParameterReference(TextClassifierTextColorWriter writer, ParamDef param) {
+			writer.Write(TextColor.Punctuation, "@");
+			if (param.DeclaringMethod.Parameters.ReturnParameter.ParamDef == param) {
+				writer.Write(TextColor.Keyword, "return");
+			}
+			else {
+				writer.Write(TextColor.Parameter, param.Name);
+			}
+		}
+
 		protected static class WriterCache {
 			static readonly TextClassifierTextColorWriter writer = new();
 			public static TextClassifierTextColorWriter GetWriter() => writer;
@@ -96,16 +112,20 @@ namespace dnSpy.StringSearcher {
 		}
 	}
 
-	public sealed class MethodBodyStringReference(StringReferenceContext context, string literal, MethodDef referrer, uint offset)
+	public sealed class ILStringReference(StringReferenceContext context, string literal, MethodDef referrer, uint offset)
 		: StringReference(context, literal, referrer) {
 
 		public new MethodDef Referrer => (MethodDef)base.Referrer;
 
-		public override StringReferenceKind Kind => StringReferenceKind.MethodBodyString;
+		public override StringReferenceKind Kind => StringReferenceKind.IL;
 
 		public override ModuleDef Module => Referrer.Module;
 
+		public override MDToken Token => Referrer.MDToken;
+
 		public uint Offset { get; } = offset;
+
+		public override IMemberRef Member => Referrer;
 
 		protected override FrameworkElement CreateReferrerUI() {
 			var writer = WriterCache.GetWriter();
@@ -143,6 +163,10 @@ namespace dnSpy.StringSearcher {
 
 		public override ModuleDef Module => Container.Module;
 
+		public override MDToken Token => Referrer.MDToken;
+
+		public override IMemberRef Member => Container;
+
 		protected override FrameworkElement CreateReferrerUI() {
 			var writer = WriterCache.GetWriter();
 
@@ -150,9 +174,53 @@ namespace dnSpy.StringSearcher {
 				Context.Decompiler.Write(writer, Container, DefaultFormatterOptions);
 
 				if (Referrer is ParamDef param) {
-					writer.Write(TextColor.Punctuation, "@");
-					writer.Write(TextColor.Parameter, param.Name);
+					WriteParameterReference(writer, param);
 				}
+
+				return Context.TextElementProvider.CreateTextElement(
+					Context.ClassificationFormatMap,
+					new TextClassifierContext(writer.Text, string.Empty, true, writer.Colors),
+					ContentTypes.Search,
+					TextElementFlags.FilterOutNewLines
+				);
+			}
+			finally {
+				WriterCache.FreeWriter(writer);
+			}
+		}
+	}
+
+	public sealed class CustomAttributeStringReference(StringReferenceContext context, string literal, IMDTokenProvider owner, CustomAttribute attribute)
+		: StringReference(context, literal, owner) {
+
+		public CustomAttribute CustomAttribute { get; } = attribute;
+
+		public override StringReferenceKind Kind => StringReferenceKind.Attribute;
+
+		public override ModuleDef Module => Member.Module;
+
+		public override MDToken Token => Owner.MDToken;
+
+		public IMDTokenProvider Owner { get; } = owner;
+
+		public override IMemberRef Member => Owner switch {
+			ParamDef param => param.DeclaringMethod,
+			IMemberRef reference => reference,
+			_ => throw new ArgumentOutOfRangeException(nameof(Owner))
+		};
+
+		protected override FrameworkElement CreateReferrerUI() {
+			var writer = WriterCache.GetWriter();
+
+			try {
+				Context.Decompiler.Write(writer, Member, DefaultFormatterOptions);
+
+				if (Owner is ParamDef param) {
+					WriteParameterReference(writer, param);
+				}
+
+				writer.Write(TextColor.Text, " in ");
+				Context.Decompiler.Write(writer, CustomAttribute.AttributeType, DefaultFormatterOptions);
 
 				return Context.TextElementProvider.CreateTextElement(
 					Context.ClassificationFormatMap,

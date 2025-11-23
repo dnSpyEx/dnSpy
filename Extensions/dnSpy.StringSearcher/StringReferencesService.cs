@@ -138,18 +138,45 @@ namespace dnSpy.StringSearcher {
 			});
 		}
 
-		private static void AnalyzeConstantProviders(StringReferenceContext context, IEnumerable<IHasConstant> items, List<StringReference> result) {
+		private static void AnalyzeConstantProviders(StringReferenceContext context, IEnumerable<IMDTokenProvider> items, List<StringReference> result) {
 			foreach (var item in items) {
-				if (item.Constant is { Type: ElementType.String, Value: string { Length: > 0 } value }) {
-					result.Add(new ConstantStringReference(context, value, item));
+				// Check for constants
+				if (item is IHasConstant { Constant: { Type: ElementType.String, Value: string { Length: > 0 } value } } hasConstant) {
+					result.Add(new ConstantStringReference(context, value, hasConstant));
+				}
+
+				// Check for CAs
+				if (item is IHasCustomAttribute { HasCustomAttributes: true, CustomAttributes: { } attributes }) {
+					foreach (var attribute in attributes) {
+						foreach (var argument in attribute.ConstructorArguments) {
+							AnalyzeCAArgument(context, item, attribute, argument.Value, result);
+						}
+						foreach (var argument in attribute.NamedArguments) {
+							AnalyzeCAArgument(context, item, attribute, argument.Value, result);
+						}
+					}
 				}
 			}
 		}
 
-		private static void AnalyzeBody(StringReferenceContext context, MethodDef method, List<StringReference> items) {
+		private static void AnalyzeCAArgument(StringReferenceContext context, IMDTokenProvider owner, CustomAttribute attribute, object? argument, List<StringReference> result) {
+			switch (argument) {
+			case IEnumerable<CAArgument> list:
+				foreach (var item in list) {
+					AnalyzeCAArgument(context, owner, attribute, item.Value, result);
+				}
+				break;
+
+			case UTF8String { Length: > 0 } constant:
+				result.Add(new CustomAttributeStringReference(context, constant, owner, attribute));
+				break;
+			}
+		}
+
+		private static void AnalyzeBody(StringReferenceContext context, MethodDef method, List<StringReference> result) {
 			foreach (var instruction in method.Body.Instructions) {
 				if (instruction is { OpCode.Code: Code.Ldstr, Operand: string { Length: > 0 } operand }) {
-					items.Add(new MethodBodyStringReference(context, operand, method, instruction.Offset));
+					result.Add(new ILStringReference(context, operand, method, instruction.Offset));
 				}
 			}
 		}
@@ -162,9 +189,10 @@ namespace dnSpy.StringSearcher {
 					return;
 				}
 
+				// Specialize for different types of references.
 				switch (reference) {
-				case MethodBodyStringReference methodString:
-					a.HasMovedCaret = GoTo(a.Tab, methodString.Referrer, methodString.Offset);
+				case ILStringReference ilReference:
+					a.HasMovedCaret = GoTo(a.Tab, ilReference.Referrer, ilReference.Offset);
 					break;
 				}
 			});

@@ -61,6 +61,15 @@ namespace dnSpy.StringSearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kind.
+        /// </summary>
+        public static string ColumnKind {
+            get {
+                return ResourceManager.GetString("ColumnKind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Literal.
         /// </summary>
         public static string ColumnLiteral {
@@ -147,6 +156,33 @@ namespace dnSpy.StringSearcher.Properties {
         public static string PluginShortDescription {
             get {
                 return ResourceManager.GetString("PluginShortDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attribute.
+        /// </summary>
+        public static string ReferenceKindAttribute {
+            get {
+                return ResourceManager.GetString("ReferenceKindAttribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Constant.
+        /// </summary>
+        public static string ReferenceKindConstant {
+            get {
+                return ResourceManager.GetString("ReferenceKindConstant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IL.
+        /// </summary>
+        public static string ReferenceKindIL {
+            get {
+                return ResourceManager.GetString("ReferenceKindIL", resourceCulture);
             }
         }
         

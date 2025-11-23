@@ -10,6 +10,9 @@
              mc:Ignorable="d"
              d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=local:StringsControlVM}">
+    <UserControl.Resources>
+        <local:StringReferenceKindConverter x:Key="stringReferenceKindConverter" />
+    </UserControl.Resources>
     <DockPanel>
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
@@ -43,6 +46,16 @@
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
                     <GridView.Columns>
+                        <GridViewColumn
+                            mvvm:GridViewColumnSorter.Id="{x:Static local:StringsWindowColumnIds.Kind}"
+                            Header="{x:Static p:dnSpy_StringSearcher_Resources.ColumnKind}"
+                            Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="local:StringReference">
+                                    <ContentPresenter Content="{Binding Kind, Converter={StaticResource stringReferenceKindConverter}}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn
                             mvvm:GridViewColumnSorter.Id="{x:Static local:StringsWindowColumnIds.Literal}"
                             Header="{x:Static p:dnSpy_StringSearcher_Resources.ColumnLiteral}"

@@ -159,4 +159,16 @@
   <data name="StringReferencesWindowTitle" xml:space="preserve">
     <value>String References</value>
   </data>
+  <data name="ColumnKind" xml:space="preserve">
+    <value>Kind</value>
+  </data>
+  <data name="ReferenceKindIL" xml:space="preserve">
+    <value>IL</value>
+  </data>
+  <data name="ReferenceKindConstant" xml:space="preserve">
+    <value>Constant</value>
+  </data>
+  <data name="ReferenceKindAttribute" xml:space="preserve">
+    <value>Attribute</value>
+  </data>
 </root>
