@@ -52,11 +52,11 @@ namespace dnSpy.StringSearcher {
 
 		public string FormattedLiteral => formatted ??= StringFormatter.ToFormattedString(Literal, out isVerbatim);
 
-		public FrameworkElement? LiteralUI => literalUI ??= CreateLiteralUI();
+		public FrameworkElement LiteralUI => literalUI ??= CreateLiteralUI();
 
-		public FrameworkElement? ModuleUI => moduleUI ??= CreateModuleUI();
+		public FrameworkElement ModuleUI => moduleUI ??= CreateModuleUI();
 
-		public FrameworkElement? ReferrerUI => referrerUI ??= CreateReferrerUI();
+		public FrameworkElement ReferrerUI => referrerUI ??= CreateReferrerUI();
 
 		public ImageReference ReferrerImage => Member switch {
 			MethodDef method => Context.DotNetImageService.GetImageReference(method),
