@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using dnlib.DotNet;
 using dnSpy.Contracts.Controls;
+using dnSpy.Contracts.Documents.Tabs;
 using dnSpy.Contracts.Documents.TreeView;
 using dnSpy.Contracts.Extension;
 using dnSpy.Contracts.Images;
@@ -27,19 +28,7 @@ namespace dnSpy.StringSearcher {
 		}
 	}
 
-	[ExportMenuItem(Header = "res:FindStringReferencesInModuleCommand", Icon = DsImagesAttribute.Search, Group = MenuConstants.GROUP_CTX_DOCUMENTS_OTHER, Order = 0)]
-	sealed class FindStringReferencesInModuleCommand : MenuItemBase {
-		private readonly IDsToolWindowService toolWindowService;
-		private readonly IStringReferencesService stringReferencesService;
-
-		[ImportingConstructor]
-		public FindStringReferencesInModuleCommand(
-			IDsToolWindowService toolWindowService,
-			IStringReferencesService stringReferencesService) {
-
-			this.toolWindowService = toolWindowService;
-			this.stringReferencesService = stringReferencesService;
-		}
+	abstract class FindStringReferencesInModuleCommand(IDsToolWindowService toolWindowService, IStringReferencesService stringReferencesService) : MenuItemBase {
 
 		public override bool IsVisible(IMenuItemContext context) => GetModules(context).Any();
 
@@ -52,14 +41,43 @@ namespace dnSpy.StringSearcher {
 			stringReferencesService.Analyze(modules);
 		}
 
-		private static IEnumerable<ModuleDef> GetModules(IMenuItemContext context) {
-			var nodes = context.Find<TreeNodeData[]>();
-			if (nodes is null)
-				return [];
+		protected abstract IEnumerable<ModuleDef> GetModules(IMenuItemContext context);
 
-			return nodes.OfType<DocumentTreeNodeData>()
-				.SelectMany(n => n.GetModule()?.Assembly.Modules ?? [])
-				.Distinct();
+		[ExportMenuItem(Header = "res:FindStringReferencesInModuleCommand", Icon = DsImagesAttribute.Search, Group = MenuConstants.GROUP_CTX_DOCUMENTS_OTHER, Order = 0)]
+		sealed class DocumentsCommand : FindStringReferencesInModuleCommand {
+
+			[ImportingConstructor]
+			public DocumentsCommand(IDsToolWindowService toolWindowService, IStringReferencesService stringReferencesService) 
+				: base(toolWindowService, stringReferencesService) {
+			}
+
+			protected override IEnumerable<ModuleDef> GetModules(IMenuItemContext context) {
+				var nodes = context.Find<TreeNodeData[]>();
+				if (nodes is null)
+					return [];
+
+				return nodes.OfType<DocumentTreeNodeData>()
+					.SelectMany(n => n.GetModule()?.Assembly.Modules ?? [])
+					.Distinct();
+			}
+		}
+
+		[ExportMenuItem(OwnerGuid = MenuConstants.APP_MENU_EDIT_GUID, Header = "res:FindStringReferencesInModuleCommand", Icon = DsImagesAttribute.Search, Group = MenuConstants.GROUP_APP_MENU_EDIT_FIND, Order = 20)]
+		sealed class MenuBarCommand : FindStringReferencesInModuleCommand {
+			private readonly IDocumentTabService documentTabService;
+
+			[ImportingConstructor]
+			public MenuBarCommand(IDsToolWindowService toolWindowService, IStringReferencesService stringReferencesService, IDocumentTabService documentTabService)
+				: base(toolWindowService, stringReferencesService) {
+				this.documentTabService = documentTabService;
+			}
+
+			protected override IEnumerable<ModuleDef> GetModules(IMenuItemContext context) {
+				return documentTabService.DocumentTreeView.TreeView.SelectedItems
+					.OfType<DocumentTreeNodeData>()
+					.SelectMany(n => n.GetModule()?.Assembly.Modules ?? [])
+					.Distinct();
+			}
 		}
 	}
 
@@ -77,7 +95,7 @@ namespace dnSpy.StringSearcher {
 
 		public override bool IsVisible(IMenuItemContext context) => GetReference(context) is not null;
 
-		StringReference? GetReference(IMenuItemContext context) {
+		private static StringReference? GetReference(IMenuItemContext context) {
 			if (context.CreatorObject.Guid != new Guid(StringSearcherConstants.GUID_STRINGS_LISTBOX))
 				return null;
 
