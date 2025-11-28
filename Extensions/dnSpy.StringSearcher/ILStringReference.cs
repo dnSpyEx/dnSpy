@@ -1,4 +1,3 @@
-using System.Windows;
 using dnlib.DotNet;
 using dnSpy.Contracts.Text;
 using dnSpy.Contracts.Text.Classification;
@@ -17,26 +16,12 @@ namespace dnSpy.StringSearcher {
 
 		public uint Offset { get; } = offset;
 
-		public override IMemberRef Member => Referrer;
+		public override object ContainerObject => Referrer;
 
-		protected override FrameworkElement CreateReferrerUI() {
-			var writer = WriterCache.GetWriter();
-
-			try {
-				Context.Decompiler.Write(writer, Referrer, DefaultFormatterOptions);
-				writer.Write(TextColor.Punctuation, "+");
-				writer.Write(TextColor.Label, $"IL_{Offset:X4}");
-
-				return Context.TextElementProvider.CreateTextElement(
-					Context.ClassificationFormatMap,
-					new TextClassifierContext(writer.Text, string.Empty, true, writer.Colors),
-					ContentTypes.Search,
-					TextElementFlags.FilterOutNewLines
-				);
-			}
-			finally {
-				WriterCache.FreeWriter(writer);
-			}
+		protected override void WriteReferrerUI(TextClassifierTextColorWriter writer) {
+			Context.Decompiler.Write(writer, Referrer, DefaultFormatterOptions);
+			writer.Write(TextColor.Punctuation, "+");
+			writer.Write(TextColor.Label, $"IL_{Offset:X4}");
 		}
 	}
 }

@@ -139,10 +139,10 @@
     <value>Find String References in Module</value>
   </data>
   <data name="GoToReferenceInCodeCommand" xml:space="preserve">
-    <value>Show Reference in Method</value>
+    <value>Go To Reference in Code</value>
   </data>
   <data name="GoToReferenceInCodeNewTabCommand" xml:space="preserve">
-    <value>Show Reference in Method (New Tab)</value>
+    <value>Go To Reference in Code (New Tab)</value>
   </data>
   <data name="PluginShortDescription" xml:space="preserve">
     <value>Cross References Strings in Modules</value>

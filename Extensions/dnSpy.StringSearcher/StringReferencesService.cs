@@ -31,6 +31,8 @@ namespace dnSpy.StringSearcher {
 
 	[Export(typeof(IStringReferencesService))]
 	public class StringReferencesService : IStringReferencesService {
+		private static readonly List<string> CachedFixedArgumentNames = [];
+
 		private readonly IDecompilerService decompilerService;
 		private readonly ITextElementProvider textElementProvider;
 		private readonly IClassificationFormatMapService classificationFormatMapService;
@@ -121,60 +123,151 @@ namespace dnSpy.StringSearcher {
 			vm.StringLiterals.Clear();
 
 			Task.Factory.StartNew(() => {
-				Parallel.ForEach(selectedModules.SelectMany(x => x.GetTypes()), type => {
-					var items = new List<StringReference>();
-
-					if (type.HasFields)
-						AnalyzeConstantProviders(context, type.Fields, items);
-
-					if (type.HasProperties)
-						AnalyzeConstantProviders(context, type.Properties, items);
-
-					foreach (var method in type.Methods) {
-						if (method.HasParamDefs)
-							AnalyzeConstantProviders(context, method.ParamDefs, items);
-						if (method.HasBody && method.Body is { HasInstructions: true })
-							AnalyzeBody(context, method, items);
-					}
-
-					if (items.Count > 0) {
-						dispatcher.BeginInvoke(addItems, [items]);
-					}
-				});
+				AnalyzeMetadataRoots(context);
+				AnalyzeModules(context);
 			});
 		}
 
-		private static void AnalyzeConstantProviders(StringReferenceContext context, IEnumerable<IMDTokenProvider> items, List<StringReference> result) {
+		private void AnalyzeMetadataRoots(StringReferenceContext context) {
+			var items = new List<StringReference>();
+			foreach (var module in selectedModules) {
+				var moduleContext = new ObjectContext {
+					Context = context,
+					Module = module,
+					Container = module,
+					Object = module
+				};
+
+				AnalyzeCustomAttributeProvider(moduleContext, module, items);
+
+				if (module.IsManifestModule) {
+					var assemblyContext = moduleContext with {
+						Container = module.Assembly,
+						Object = module.Assembly,
+					};
+
+					AnalyzeCustomAttributeProvider(assemblyContext, module.Assembly, items);
+				}
+			}
+
+			if (items.Count > 0) {
+				dispatcher.BeginInvoke(addItems, [items]);
+			}
+		}
+
+		private void AnalyzeModules(StringReferenceContext context) {
+			Parallel.ForEach(selectedModules.SelectMany(x => x.GetTypes()), type => {
+				var typeContext = new ObjectContext {
+					Context = context,
+					Module = type.Module,
+					Container = type,
+					Object = type,
+				};
+
+				var items = new List<StringReference>();
+
+				AnalyzeCustomAttributeProvider(in typeContext, type, items);
+
+				if (type.HasGenericParameters)
+					AnalyzeConstantProviders(in typeContext, type.GenericParameters, items);
+
+				if (type.HasFields)
+					AnalyzeConstantProviders(in typeContext, type.Fields, items);
+
+				if (type.HasProperties)
+					AnalyzeConstantProviders(in typeContext, type.Properties, items);
+
+				if (type.HasEvents)
+					AnalyzeConstantProviders(in typeContext, type.Events, items);
+
+				if (type.HasMethods) {
+					foreach (var method in type.Methods) {
+						var methodContext = typeContext with { Object = method, Container = method };
+						AnalyzeCustomAttributeProvider(in methodContext, method, items);
+						if (method.HasGenericParameters)
+							AnalyzeConstantProviders(in methodContext, method.GenericParameters, items);
+						if (method.HasParamDefs)
+							AnalyzeConstantProviders(in methodContext, method.ParamDefs, items);
+						if (method.HasBody && method.Body is { HasInstructions: true })
+							AnalyzeBody(context, method, items);
+					}
+				}
+
+				if (items.Count > 0) {
+					dispatcher.BeginInvoke(addItems, [items]);
+				}
+			});
+		}
+
+		private static void AnalyzeConstantProviders(in ObjectContext context, IEnumerable<IMDTokenProvider> items, List<StringReference> result) {
 			foreach (var item in items) {
+				var itemContext = context with { Object = item };
+
 				// Check for constants
 				if (item is IHasConstant { Constant: { Type: ElementType.String, Value: string { Length: > 0 } value } } hasConstant) {
-					result.Add(new ConstantStringReference(context, value, hasConstant));
+					result.Add(new ConstantStringReference(itemContext.Context, value, hasConstant));
 				}
 
 				// Check for CAs
-				if (item is IHasCustomAttribute { HasCustomAttributes: true, CustomAttributes: { } attributes }) {
-					foreach (var attribute in attributes) {
-						foreach (var argument in attribute.ConstructorArguments) {
-							AnalyzeCAArgument(context, item, attribute, argument.Value, result);
-						}
-						foreach (var argument in attribute.NamedArguments) {
-							AnalyzeCAArgument(context, item, attribute, argument.Value, result);
-						}
-					}
+				if (item is IHasCustomAttribute hasCustomAttribute) {
+					AnalyzeCustomAttributeProvider(in itemContext, hasCustomAttribute, result);
 				}
 			}
 		}
 
-		private static void AnalyzeCAArgument(StringReferenceContext context, IMDTokenProvider owner, CustomAttribute attribute, object? argument, List<StringReference> result) {
-			switch (argument) {
+		private static void AnalyzeCustomAttributeProvider(in ObjectContext context, IHasCustomAttribute hasCustomAttribute, List<StringReference> result) {
+			foreach (var attribute in hasCustomAttribute.GetCustomAttributes()) {
+				for (int i = 0; i < attribute.ConstructorArguments.Count; i++) {
+					AnalyzeCAArgument(in context, attribute, GetFixedArgumentName(i), attribute.ConstructorArguments[i].Value, result);
+				}
+				foreach (var argument in attribute.NamedArguments) {
+					AnalyzeCAArgument(in context, attribute, argument.Name, argument.Value, result);
+				}
+			}
+
+			static string GetFixedArgumentName(int index) {
+				// Fast path: Most of the time the string should already be created before.
+				// Note that this is safe to do outside a lock, even if the list is updated by another thread.
+				// This is because the internal array only grows, and the stored reference to the internal array
+				// is not updated until the new array is fully initialized, therefore always satisfying the
+				// invariant (index < CachedFixedArgumentNames.Count).
+				if (index < CachedFixedArgumentNames.Count) {
+					return CachedFixedArgumentNames[index];
+				}
+
+				// Slow path: String has not been created yet. Add all missing arg names to cache.
+				lock (CachedFixedArgumentNames) {
+					while (CachedFixedArgumentNames.Count <= index) {
+						CachedFixedArgumentNames.Add($"Argument #{CachedFixedArgumentNames.Count}");
+					}
+
+					return CachedFixedArgumentNames[index];
+				}
+			}
+		}
+
+		private static void AnalyzeCAArgument(in ObjectContext context, CustomAttribute attribute, string argumentName, object? value, List<StringReference> result) {
+			switch (value) {
 			case IEnumerable<CAArgument> list:
 				foreach (var item in list) {
-					AnalyzeCAArgument(context, owner, attribute, item.Value, result);
+					AnalyzeCAArgument(in context, attribute, argumentName, item.Value, result);
 				}
 				break;
 
+			case CAArgument argument:
+				AnalyzeCAArgument(in context, attribute, argumentName, argument.Value, result);
+				break;
+
 			case UTF8String { Length: > 0 } constant:
-				result.Add(new CustomAttributeStringReference(context, constant, owner, attribute));
+				result.Add(new CustomAttributeStringReference(
+					context.Context,
+					constant,
+					(IHasCustomAttribute)context.Object,
+					context.Container,
+					context.Module,
+					attribute,
+					argumentName
+				));
 				break;
 			}
 		}
@@ -224,5 +317,12 @@ namespace dnSpy.StringSearcher {
 				}
 			}
 		}
+
+		private record struct ObjectContext(
+			StringReferenceContext Context,
+			ModuleDef Module,
+			IMDTokenProvider Container,
+			object Object
+		);
 	}
 }

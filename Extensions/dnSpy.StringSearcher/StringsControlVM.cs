@@ -164,8 +164,8 @@ namespace dnSpy.StringSearcher {
 
 			protected override int CompareInternal(StringReference x, StringReference y) {
 				int result = Direction switch {
-					GridViewSortDirection.Ascending => CompareCore(x.Member, y.Member),
-					GridViewSortDirection.Descending => CompareCore(y.Member, x.Member),
+					GridViewSortDirection.Ascending => string.Compare(x.ReferrerString, y.ReferrerString, StringComparison.OrdinalIgnoreCase),
+					GridViewSortDirection.Descending => string.Compare(y.ReferrerString, x.ReferrerString, StringComparison.OrdinalIgnoreCase),
 					GridViewSortDirection.Default => 0,
 					_ => throw new ArgumentOutOfRangeException(nameof(Direction)),
 				};
@@ -173,48 +173,6 @@ namespace dnSpy.StringSearcher {
 				return result == 0
 					? base.CompareInternal(x, y)
 					: result;
-			}
-
-			private static int CompareCore(IMemberRef x, IMemberRef y) {
-				var types1 = GetDeclaringTypes(ref cachedTypes1, x);
-				var types2 = GetDeclaringTypes(ref cachedTypes2, y);
-
-				// First compare starting from the outermost types of each reference.
-				int result;
-				while (types1.Count > 0 && types2.Count > 0) {
-					var type1 = types1.Pop();
-					var type2 = types2.Pop();
-
-					result = string.Compare(type1.Name, type2.Name, StringComparison.OrdinalIgnoreCase);
-					if (result != 0) {
-						return result;
-					}
-				}
-
-				// See if one of the types is more nested than the other.
-				result = types1.Count.CompareTo(types2.Count);
-				if (result != 0)
-					return result;
-
-				// Finally, name check.
-				result = x.Name.CompareTo(y.Name);
-				return result;
-			}
-
-			private static Stack<ITypeDefOrRef> GetDeclaringTypes(ref Stack<ITypeDefOrRef>? result, IMemberRef member) {
-				if (result is null) {
-					result = new Stack<ITypeDefOrRef>();
-				}
-				else {
-					result.Clear();
-				}
-
-				var current = member as ITypeDefOrRef ?? member.DeclaringType;
-				while (current is not null) {
-					result.Push(current);
-					current = current.DeclaringType;
-				}
-				return result;
 			}
 		}
 

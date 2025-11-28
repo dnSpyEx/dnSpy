@@ -1,7 +1,5 @@
 using System;
-using System.Windows;
 using dnlib.DotNet;
-using dnSpy.Contracts.Text;
 using dnSpy.Contracts.Text.Classification;
 
 namespace dnSpy.StringSearcher {
@@ -22,27 +20,13 @@ namespace dnSpy.StringSearcher {
 
 		public override MDToken Token => Referrer.MDToken;
 
-		public override IMemberRef Member => Container;
+		public override object ContainerObject => Container;
 
-		protected override FrameworkElement CreateReferrerUI() {
-			var writer = WriterCache.GetWriter();
+		protected override void WriteReferrerUI(TextClassifierTextColorWriter writer) {
+			Context.Decompiler.Write(writer, Container, DefaultFormatterOptions);
 
-			try {
-				Context.Decompiler.Write(writer, Container, DefaultFormatterOptions);
-
-				if (Referrer is ParamDef param) {
-					WriteParameterReference(writer, param);
-				}
-
-				return Context.TextElementProvider.CreateTextElement(
-					Context.ClassificationFormatMap,
-					new TextClassifierContext(writer.Text, string.Empty, true, writer.Colors),
-					ContentTypes.Search,
-					TextElementFlags.FilterOutNewLines
-				);
-			}
-			finally {
-				WriterCache.FreeWriter(writer);
+			if (Referrer is ParamDef param) {
+				WriteParameterReference(writer, param);
 			}
 		}
 	}

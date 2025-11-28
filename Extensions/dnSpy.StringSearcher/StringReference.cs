@@ -1,4 +1,4 @@
-using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using dnlib.DotNet;
 using dnSpy.Contracts.Decompiler;
@@ -24,12 +24,10 @@ namespace dnSpy.StringSearcher {
 			| FormatterOptions.ShowFieldTypes
 		);
 
-		private string? formatted;
 		private bool isVerbatim;
-		private FrameworkElement? literalUI;
-		private FrameworkElement? moduleUI;
-		private FrameworkElement? referrerUI;
 		private ImageReference? referrerImage;
+		private FrameworkElement? referrerUI;
+		private string? referrerString;
 
 		public StringReferenceContext Context { get; } = context;
 
@@ -41,23 +39,39 @@ namespace dnSpy.StringSearcher {
 
 		public abstract ModuleDef Module { get; }
 
-		public abstract IMemberRef Member { get; }
+		public abstract object ContainerObject { get; }
 
 		public abstract MDToken Token { get; }
 
-		public string FormattedLiteral => formatted ??= StringFormatter.ToFormattedString(Literal, out isVerbatim);
+		public string FormattedLiteral => field ??= StringFormatter.ToFormattedString(Literal, out isVerbatim);
 
-		public FrameworkElement LiteralUI => literalUI ??= CreateLiteralUI();
+		public FrameworkElement LiteralUI => field ??= CreateLiteralUI();
 
-		public FrameworkElement ModuleUI => moduleUI ??= CreateModuleUI();
+		public FrameworkElement ModuleUI => field ??= CreateModuleUI();
 
-		public FrameworkElement ReferrerUI => referrerUI ??= CreateReferrerUI();
+		public FrameworkElement ReferrerUI {
+			get {
+				EnsureReferrerInitialized();
+				return referrerUI;
+			}
+		}
 
-		public ImageReference ReferrerImage => referrerImage ??= Member switch {
+		public string ReferrerString {
+			get {
+				EnsureReferrerInitialized();
+				return referrerString;
+			}
+		}
+
+		public ImageReference ReferrerImage => referrerImage ??= ContainerObject switch {
+			AssemblyDef assembly => Context.DotNetImageService.GetImageReference(assembly),
+			ModuleDef module => Context.DotNetImageService.GetImageReference(module),
+			TypeDef type => Context.DotNetImageService.GetImageReference(type),
 			MethodDef method => Context.DotNetImageService.GetImageReference(method),
 			FieldDef @field => Context.DotNetImageService.GetImageReference(@field),
 			PropertyDef property => Context.DotNetImageService.GetImageReference(property),
-			TypeDef type => Context.DotNetImageService.GetImageReference(type),
+			EventDef @event => Context.DotNetImageService.GetImageReference(@event),
+			Parameter => Context.DotNetImageService.GetImageReferenceParameter(),
 			_ => Context.DotNetImageService.GetNamespaceImageReference()
 		};
 
@@ -98,10 +112,33 @@ namespace dnSpy.StringSearcher {
 			}
 		}
 
-		protected abstract FrameworkElement CreateReferrerUI();
+		[MemberNotNull(nameof(referrerUI), nameof(referrerString))]
+		private void EnsureReferrerInitialized() {
+			if (referrerUI is not null && referrerString is not null) {
+				return;
+			}
+
+			var writer = WriterCache.GetWriter();
+			try {
+				WriteReferrerUI(writer);
+
+				referrerString = writer.Text;
+				referrerUI = Context.TextElementProvider.CreateTextElement(
+					Context.ClassificationFormatMap,
+					new TextClassifierContext(referrerString, string.Empty, true, writer.Colors),
+					ContentTypes.Search,
+					TextElementFlags.FilterOutNewLines
+				);
+			}
+			finally {
+				WriterCache.FreeWriter(writer);
+			}
+		}
+
+		protected abstract void WriteReferrerUI(TextClassifierTextColorWriter writer);
 
 		protected static void WriteParameterReference(TextClassifierTextColorWriter writer, ParamDef param) {
-			writer.Write(TextColor.Punctuation, "@");
+			writer.Write(TextColor.DarkGray, " parameter ");
 			if (param.DeclaringMethod.Parameters.ReturnParameter.ParamDef == param) {
 				writer.Write(TextColor.Keyword, "return");
 			}
@@ -110,7 +147,7 @@ namespace dnSpy.StringSearcher {
 			}
 		}
 
-		protected static class WriterCache {
+		private static class WriterCache {
 			static readonly TextClassifierTextColorWriter writer = new();
 			public static TextClassifierTextColorWriter GetWriter() => writer;
 			public static void FreeWriter(TextClassifierTextColorWriter writer) => writer.Clear();
