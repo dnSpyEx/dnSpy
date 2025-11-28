@@ -186,4 +186,13 @@
   <data name="SearchMatchFormattedString" xml:space="preserve">
     <value>Match on formatted string</value>
   </data>
+  <data name="ReferrerParameter" xml:space="preserve">
+    <value>parameter</value>
+  </data>
+  <data name="ReferrerAttribute" xml:space="preserve">
+    <value>attribute</value>
+  </data>
+  <data name="ReferrerGenericParameter" xml:space="preserve">
+    <value>generic</value>
+  </data>
 </root>

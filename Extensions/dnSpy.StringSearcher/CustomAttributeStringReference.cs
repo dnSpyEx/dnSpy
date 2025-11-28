@@ -2,6 +2,7 @@ using dnlib.DotNet;
 using dnSpy.Contracts.Documents.TreeView;
 using dnSpy.Contracts.Text;
 using dnSpy.Contracts.Text.Classification;
+using dnSpy.StringSearcher.Properties;
 
 namespace dnSpy.StringSearcher {
 	public sealed class CustomAttributeStringReference(
@@ -45,12 +46,16 @@ namespace dnSpy.StringSearcher {
 				WriteParameterReference(writer, param);
 				break;
 			case GenericParam param:
-				writer.Write(TextColor.DarkGray, " generic ");
+				writer.Write(" ");
+				writer.Write(TextColor.DarkGray, dnSpy_StringSearcher_Resources.ReferrerGenericParameter);
+				writer.Write(" ");
 				Context.Decompiler.Write(writer, param, DefaultFormatterOptions);
 				break;
 			}
 
-			writer.Write(TextColor.DarkGray, " in ");
+			writer.Write(" ");
+			writer.Write(TextColor.DarkGray, dnSpy_StringSearcher_Resources.ReferrerAttribute);
+			writer.Write(" ");
 			Context.Decompiler.Write(writer, CustomAttribute.AttributeType, DefaultFormatterOptions);
 			writer.Write(TextColor.Punctuation, " (");
 			writer.Write(TextColor.InstanceProperty, argumentName);

@@ -6,6 +6,7 @@ using dnSpy.Contracts.Images;
 using dnSpy.Contracts.MVVM;
 using dnSpy.Contracts.Text;
 using dnSpy.Contracts.Text.Classification;
+using dnSpy.StringSearcher.Properties;
 using Microsoft.VisualStudio.Text.Classification;
 
 namespace dnSpy.StringSearcher {
@@ -138,7 +139,10 @@ namespace dnSpy.StringSearcher {
 		protected abstract void WriteReferrerUI(TextClassifierTextColorWriter writer);
 
 		protected static void WriteParameterReference(TextClassifierTextColorWriter writer, ParamDef param) {
-			writer.Write(TextColor.DarkGray, " parameter ");
+			writer.Write(" ");
+			writer.Write(TextColor.DarkGray, dnSpy_StringSearcher_Resources.ReferrerParameter);
+			writer.Write(" ");
+
 			if (param.DeclaringMethod.Parameters.ReturnParameter.ParamDef == param) {
 				writer.Write(TextColor.Keyword, "return");
 			}

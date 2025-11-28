@@ -205,6 +205,33 @@ namespace dnSpy.StringSearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to attribute.
+        /// </summary>
+        public static string ReferrerAttribute {
+            get {
+                return ResourceManager.GetString("ReferrerAttribute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to generic.
+        /// </summary>
+        public static string ReferrerGenericParameter {
+            get {
+                return ResourceManager.GetString("ReferrerGenericParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to parameter.
+        /// </summary>
+        public static string ReferrerParameter {
+            get {
+                return ResourceManager.GetString("ReferrerParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Case sensitive.
         /// </summary>
         public static string SearchCaseSensitiveSearch {
