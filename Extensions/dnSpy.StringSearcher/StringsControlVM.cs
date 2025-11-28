@@ -2,16 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Windows.Data;
 using System.Windows.Input;
-using dnlib.DotNet;
 using dnSpy.Contracts.MVVM;
 
 namespace dnSpy.StringSearcher {
 	public class StringsControlVM : ViewModelBase, IGridViewColumnDescsProvider {
 		private readonly StringReferencesService stringReferencesService;
-		private StringReference? selectedStringLiteral;
-		private string filterText = string.Empty;
 
 		public StringsControlVM(StringReferencesService stringReferencesService) {
 			this.stringReferencesService = stringReferencesService;
@@ -38,31 +36,120 @@ namespace dnSpy.StringSearcher {
 
 		public ICommand RefreshCommand { get; }
 
-		public string FilterText {
-			get => filterText;
+		public StringReference? SelectedStringReference {
+			get => field;
 			set {
-				if (filterText != value) {
-					filterText = value;
-					OnPropertyChanged(nameof(FilterText));
-					ApplyFilter(filterText);
+				if (field != value) {
+					field = value;
+					OnPropertyChanged();
 				}
 			}
 		}
 
-		public StringReference? SelectedStringReference {
-			get => selectedStringLiteral;
-			set {
-				if (selectedStringLiteral != value) {
-					selectedStringLiteral = value;
-					OnPropertyChanged(nameof(SelectedStringReference));
-				}
-			}
-		}
 		public GridViewColumnDescs Descs { get; }
 
-		private void ApplyFilter(string filterText) {
-			StringLiteralsView.Filter = x => x is StringReference reference
-				&& reference.FormattedLiteral.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1;
+		public string SearchText {
+			get => field;
+			set {
+				if (field != value) {
+					field = value;
+					OnPropertyChanged();
+					ApplyFilter();
+				}
+			}
+		} = string.Empty;
+
+		public bool SearchPanelVisible {
+			get => field;
+			set {
+				if (field != value) {
+					field = value;
+					OnPropertyChanged();
+					ApplyFilter();
+				}
+			}
+		}
+
+		public bool SearchCaseSensitive {
+			get => field;
+			set {
+				if (field != value) {
+					field = value;
+					OnPropertyChanged();
+					ApplyFilter();
+				}
+			}
+		}
+
+		public bool SearchIsRegex {
+			get => field;
+			set {
+				if (field != value) {
+					field = value;
+					OnPropertyChanged();
+					ApplyFilter();
+				}
+			}
+		}
+
+		public bool SearchMatchFormattedString {
+			get => field;
+			set {
+				if (field != value) {
+					field = value;
+					OnPropertyChanged();
+					ApplyFilter();
+				}
+			}
+		}
+
+		private string CurrentSearchError {
+			get => field;
+			set {
+				if (field != value) {
+					field = value;
+					HasErrorUpdated();
+				}
+			}
+		} = string.Empty;
+
+		public override bool HasError => !string.IsNullOrEmpty(Verify(nameof(SearchText)));
+
+		protected override string? Verify(string columnName) {
+			if (columnName == nameof(SearchText)) {
+				return CurrentSearchError;
+			}
+			return string.Empty;
+		}
+
+		private void ApplyFilter() {
+			// Note: make sure to capture state of all options in the closure for consistent filtering.
+
+			Func<object, string> getStringToMatch = SearchMatchFormattedString
+				? static x => ((StringReference)x).FormattedLiteral
+				: static x => ((StringReference)x).Literal;
+
+			if (SearchIsRegex) {
+				try {
+					var regex = new Regex(SearchText, SearchCaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase);
+					CurrentSearchError = string.Empty;
+
+					StringLiteralsView.Filter = x => regex.IsMatch(getStringToMatch(x));
+				}
+				catch (ArgumentException) {
+					CurrentSearchError = dnSpy.StringSearcher.Properties.dnSpy_StringSearcher_Resources.SearchInvalidRegexPattern;
+				}
+			}
+			else {
+				CurrentSearchError = string.Empty;
+
+				string filterText = SearchText;
+				var comparison = SearchCaseSensitive
+					? StringComparison.Ordinal
+					: StringComparison.OrdinalIgnoreCase;
+
+				StringLiteralsView.Filter = x => getStringToMatch(x).Contains(filterText, comparison);
+			}
 		}
 
 		private void UpdateSortDescriptions() {
@@ -157,11 +244,6 @@ namespace dnSpy.StringSearcher {
 		}
 
 		private sealed class ReferrerComparer(GridViewSortDirection Direction) : StringReferenceComparer(Direction) {
-			[ThreadStatic]
-			private static Stack<ITypeDefOrRef>? cachedTypes1;
-			[ThreadStatic]
-			private static Stack<ITypeDefOrRef>? cachedTypes2;
-
 			protected override int CompareInternal(StringReference x, StringReference y) {
 				int result = Direction switch {
 					GridViewSortDirection.Ascending => string.Compare(x.ReferrerString, y.ReferrerString, StringComparison.OrdinalIgnoreCase),

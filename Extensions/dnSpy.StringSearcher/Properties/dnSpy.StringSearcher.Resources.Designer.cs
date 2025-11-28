@@ -205,6 +205,51 @@ namespace dnSpy.StringSearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Case sensitive.
+        /// </summary>
+        public static string SearchCaseSensitiveSearch {
+            get {
+                return ResourceManager.GetString("SearchCaseSensitiveSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid regular expression pattern.
+        /// </summary>
+        public static string SearchInvalidRegexPattern {
+            get {
+                return ResourceManager.GetString("SearchInvalidRegexPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Match on formatted string.
+        /// </summary>
+        public static string SearchMatchFormattedString {
+            get {
+                return ResourceManager.GetString("SearchMatchFormattedString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        public static string SearchOptions {
+            get {
+                return ResourceManager.GetString("SearchOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Regular expression.
+        /// </summary>
+        public static string SearchRegex {
+            get {
+                return ResourceManager.GetString("SearchRegex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ctrl+C.
         /// </summary>
         public static string ShortCutKeyCtrlC {

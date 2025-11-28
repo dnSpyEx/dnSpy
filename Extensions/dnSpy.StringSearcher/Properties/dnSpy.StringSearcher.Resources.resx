@@ -171,4 +171,19 @@
   <data name="ReferenceKindAttribute" xml:space="preserve">
     <value>Attribute</value>
   </data>
+  <data name="SearchOptions" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="SearchCaseSensitiveSearch" xml:space="preserve">
+    <value>Case sensitive</value>
+  </data>
+  <data name="SearchRegex" xml:space="preserve">
+    <value>Regular expression</value>
+  </data>
+  <data name="SearchInvalidRegexPattern" xml:space="preserve">
+    <value>Invalid regular expression pattern</value>
+  </data>
+  <data name="SearchMatchFormattedString" xml:space="preserve">
+    <value>Match on formatted string</value>
+  </data>
 </root>

@@ -12,29 +12,46 @@
              d:DataContext="{d:DesignInstance Type=local:StringsControlVM}">
     <UserControl.Resources>
         <local:StringReferenceKindConverter x:Key="stringReferenceKindConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <DockPanel img:DsImage.BackgroundBrush="{DynamicResource EnvironmentCommandBarIcon}">
-        <Grid DockPanel.Dock="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <DockPanel Grid.Column="0">
-                <Label Content="{x:Static p:dnSpy_StringSearcher_Resources.ReferencesSearch}" DockPanel.Dock="Left" />
-                <TextBox Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=100}" />
-            </DockPanel>
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <Button
-                    Margin="0 0 0 0"
-                    Focusable="False"
-                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                    ToolTipService.ShowOnDisabled="True"
-                    Command="{Binding RefreshCommand}"
-                    ToolTip="{x:Static p:dnSpy_StringSearcher_Resources.ReferencesRefresh}">
-                    <img:DsImage ImageReference="{x:Static img:DsImages.Refresh}" />
-                </Button>
-            </StackPanel>
-        </Grid>
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
+                    <Label Content="{x:Static p:dnSpy_StringSearcher_Resources.ReferencesSearch}" DockPanel.Dock="Left" />
+                    <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, Delay=100}" />
+                </DockPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Expander
+                        Name="expander"
+                        VerticalContentAlignment="Center"
+                        IsExpanded="False"
+                        Header="{x:Static p:dnSpy_StringSearcher_Resources.SearchOptions}" />
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                    <Button
+                        Margin="0 0 0 0"
+                        Focusable="False"
+                        Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                        ToolTipService.ShowOnDisabled="True"
+                        Command="{Binding RefreshCommand}"
+                        ToolTip="{x:Static p:dnSpy_StringSearcher_Resources.ReferencesRefresh}">
+                        <img:DsImage ImageReference="{x:Static img:DsImages.Refresh}" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <WrapPanel
+                Margin="2 0 2 6"
+                Orientation="Horizontal"
+                Visibility="{Binding IsExpanded, ElementName=expander, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <CheckBox Margin="0 5 5 0" Content="{x:Static p:dnSpy_StringSearcher_Resources.SearchCaseSensitiveSearch}" IsChecked="{Binding SearchCaseSensitive}" />
+                <CheckBox Margin="0 5 5 0" Content="{x:Static p:dnSpy_StringSearcher_Resources.SearchRegex}" IsChecked="{Binding SearchIsRegex}" />
+                <CheckBox Margin="0 5 5 0" Content="{x:Static p:dnSpy_StringSearcher_Resources.SearchMatchFormattedString}" IsChecked="{Binding SearchMatchFormattedString}" />
+            </WrapPanel>
+        </StackPanel>
         <ListView
             Name="searchListView"
             SelectionMode="Single"
