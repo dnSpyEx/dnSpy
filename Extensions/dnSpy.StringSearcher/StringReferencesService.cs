@@ -164,6 +164,9 @@ namespace dnSpy.StringSearcher {
 					Object = type,
 				};
 
+				if (!context.Decompiler.ShowMember(type))
+					return;
+
 				var items = new List<StringReference>();
 
 				AnalyzeCustomAttributeProvider(in typeContext, type, items);
@@ -182,12 +185,19 @@ namespace dnSpy.StringSearcher {
 
 				if (type.HasMethods) {
 					foreach (var method in type.Methods) {
+						if (!context.Decompiler.ShowMember(method))
+							continue;
+
 						var methodContext = typeContext with { Object = method, Container = method };
+
 						AnalyzeCustomAttributeProvider(in methodContext, method, items);
+
 						if (method.HasGenericParameters)
 							AnalyzeConstantProviders(in methodContext, method.GenericParameters, items);
+
 						if (method.HasParamDefs)
 							AnalyzeConstantProviders(in methodContext, method.ParamDefs, items);
+
 						if (method.HasBody && method.Body is { HasInstructions: true })
 							AnalyzeBody(context, method, items);
 					}
@@ -202,6 +212,10 @@ namespace dnSpy.StringSearcher {
 		private static void AnalyzeConstantProviders(in ObjectContext context, IEnumerable<IMDTokenProvider> items, List<StringReference> result) {
 			foreach (var item in items) {
 				var itemContext = context with { Object = item };
+
+				if (item is IMemberRef member && !context.Context.Decompiler.ShowMember(member)) {
+					continue;
+				}
 
 				// Check for constants
 				if (item is IHasConstant { Constant: { Type: ElementType.String, Value: string { Length: > 0 } value } } hasConstant) {
