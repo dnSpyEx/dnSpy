@@ -293,7 +293,7 @@ namespace dnSpy.Analyzer.TreeNodes {
 		void DeleteNodes() => DeleteNodes(GetNodes());
 		TreeNodeData[]? GetNodes() => GetNodes(analyzerService.Value.TreeView.TopLevelSelection);
 
-		internal static TreeNodeData[]? GetNodes(TreeNodeData[] nodes) {
+		internal static TreeNodeData[]? GetNodes(TreeNodeData[]? nodes) {
 			if (nodes is null)
 				return null;
 			if (nodes.Length == 0 || !nodes.All(a => a.TreeNode.Parent is not null && a.TreeNode.Parent.Parent is null))

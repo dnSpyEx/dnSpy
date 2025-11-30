@@ -93,7 +93,7 @@ namespace dnSpy.Settings.Fonts {
 				var themeGuid = fontSection.Attribute<Guid?>(FontSettingsAttrThemeGuid);
 				var fontFamily = fontSection.Attribute<string>(FontSettingsAttrFontFamily);
 				var fontSize = fontSection.Attribute<double?>(FontSettingsAttrFontSize);
-				if (themeGuid is null || string.IsNullOrWhiteSpace(fontFamily) || fontSize is null || TryGetThemeFontSettingsSection(name, themeGuid.Value) is not null) {
+				if (themeGuid is null || string2.IsNullOrWhiteSpace(fontFamily) || fontSize is null || TryGetThemeFontSettingsSection(name, themeGuid.Value) is not null) {
 					tfsSection.RemoveSection(fontSection);
 					continue;
 				}

@@ -138,7 +138,7 @@ namespace dnSpy.BackgroundImage {
 
 		const string SEP_STRING = "<{[]}>";
 		static string SerializeImages(string[] s) => string.Join(SEP_STRING, s);
-		static string[] DeserializeImages(string s) {
+		static string[] DeserializeImages(string? s) {
 			if (s is null)
 				return Array.Empty<string>();
 			return s.Split(new string[] { SEP_STRING }, StringSplitOptions.None).Where(a => !string.IsNullOrEmpty(a)).Select(a => a.Trim()).ToArray();

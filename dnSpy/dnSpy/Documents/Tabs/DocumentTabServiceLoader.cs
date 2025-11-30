@@ -53,7 +53,7 @@ namespace dnSpy.Documents.Tabs {
 				foreach (var tgwSection in section.SectionsWithName(TABGROUPWINDOW_SECTION)) {
 					var tgw = SerializedTabGroupWindow.Load(tgwSection);
 					yield return null;
-					if (tgwsHash.Contains(tgw.Name))
+					if (tgwsHash.Add(tgw.Name))
 						continue;
 					tgws.Add(tgw);
 				}
