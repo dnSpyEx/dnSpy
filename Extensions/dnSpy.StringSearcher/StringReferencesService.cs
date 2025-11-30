@@ -115,6 +115,9 @@ namespace dnSpy.StringSearcher {
 			UIObject.ListView.MouseDoubleClick += (_, _) => {
 				FollowSelectedReference((Keyboard.Modifiers & ModifierKeys.Control) != 0);
 			};
+
+			decompilerService.DecompilerChanged += (_, _) => Refresh();
+			documentTabService.DocumentModified += (_, _) => Refresh();
 		}
 
 		private void FollowSelectedReference(bool newTab) {
