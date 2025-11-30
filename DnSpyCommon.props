@@ -57,7 +57,7 @@
     <OokiiDialogsWpfVersion>5.0.1</OokiiDialogsWpfVersion>
     <RoslynVersion>5.0.0</RoslynVersion>
     <SCCompositionVersion>10.0.0</SCCompositionVersion>
-    <NuGetVersion>7.0.0</NuGetVersion>
+    <NuGetVersion>7.0.1</NuGetVersion>
     <DbgShimVersion>9.0.652701</DbgShimVersion>
     <SCImmutableVersion>10.0.0</SCImmutableVersion>
     <NrbfVersion>10.0.0</NrbfVersion>
