@@ -1,3 +1,22 @@
+/*
+    Copyright (C) 2025 Washi
+
+    This file is part of dnSpy
+
+    dnSpy is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    dnSpy is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -37,7 +56,7 @@ namespace dnSpy.StringSearcher {
 		public ICommand RefreshCommand { get; }
 
 		public StringReference? SelectedStringReference {
-			get => field;
+			get;
 			set {
 				if (field != value) {
 					field = value;
@@ -49,7 +68,7 @@ namespace dnSpy.StringSearcher {
 		public GridViewColumnDescs Descs { get; }
 
 		public string SearchText {
-			get => field;
+			get;
 			set {
 				if (field != value) {
 					field = value;
@@ -59,19 +78,8 @@ namespace dnSpy.StringSearcher {
 			}
 		} = string.Empty;
 
-		public bool SearchPanelVisible {
-			get => field;
-			set {
-				if (field != value) {
-					field = value;
-					OnPropertyChanged();
-					ApplyFilter();
-				}
-			}
-		}
-
 		public bool SearchCaseSensitive {
-			get => field;
+			get;
 			set {
 				if (field != value) {
 					field = value;
@@ -82,7 +90,7 @@ namespace dnSpy.StringSearcher {
 		}
 
 		public bool SearchIsRegex {
-			get => field;
+			get;
 			set {
 				if (field != value) {
 					field = value;
@@ -93,7 +101,7 @@ namespace dnSpy.StringSearcher {
 		}
 
 		public bool SearchMatchFormattedString {
-			get => field;
+			get;
 			set {
 				if (field != value) {
 					field = value;
@@ -104,7 +112,7 @@ namespace dnSpy.StringSearcher {
 		}
 
 		private string CurrentSearchError {
-			get => field;
+			get;
 			set {
 				if (field != value) {
 					field = value;
@@ -137,7 +145,7 @@ namespace dnSpy.StringSearcher {
 					StringLiteralsView.Filter = x => regex.IsMatch(getStringToMatch(x));
 				}
 				catch (ArgumentException) {
-					CurrentSearchError = dnSpy.StringSearcher.Properties.dnSpy_StringSearcher_Resources.SearchInvalidRegexPattern;
+					CurrentSearchError = Properties.dnSpy_StringSearcher_Resources.SearchInvalidRegexPattern;
 				}
 			}
 			else {
