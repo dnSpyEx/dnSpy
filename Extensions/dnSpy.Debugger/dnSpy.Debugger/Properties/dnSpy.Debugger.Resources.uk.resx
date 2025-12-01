@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -121,7 +121,7 @@
     <value>_Додати точку зупинки</value>
   </data>
   <data name="AddExceptionCommand" xml:space="preserve">
-    <value>Додати Виключення</value>
+    <value>Додати виключення</value>
   </data>
   <data name="AppDomainNotAvailable" xml:space="preserve">
     <value>&lt;не доступне&gt;</value>
@@ -139,7 +139,7 @@
     <value>Приєднатись до _Процесу...</value>
   </data>
   <data name="Attach_AttachToProcess" xml:space="preserve">
-    <value>Приєднатись до Процесу</value>
+    <value>Приєднатись до процесу</value>
   </data>
   <data name="Attach_UseDnSpy32" xml:space="preserve">
     <value>Використовуйте 64-біт dnSpy для приєднання до 64-біт процесів</value>
@@ -157,7 +157,7 @@
     <value>_Приєднатись</value>
   </data>
   <data name="Button_Cancel" xml:space="preserve">
-    <value>Відміна</value>
+    <value>Скасувати</value>
   </data>
   <data name="Button_OK" xml:space="preserve">
     <value>Так</value>
@@ -277,7 +277,7 @@
     <value>Відлагоджувати файли, завантажені із пам'яті процесу (зніміть прапорець для того, щоб використати файли із диску)</value>
   </data>
   <data name="DbgSettings_UseStringConversionFunction" xml:space="preserve">
-    <value>Викликати функцію конвертування стрічок у вікнах змінних</value>
+    <value>Викликати функцію конвертування рядків у вікнах змінних</value>
   </data>
   <data name="StartDebugging2" xml:space="preserve">
     <value>_Запустити відладку...</value>
@@ -308,6 +308,9 @@
   </data>
   <data name="DetachAllCommand" xml:space="preserve">
     <value>Від'єднатись від усіх</value>
+  </data>
+  <data name="DetachingWillCauseTerminationOfDebuggeeProcess" xml:space="preserve">
+    <value>Від’єднання призведе до припинення процесу налагодження. Ви бажаєте продовжити?</value>
   </data>
   <data name="DisableAllBreakpointsCommand" xml:space="preserve">
     <value>Заборонити усі точки зупинок</value>
@@ -725,6 +728,12 @@
   <data name="Window_Threads" xml:space="preserve">
     <value>Потоки</value>
   </data>
+  <data name="Window_StaticFields" xml:space="preserve">
+    <value>Статичні поля</value>
+  </data>
+  <data name="StaticFieldsCommand" xml:space="preserve">
+    <value>_Статичні поля</value>
+  </data>
   <data name="YesNo_No" xml:space="preserve">
     <value>Ні</value>
   </data>
@@ -798,13 +807,13 @@
     <value>Вивантажений "{0}".</value>
   </data>
   <data name="ExceptionMessageIsNull" xml:space="preserve">
-    <value>«&lt;повідомлення без виключення&gt;»</value>
+    <value>"&lt;повідомлення без виключення&gt;"</value>
   </data>
   <data name="GlyphToolTip_Location" xml:space="preserve">
     <value>Розташування</value>
   </data>
   <data name="HexEditorGroup_DebuggerMemory" xml:space="preserve">
-    <value>Пам"ять</value>
+    <value>Пам'ять</value>
   </data>
   <data name="BgImgDisplayName_DebuggerMemory" xml:space="preserve">
     <value>Hex-редактор (пам'ять)</value>
@@ -870,7 +879,7 @@
     <value>Виконується</value>
   </data>
   <data name="Processes_AttachToProcessToolTip" xml:space="preserve">
-    <value>Приєднатись до Процесу</value>
+    <value>Приєднатись до процесу</value>
   </data>
   <data name="Processes_DetachToolTip" xml:space="preserve">
     <value>Від'єднати процес</value>
@@ -941,6 +950,18 @@
   <data name="AddExceptionButton" xml:space="preserve">
     <value>Додати</value>
   </data>
+  <data name="AddEnvironmentVariableButton" xml:space="preserve">
+    <value>Додати</value>
+  </data>
+  <data name="AddEnvironmentVariablesMsgBoxTitle" xml:space="preserve">
+    <value>Додати змінні середовища</value>
+  </data>
+  <data name="AddEnvironmentVariablesMsgBoxLabel" xml:space="preserve">
+    <value>Середовище</value>
+  </data>
+  <data name="AddManyEnvironmentVariablesButton" xml:space="preserve">
+    <value>Додати більше</value>
+  </data>
   <data name="ExceptionDescription" xml:space="preserve">
     <value>Опис винятоку</value>
   </data>
@@ -949,6 +970,9 @@
   </data>
   <data name="EditConditions_Title" xml:space="preserve">
     <value>Редагувати умови</value>
+  </data>
+  <data name="EditEnvironmentVariables_Title" xml:space="preserve">
+    <value>Редагувати змінні середовища</value>
   </data>
   <data name="Button_AddCondition" xml:space="preserve">
     <value>_Додати умову</value>
@@ -982,6 +1006,9 @@
   </data>
   <data name="RemoveBreakpointCommand" xml:space="preserve">
     <value>Видалити точки зупинки</value>
+  </data>
+  <data name="RemoveEnvironmentVariableButton" xml:space="preserve">
+    <value>Видалити</value>
   </data>
   <data name="DisableBreakpointCommand3" xml:space="preserve">
     <value>Вимкнути точку зупинки</value>
@@ -1226,6 +1253,18 @@
   <data name="StartDebuggingCommand" xml:space="preserve">
     <value>Запустити відладку</value>
   </data>
+  <data name="StartDebuggingWarning_UnknownBitness" xml:space="preserve">
+    <value>Не вдалося визначити розрядність цільового файлу. Налагодження може спричинити небажане/неконтрольоване виконання образу.
+
+Ви бажаєте продовжити?</value>
+  </data>
+  <data name="StartDebuggingWarning_IncorrectBitness" xml:space="preserve">
+    <value>Розрядність цільового файлу не відповідає поточній версії dnSpy. Налагодження може спричинити небажане/неконтрольоване виконання образу.
+
+Рекомендується використовувати 32-розрядний dnSpy для налагодження 32-розрядних зображень і 64-розрядний dnSpy для налагодження 64-розрядних зображень.
+
+Ви бажаєте продовжити?</value>
+  </data>
   <data name="Breakpoint_Tracepoint_BreakPrintMessage" xml:space="preserve">
     <value>Зупинитись та вивести повідомлення '{0}'</value>
   </data>
@@ -1283,6 +1322,9 @@
   <data name="ResetBreakpointHitCountCommand" xml:space="preserve">
     <value>Скинути лічильник зупинок</value>
   </data>
+  <data name="ResetEnvironmentVariablesButton" xml:space="preserve">
+    <value>Рестарт</value>
+  </data>
   <data name="HelpToolTip" xml:space="preserve">
     <value>Допомога</value>
   </data>
@@ -1313,6 +1355,9 @@
   <data name="InsertTracepointCommand" xml:space="preserve">
     <value>Вставити то_чку трасування</value>
   </data>
+  <data name="InvalidInputString" xml:space="preserve">
+    <value>Недійсний введено рядок</value>
+  </data>
   <data name="UnwindToThisFrameCommand" xml:space="preserve">
     <value>_Відмотати до цього фрейму</value>
   </data>
@@ -1324,6 +1369,15 @@
   </data>
   <data name="DbgSettings_EnableManagedDebuggingAssistants" xml:space="preserve">
     <value>Ввімкнути помічник відладки керованого коду (MDA)</value>
+  </data>
+  <data name="DbgSettings_EnableJustMyCodeDebugging" xml:space="preserve">
+    <value>Ввімкнути підтримку налагодження Just My Code</value>
+  </data>
+  <data name="DbgSettings_StepOverCodeInSystemModules" xml:space="preserve">
+    <value>Перейти до коду в модулях системи</value>
+  </data>
+  <data name="DbgSettings_OnlyStepIntoCodeInPrimaryModule" xml:space="preserve">
+    <value>Перейти лише до коду, розташованого в основному модулі</value>
   </data>
   <data name="DebugStepProcessError" xml:space="preserve">
     <value>Не можливо перейти: {0}</value>
@@ -1424,6 +1478,9 @@
   <data name="ExceptionMessage" xml:space="preserve">
     <value>Повідомлення: {0}</value>
   </data>
+  <data name="ExceptionHResult" xml:space="preserve">
+    <value>HResult: 0x{0:X8}</value>
+  </data>
   <data name="ExceptionName" xml:space="preserve">
     <value>Виключення: {0}</value>
   </data>
@@ -1467,7 +1524,7 @@
     <value>Відкрити усі модулі</value>
   </data>
   <data name="DbgSettings_HideDeprecatedError" xml:space="preserve">
-    <value>Скрити deprecated члени в вікнах змінних</value>
+    <value>Приховати deprecated члени в вікнах змінних</value>
   </data>
   <data name="DbgSettings_ShowReturnValues" xml:space="preserve">
     <value>Відображати значення, що вертаються</value>
