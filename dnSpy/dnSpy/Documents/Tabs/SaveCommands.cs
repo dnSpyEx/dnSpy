@@ -189,6 +189,7 @@ namespace dnSpy.Documents.Tabs {
 						if (bamlDecompiler is not null) {
 							var o = BamlDecompilerOptions.Create(vm.Decompiler.Decompiler);
 							var outputOptions = xamlOutputOptionsProvider?.Default ?? new XamlOutputOptions();
+							projOpts.DecompileBamlTypeName = (a, b, c) => bamlDecompiler.DecompileTypeName(a, b, c, o);
 							projOpts.DecompileBaml = (a, b, c, d) => bamlDecompiler.Decompile(a, b, c, o, d, outputOptions);
 						}
 						options.ProjectModules.Add(projOpts);
