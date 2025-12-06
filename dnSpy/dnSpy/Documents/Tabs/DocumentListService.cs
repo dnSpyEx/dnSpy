@@ -78,7 +78,7 @@ namespace dnSpy.Documents.Tabs {
 			var names = new HashSet<string>(StringComparer.Ordinal);
 			foreach (var listSection in section.SectionsWithName(DOCUMENT_LIST_SECTION)) {
 				var documentList = DocumentList.Create(listSection);
-				if (names.Add(documentList.Name))
+				if (!names.Add(documentList.Name))
 					continue;
 				documentsList.Add(documentList);
 			}
