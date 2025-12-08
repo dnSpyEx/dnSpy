@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -121,37 +121,37 @@
     <value>_Проблеми</value>
   </data>
   <data name="About_LatestBuild" xml:space="preserve">
-    <value>Остання _Збірка</value>
+    <value>Остання _збірка</value>
   </data>
   <data name="About_LatestRelease" xml:space="preserve">
-    <value>_Останній Реліз</value>
+    <value>_Останній реліз</value>
   </data>
   <data name="About_Menu" xml:space="preserve">
-    <value>_Про</value>
+    <value>_Про програму</value>
   </data>
   <data name="About_SourceCode" xml:space="preserve">
-    <value>_Джерельний Код</value>
+    <value>_Початковий код</value>
   </data>
   <data name="About_TabTitle" xml:space="preserve">
     <value>Про програму</value>
   </data>
   <data name="AllFiles" xml:space="preserve">
-    <value>Всі Файли</value>
+    <value>Всі файли</value>
   </data>
   <data name="AssemblyExplorerCommand" xml:space="preserve">
-    <value>Оглядач З_бірок</value>
+    <value>Оглядач з_бірок</value>
   </data>
   <data name="AssemblyExplorerKey" xml:space="preserve">
     <value>Ctrl+Alt+L</value>
   </data>
   <data name="AssemblyExplorerTitle" xml:space="preserve">
-    <value>Оглядач Збірок</value>
+    <value>Оглядач збірок</value>
   </data>
   <data name="BaseTypeFolder" xml:space="preserve">
-    <value>Базовий Тип та Інтерфейси</value>
+    <value>Базовий тип та інтерфейси</value>
   </data>
   <data name="Button_Cancel" xml:space="preserve">
-    <value>_Відміна</value>
+    <value>_Скасувати</value>
   </data>
   <data name="Button_No" xml:space="preserve">
     <value>_Ні</value>
@@ -162,6 +162,9 @@
   <data name="Button_Save" xml:space="preserve">
     <value>_Зберегти...</value>
   </data>
+  <data name="Button_SaveCode" xml:space="preserve">
+    <value>_Зберегти код...</value>
+  </data>
   <data name="Button_Yes" xml:space="preserve">
     <value>_Так</value>
   </data>
@@ -169,19 +172,19 @@
     <value>Не вдається перетворити вхідні дані в потрібний тип: {0}</value>
   </data>
   <data name="CloseAllTabGroupsButThisCommand" xml:space="preserve">
-    <value>Закрити Всі Вкладки Групи Окрім Цієї</value>
+    <value>Закрити всі вкладки групи окрім цієї</value>
   </data>
   <data name="CloseAllTabsButThisCommand" xml:space="preserve">
-    <value>Закрити _ Усі Окрім Цієї</value>
+    <value>Закрити _всі окрім цієї</value>
   </data>
   <data name="CloseAllTabsCommand" xml:space="preserve">
-    <value>За_крити усі закладки</value>
+    <value>За_крити всі закладки</value>
   </data>
   <data name="CloseTabCommand" xml:space="preserve">
-    <value>З_акрити</value>
+    <value>_Закрити</value>
   </data>
   <data name="CloseTabGroupCommand" xml:space="preserve">
-    <value>Закрити Групу Табів</value>
+    <value>Закрити групу вкладок</value>
   </data>
   <data name="CopyCommand" xml:space="preserve">
     <value>Копіюв_ати</value>
@@ -190,7 +193,10 @@
     <value>Ctrl+C</value>
   </data>
   <data name="CopyMDTokenCommand" xml:space="preserve">
-    <value>_Копіювати Токен Метаданних</value>
+    <value>_Копіювати токен метаданних</value>
+  </data>
+  <data name="CopyFullNameCommand" xml:space="preserve">
+    <value>Скопіювати повне ім'я</value>
   </data>
   <data name="CouldNotStartBrowser" xml:space="preserve">
     <value>Не вдалося запустити браузер</value>
@@ -211,7 +217,7 @@
     <value>Похідні Типи</value>
   </data>
   <data name="DotNetExes" xml:space="preserve">
-    <value>Виконавчі файли .NET</value>
+    <value>Виконувані файли .NET</value>
   </data>
   <data name="EmptyTabTitle" xml:space="preserve">
     <value>&lt;пусто&gt;</value>
@@ -244,10 +250,10 @@
     <value>Shift+Alt+Enter</value>
   </data>
   <data name="FullScreenToolBarCommand" xml:space="preserve">
-    <value>Повноекранний Режим</value>
+    <value>Повноекранний режим</value>
   </data>
   <data name="GoToEntryPointCommand" xml:space="preserve">
-    <value>Іти в _Точку Входу</value>
+    <value>Іти в _точку входу</value>
   </data>
   <data name="GoToGlobalCctorCommand" xml:space="preserve">
     <value>Перейти до &lt;Module&gt; .ccto_r</value>
@@ -259,19 +265,19 @@
     <value>Невірний рядок: {0}</value>
   </data>
   <data name="GoToLine_Label" xml:space="preserve">
-    <value>_Стрічка [, стовпчик]</value>
+    <value>_Рядок [, стовпчик]</value>
   </data>
   <data name="GoToLine_Title" xml:space="preserve">
-    <value>Перейти до Рядка</value>
+    <value>Перейти до рядка</value>
   </data>
   <data name="GoToReferenceCommand" xml:space="preserve">
-    <value>Перейти до Посилання</value>
+    <value>Перейти до посилання</value>
   </data>
   <data name="GoToReferenceKey" xml:space="preserve">
-    <value>Подвійний Клік</value>
+    <value>Подвійний клік</value>
   </data>
   <data name="GoToTokenCommand" xml:space="preserve">
-    <value>Перейти до M_D Токена...</value>
+    <value>Перейти до M_D Токену...</value>
   </data>
   <data name="GoToTokenKey" xml:space="preserve">
     <value>Ctrl+D</value>
@@ -283,19 +289,19 @@
     <value>Невірний токен метаданих: 0x{0:X8}</value>
   </data>
   <data name="GoToToken_Label" xml:space="preserve">
-    <value>Токен _Метаданих</value>
+    <value>Токен _метаданих</value>
   </data>
   <data name="GoToToken_Title" xml:space="preserve">
     <value>Перейти до токену метаданих</value>
   </data>
   <data name="HideAllToolWindowsCommand" xml:space="preserve">
-    <value>З_аховати Усі Вкладки</value>
+    <value>З_аховати усі вкладки</value>
   </data>
   <data name="HideToolWindowCommand" xml:space="preserve">
     <value>_Сховати</value>
   </data>
   <data name="HighlightLine" xml:space="preserve">
-    <value>_Підсвітити ПоточнийРрядок</value>
+    <value>_Підсвітити поточний рядок</value>
   </data>
   <data name="InvalidInputTextMessageBox" xml:space="preserve">
     <value>Невірний текст</value>
@@ -304,7 +310,7 @@
     <value>Завантажую dnSpy! Прохання зачекати...</value>
   </data>
   <data name="Menu_Edit" xml:space="preserve">
-    <value>Р_едагувати</value>
+    <value>_Редагувати</value>
   </data>
   <data name="Menu_File" xml:space="preserve">
     <value>_Файл</value>
@@ -322,7 +328,7 @@
     <value>_Вікно</value>
   </data>
   <data name="MergeAllTabGroupsCommand" xml:space="preserve">
-    <value>Об'єднати Усі Групи Вкладок</value>
+    <value>Об'єднати усі групи вкладок</value>
   </data>
   <data name="MessageBoxDontShowAgain" xml:space="preserve">
     <value>Більше не показувати</value>
@@ -343,19 +349,19 @@
     <value>_Вправо</value>
   </data>
   <data name="MoveTabGroupAfterNextTabGroupCommand" xml:space="preserve">
-    <value>Перемістити Групу Вкладок Після Наступної Групи Вкладок</value>
+    <value>Перемістити групу вкладок після наступної групи вкладок</value>
   </data>
   <data name="MoveTabGroupBeforePreviousTabGroupCommand" xml:space="preserve">
-    <value>Перемістити Групу Вкладок Перед Попередньою Групою Вкладок</value>
+    <value>Перемістити групу вкладок перед попередньою групою вкладок</value>
   </data>
   <data name="MoveToNextTabGroupCommand" xml:space="preserve">
-    <value>Перенести в Наступну Групу Вкладок</value>
+    <value>Перенести в наступну групу вкладок</value>
   </data>
   <data name="MoveToolWindowCommand" xml:space="preserve">
     <value>_Перемістити</value>
   </data>
   <data name="MoveToolWindowGroupCommand" xml:space="preserve">
-    <value>Перемістити _Групу</value>
+    <value>Перемістити _групу</value>
   </data>
   <data name="MoveTopCommand" xml:space="preserve">
     <value>_Вверх</value>
@@ -376,19 +382,19 @@
     <value>Нова _горизонтальна група вкладок</value>
   </data>
   <data name="NewTabCommand" xml:space="preserve">
-    <value>Нова _Вкладка</value>
+    <value>Нова _вкладка</value>
   </data>
   <data name="NewVerticalTabGroupCommand" xml:space="preserve">
     <value>Новая _вертикальна група вкладок</value>
   </data>
   <data name="NewWindowCommand" xml:space="preserve">
-    <value>_Нове Вікно</value>
+    <value>_Нове вікно</value>
   </data>
   <data name="OpenCommand" xml:space="preserve">
     <value>_Відкрити...</value>
   </data>
   <data name="OpenContainingFolderCommand" xml:space="preserve">
-    <value>_Відкрити Вмістимий Каталог</value>
+    <value>_Відкрити каталог, що містить</value>
   </data>
   <data name="OpenGACCommand" xml:space="preserve">
     <value>Відкрити із _GAC...</value>
@@ -424,7 +430,7 @@
     <value>Версія:</value>
   </data>
   <data name="OpenInNewTabCommand" xml:space="preserve">
-    <value>Відкрити у Новій _Вкладці</value>
+    <value>Відкрити у новій _вкладці</value>
   </data>
   <data name="OpenInNewTabKey" xml:space="preserve">
     <value>Ctrl+T</value>
@@ -477,8 +483,14 @@
   <data name="OptionsTitle" xml:space="preserve">
     <value>Налаштування</value>
   </data>
+  <data name="Options_Misc_CheckForUpdatesOnStartup" xml:space="preserve">
+    <value>Перевірте наявність оновлень під час запуску</value>
+  </data>
   <data name="Options_Misc_Button_EnableAllWarnings" xml:space="preserve">
     <value>Ввімкнути усі попередження</value>
+  </data>
+  <data name="Options_Misc_Button_ResetIgnoredUpdates" xml:space="preserve">
+    <value>Скинути ігноровані оновлення</value>
   </data>
   <data name="Options_Misc_UseMmapdIO" xml:space="preserve">
     <value>Використовувати відображений в пам'ять ввід/вивід</value>
@@ -487,10 +499,13 @@
     <value>Посилання</value>
   </data>
   <data name="ReloadAsmsCommand" xml:space="preserve">
-    <value>_Перевантажити Усі Збірки</value>
+    <value>_Перевантажити усі збірки</value>
   </data>
   <data name="ResourcesFolder" xml:space="preserve">
     <value>Ресурси</value>
+  </data>
+  <data name="RestartAsAdministratorCommand" xml:space="preserve">
+    <value>Перезапустити з під Адміністратора</value>
   </data>
   <data name="SaveKey" xml:space="preserve">
     <value>Ctrl+S</value>
@@ -498,11 +513,14 @@
   <data name="SaveResourceButton" xml:space="preserve">
     <value>Зберегти</value>
   </data>
+  <data name="SavingCode" xml:space="preserve">
+    <value>Збереженння...</value>
+  </data>
   <data name="SearchAbortedMessage" xml:space="preserve">
     <value>Пошук зупинений, знайдено більше {0:n0} результатів.</value>
   </data>
   <data name="SearchAssembliesCommand" xml:space="preserve">
-    <value>_Шукати в Збірках</value>
+    <value>_Шукати в збірках</value>
   </data>
   <data name="SearchAssembliesToolBarToolTip" xml:space="preserve">
     <value>Шукати в збірках</value>
@@ -553,16 +571,16 @@
     <value>Виникла невідома помилка</value>
   </data>
   <data name="UseHorizontalTabGroupsCommand" xml:space="preserve">
-    <value>Використовувати Горизонтальні Групи Вкладок</value>
+    <value>Використовувати горизонтальні групи вкладок</value>
   </data>
   <data name="UseVerticalTabGroupsCommand" xml:space="preserve">
-    <value>Використовувати Вертикальні Групи Вкладок</value>
+    <value>Використовувати вертикальні групи вкладок</value>
   </data>
   <data name="WindowsCommand" xml:space="preserve">
     <value>_Вікна...</value>
   </data>
   <data name="WordWrapHeader" xml:space="preserve">
-    <value>_Перенесення Слів</value>
+    <value>_Перенесення слів</value>
   </data>
   <data name="CloseTabButtonToolTip" xml:space="preserve">
     <value>Закрити</value>
@@ -574,7 +592,7 @@
     <value>Виділяти посилання</value>
   </data>
   <data name="DisplaySettings_RestoreTabs" xml:space="preserve">
-    <value>Відновити вкладки на запуску</value>
+    <value>Відновити вкладки під час запуску</value>
   </data>
   <data name="DisplaySettings_ShowAssemblyPublicKeyToken" xml:space="preserve">
     <value>Показати публічний ключ збірки</value>
@@ -592,7 +610,7 @@
     <value>_Налаштування...</value>
   </data>
   <data name="SearchWindow_AllAbove" xml:space="preserve">
-    <value>Все Можливе</value>
+    <value>Все можливе</value>
   </data>
   <data name="SearchWindow_AllAbove_Key" xml:space="preserve">
     <value>Ctrl+B</value>
@@ -604,7 +622,7 @@
     <value>AssemblyRef</value>
   </data>
   <data name="SearchWindow_CaseSensitiveSearch" xml:space="preserve">
-    <value>Регістрозалежний Пошук</value>
+    <value>Регістрозалежний пошук</value>
   </data>
   <data name="SearchWindow_Class" xml:space="preserve">
     <value>Клас</value>
@@ -631,13 +649,13 @@
     <value>Ctrl+F</value>
   </data>
   <data name="SearchWindow_Generic" xml:space="preserve">
-    <value>Загальний Тип</value>
+    <value>Загальний тип</value>
   </data>
   <data name="SearchWindow_Interface" xml:space="preserve">
     <value>Інтерфейс</value>
   </data>
   <data name="SearchWindow_Literal" xml:space="preserve">
-    <value>Число/Стрічка</value>
+    <value>Число/Рядок</value>
   </data>
   <data name="SearchWindow_Literal_Key" xml:space="preserve">
     <value>Ctrl+L</value>
@@ -649,10 +667,10 @@
     <value>Ctrl+I</value>
   </data>
   <data name="SearchWindow_MatchAny" xml:space="preserve">
-    <value>Співпадіння Із Любим Термом</value>
+    <value>Співпадіння будь-якого тексту</value>
   </data>
   <data name="SearchWindow_MatchWholeWords" xml:space="preserve">
-    <value>Лишень Повне Співпадіння Слів</value>
+    <value>Повне співпадіння слів</value>
   </data>
   <data name="SearchWindow_Member" xml:space="preserve">
     <value>Член</value>
@@ -676,13 +694,13 @@
     <value>Простір імен</value>
   </data>
   <data name="SearchWindow_NonGeneric" xml:space="preserve">
-    <value>Незагальний Тип</value>
+    <value>Незагальний тип</value>
   </data>
   <data name="SearchWindow_Parameter" xml:space="preserve">
     <value>Параметр</value>
   </data>
   <data name="SearchWindow_ParameterLocal" xml:space="preserve">
-    <value>Параметр/Локальна Змінна</value>
+    <value>Параметр/Локальна змінна</value>
   </data>
   <data name="SearchWindow_ParameterLocal_Key" xml:space="preserve">
     <value>Ctrl+N</value>
@@ -715,13 +733,13 @@
     <value>Ctrl+T</value>
   </data>
   <data name="ToolWindowWinPosButtonToolTip" xml:space="preserve">
-    <value>Позиція Вікна</value>
+    <value>Позиція вікна</value>
   </data>
   <data name="Theme_Blue" xml:space="preserve">
-    <value>_Голубий</value>
+    <value>_Голуба</value>
   </data>
   <data name="Theme_Dark" xml:space="preserve">
-    <value>_Темний</value>
+    <value>_Темна</value>
   </data>
   <data name="Theme_HighContrast" xml:space="preserve">
     <value>_Висока Контрастність</value>
@@ -745,16 +763,16 @@
     <value>Ctrl+Shift+O</value>
   </data>
   <data name="SortAsmsCommand" xml:space="preserve">
-    <value>С_ортувати Збірки</value>
+    <value>С_ортувати збірки</value>
   </data>
   <data name="AskReadSettings" xml:space="preserve">
     <value>Чи ви хочете завантажити збережені налаштування?</value>
   </data>
   <data name="ExportToProjectCommand" xml:space="preserve">
-    <value>Експорт в Пр_оект...</value>
+    <value>Експорт в пр_оект...</value>
   </data>
   <data name="ExportToProject_Title" xml:space="preserve">
-    <value>Експорт в Проект</value>
+    <value>Експорт в проект</value>
   </data>
   <data name="Error_FileAlreadyExists" xml:space="preserve">
     <value>Файл із таким же ж іменем як і каталог вже існує.</value>
@@ -783,6 +801,9 @@
   <data name="ExportToProject_Language" xml:space="preserve">
     <value>_Мова</value>
   </data>
+  <data name="ExportToProject_UseSDKStyleProjectFormat" xml:space="preserve">
+    <value>_Використовувати формат проекту в стилі SDK</value>
+  </data>
   <data name="ExportToProject_OpenProjectInVisualStudio" xml:space="preserve">
     <value>_Відкрити проект в Visual Studio</value>
   </data>
@@ -802,7 +823,9 @@
     <value>_Закрити</value>
   </data>
   <data name="ErrorExceptionOccurred" xml:space="preserve">
-    <value>Трапилось  виключення {0}</value>
+    <value>Трапилось  виключення
+
+{0}</value>
   </data>
   <data name="ExportToProject_ErrorLogMsg" xml:space="preserve">
     <value>Журнал помилок</value>
@@ -820,10 +843,19 @@
     <value>Методи</value>
   </data>
   <data name="MemberKind_NestedTypes" xml:space="preserve">
-    <value>Вкладені Типи</value>
+    <value>Вкладені типи</value>
   </data>
   <data name="MemberKind_Properties" xml:space="preserve">
     <value>Властивості</value>
+  </data>
+  <data name="AboutScreen_CheckForUpdates" xml:space="preserve">
+    <value>Перевірити оновлення</value>
+  </data>
+  <data name="AboutScreen_CheckingForUpdates" xml:space="preserve">
+    <value>Перевіряємо оновлення...</value>
+  </data>
+  <data name="AboutScreen_FailedToRetrieveUpdateInfo" xml:space="preserve">
+    <value>Не вдалося отримати інформацію про оновлення!</value>
   </data>
   <data name="AboutScreen_LicenseInfo" xml:space="preserve">
     <value>dnSpy ліцензований під GPLv3.</value>
@@ -831,11 +863,20 @@
   <data name="AboutScreen_LoadedFiles" xml:space="preserve">
     <value>Завантажені файли:</value>
   </data>
+  <data name="AboutScreen_NewUpdateAvailable" xml:space="preserve">
+    <value>Доступна нова версія dnSpy: {0}, Ви бажаєте відкрити сторінку завантаження?</value>
+  </data>
+  <data name="AboutScreen_RunningLatestVersion" xml:space="preserve">
+    <value>Ви використовуєте останню версію dnSpy!</value>
+  </data>
   <data name="SearchWindow_SearchFrameworkAssemblies" xml:space="preserve">
     <value>Шукати серед збірок фреймворку</value>
   </data>
+  <data name="SearchWindow_SearchCompilerGeneratedMembers" xml:space="preserve">
+    <value>Члени, створені компілятором пошуку</value>
+  </data>
   <data name="SearchWindow_Where_AllFiles" xml:space="preserve">
-    <value>Всі Файли</value>
+    <value>Всі файли</value>
   </data>
   <data name="SearchWindow_Where_FilesInSameFolder" xml:space="preserve">
     <value>Файли в тому ж Каталозі</value>
@@ -850,10 +891,10 @@
     <value>Перейти до Ре_сурсу</value>
   </data>
   <data name="CollapseTreeViewNodesCommand" xml:space="preserve">
-    <value>Згорнути Вузли _Дерева</value>
+    <value>Згорнути вузли дерева</value>
   </data>
   <data name="CloseAllCommand" xml:space="preserve">
-    <value>Закрити Всі</value>
+    <value>Закрити всі</value>
   </data>
   <data name="ExportToProject_NewGuid" xml:space="preserve">
     <value>_Новий</value>
@@ -877,7 +918,7 @@
     <value>_Показати вивід із:</value>
   </data>
   <data name="Output_WordWrap_ToolTip" xml:space="preserve">
-    <value>Увімкнути або Вимкнути Перенос Слів</value>
+    <value>Увімкнути перенесення слів</value>
   </data>
   <data name="ShortCutKeyAlt2" xml:space="preserve">
     <value>Alt+2</value>
@@ -889,7 +930,7 @@
     <value>Зберегти</value>
   </data>
   <data name="ClearAllCommand" xml:space="preserve">
-    <value>Очистити Все</value>
+    <value>Очистити все</value>
   </data>
   <data name="ShortCutKeyCtrlL" xml:space="preserve">
     <value>Ctrl+L</value>
@@ -898,13 +939,13 @@
     <value>Текстові файли</value>
   </data>
   <data name="ShowLineNumbersCommand" xml:space="preserve">
-    <value>Показати Номери Стрічок</value>
+    <value>Показати номери рядків</value>
   </data>
   <data name="ShortCutKeyCtrlDIGIT" xml:space="preserve">
     <value>Ctrl+{0}</value>
   </data>
   <data name="ShowTimestampsCommand" xml:space="preserve">
-    <value>Показати Часові Мітки</value>
+    <value>Показати часові мітки</value>
   </data>
   <data name="ShortCutKeyCtrlECtrlW" xml:space="preserve">
     <value>Ctrl+E, Ctrl+W</value>
@@ -928,7 +969,7 @@
     <value>Відновити Вниз</value>
   </data>
   <data name="BackgroundImageOptDlgTab" xml:space="preserve">
-    <value>Фоновий Малюнок</value>
+    <value>Фонове зображення</value>
   </data>
   <data name="BgImgDisplayName_CodeEditor" xml:space="preserve">
     <value>Редактор коду</value>
@@ -943,16 +984,16 @@
     <value>Вікно логів</value>
   </data>
   <data name="BgImgDisplayName_REPL" xml:space="preserve">
-    <value>вікно REPL</value>
+    <value>Вікно REPL</value>
   </data>
   <data name="BgImgSettings_Direction" xml:space="preserve">
     <value>Напрямок</value>
   </data>
   <data name="BgImgSettings_HorizontalOffset" xml:space="preserve">
-    <value>Горизонтальне Зміщення</value>
+    <value>Горизонтальне зміщення</value>
   </data>
   <data name="BgImgSettings_Images" xml:space="preserve">
-    <value>Додати шляхи до малюнків і каталогів, один шлях в рядку:</value>
+    <value>Додайте шляхи до зображень і папок зображень, по одному шляху на рядок:</value>
   </data>
   <data name="BgImgSettings_Interval" xml:space="preserve">
     <value>Інтервал</value>
@@ -970,7 +1011,7 @@
     <value>Розміщення</value>
   </data>
   <data name="BgImgSettings_RandomImage" xml:space="preserve">
-    <value>Випадкове Зображення</value>
+    <value>Випадкове зображення</value>
   </data>
   <data name="BgImgSettings_Reset" xml:space="preserve">
     <value>Очистити</value>
@@ -979,7 +1020,7 @@
     <value>Зум %</value>
   </data>
   <data name="BgImgSettings_ShowImages" xml:space="preserve">
-    <value>Показати Зображення</value>
+    <value>Показати зображення</value>
   </data>
   <data name="BgImgSettings_Stretch" xml:space="preserve">
     <value>Розтягнути</value>
@@ -988,13 +1029,13 @@
     <value>Вертикальний Зсув</value>
   </data>
   <data name="ImagePlacement_Bottom" xml:space="preserve">
-    <value>Низ</value>
+    <value>Внизу</value>
   </data>
   <data name="ImagePlacement_BottomLeft" xml:space="preserve">
-    <value>Внизу Зліва</value>
+    <value>Внизу зліва</value>
   </data>
   <data name="ImagePlacement_BottomRight" xml:space="preserve">
-    <value>Знизу Справа</value>
+    <value>Знизу справа</value>
   </data>
   <data name="ImagePlacement_Center" xml:space="preserve">
     <value>Центр</value>
@@ -1009,7 +1050,7 @@
     <value>Зверху</value>
   </data>
   <data name="ImagePlacement_TopLeft" xml:space="preserve">
-    <value>Зверху Ліворуч</value>
+    <value>Зверху ліворуч</value>
   </data>
   <data name="ImagePlacement_TopRight" xml:space="preserve">
     <value>Зверху праворуч</value>
@@ -1018,10 +1059,10 @@
     <value>Обидва</value>
   </data>
   <data name="StretchDirection_DownOnly" xml:space="preserve">
-    <value>Тільки Вниз</value>
+    <value>Тільки вниз</value>
   </data>
   <data name="StretchDirection_UpOnly" xml:space="preserve">
-    <value>Тільки Вгору</value>
+    <value>Тільки вгору</value>
   </data>
   <data name="Files_Images" xml:space="preserve">
     <value>Зображення</value>
@@ -1066,7 +1107,16 @@
     <value>Закрити</value>
   </data>
   <data name="IncrementalSearchCommand" xml:space="preserve">
-    <value>Послідовний Пошук</value>
+    <value>Послідовний пошук</value>
+  </data>
+  <data name="InfoBar_NewUpdateAvailable" xml:space="preserve">
+    <value>Доступна нова версія dnSpy: {0}</value>
+  </data>
+  <data name="InfoBar_OpenDownloadPage" xml:space="preserve">
+    <value>Відкрити сторінку завантаження</value>
+  </data>
+  <data name="InfoBar_IgnoreThisUpdate" xml:space="preserve">
+    <value>Ігноруйте це оновлення</value>
   </data>
   <data name="ShortCutKeyCtrlI" xml:space="preserve">
     <value>Ctrl+I</value>
@@ -1084,7 +1134,7 @@
     <value>Середовище</value>
   </data>
   <data name="GeneralSettings" xml:space="preserve">
-    <value>Загальний</value>
+    <value>Загальні</value>
   </data>
   <data name="GeneralSettings_Theme" xml:space="preserve">
     <value>Тема</value>
@@ -1105,7 +1155,7 @@
     <value>Шрифт</value>
   </data>
   <data name="CodeEditorSettings" xml:space="preserve">
-    <value>Редактор Коду</value>
+    <value>Редактор коду</value>
   </data>
   <data name="TabsSettings" xml:space="preserve">
     <value>Вкладки</value>
@@ -1114,13 +1164,13 @@
     <value>Перетворити табулятори в _прогалини</value>
   </data>
   <data name="TextEditorLineNumbers" xml:space="preserve">
-    <value>_Номери стрічок</value>
+    <value>_Номери рядків</value>
   </data>
   <data name="TextEditorVirtualSpace" xml:space="preserve">
     <value>_Віртуальна прогалина</value>
   </data>
   <data name="TextEditorWordWrap" xml:space="preserve">
-    <value>_Переніс слів</value>
+    <value>_Перенесення слів</value>
   </data>
   <data name="TextEditorIndentSize" xml:space="preserve">
     <value>Розмір _відступу</value>
@@ -1129,25 +1179,25 @@
     <value>Розмір _табулятора</value>
   </data>
   <data name="TextViewerSettings" xml:space="preserve">
-    <value>Перегляд Тексту</value>
+    <value>Перегляд тексту</value>
   </data>
   <data name="AdvancedSettings" xml:space="preserve">
     <value>Додаткові налаштування</value>
   </data>
   <data name="ScrollBarsSettings" xml:space="preserve">
-    <value>Смуги Прокрутки</value>
+    <value>Смуги прокрутки</value>
   </data>
   <data name="TextEditorCompressEmptyOrWhitespaceLines" xml:space="preserve">
-    <value>Стискати пусті стрічки</value>
+    <value>Стискати пусті рядки</value>
   </data>
   <data name="TextEditorCompressNonLetterLines" xml:space="preserve">
-    <value>Стискати стрічки, які не мають яких-небудь буквенно-цифрових символів</value>
+    <value>Стискати рядки, які не мають яких-небудь буквенно-цифрових символів</value>
   </data>
   <data name="TextEditorGlyphMargin" xml:space="preserve">
     <value>Індикатор полів</value>
   </data>
   <data name="TextEditorHighlightCurrentLine" xml:space="preserve">
-    <value>Виділяти поточну стрічку</value>
+    <value>Підсвічувати поточний рядок</value>
   </data>
   <data name="TextEditorHighlightMatchingBrace" xml:space="preserve">
     <value>Виділяти дужки</value>
@@ -1159,7 +1209,7 @@
     <value>Показувати _горизонтальну  прокрутку</value>
   </data>
   <data name="TextEditorLineHeight" xml:space="preserve">
-    <value>Висота стрічки</value>
+    <value>Висота рядку</value>
   </data>
   <data name="TextEditorLineSeparators" xml:space="preserve">
     <value>Показувати розділюючі лінії процедур</value>
@@ -1168,7 +1218,7 @@
     <value>Відступи</value>
   </data>
   <data name="TextEditorMinimumLineSpacing" xml:space="preserve">
-    <value>Не додавати додатковий міжстрічковий інтервал</value>
+    <value>Не додавати додатковий міжстрядковий інтервал</value>
   </data>
   <data name="TextEditorMouseWheelZoom" xml:space="preserve">
     <value>Масштабувати за допомогою коліщатка миші</value>
@@ -1192,7 +1242,7 @@
     <value>Управління масштабуванням</value>
   </data>
   <data name="OutputWindowSettings" xml:space="preserve">
-    <value>Вікно Виводу</value>
+    <value>Вікно виводу</value>
   </data>
   <data name="TextEditorShowTimestamps" xml:space="preserve">
     <value>Показувати час</value>
@@ -1213,7 +1263,8 @@
     <value>Тільки .NET</value>
   </data>
   <data name="AssemblyExplorer_AllFilesFilteredOut" xml:space="preserve">
-    <value>Усі файли були відфільтровані. Фільтр можна змінити в опціях Assembly Explorer.</value>
+    <value>Усі файли були відфільтровані. 
+Фільтр можна змінити в опціях оглядача збірок.</value>
   </data>
   <data name="BlockStructureLineKind_DashedLines" xml:space="preserve">
     <value>Пунктирні лінії</value>
@@ -1258,10 +1309,10 @@
     <value>Показати разділювачі стовпців</value>
   </data>
   <data name="GoToOffset_Offset_Label" xml:space="preserve">
-    <value>О_фсет</value>
+    <value>Зміщення</value>
   </data>
   <data name="GoToOffset_Title" xml:space="preserve">
-    <value>Перехід по Зміщенню</value>
+    <value>Перехід по зміщенню</value>
   </data>
   <data name="HexEditorSelect_End" xml:space="preserve">
     <value>Кін_ец</value>
@@ -1279,61 +1330,63 @@
     <value>Значення має бути між {0} та {1}</value>
   </data>
   <data name="AnErrorOccurred" xml:space="preserve">
-    <value>Трапилась помилка: {0}</value>
+    <value>Трапилась помилка: 
+
+{0}</value>
   </data>
   <data name="HexEditorSaveSelection_Title" xml:space="preserve">
-    <value>Зберегти Вибране 0x{0:X}-0x{1:X}</value>
+    <value>Зберегти вибране 0x{0:X}-0x{1:X}</value>
   </data>
   <data name="Button_DefaultSettings" xml:space="preserve">
-    <value>Налаштування _За Замовчуванням</value>
+    <value>_Налаштування за замовчуванням</value>
   </data>
   <data name="Button_RestoreSettings" xml:space="preserve">
     <value>Очистити</value>
   </data>
   <data name="BytesPerLineCommand" xml:space="preserve">
-    <value>Байтів у Стрічці</value>
+    <value>Байтів у рядкові</value>
   </data>
   <data name="ClearByteCommand" xml:space="preserve">
-    <value>Очистити Байт</value>
+    <value>Очистити байт</value>
   </data>
   <data name="ClearSelectedBytesCommand" xml:space="preserve">
-    <value>Очистити Вибрані Байти</value>
+    <value>Очистити вибрані байти</value>
   </data>
   <data name="CopyCSharpArrayCommand" xml:space="preserve">
-    <value>Копіювати Масив C#</value>
+    <value>Копіювати масив C#</value>
   </data>
   <data name="CopyOffsetCommand" xml:space="preserve">
-    <value>Копіювати Зміщення</value>
+    <value>Копіювати зміщення</value>
   </data>
   <data name="CopySpecialCommand" xml:space="preserve">
-    <value>Спеціальне Копіювання</value>
+    <value>Спеціальне копіювання</value>
   </data>
   <data name="CopyTextCommand" xml:space="preserve">
-    <value>Копіювати Текст</value>
+    <value>Копіювати ьекст</value>
   </data>
   <data name="CopyUnicodeStringCommand" xml:space="preserve">
-    <value>Копіювати Стрічку Unicode</value>
+    <value>Копіювати рядок в Unicode</value>
   </data>
   <data name="CopyUTF8StringCommand" xml:space="preserve">
-    <value>Копіювати Стрічку UTF-8</value>
+    <value>Копіювати рядок в UTF-8</value>
   </data>
   <data name="CopyVisualBasicArrayCommand" xml:space="preserve">
-    <value>Копіювати Масив VB</value>
+    <value>Копіювати масив VB</value>
   </data>
   <data name="FillSelectionCommand" xml:space="preserve">
-    <value>Заповнити Виділене Байтом...</value>
+    <value>Заповнити виділене байтом...</value>
   </data>
   <data name="FillSelection_Label" xml:space="preserve">
     <value>_Байт</value>
   </data>
   <data name="FillSelection_Title" xml:space="preserve">
-    <value>Введіть Значення</value>
+    <value>Введіть значення</value>
   </data>
   <data name="GoToOffsetCommand" xml:space="preserve">
-    <value>Перейти по Зміщенню...</value>
+    <value>Перейти по зміщенню...</value>
   </data>
   <data name="HexEditorSaveSelectionCommand" xml:space="preserve">
-    <value>Зберегти об_ране...</value>
+    <value>Зберегти вибране...</value>
   </data>
   <data name="HexEditorSelectCommand" xml:space="preserve">
     <value>Обрати...</value>
@@ -1357,16 +1410,16 @@
     <value>_8 Байтів</value>
   </data>
   <data name="HexEditor_BytesPerLine_FitToWidth" xml:space="preserve">
-    <value>_Розтягнути по Ширині</value>
+    <value>_Розтягнути по ширині</value>
   </data>
   <data name="LocalHexSettings_BaseOffset" xml:space="preserve">
-    <value>_Базове Зміщення</value>
+    <value>_Базове зміщення</value>
   </data>
   <data name="LocalHexSettings_BaseOffset_ToolTip" xml:space="preserve">
     <value>Це значення додається до початкового зміщення, перед показом на екрані</value>
   </data>
   <data name="LocalHexSettings_BytesPerLine" xml:space="preserve">
-    <value>Б_айтів в Стрічці</value>
+    <value>Б_айтів в рядкові</value>
   </data>
   <data name="LocalHexSettings_EndOffset" xml:space="preserve">
     <value>Зміщення _Кінця</value>
@@ -1387,16 +1440,16 @@
     <value>_Зміщення Початку</value>
   </data>
   <data name="LocalHexSettings_Title" xml:space="preserve">
-    <value>Налаштування Локального Hex-редактора</value>
+    <value>Налаштування локального Hex-редактора</value>
   </data>
   <data name="LocalHexSettings_UseRelOffsets" xml:space="preserve">
-    <value>Використовувати _Відносне Зміщення</value>
+    <value>Використовувати _відносне зміщення</value>
   </data>
   <data name="LocalHexSettings_UseRelOffsets_ToolTip" xml:space="preserve">
     <value>Усі зміщення вказані відносно стартового зміщення</value>
   </data>
   <data name="LocalHexSettings_ValueFormat" xml:space="preserve">
-    <value>_Формат Значення</value>
+    <value>_Формат значення</value>
   </data>
   <data name="PasteCommand" xml:space="preserve">
     <value>_Вставити</value>
@@ -1460,13 +1513,13 @@
     <comment>the delete key</comment>
   </data>
   <data name="ShowAllBytesCommand" xml:space="preserve">
-    <value>Показати Всі Байти</value>
+    <value>Показати всі байти</value>
   </data>
   <data name="ShowOnlySelectedBytesCommand" xml:space="preserve">
-    <value>Показати Лише Вибрані Байти</value>
+    <value>Показати лише вибрані байти</value>
   </data>
   <data name="ValueFormatCommand" xml:space="preserve">
-    <value>Формат Значення</value>
+    <value>Формат значення</value>
   </data>
   <data name="ShortCutKeyF5" xml:space="preserve">
     <value>F5</value>
@@ -1475,7 +1528,7 @@
     <value>Оновити</value>
   </data>
   <data name="TextEditor" xml:space="preserve">
-    <value>Текстовbй Редактор</value>
+    <value>Текстовий редактор</value>
   </data>
   <data name="Search_BigEndianToolTip" xml:space="preserve">
     <value>Big endian</value>
@@ -1505,7 +1558,7 @@
     <value>Ctrl+K, Ctrl+U</value>
   </data>
   <data name="HexGoToCodeOrStructure" xml:space="preserve">
-    <value>Перейти до Коду чи Структури</value>
+    <value>Перейти до коду чи структури</value>
   </data>
   <data name="ShortCutKeyF12" xml:space="preserve">
     <value>F12</value>
@@ -1526,16 +1579,16 @@
     <value>Копіювати {0}</value>
   </data>
   <data name="CopyAbsoluteFileOffsetCommand" xml:space="preserve">
-    <value>Копіювати Абсолютне Зміщення</value>
+    <value>Копіювати абсолютне зміщення</value>
   </data>
   <data name="CopyFileOffsetCommand" xml:space="preserve">
-    <value>Копіювати Зміщення в Файлі</value>
+    <value>Копіювати зміщення в файлі</value>
   </data>
   <data name="CopyRVACommand" xml:space="preserve">
     <value>Копіювати RVA</value>
   </data>
   <data name="CopyValueCommand" xml:space="preserve">
-    <value>Копіювати Значення</value>
+    <value>Копіювати значення</value>
   </data>
   <data name="ShortCutKeyCtrlShiftQ" xml:space="preserve">
     <value>Ctrl+Shift+Q</value>
@@ -1553,7 +1606,7 @@
     <value>Позиція</value>
   </data>
   <data name="GoToCurrentPosition" xml:space="preserve">
-    <value>Поточна Позиція</value>
+    <value>Поточна позиція</value>
   </data>
   <data name="GoToFilePosition" xml:space="preserve">
     <value>Файл</value>
@@ -1580,7 +1633,7 @@
     <value>Довжина</value>
   </data>
   <data name="GoToMetadata_Title" xml:space="preserve">
-    <value>Перейти до Метаданих</value>
+    <value>Перейти до метаданих</value>
   </data>
   <data name="GoToMetadata_Token_Label" xml:space="preserve">
     <value>_Токен</value>
@@ -1592,7 +1645,7 @@
     <value>Ctrl+6</value>
   </data>
   <data name="GoToMetadataCommand" xml:space="preserve">
-    <value>Перейти до Метаданих...</value>
+    <value>Перейти до метаданих...</value>
   </data>
   <data name="ShortCutKeyCtrlM" xml:space="preserve">
     <value>Ctrl+M</value>
@@ -1610,16 +1663,16 @@
     <value>_Індекс</value>
   </data>
   <data name="HexFollowFieldValueReference" xml:space="preserve">
-    <value>Перейти по Посиланню</value>
+    <value>Перейти по посиланню</value>
   </data>
   <data name="ShortCutKeyCtrlF12" xml:space="preserve">
     <value>Ctrl+F12</value>
   </data>
   <data name="HexEditorSelectFileCommand" xml:space="preserve">
-    <value>Вибрати Файл</value>
+    <value>Вибрати файл</value>
   </data>
   <data name="HexEditorSelectNestedFileCommand" xml:space="preserve">
-    <value>Вибрати Вкладений Файл</value>
+    <value>Вибрати вкладений файл</value>
   </data>
   <data name="SelectSpecialCommand" xml:space="preserve">
     <value>Вибрати Спеціальне</value>
@@ -1631,13 +1684,13 @@
     <value>Ctrl+E, Ctrl+N</value>
   </data>
   <data name="HexEditorSelectStructureCommand" xml:space="preserve">
-    <value>Обрати Структуру</value>
+    <value>Обрати структуру</value>
   </data>
   <data name="ShortCutKeyCtrlECtrlS" xml:space="preserve">
     <value>Ctrl+E, Ctrl+S</value>
   </data>
   <data name="HexEditFieldCommand" xml:space="preserve">
-    <value>Редагувати Поле</value>
+    <value>Редагувати поле</value>
   </data>
   <data name="OptionColorizeText" xml:space="preserve">
     <value>Розфарбувати текст</value>
@@ -1715,7 +1768,7 @@
     <value>За_кладки</value>
   </data>
   <data name="BookmarksWindowCommand" xml:space="preserve">
-    <value>Вікно _Закладок</value>
+    <value>Вікно _закладок</value>
   </data>
   <data name="Bookmarks_ExportMatchingBookmarks_ToolTip" xml:space="preserve">
     <value>Експортувати всі закладки, що відповідають поточним умовам пошуку</value>
@@ -1769,7 +1822,7 @@
     <value>Перейменувати</value>
   </data>
   <data name="GoToBookmarkCommand" xml:space="preserve">
-    <value>Перейти На Закладку</value>
+    <value>Перейти на закладку</value>
   </data>
   <data name="ShortCutKeyCtrl_DIGIT" xml:space="preserve">
     <value>Ctrl+{0}</value>
@@ -1778,7 +1831,7 @@
     <value>Вимкнути Закладку</value>
   </data>
   <data name="EditLabelsCommand" xml:space="preserve">
-    <value>Редагувати Мітки</value>
+    <value>Редагувати мітки</value>
   </data>
   <data name="EnableBookmarkCommand3" xml:space="preserve">
     <value>Увімкнути Закладку</value>
@@ -1787,10 +1840,10 @@
     <value>_Експортувати Обране...</value>
   </data>
   <data name="RemoveAllBookmarksCommand" xml:space="preserve">
-    <value>Видалити Усі Закладки</value>
+    <value>Видалити усі закладки</value>
   </data>
   <data name="RemoveBookmarkCommand" xml:space="preserve">
-    <value>Видалити Закладку</value>
+    <value>Видалити закладку</value>
   </data>
   <data name="SelectAllCommand" xml:space="preserve">
     <value>Вибр_ати Усе</value>
@@ -1808,64 +1861,64 @@
     <value>F2</value>
   </data>
   <data name="ShowDeclaringTypesCommand" xml:space="preserve">
-    <value>Показати Оголошення Типів</value>
+    <value>Показати оголошення типів</value>
   </data>
   <data name="ShowIntrinsicTypeKeywordsCommand" xml:space="preserve">
-    <value>Показати Ключові Слова Вбудованих Типів</value>
+    <value>Показати ключові слова вбудованих типів</value>
   </data>
   <data name="ShowModuleNamesCommand" xml:space="preserve">
-    <value>Показати Імена _Модулів</value>
+    <value>Показати імена _модулів</value>
   </data>
   <data name="ShowNamespacesCommand" xml:space="preserve">
-    <value>Показати Простори Імен</value>
+    <value>Показати простори імен</value>
   </data>
   <data name="ShowParameterNamesCommand" xml:space="preserve">
-    <value>Показати Імена _Параметрів</value>
+    <value>Показати імена _параметрів</value>
   </data>
   <data name="ShowParameterTypesCommand2" xml:space="preserve">
-    <value>Показати Типи Параметрів</value>
+    <value>Показати типи параметрів</value>
   </data>
   <data name="ShowReturnTypesCommand" xml:space="preserve">
-    <value>Показати Типи, що Повертаються</value>
+    <value>Показати типи, що повертаються</value>
   </data>
   <data name="ShowTokensCommand" xml:space="preserve">
-    <value>Показувати Токени</value>
+    <value>Показувати токени</value>
   </data>
   <data name="ShortCutKeyCtrlK_CtrlW" xml:space="preserve">
     <value>Ctrl+K, Ctrl+W</value>
   </data>
   <data name="ClearAllBookmarksInDocumentCommand" xml:space="preserve">
-    <value>Очистити Усі Закладки в Документі</value>
+    <value>Очистити усі закладки в документі</value>
   </data>
   <data name="ClearBookmarksCommand" xml:space="preserve">
-    <value>_Очистити Закладки</value>
+    <value>_Очистити закладки</value>
   </data>
   <data name="DisableAllBookmarksCommand" xml:space="preserve">
-    <value>Вимкнути _Усі Закладки</value>
+    <value>Вимкнути _усі закладки</value>
   </data>
   <data name="EnableAllBookmarksCommand" xml:space="preserve">
-    <value>Увімкнути _Усі Закладки</value>
+    <value>Увімкнути _усі закладки</value>
   </data>
   <data name="EnableBookmarkCommand" xml:space="preserve">
     <value>Увімкнути Закладку</value>
   </data>
   <data name="GoToNextBookmarkCommand" xml:space="preserve">
-    <value>Наступна _Закладка</value>
+    <value>Наступна _закладка</value>
   </data>
   <data name="GoToNextBookmarkInDocumentCommand" xml:space="preserve">
-    <value>Наступна Закладка в Документі</value>
+    <value>Наступна закладка в документі</value>
   </data>
   <data name="GoToNextBookmarkWithSameLabelCommand" xml:space="preserve">
-    <value>Наступна Закладка із Тою ж Міткою</value>
+    <value>Наступна закладка із тою ж міткою</value>
   </data>
   <data name="GoToPreviousBookmarkCommand" xml:space="preserve">
-    <value>_Попередня Закладка</value>
+    <value>_Попередня закладка</value>
   </data>
   <data name="GoToPreviousBookmarkInDocumentCommand" xml:space="preserve">
-    <value>П_опередня Закладка в Документі</value>
+    <value>П_опередня закладка в документі</value>
   </data>
   <data name="GoToPreviousBookmarkWithSameLabelCommand" xml:space="preserve">
-    <value>Попередня Закладка із Тою ж Міткою</value>
+    <value>Попередня закладка із тою ж міткою</value>
   </data>
   <data name="ShortCutKeyCtrlK_CtrlK" xml:space="preserve">
     <value>Ctrl+K, Ctrl+K</value>
@@ -1880,13 +1933,13 @@
     <value>Ctrl+K, Ctrl+P</value>
   </data>
   <data name="ToggleBookmarkCommand" xml:space="preserve">
-    <value>_Перемикати Закладку</value>
+    <value>_Перемикати закладку</value>
   </data>
   <data name="EditLabelsMsgBoxLabel" xml:space="preserve">
     <value>Мітки</value>
   </data>
   <data name="EditLabelsTitle" xml:space="preserve">
-    <value>Редагувати Мітки</value>
+    <value>Редагувати мітки</value>
   </data>
   <data name="User_Administrator" xml:space="preserve">
     <value>Адміністратор</value>
@@ -1898,7 +1951,7 @@
     <value>Дизассемблер</value>
   </data>
   <data name="CodeStyleDlgTabTitle" xml:space="preserve">
-    <value>Стиль Коду</value>
+    <value>Стиль коду</value>
   </data>
   <data name="DisassemblySettings_AddLabels" xml:space="preserve">
     <value>Додати мітки</value>
@@ -2036,7 +2089,7 @@
     <value>&lt;Невідомо&gt;</value>
   </data>
   <data name="TypeReferencesFolder" xml:space="preserve">
-    <value>Посилання Типів</value>
+    <value>Посилання типів</value>
   </data>
   <data name="TreeViewEventsFolder" xml:space="preserve">
     <value>Події</value>
@@ -2060,12 +2113,12 @@
     <value>Необроблене:</value>
   </data>
   <data name="RecentFilesCommand" xml:space="preserve">
-    <value>Недавні Файли</value>
+    <value>Недавні файли</value>
   </data>
   <data name="ToolTip_Instruction" xml:space="preserve">
     <value>Інструкції</value>
   </data>
   <data name="ToolTip_OpCode" xml:space="preserve">
-    <value>OpCode</value>
+    <value>Опкод</value>
   </data>
 </root>
