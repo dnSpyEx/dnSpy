@@ -971,8 +971,10 @@ namespace dnSpy_Console {
 				NewLineChars = Environment.NewLine,
 				NewLineOnAttributes = true,
 			};
-			if (bamlDecompiler is not null)
+			if (bamlDecompiler is not null) {
+				proj.DecompileBamlTypeName = (a, b, c) => bamlDecompiler.DecompileTypeName(a, b, c, o);
 				proj.DecompileBaml = (a, b, c, d) => bamlDecompiler.Decompile(a, b, c, o, d, outputOptions);
+			}
 			return proj;
 		}
 
