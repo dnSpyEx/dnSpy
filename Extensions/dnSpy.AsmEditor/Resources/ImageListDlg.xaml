@@ -73,9 +73,7 @@
             </Grid>
         </Grid>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <local:ImageListStreamerControl DataContext="{Binding ImageListStreamerVM}" Margin="5" />
-        </ScrollViewer>
+        <local:ImageListStreamerControl Grid.Row="1" DataContext="{Binding ImageListStreamerVM}" Margin="5" />
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5 0 5 5">
             <Button Content="{x:Static p:dnSpy_AsmEditor_Resources.Button_OK}" IsEnabled="{Binding HasError, Converter={StaticResource NegateBooleanConverter}}" IsDefault="True" Style="{StaticResource DialogButton}" Margin="0,0,5,0" Click="okButton_Click" />
