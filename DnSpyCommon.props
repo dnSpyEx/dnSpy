@@ -58,7 +58,7 @@
     <RoslynVersion>5.0.0</RoslynVersion>
     <SCCompositionVersion>10.0.1</SCCompositionVersion>
     <NuGetVersion>7.0.1</NuGetVersion>
-    <DbgShimVersion>9.0.652701</DbgShimVersion>
+    <DbgShimVersion>9.0.661903</DbgShimVersion>
     <SCImmutableVersion>10.0.1</SCImmutableVersion>
     <NrbfVersion>10.0.1</NrbfVersion>
   </PropertyGroup>
