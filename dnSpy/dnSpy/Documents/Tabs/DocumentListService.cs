@@ -75,17 +75,20 @@ namespace dnSpy.Documents.Tabs {
 		void SelectList(string name) => selectedIndex = IndexOf(name);
 
 		public void Load(ISettingsSection section) {
-			var listName = section.Attribute<string>(CURRENT_LIST_ATTR);
 			var names = new HashSet<string>(StringComparer.Ordinal);
 			foreach (var listSection in section.SectionsWithName(DOCUMENT_LIST_SECTION)) {
 				var documentList = DocumentList.Create(listSection);
-				if (names.Contains(documentList.Name))
+				if (!names.Add(documentList.Name))
 					continue;
 				documentsList.Add(documentList);
 			}
 			hasLoaded = true;
 
-			SelectList(listName);
+			var listName = section.Attribute<string>(CURRENT_LIST_ATTR);
+			if (listName is not null)
+				SelectList(listName);
+			else if (documentsList.Count > 0)
+				SelectList(documentsList[0].Name);
 		}
 		bool hasLoaded;
 

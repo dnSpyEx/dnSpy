@@ -60,7 +60,7 @@ namespace dnSpy.Roslyn.Debugger.ExpressionCompiler.VisualBasic {
 			GetCompilationState<VisualBasicEvalContextState>(evalInfo, references, out var langDebugInfo, out var method, out var methodToken, out var localVarSigTok, out var state, out var metadataBlocks, out var methodVersion);
 
 			var getMethodDebugInfo = CreateGetMethodDebugInfo(state, langDebugInfo);
-			var evalCtx = EvaluationContext.CreateMethodContext(state.MetadataContext, metadataBlocks, null, getMethodDebugInfo, method.Module.Mvid ?? Guid.Empty, methodToken, methodVersion, langDebugInfo.ILOffset, localVarSigTok);
+			var evalCtx = EvaluationContext.CreateMethodContext(state.MetadataContext, metadataBlocks, null, getMethodDebugInfo, GetModuleId(method.Module), methodToken, methodVersion, langDebugInfo.ILOffset, localVarSigTok);
 			state.MetadataContext = new VisualBasicMetadataContext(evalCtx.Compilation, evalCtx);
 
 			var compileResult = evalCtx.CompileAssignment(target, expression, CreateAliases(aliases), out var resultProperties, out var errorMessage);
@@ -73,7 +73,7 @@ namespace dnSpy.Roslyn.Debugger.ExpressionCompiler.VisualBasic {
 			var getMethodDebugInfo = CreateGetMethodDebugInfo(state, langDebugInfo);
 
 			if ((options & DbgEvaluationOptions.RawLocals) == 0) {
-				var evalCtx = EvaluationContext.CreateMethodContext(state.MetadataContext, metadataBlocks, null, getMethodDebugInfo, method.Module.Mvid ?? Guid.Empty, methodToken, methodVersion, langDebugInfo.ILOffset, localVarSigTok);
+				var evalCtx = EvaluationContext.CreateMethodContext(state.MetadataContext, metadataBlocks, null, getMethodDebugInfo, GetModuleId(method.Module), methodToken, methodVersion, langDebugInfo.ILOffset, localVarSigTok);
 				state.MetadataContext = new VisualBasicMetadataContext(evalCtx.Compilation, evalCtx);
 
 				var asmBytes = evalCtx.CompileGetLocals(false, ImmutableArray<Alias>.Empty, out var localsInfo, out var typeName, out var errorMessage);
@@ -88,7 +88,7 @@ namespace dnSpy.Roslyn.Debugger.ExpressionCompiler.VisualBasic {
 			GetCompilationState<VisualBasicEvalContextState>(evalInfo, references, out var langDebugInfo, out var method, out var methodToken, out var localVarSigTok, out var state, out var metadataBlocks, out var methodVersion);
 
 			var getMethodDebugInfo = CreateGetMethodDebugInfo(state, langDebugInfo);
-			var evalCtx = EvaluationContext.CreateMethodContext(state.MetadataContext, metadataBlocks, null, getMethodDebugInfo, method.Module.Mvid ?? Guid.Empty, methodToken, methodVersion, langDebugInfo.ILOffset, localVarSigTok);
+			var evalCtx = EvaluationContext.CreateMethodContext(state.MetadataContext, metadataBlocks, null, getMethodDebugInfo, GetModuleId(method.Module), methodToken, methodVersion, langDebugInfo.ILOffset, localVarSigTok);
 
 			return CompileExpressionCore(aliases, expression, options, state, evalCtx, evalInfo.CancellationToken);
 		}
@@ -144,8 +144,8 @@ namespace dnSpy.Roslyn.Debugger.ExpressionCompiler.VisualBasic {
 
 		public override DbgDotNetCompilationResult CompileTypeExpression(DbgEvaluationInfo evalInfo, DmdType type, DbgModuleReference[] references, DbgDotNetAlias[] aliases, string expression, DbgEvaluationOptions options) {
 			GetTypeCompilationState<VisualBasicEvalContextState>(evalInfo, references, out var state, out var metadataBlocks);
-			var compilation = metadataBlocks.ToCompilation(moduleVersionId: default, MakeAssemblyReferencesKind.AllAssemblies);
-			var evalCtx = EvaluationContext.CreateTypeContext(compilation, type.Module.ModuleVersionId, type.MetadataToken);
+			var compilation = metadataBlocks.ToCompilation(moduleId: default, MakeAssemblyReferencesKind.AllAssemblies);
+			var evalCtx = EvaluationContext.CreateTypeContext(compilation, GetModuleId(type.Module), type.MetadataToken);
 			return CompileExpressionCore(aliases, expression, options, state, evalCtx, evalInfo.CancellationToken);
 		}
 

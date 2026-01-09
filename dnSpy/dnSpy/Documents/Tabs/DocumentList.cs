@@ -44,7 +44,8 @@ namespace dnSpy.Documents.Tabs {
 		}
 
 		public static DocumentList Create(ISettingsSection section) {
-			var documentList = new DocumentList(section.Attribute<string>(DOCUMENTLIST_NAME_ATTR));
+			var name = section.Attribute<string>(DOCUMENTLIST_NAME_ATTR);
+			var documentList = new DocumentList(name ?? "???");
 			foreach (var documentSect in section.SectionsWithName(DOCUMENT_SECTION)) {
 				var info = DsDocumentInfoSerializer.TryLoad(documentSect);
 				if (info is not null)

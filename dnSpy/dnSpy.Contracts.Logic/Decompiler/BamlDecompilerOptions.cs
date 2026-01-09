@@ -28,6 +28,11 @@ namespace dnSpy.Contracts.Decompiler {
 		public string? InternalClassModifier { get; set; }
 
 		/// <summary>
+		/// x:FieldModifier value string when field is public
+		/// </summary>
+		public string? PublicFieldModifier { get; set; }
+
+		/// <summary>
 		/// Creates a new instance
 		/// </summary>
 		/// <param name="decompiler">Decompiler</param>
@@ -44,6 +49,7 @@ namespace dnSpy.Contracts.Decompiler {
 		/// <returns></returns>
 		public static BamlDecompilerOptions CreateCSharp() => new BamlDecompilerOptions {
 			InternalClassModifier = "internal",
+			PublicFieldModifier = "public",
 		};
 
 		/// <summary>
@@ -52,6 +58,7 @@ namespace dnSpy.Contracts.Decompiler {
 		/// <returns></returns>
 		public static BamlDecompilerOptions CreateVisualBasic() => new BamlDecompilerOptions {
 			InternalClassModifier = "Friend",
+			PublicFieldModifier = "Public",
 		};
 
 		/// <summary>

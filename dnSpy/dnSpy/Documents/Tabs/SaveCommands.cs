@@ -92,7 +92,7 @@ namespace dnSpy.Documents.Tabs {
 			var vm = new ExportToProjectVM(new PickDirectory(), decompilerService, task, bamlDecompiler is not null);
 			task.vm = vm;
 			vm.ProjectVersion = exportToProjectSettings.ProjectVersion;
-			vm.CreateResX = documentTreeViewSettings.DeserializeResources;
+			vm.CreateResX = true;
 			vm.DontReferenceStdLib = modules.Any(a => a.Assembly.IsCorLib());
 			vm.Decompiler = vm.AllDecompilers.First(a => a.Decompiler == decompiler);
 			vm.SolutionFilename = GetSolutionFilename(modules);

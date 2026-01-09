@@ -31,6 +31,8 @@
   <ItemGroup>
     <PackageReference Include="dnlib" Version="$(DnlibVersion)" />
     <PackageReference Include="NuGet.Configuration" Version="$(NuGetVersion)" />
+    <!-- TODO: HACK to resolve the version conflict of System.Collections.Immutable between NuGet.Configuration and Roslyn-->
+    <PackageReference Include="System.Collections.Immutable" Version="$(SCImmutableVersion)" />
   </ItemGroup>
 
 </Project>

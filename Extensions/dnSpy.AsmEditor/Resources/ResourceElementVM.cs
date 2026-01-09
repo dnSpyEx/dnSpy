@@ -170,11 +170,8 @@ namespace dnSpy.AsmEditor.Resources {
 			}
 		}
 
-		readonly bool canDeserialize;
-
-		public ResourceElementVM(ResourceElementOptions options, ModuleDef ownerModule, bool canDeserialize) {
+		public ResourceElementVM(ResourceElementOptions options, ModuleDef ownerModule) {
 			origOptions = options;
-			this.canDeserialize = canDeserialize;
 
 			BooleanVM = new BooleanVM(a => HasErrorUpdated());
 			CharVM = new CharVM(a => HasErrorUpdated());
@@ -191,7 +188,7 @@ namespace dnSpy.AsmEditor.Resources {
 			DecimalVM = new DecimalVM(a => HasErrorUpdated());
 			DateTimeVM = new DateTimeVM(a => HasErrorUpdated());
 			TimeSpanVM = new TimeSpanVM(a => HasErrorUpdated());
-			UserTypeVM = new UserTypeVM(ownerModule, canDeserialize);
+			UserTypeVM = new UserTypeVM(ownerModule);
 			ResourceElementTypeVM = new EnumListVM(resourceElementTypeList, (a, b) => OnResourceElementTypeChanged());
 
 			UserTypeVM.PropertyChanged += (s, e) => {

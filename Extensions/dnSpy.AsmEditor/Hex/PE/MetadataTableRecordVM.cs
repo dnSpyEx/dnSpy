@@ -1095,6 +1095,7 @@ namespace dnSpy.AsmEditor.Hex.PE {
 			field.Add(new BooleanHexBitField("Reference", 2));
 			field.Add(new BooleanHexBitField("Struct", 3));
 			field.Add(new BooleanHexBitField("Default ctor", 4));
+			field.Add(new BooleanHexBitField("Allows ByRefLike", 5));
 			return field;
 		}
 

@@ -445,6 +445,9 @@
   <data name="GP_DefaultConstructor" xml:space="preserve">
     <value>_Default ctor</value>
   </data>
+  <data name="GP_AllowByRefLike" xml:space="preserve">
+    <value>_Allows ByRefLike</value>
+  </data>
   <data name="GP_Kind" xml:space="preserve">
     <value>Kind</value>
   </data>

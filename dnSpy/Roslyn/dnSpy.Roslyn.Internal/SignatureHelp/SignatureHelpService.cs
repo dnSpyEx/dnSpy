@@ -105,7 +105,7 @@ namespace dnSpy.Roslyn.Internal.SignatureHelp {
 
 		public bool IsTriggerCharacter(char ch) {
 			foreach (var p in signatureHelpProviders) {
-				if (p.IsTriggerCharacter(ch))
+				if (p.TriggerCharacters.Contains(ch))
 					return true;
 			}
 			return false;
@@ -113,7 +113,7 @@ namespace dnSpy.Roslyn.Internal.SignatureHelp {
 
 		public bool IsRetriggerCharacter(char ch) {
 			foreach (var p in signatureHelpProviders) {
-				if (p.IsRetriggerCharacter(ch))
+				if (p.RetriggerCharacters.Contains(ch))
 					return true;
 			}
 			return false;

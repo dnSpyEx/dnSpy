@@ -629,5 +629,9 @@ namespace dnSpy.Roslyn.Debugger.ExpressionCompiler {
 			}
 			return new DbgDotNetText(new DbgDotNetTextPart(color, expression));
 		}
+
+		protected ModuleId GetModuleId(ModuleDef module) => new ModuleId(module.Mvid ?? Guid.Empty, module.Location ?? module.Name);
+
+		protected ModuleId GetModuleId(DmdModule module) => new ModuleId(module.ModuleVersionId, module.FullyQualifiedName);
 	}
 }

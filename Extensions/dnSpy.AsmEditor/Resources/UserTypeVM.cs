@@ -28,8 +28,6 @@ using dnSpy.Contracts.Search;
 
 namespace dnSpy.AsmEditor.Resources {
 	sealed class UserTypeVM : ViewModelBase {
-		readonly bool canDeserialize;
-
 		public IDnlibTypePicker DnlibTypePicker {
 			set => dnlibTypePicker = value;
 		}
@@ -64,9 +62,8 @@ namespace dnSpy.AsmEditor.Resources {
 
 		readonly ModuleDef ownerModule;
 
-		public UserTypeVM(ModuleDef ownerModule, bool canDeserialize) {
+		public UserTypeVM(ModuleDef ownerModule) {
 			this.ownerModule = ownerModule;
-			this.canDeserialize = canDeserialize;
 		}
 
 		void PickType() {
@@ -80,59 +77,23 @@ namespace dnSpy.AsmEditor.Resources {
 		public void SetData(byte[] data) => StringValue = GetString(data);
 
 		public byte[]? GetSerializedData() {
-			if (!string.IsNullOrEmpty(GetSerializedData(out var obj)))
-				return null;
-			return SerializationUtilities.Serialize(obj!);
+			return null;
 		}
 
 		string GetString(byte[] data) {
-			if (!canDeserialize)
-				return string.Empty;
-
-			if (data is null)
-				return string.Empty;
-
-			if (!string.IsNullOrEmpty(SerializationUtilities.Deserialize(data, out var obj)))
-				return string.Empty;
-
-			return SerializationUtilities.ConvertObjectToString(obj!) ?? string.Empty;
+			return dnSpy_AsmEditor_Resources.Error_DeSerializationDisabledInSettings;
 		}
 
 		string GetSerializedData(out object? obj) {
 			obj = null;
-			var error = LoadType(out var type);
-			if (!string.IsNullOrEmpty(error))
-				return error;
-
-			return SerializationUtilities.CreateObjectFromString(type!, StringValue, out obj);
-		}
-
-		string LoadType(out Type? type) {
-			if (!canDeserialize) {
-				type = null;
-				return dnSpy_AsmEditor_Resources.Error_DeSerializationDisabledInSettings;
-			}
-
-			try {
-				type = Type.GetType(TypeFullName);
-				if (type is null)
-					return dnSpy_AsmEditor_Resources.Error_CouldNotFindTypeOrItsAssembly;
-				return string.Empty;
-			}
-			catch (Exception ex) {
-				type = null;
-				return string.Format(dnSpy_AsmEditor_Resources.Error_CouldNotLoadType, typeFullName, ex.Message);
-			}
+			return dnSpy_AsmEditor_Resources.Error_DeSerializationDisabledInSettings;
 		}
 
 		ITypeDefOrRef GetTypeRef() => TypeNameParser.ParseReflection(ownerModule, typeFullName, null);
 
 		protected override string? Verify(string columnName) {
 			if (columnName == nameof(TypeFullName)) {
-				var error = LoadType(out var type);
-				if (!string.IsNullOrEmpty(error))
-					return error;
-				return string.Empty;
+				return dnSpy_AsmEditor_Resources.Error_DeSerializationDisabledInSettings;
 			}
 
 			if (columnName == nameof(StringValue)) {

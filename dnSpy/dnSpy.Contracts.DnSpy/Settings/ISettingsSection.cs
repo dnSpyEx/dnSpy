@@ -46,7 +46,7 @@ namespace dnSpy.Contracts.Settings {
 		/// <typeparam name="T">Type of value</typeparam>
 		/// <param name="name">Name of attribute</param>
 		/// <returns></returns>
-		T Attribute<T>(string name);
+		T? Attribute<T>(string name);
 
 		/// <summary>
 		/// Removes an attribute

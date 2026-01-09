@@ -30,10 +30,11 @@ namespace dnSpy.Debugger.DotNet.Metadata {
 		VarianceMask					= 0x00000003,
 		Covariant						= 0x00000001,
 		Contravariant					= 0x00000002,
-		SpecialConstraintMask			= 0x0000001C,
+		SpecialConstraintMask			= 0x0000003C,
 		ReferenceTypeConstraint			= 0x00000004,
 		NotNullableValueTypeConstraint	= 0x00000008,
 		DefaultConstructorConstraint	= 0x00000010,
+		AllowByRefLike					= 0x00000020,
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 	}
 }

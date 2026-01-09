@@ -653,6 +653,7 @@ namespace dnSpy.Hex.Files.DotNet {
 			new FlagInfo(0x0004, "ReferenceTypeConstraint"),
 			new FlagInfo(0x0008, "NotNullableValueTypeConstraint"),
 			new FlagInfo(0x0010, "DefaultConstructorConstraint"),
+			new FlagInfo(0x0020, "AllowByRefLike"),
 		});
 
 		protected override BufferData CreateData(HexPosition position, ColumnInfo column) {

@@ -82,7 +82,7 @@ namespace dnSpy.Debugger.Exceptions {
 			var exToUpdate = new List<DbgExceptionIdAndSettings>();
 			foreach (var categorySect in section.SectionsWithName("Category")) {
 				var category = categorySect.Attribute<string>("Name");
-				if (string.IsNullOrEmpty(category))
+				if (string2.IsNullOrEmpty(category))
 					continue;
 
 				foreach (var exSect in categorySect.SectionsWithName("Exception")) {
@@ -170,7 +170,7 @@ namespace dnSpy.Debugger.Exceptions {
 					var condSect = condSects[i];
 					var condType = condSect.Attribute<DbgExceptionConditionType?>("Type");
 					var cond = condSect.Attribute<string>("Condition");
-					if (condType is null || string.IsNullOrWhiteSpace(cond) || !IsValid(condType.Value))
+					if (condType is null || string2.IsNullOrWhiteSpace(cond) || !IsValid(condType.Value))
 						return false;
 					conds[i] = new DbgExceptionConditionSettings(condType.Value, cond);
 				}

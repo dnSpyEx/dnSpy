@@ -126,7 +126,7 @@ namespace dnSpy.Roslyn.Compiler {
 			Debug2.Assert(workspace is null);
 
 			workspace = new AdhocWorkspace(RoslynMefHostServices.DefaultServices);
-			workspace.WorkspaceChanged += Workspace_WorkspaceChanged;
+			workspace.RegisterWorkspaceChangedHandler(Workspace_WorkspaceChanged, WorkspaceEventOptions.RequiresMainThreadOptions);
 			var refs = projectInfo.AssemblyReferences.Select(a => a.CreateMetadataReference(docFactory)).ToArray();
 
 			var compilationOptions = CreateCompilationOptions(GetDefaultOutputKind(kind))
@@ -145,7 +145,7 @@ namespace dnSpy.Roslyn.Compiler {
 			workspace.AddProject(roslynProjInfo);
 		}
 
-		void Workspace_WorkspaceChanged(object? sender, WorkspaceChangeEventArgs e) {
+		void Workspace_WorkspaceChanged(WorkspaceChangeEventArgs e) {
 			if (isDisposed)
 				return;
 			if (e.Kind == WorkspaceChangeKind.DocumentChanged) {
@@ -280,7 +280,6 @@ namespace dnSpy.Roslyn.Compiler {
 				return;
 			isDisposed = true;
 			if (workspace is not null) {
-				workspace.WorkspaceChanged -= Workspace_WorkspaceChanged;
 				// This also closes all documents
 				workspace.Dispose();
 			}

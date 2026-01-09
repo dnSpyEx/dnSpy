@@ -2878,6 +2878,15 @@ namespace dnSpy.AsmEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Allows ByRefLike.
+        /// </summary>
+        public static string GP_AllowByRefLike {
+            get {
+                return ResourceManager.GetString("GP_AllowByRefLike", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to C_lass.
         /// </summary>
         public static string GP_Class {

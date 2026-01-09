@@ -37,8 +37,8 @@ namespace dnSpy.Roslyn.Internal.QuickInfo {
 		}
 
 		private async Task<(TokenInformation tokenInformation, SupportedPlatformData supportedPlatforms)>
-			ComputeQuickInfoDataAsync(QuickInfoContext context,
-				SyntaxToken token) {
+			ComputeQuickInfoDataAsync(QuickInfoContext context, SyntaxToken token)
+		{
 			var cancellationToken = context.CancellationToken;
 			var document = context.Document;
 
@@ -74,20 +74,20 @@ namespace dnSpy.Roslyn.Internal.QuickInfo {
 			var semanticModel = await document.GetRequiredSemanticModelAsync(cancellationToken).ConfigureAwait(false);
 			var mainTokenInformation = BindToken(services, semanticModel, token, cancellationToken);
 
-			var candidateProjects = new List<ProjectId> { document.Project.Id };
-			var invalidProjects = new List<ProjectId>();
+			var candidateResults = new List<(DocumentId docId, TokenInformation tokenInformation)>
+			{
+				(document.Id, mainTokenInformation)
+			};
 
-			var candidateResults =
-				new List<(DocumentId docId, TokenInformation tokenInformation)> { (document.Id, mainTokenInformation) };
-
-			foreach (var linkedDocumentId in linkedDocumentIds) {
+			foreach (var linkedDocumentId in linkedDocumentIds)
+			{
 				var linkedDocument = solution.GetRequiredDocument(linkedDocumentId);
 				var linkedModel = await linkedDocument.GetRequiredSemanticModelAsync(cancellationToken).ConfigureAwait(false);
 				var linkedToken = FindTokenInLinkedDocument(token, linkedModel, cancellationToken);
 
-				if (linkedToken != default) {
+				if (linkedToken != default)
+				{
 					// Not in an inactive region, so this file is a candidate.
-					candidateProjects.Add(linkedDocumentId.ProjectId);
 					var linkedSymbols = BindToken(services, linkedModel, linkedToken, cancellationToken);
 					candidateResults.Add((linkedDocumentId, linkedSymbols));
 				}
@@ -101,19 +101,20 @@ namespace dnSpy.Roslyn.Internal.QuickInfo {
 			if (bestBinding.tokenInformation.Symbols.IsDefaultOrEmpty)
 				return default;
 
+			// We calculate the set of projects that are candidates for the best binding
+			var candidateProjects = candidateResults.SelectAsArray(result => result.docId.ProjectId);
+
 			// We calculate the set of supported projects
+			var invalidProjects = ImmutableArray.CreateBuilder<ProjectId>();
 			candidateResults.Remove(bestBinding);
-			foreach (var (docId, tokenInformation) in candidateResults) {
+			foreach (var (docId, tokenInformation) in candidateResults)
+			{
 				// Does the candidate have anything remotely equivalent?
-				#pragma warning disable RS1024
-				if (!tokenInformation.Symbols
-									 .Intersect(bestBinding.tokenInformation.Symbols,
-										 LinkedFilesSymbolEquivalenceComparer.Instance).Any())
+				if (!tokenInformation.Symbols.Intersect(bestBinding.tokenInformation.Symbols, LinkedFilesSymbolEquivalenceComparer.Instance).Any())
 					invalidProjects.Add(docId.ProjectId);
-				#pragma warning restore RS1024
 			}
 
-			var supportedPlatforms = new SupportedPlatformData(solution, invalidProjects, candidateProjects);
+			var supportedPlatforms = new SupportedPlatformData(solution, invalidProjects.ToImmutable(), candidateProjects);
 			return (bestBinding.tokenInformation, supportedPlatforms);
 		}
 
@@ -149,10 +150,10 @@ namespace dnSpy.Roslyn.Internal.QuickInfo {
 
 			// if generating quick info for an attribute, prefer bind to the class instead of the constructor
 			if (syntaxFactsService.IsNameOfAttribute(token.Parent!)) {
-				symbols = symbols.OrderBy((s1, s2) =>
+				symbols = [.. symbols.OrderBy((s1, s2) =>
 					s1.Kind == s2.Kind ? 0 :
 					s1.Kind == SymbolKind.NamedType ? -1 :
-					s2.Kind == SymbolKind.NamedType ? 1 : 0).ToImmutableArray();
+					s2.Kind == SymbolKind.NamedType ? 1 : 0)];
 			}
 
 			return await CreateContentAsync(services, semanticModel, token, symbols,
@@ -173,55 +174,64 @@ namespace dnSpy.Roslyn.Internal.QuickInfo {
 			var syntaxFacts = languageServices.GetRequiredService<ISyntaxFactsService>();
 			var enclosingType = semanticModel.GetEnclosingNamedType(token.SpanStart, cancellationToken);
 
-			var symbols = GetSymbolsFromToken(token, services, semanticModel, cancellationToken);
-
 			var bindableParent = syntaxFacts.TryGetBindableParent(token);
-			var overloads = bindableParent != null
-				? semanticModel.GetMemberGroup(bindableParent, cancellationToken)
-				: ImmutableArray<ISymbol>.Empty;
 
-			#pragma warning disable RS1024
-			symbols = symbols.Where(IsOk)
-							 .Where(s => IsAccessible(s, enclosingType))
-							 .Concat(overloads)
-							 .Distinct(SymbolEquivalenceComparer.Instance)
-							 .ToImmutableArray();
-			#pragma warning restore RS1024
+			var symbolSet = new HashSet<ISymbol>(SymbolEquivalenceComparer.Instance);
+			var filteredSymbols = ImmutableArray.CreateBuilder<ISymbol>();
 
-			if (symbols.Any()) {
-				var firstSymbol = symbols.First();
+			AddSymbols(GetSymbolsFromToken(token, services, semanticModel, cancellationToken), checkAccessibility: true);
+			AddSymbols(bindableParent != null ? semanticModel.GetMemberGroup(bindableParent, cancellationToken) : [], checkAccessibility: false);
+
+			if (filteredSymbols is [var firstSymbol, ..])
+			{
 				var isAwait = syntaxFacts.IsAwaitKeyword(token);
 				var nullableFlowState = NullableFlowState.None;
-				if (bindableParent != null) {
+				if (bindableParent != null)
+				{
 					nullableFlowState = GetNullabilityAnalysis(semanticModel, firstSymbol, bindableParent, cancellationToken);
 				}
 
-				return new TokenInformation(symbols, isAwait, nullableFlowState);
+				return new TokenInformation(filteredSymbols.ToImmutable(), isAwait, nullableFlowState);
 			}
 
 			// Couldn't bind the token to specific symbols.  If it's an operator, see if we can at
 			// least bind it to a type.
-			if (syntaxFacts.IsOperator(token)) {
+			if (syntaxFacts.IsOperator(token))
+			{
 				var typeInfo = semanticModel.GetTypeInfo(token.Parent!, cancellationToken);
-				if (IsOk(typeInfo.Type)) {
-					return new TokenInformation(ImmutableArray.Create<ISymbol>(typeInfo.Type));
-				}
+				if (IsOk(typeInfo.Type))
+					return new TokenInformation([typeInfo.Type]);
 			}
 
-			return new TokenInformation(ImmutableArray<ISymbol>.Empty);
+			return default;
+
+			void AddSymbols(ImmutableArray<ISymbol> symbols, bool checkAccessibility)
+			{
+				foreach (var symbol in symbols)
+				{
+					if (!IsOk(symbol))
+						continue;
+
+					if (checkAccessibility && !IsAccessible(symbol, enclosingType))
+						continue;
+
+					if (symbolSet.Add(symbol))
+						filteredSymbols.Add(symbol);
+				}
+			}
 		}
 
 		private ImmutableArray<ISymbol> GetSymbolsFromToken(SyntaxToken token, SolutionServices services,
 			SemanticModel semanticModel, CancellationToken cancellationToken) {
 			if (GetBindableNodeForTokenIndicatingLambda(token, out var lambdaSyntax)) {
 				var symbol = semanticModel.GetSymbolInfo(lambdaSyntax, cancellationToken).Symbol;
-				return symbol != null ? ImmutableArray.Create(symbol) : ImmutableArray<ISymbol>.Empty;
+				return symbol != null ? [symbol] : [];
 			}
 
 			if (GetBindableNodeForTokenIndicatingPossibleIndexerAccess(token, out var elementAccessExpression)) {
 				var symbol = semanticModel.GetSymbolInfo(elementAccessExpression, cancellationToken).Symbol;
 				if (symbol?.IsIndexer() == true) {
-					return ImmutableArray.Create(symbol);
+					return [symbol];
 				}
 			}
 

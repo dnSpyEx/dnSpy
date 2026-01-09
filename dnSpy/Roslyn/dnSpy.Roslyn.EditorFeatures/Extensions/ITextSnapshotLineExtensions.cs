@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.OptionsExtensionMethods;
 using Roslyn.Utilities;
+using Microsoft.CodeAnalysis;
 
 namespace dnSpy.Roslyn.EditorFeatures.Extensions {
 	static class ITextSnapshotLineExtensions {

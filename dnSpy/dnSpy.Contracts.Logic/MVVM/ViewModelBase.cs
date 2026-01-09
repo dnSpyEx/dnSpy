@@ -19,6 +19,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace dnSpy.Contracts.MVVM {
 	/// <summary>
@@ -32,7 +33,7 @@ namespace dnSpy.Contracts.MVVM {
 		/// Raises <see cref="PropertyChanged"/>
 		/// </summary>
 		/// <param name="propName">Name of property that got changed</param>
-		protected void OnPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+		protected void OnPropertyChanged([CallerMemberName] string propName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
 		/// <summary>
 		/// Raises <see cref="PropertyChanged"/>

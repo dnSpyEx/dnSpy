@@ -8,7 +8,15 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.ErrorReporting;
+using Microsoft.CodeAnalysis.GoToDefinition;
+using Microsoft.CodeAnalysis.Host;
+using Microsoft.CodeAnalysis.Host.Mef;
+using Microsoft.CodeAnalysis.Internal.Log;
+using Microsoft.CodeAnalysis.QuickInfo;
+using Microsoft.CodeAnalysis.Shared.Extensions;
 using NullableFlowState = Microsoft.CodeAnalysis.NullableFlowState;
+using NullableAnnotation = Microsoft.CodeAnalysis.NullableAnnotation;
 
 namespace dnSpy.Roslyn.Internal.QuickInfo.CSharp {
 	[ExportQuickInfoProvider(PredefinedQuickInfoProviderNames.Semantic, LanguageNames.CSharp)]
@@ -64,8 +72,7 @@ namespace dnSpy.Roslyn.Internal.QuickInfo.CSharp {
 		protected override NullableFlowState GetNullabilityAnalysis(SemanticModel semanticModel, ISymbol symbol, SyntaxNode node,
 			CancellationToken cancellationToken) {
 			// Anything less than C# 8 we just won't show anything, even if the compiler could theoretically give analysis
-			var parseOptions = (CSharpParseOptions)semanticModel.SyntaxTree!.Options;
-			if (parseOptions.LanguageVersion < LanguageVersion.CSharp8) {
+			if (semanticModel.SyntaxTree.Options.LanguageVersion() < LanguageVersion.CSharp8) {
 				return NullableFlowState.None;
 			}
 
@@ -75,6 +82,21 @@ namespace dnSpy.Roslyn.Internal.QuickInfo.CSharp {
 			var nullableContext = semanticModel.GetNullableContext(node.SpanStart);
 			if (!nullableContext.WarningsEnabled() || !nullableContext.AnnotationsEnabled()) {
 				return NullableFlowState.None;
+			}
+
+			// When hovering over the 'var' keyword, give the nullability of the variable being declared there. e.g.
+			//
+			//  $$var v = ...;
+			//
+			// Should say both the type of 'v' and say if 'v' is non-null/null at this point.
+			if (node is IdentifierNameSyntax { IsVar: true, Parent: VariableDeclarationSyntax syntax } && syntax.Variables is { Count: 1 } &&
+				syntax.Variables[0] is { } declarator)
+			{
+				// Recurse back into GetNullabilityAnalysis which acts as if the user asked for QI on the
+				// variable declarator itself.
+				var variable = semanticModel.GetDeclaredSymbol(declarator, cancellationToken);
+				if (variable is ILocalSymbol local)
+					return GetNullabilityAnalysis(semanticModel, local, declarator, cancellationToken);
 			}
 
 			// Although GetTypeInfo can return nullability for uses of all sorts of things, it's not always useful for quick info.
@@ -93,11 +115,19 @@ namespace dnSpy.Roslyn.Internal.QuickInfo.CSharp {
 			case IRangeVariableSymbol _:
 				break;
 
+			// Although methods have no nullable flow state,
+			// we still want to show when they are "not nullable aware".
+			case IMethodSymbol { ReturnsVoid: false }:
+				break;
+
 			default:
 				return default;
 			}
 
-			var typeInfo = semanticModel.GetTypeInfo(node, cancellationToken);
+			if (symbol.GetMemberType() is { IsValueType: false, NullableAnnotation: NullableAnnotation.None })
+				return NullableFlowState.NotNull;
+
+			var typeInfo = GetTypeInfo(semanticModel, symbol, node, cancellationToken);
 
 			// Nullability is a reference type only feature, value types can use
 			// something like "int?"  to be nullable but that ends up encasing as
@@ -108,6 +138,30 @@ namespace dnSpy.Roslyn.Internal.QuickInfo.CSharp {
 			}
 
 			return typeInfo.Nullability.FlowState;
+
+			static TypeInfo GetTypeInfo(SemanticModel semanticModel, ISymbol symbol, SyntaxNode node, CancellationToken cancellationToken)
+			{
+				// We may be on the declarator of some local like:
+				//
+				// string x = "";
+				// var $$y = 1;
+				//
+				// In this case, 'y' will have the type 'string?'.  But we'll still want to say that it is has a non-null
+				// value to begin with.
+
+				if (symbol is ILocalSymbol && node is VariableDeclaratorSyntax
+					{
+						Parent: VariableDeclarationSyntax { Type.IsVar: true },
+						Initializer.Value: { } initializer,
+					})
+				{
+					return semanticModel.GetTypeInfo(initializer, cancellationToken);
+				}
+				else
+				{
+					return semanticModel.GetTypeInfo(node, cancellationToken);
+				}
+			}
 		}
 	}
 }

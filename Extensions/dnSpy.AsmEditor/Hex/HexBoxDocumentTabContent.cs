@@ -57,6 +57,9 @@ namespace dnSpy.AsmEditor.Hex {
 				return null;
 
 			var filename = section.Attribute<string>("filename");
+			if (filename is null)
+				return null;
+
 			return hexViewDocumentTabContentCreator.Value.TryCreate(filename);
 		}
 	}

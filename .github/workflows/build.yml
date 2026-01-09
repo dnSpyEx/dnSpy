@@ -20,26 +20,29 @@ jobs:
           shell: pwsh
     strategy:
       matrix:
-        platform: [netframework, net-x86, net-x64]
+        platform: [netframework, net, net-x86, net-x64]
         include:
           - platform: netframework
             package-name: netframework
             build-dir: net48
+          - platform: net
+            package-name: net
+            build-dir: net10.0-windows
           - platform: net-x86
             package-name: net-win32
-            build-dir: net8.0-windows\win-x86\publish
+            build-dir: net10.0-windows\win-x86\publish
           - platform: net-x64
             package-name: net-win64
-            build-dir: net8.0-windows\win-x64\publish
+            build-dir: net10.0-windows\win-x64\publish
 
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v6.0.1
         with:
           submodules: true
 
-      - uses: actions/setup-dotnet@v4.3.1
+      - uses: actions/setup-dotnet@v5.0.1
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 10.0.x
           dotnet-quality: ga
 
       - uses: microsoft/setup-msbuild@v2.0.0
@@ -54,7 +57,7 @@ jobs:
       - name:  Copy release files for upload
         run: Copy-Item -Path dnSpy\dnSpy\bin\Release\${{matrix.build-dir}}\* -Destination C:\builtfiles\dnSpy-${{matrix.platform}} -Recurse
 
-      - uses: actions/upload-artifact@v4.6.2
+      - uses: actions/upload-artifact@v6.0.0
         if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/')
         with:
           name: dnSpy-${{matrix.package-name}}
