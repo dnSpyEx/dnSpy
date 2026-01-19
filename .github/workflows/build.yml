@@ -40,7 +40,7 @@ jobs:
         with:
           submodules: true
 
-      - uses: actions/setup-dotnet@v5.0.1
+      - uses: actions/setup-dotnet@v5.1.0
         with:
           dotnet-version: 10.0.x
           dotnet-quality: ga
