@@ -36,7 +36,7 @@ jobs:
             build-dir: net10.0-windows\win-x64\publish
 
     steps:
-      - uses: actions/checkout@v6.0.1
+      - uses: actions/checkout@v6.0.2
         with:
           submodules: true
 
