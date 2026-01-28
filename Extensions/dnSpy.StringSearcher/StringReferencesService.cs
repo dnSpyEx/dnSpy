@@ -30,6 +30,7 @@ using dnlib.DotNet;
 using dnlib.DotNet.Emit;
 using dnSpy.Contracts.Controls;
 using dnSpy.Contracts.Decompiler;
+using dnSpy.Contracts.Documents;
 using dnSpy.Contracts.Documents.Tabs;
 using dnSpy.Contracts.Documents.TreeView;
 using dnSpy.Contracts.Images;
@@ -121,6 +122,8 @@ namespace dnSpy.StringSearcher {
 
 			decompilerService.DecompilerChanged += (_, _) => Refresh();
 			documentTabService.DocumentModified += (_, _) => Refresh();
+
+			documentTabService.DocumentTreeView.DocumentService.CollectionChanged += DocumentService_CollectionChanged;
 		}
 
 		private void FollowSelectedReference(bool newTab) {
@@ -353,6 +356,27 @@ namespace dnSpy.StringSearcher {
 			}
 
 			return false;
+		}
+
+		void DocumentService_CollectionChanged(object? sender, NotifyDocumentCollectionChangedEventArgs e) {
+			switch (e.Type) {
+			case NotifyDocumentCollectionType.Clear:
+				vm.StringLiterals.Clear();
+				break;
+
+			case NotifyDocumentCollectionType.Remove:
+				if (selectedModules.Length == 0)
+					break;
+				var removedModules = new HashSet<ModuleDef>(e.Documents.SelectMany(d =>
+					d.AssemblyDef is null ? [d.ModuleDef] : d.AssemblyDef.Modules));
+				var newModules = selectedModules.Where(m => !removedModules.Contains(m)).ToArray();
+				if (newModules.Length != selectedModules.Length) {
+					selectedModules = newModules;
+					AnalyzeSelectedModules();
+				}
+
+				break;
+			}
 		}
 
 		private sealed class GuidObjectsProvider : IGuidObjectsProvider {
