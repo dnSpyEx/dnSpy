@@ -60,6 +60,7 @@ namespace dnSpy.Decompiler.MSBuild {
 			var settings = new XmlWriterSettings {
 				Encoding = Encoding.UTF8,
 				Indent = true,
+				OmitXmlDeclaration = true
 			};
 			using (var writer = XmlWriter.Create(project.Filename, settings)) {
 				project.Platform = GetPlatformString();
