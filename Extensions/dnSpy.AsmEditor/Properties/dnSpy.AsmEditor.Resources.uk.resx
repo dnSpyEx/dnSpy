@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
-
+    
     Example:
-
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,79 +26,79 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
-
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -118,19 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppendObject" xml:space="preserve">
-    <value>Додати Об'єкт</value>
+    <value>Додати об'єкт</value>
   </data>
   <data name="AppendType" xml:space="preserve">
-    <value>Додати Тип</value>
+    <value>Додати тип</value>
   </data>
   <data name="AssemblyDlg_Main_CB_DisableJITCompileOpt" xml:space="preserve">
-    <value>_Вимкнути Оптимізатор JIT-компіляції</value>
+    <value>_Вимкнути оптимізатор JIT-компіляції</value>
   </data>
   <data name="AssemblyDlg_Main_CB_EnableJITCompTrck" xml:space="preserve">
-    <value>Ввімкнути Відслідковування _JIT-компіляції</value>
+    <value>Ввімкнути відстеження _JIT-компіляції </value>
   </data>
   <data name="AssemblyDlg_Main_CB_ProcessArchSpec" xml:space="preserve">
-    <value>Архітектура Проц_есора Вказана</value>
+    <value>Архітектура проц_есора вказана</value>
   </data>
   <data name="AssemblyDlg_Main_CB_PublicKey" xml:space="preserve">
     <value>Відкритий _Ключ</value>
@@ -145,7 +145,7 @@
     <value>Л_окаль</value>
   </data>
   <data name="AssemblyDlg_Main_DotNetVersion" xml:space="preserve">
-    <value>В_ерсія .NET</value>
+    <value>_Версія .NET</value>
   </data>
   <data name="AssemblyDlg_Main_HashAlgorithm" xml:space="preserve">
     <value>_Хеш Алгоритм</value>
@@ -169,7 +169,7 @@
     <value>_Додати...</value>
   </data>
   <data name="Button_Cancel" xml:space="preserve">
-    <value>_Відміна</value>
+    <value>_Скасувати</value>
   </data>
   <data name="Button_Delete" xml:space="preserve">
     <value>_Видалити</value>
@@ -202,7 +202,7 @@
     <value>C</value>
   </data>
   <data name="ClearTypesCharacter_ToolTip" xml:space="preserve">
-    <value>Очистити Типи</value>
+    <value>Очистити типи</value>
   </data>
   <data name="ConstantDlg_Constant" xml:space="preserve">
     <value>Константа</value>
@@ -238,7 +238,7 @@
     <value>Створити користувацький атрибут</value>
   </data>
   <data name="CreateEventCommand" xml:space="preserve">
-    <value>Створити Подію...</value>
+    <value>Створити подію...</value>
   </data>
   <data name="CreateEventCommand2" xml:space="preserve">
     <value>Створити подію</value>
@@ -917,8 +917,7 @@
     <value>Невідоме</value>
   </data>
   <data name="UnknownBytesMsg" xml:space="preserve">
-    <value>Деякі скопійовані байти є невідомі, оскільки метод був відредагований. Нові токени і зміщення 
- стрічок стануть відомі після того, як файл збережеться на диск і знову буде відкрито.</value>
+    <value>Деякі зі скопійованих байтів невідомі, оскільки метод було відредаговано. Нові маркери та зсуви рядків відомі лише після збереження файлу на диску та повторного відкриття.</value>
   </data>
   <data name="UnknownEnum" xml:space="preserve">
     <value>Невідомий Enum</value>
@@ -1230,10 +1229,10 @@
     <value>Змінити операнд switch</value>
   </data>
   <data name="EditTypeCommand" xml:space="preserve">
-    <value>Редагувати Тип...</value>
+    <value>Редагувати тип...</value>
   </data>
   <data name="EditTypeCommand2" xml:space="preserve">
-    <value>Редагувати Тип</value>
+    <value>Редагувати тип</value>
   </data>
   <data name="EH_Command1" xml:space="preserve">
     <value>Додати новий обробник винятків Пе_ред виділенням</value>
@@ -1461,7 +1460,7 @@
     <value>Видалити Інструкції</value>
   </data>
   <data name="Instr_Command6" xml:space="preserve">
-    <value>Видалити Усі Інструкції</value>
+    <value>Видалити усі Інструкції</value>
   </data>
   <data name="InterfacesTab" xml:space="preserve">
     <value>Інтерфейси</value>
@@ -1749,7 +1748,9 @@
     <value>Всі файли збережені на диск.</value>
   </data>
   <data name="SaveModules_Log_Exception" xml:space="preserve">
-    <value>Трапилось виключення {0}</value>
+    <value>Трапилось виключення
+
+{0}</value>
   </data>
   <data name="SaveModules_Log_FileError" xml:space="preserve">
     <value>Помилка файлу: {0}</value>
@@ -1774,6 +1775,9 @@
   </data>
   <data name="SaveModule_AddPECheckSum" xml:space="preserve">
     <value>Дод_ати контрольну суму PE</value>
+  </data>
+  <data name="SaveModule_AddMVIDSection" xml:space="preserve">
+    <value>_Додати секцію MVID</value>
   </data>
   <data name="SaveModule_CreateHeapEvenIfEmpty" xml:space="preserve">
     <value>Створити кучу навіть якщо вона пуста</value>
@@ -2043,7 +2047,7 @@
     <value>Версія _заголовку</value>
   </data>
   <data name="Module_Metadata_VersionString" xml:space="preserve">
-    <value>Стрічка _версії</value>
+    <value>_Рядок версії</value>
   </data>
   <data name="Module_PE_Machine" xml:space="preserve">
     <value>_Архітектура</value>
@@ -2082,7 +2086,7 @@
     <value>S_torageFlags</value>
   </data>
   <data name="SaveModule_Metadata_VersionString" xml:space="preserve">
-    <value>Стрічка _версії</value>
+    <value>_Рядок версії</value>
   </data>
   <data name="SaveModule_PE_Machine" xml:space="preserve">
     <value>_Архітектура</value>
@@ -2148,7 +2152,7 @@
     <value>Файл</value>
   </data>
   <data name="CompileDiagnostics_Header_Line" xml:space="preserve">
-    <value>Стрічка</value>
+    <value>Рядок</value>
   </data>
   <data name="Button_Compile" xml:space="preserve">
     <value>Компілювати</value>
@@ -2262,7 +2266,7 @@
     <value>Retval</value>
   </data>
   <data name="AddDocumentsToolTip" xml:space="preserve">
-    <value>Додати Джерельний Код</value>
+    <value>Додати код</value>
   </data>
   <data name="ShortCutKeyCtrlO" xml:space="preserve">
     <value>Ctrl+O</value>
@@ -2294,6 +2298,12 @@
   <data name="ReplaceNopsInstrsCommand" xml:space="preserve">
     <value>_Замінити NOP-ами</value>
   </data>
+  <data name="ReplaceMethodBodyWithStubCommand" xml:space="preserve">
+    <value>Замінити тіло методу на заглушку...</value>
+  </data>
+  <data name="ReplaceMethodBodyWithStubCommand2" xml:space="preserve">
+    <value>Замінити тіло методу на заглушку</value>
+  </data>
   <data name="Type_Flags_Accessibility" xml:space="preserve">
     <value>Доступніст_ь</value>
   </data>
@@ -2304,9 +2314,12 @@
     <value>Layo_ut</value>
   </data>
   <data name="Type_Flags_String" xml:space="preserve">
-    <value>Стріч_ка</value>
+    <value>Рядо_к</value>
   </data>
   <data name="Type_Flags_Visibility" xml:space="preserve">
     <value>Видиміст_ть</value>
+  </data>
+  <data name="CloseAllFrameworkAssembliesCommand" xml:space="preserve">
+    <value>Закрити всі фреймворк збірки</value>
   </data>
 </root>
