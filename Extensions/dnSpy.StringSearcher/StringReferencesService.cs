@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -63,6 +64,7 @@ namespace dnSpy.StringSearcher {
 		private readonly StringsControlVM vm;
 		private readonly Dispatcher dispatcher;
 		private ModuleDef[] selectedModules = [];
+		private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
 		public StringsControl UIObject { get; }
 
@@ -147,12 +149,15 @@ namespace dnSpy.StringSearcher {
 				dotNetImageService
 			);
 
+			cancellationTokenSource.Cancel();
+			cancellationTokenSource = new CancellationTokenSource();
+
 			vm.StringLiterals.Clear();
 
 			Task.Factory.StartNew(() => {
 				AnalyzeMetadataRoots(context);
 				AnalyzeModules(context);
-			});
+			}, cancellationTokenSource.Token);
 		}
 
 		private void AnalyzeMetadataRoots(StringReferenceContext context) {
@@ -183,7 +188,10 @@ namespace dnSpy.StringSearcher {
 		}
 
 		private void AnalyzeModules(StringReferenceContext context) {
-			Parallel.ForEach(selectedModules.SelectMany(x => x.GetTypes()), type => {
+			var parallelOptions = new ParallelOptions {
+				CancellationToken = cancellationTokenSource.Token,
+			};
+			Parallel.ForEach(selectedModules.SelectMany(x => x.GetTypes()), parallelOptions, type => {
 				var typeContext = new ObjectContext {
 					Context = context,
 					Module = type.Module,
