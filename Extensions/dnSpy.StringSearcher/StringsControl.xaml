@@ -39,7 +39,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <DockPanel Grid.Column="0">
+                <DockPanel Grid.Column="0" Margin="0 0 5 0">
                     <Label Content="{x:Static p:dnSpy_StringSearcher_Resources.ReferencesSearch}" DockPanel.Dock="Left" />
                     <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, Delay=100}" />
                 </DockPanel>
@@ -65,9 +65,9 @@
                 Margin="2 0 2 6"
                 Orientation="Horizontal"
                 Visibility="{Binding IsExpanded, ElementName=expander, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <CheckBox Margin="0 5 5 0" Content="{x:Static p:dnSpy_StringSearcher_Resources.SearchCaseSensitiveSearch}" IsChecked="{Binding SearchCaseSensitive}" />
-                <CheckBox Margin="0 5 5 0" Content="{x:Static p:dnSpy_StringSearcher_Resources.SearchRegex}" IsChecked="{Binding SearchIsRegex}" />
-                <CheckBox Margin="0 5 5 0" Content="{x:Static p:dnSpy_StringSearcher_Resources.SearchMatchFormattedString}" IsChecked="{Binding SearchMatchFormattedString}" />
+                <CheckBox Margin="0 5 5 0" Content="{x:Static p:dnSpy_StringSearcher_Resources.SearchCaseSensitiveSearch}" IsChecked="{Binding Settings.SearchCaseSensitive}" />
+                <CheckBox Margin="0 5 5 0" Content="{x:Static p:dnSpy_StringSearcher_Resources.SearchRegex}" IsChecked="{Binding Settings.SearchIsRegex}" />
+                <CheckBox Margin="0 5 5 0" Content="{x:Static p:dnSpy_StringSearcher_Resources.SearchMatchFormattedString}" IsChecked="{Binding Settings.SearchMatchFormattedString}" />
             </WrapPanel>
         </StackPanel>
         <ListView

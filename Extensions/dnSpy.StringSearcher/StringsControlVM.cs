@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows.Data;
@@ -27,11 +28,14 @@ using System.Windows.Input;
 using dnSpy.Contracts.MVVM;
 
 namespace dnSpy.StringSearcher {
-	public class StringsControlVM : ViewModelBase, IGridViewColumnDescsProvider {
+	sealed class StringsControlVM : ViewModelBase, IGridViewColumnDescsProvider {
 		private readonly StringReferencesService stringReferencesService;
 
-		public StringsControlVM(StringReferencesService stringReferencesService) {
+		public StringsControlVM(StringReferencesService stringReferencesService, IStringReferencesSettings settings) {
 			this.stringReferencesService = stringReferencesService;
+			Settings = settings;
+			Settings.PropertyChanged += Settings_PropertyChanged;
+
 			StringLiteralsView = new ListCollectionView(StringLiterals);
 
 			RefreshCommand = new RelayCommand(OnRefreshCommand);
@@ -78,38 +82,7 @@ namespace dnSpy.StringSearcher {
 			}
 		} = string.Empty;
 
-		public bool SearchCaseSensitive {
-			get;
-			set {
-				if (field != value) {
-					field = value;
-					OnPropertyChanged();
-					ApplyFilter();
-				}
-			}
-		}
-
-		public bool SearchIsRegex {
-			get;
-			set {
-				if (field != value) {
-					field = value;
-					OnPropertyChanged();
-					ApplyFilter();
-				}
-			}
-		}
-
-		public bool SearchMatchFormattedString {
-			get;
-			set {
-				if (field != value) {
-					field = value;
-					OnPropertyChanged();
-					ApplyFilter();
-				}
-			}
-		}
+		public IStringReferencesSettings Settings { get; }
 
 		private string CurrentSearchError {
 			get;
@@ -130,16 +103,26 @@ namespace dnSpy.StringSearcher {
 			return string.Empty;
 		}
 
+		void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e) {
+			switch (e.PropertyName) {
+			case nameof(IStringReferencesSettings.SearchCaseSensitive):
+			case nameof(IStringReferencesSettings.SearchIsRegex):
+			case nameof(IStringReferencesSettings.SearchMatchFormattedString):
+				ApplyFilter();
+				break;
+			}
+		}
+
 		private void ApplyFilter() {
 			// Note: make sure to capture state of all options in the closure for consistent filtering.
 
-			Func<object, string> getStringToMatch = SearchMatchFormattedString
+			Func<object, string> getStringToMatch = Settings.SearchMatchFormattedString
 				? static x => ((StringReference)x).FormattedLiteral
 				: static x => ((StringReference)x).Literal;
 
-			if (SearchIsRegex) {
+			if (Settings.SearchIsRegex) {
 				try {
-					var regex = new Regex(SearchText, SearchCaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase);
+					var regex = new Regex(SearchText, Settings.SearchCaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase);
 					CurrentSearchError = string.Empty;
 
 					StringLiteralsView.Filter = x => regex.IsMatch(getStringToMatch(x));
@@ -152,9 +135,7 @@ namespace dnSpy.StringSearcher {
 				CurrentSearchError = string.Empty;
 
 				string filterText = SearchText;
-				var comparison = SearchCaseSensitive
-					? StringComparison.Ordinal
-					: StringComparison.OrdinalIgnoreCase;
+				var comparison = Settings.SearchCaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
 
 				StringLiteralsView.Filter = x => getStringToMatch(x).Contains(filterText, comparison);
 			}

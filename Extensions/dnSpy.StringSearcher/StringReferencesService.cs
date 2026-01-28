@@ -48,7 +48,7 @@ namespace dnSpy.StringSearcher {
 	}
 
 	[Export(typeof(IStringReferencesService))]
-	public class StringReferencesService : IStringReferencesService {
+	sealed class StringReferencesService : IStringReferencesService {
 		private static readonly List<string> CachedFixedArgumentNames = [];
 
 		private readonly IDecompilerService decompilerService;
@@ -79,7 +79,8 @@ namespace dnSpy.StringSearcher {
 			IDocumentTabService documentTabService,
 			IMenuService menuService,
 			IWpfCommandService wpfCommandService,
-			IDotNetImageService dotNetImageService) {
+			IDotNetImageService dotNetImageService,
+			IStringReferencesSettings settings) {
 
 			this.decompilerService = decompilerService;
 			this.textElementProvider = textElementProvider;
@@ -87,7 +88,7 @@ namespace dnSpy.StringSearcher {
 			this.documentTabService = documentTabService;
 			this.dotNetImageService = dotNetImageService;
 			UIObject = new StringsControl {
-				DataContext = vm = new StringsControlVM(this)
+				DataContext = vm = new StringsControlVM(this, settings)
 			};
 
 			dispatcher = Dispatcher.CurrentDispatcher;
