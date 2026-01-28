@@ -158,6 +158,7 @@ namespace dnSpy.StringSearcher {
 		}
 
 		private void OnRefreshCommand(object? obj) {
+			stringReferencesService.EnsureSelectionNonEmpty();
 			stringReferencesService.Refresh();
 		}
 

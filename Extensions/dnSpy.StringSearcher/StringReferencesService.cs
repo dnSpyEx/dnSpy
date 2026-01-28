@@ -31,6 +31,7 @@ using dnlib.DotNet.Emit;
 using dnSpy.Contracts.Controls;
 using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Documents.Tabs;
+using dnSpy.Contracts.Documents.TreeView;
 using dnSpy.Contracts.Images;
 using dnSpy.Contracts.Menus;
 using dnSpy.Contracts.MVVM;
@@ -315,6 +316,16 @@ namespace dnSpy.StringSearcher {
 					result.Add(new ILStringReference(context, operand, method, instruction.Offset));
 				}
 			}
+		}
+
+		public void EnsureSelectionNonEmpty() {
+			if (selectedModules.Length != 0)
+				return;
+
+			selectedModules = documentTabService.DocumentTreeView.TreeView.SelectedItems
+				.OfType<DocumentTreeNodeData>()
+				.SelectMany(n => n.GetModule()?.Assembly.Modules ?? [])
+				.Distinct().ToArray();
 		}
 
 		public void Refresh() => AnalyzeSelectedModules();
