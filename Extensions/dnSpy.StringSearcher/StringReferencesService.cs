@@ -34,6 +34,7 @@ using dnSpy.Contracts.Documents.Tabs;
 using dnSpy.Contracts.Images;
 using dnSpy.Contracts.Menus;
 using dnSpy.Contracts.MVVM;
+using dnSpy.Contracts.Settings.AppearanceCategory;
 using dnSpy.Contracts.Text.Classification;
 using Microsoft.VisualStudio.Text.Classification;
 
@@ -138,7 +139,7 @@ namespace dnSpy.StringSearcher {
 			var context = new StringReferenceContext(
 				decompilerService.Decompiler,
 				textElementProvider,
-				classificationFormatMapService.GetClassificationFormatMap("UIMisc"), // TODO: replace string with AppearanceCategoryConstants.UIMisc
+				classificationFormatMapService.GetClassificationFormatMap(AppearanceCategoryConstants.UIMisc),
 				dotNetImageService
 			);
 
