@@ -2315,10 +2315,4 @@ A legtöbb beállítás újra lesz inicializálva ha ez a jelölőnégyzet vált
   <data name="Type_Flags_Visibility" xml:space="preserve">
     <value>Lá_thatóság</value>
   </data>
-  <data name="LoadDependenciesCommand" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LoadAllDependenciesCommand" xml:space="preserve">
-    <value />
-  </data>
 </root>

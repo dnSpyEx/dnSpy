@@ -2312,10 +2312,4 @@ A maioria das opções são reinicializadas quando essa caixa de seleção é cl
   <data name="Type_Flags_Visibility" xml:space="preserve">
     <value>Visibilidade_y</value>
   </data>
-  <data name="LoadDependenciesCommand" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LoadAllDependenciesCommand" xml:space="preserve">
-    <value />
-  </data>
 </root>

@@ -35,7 +35,7 @@ namespace dnSpy.Contracts.Decompiler {
 		/// <param name="token"></param>
 		/// <param name="bamlDecompilerOptions"></param>
 		/// <returns></returns>
-		string DecompileTypeName(ModuleDef module, byte[] data, CancellationToken token, BamlDecompilerOptions bamlDecompilerOptions);
+		string? DecompileTypeName(ModuleDef module, byte[] data, CancellationToken token, BamlDecompilerOptions bamlDecompilerOptions);
 
 		/// <summary>
 		/// Decompiles baml to xaml. Returns all assembly references.

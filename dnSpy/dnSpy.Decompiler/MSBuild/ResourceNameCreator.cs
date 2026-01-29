@@ -160,7 +160,7 @@ namespace dnSpy.Decompiler.MSBuild {
 			return name.Substring(0, i).Replace('/', '.');
 		}
 
-		public string GetBamlResourceName(string resourceName, string bamlTypeName, out string typeFullName) {
+		public string GetBamlResourceName(string resourceName, string? bamlTypeName, out string typeFullName) {
 			if (namespaces is null)
 				Initialize();
 			Debug2.Assert(partialNamespaceMap is not null);
@@ -173,7 +173,7 @@ namespace dnSpy.Decompiler.MSBuild {
 			var name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(resourceName.Substring(0, resourceName.Length - ".baml".Length));
 			var nameNoExt = name;
 			name = name.Replace('/', '.');
-			typeFullName = !string.IsNullOrWhiteSpace(bamlTypeName) ? bamlTypeName : GetFullName(name) ?? string.Empty;
+			typeFullName = !string2.IsNullOrWhiteSpace(bamlTypeName) ? bamlTypeName : GetFullName(name) ?? string.Empty;
 			if (!string.IsNullOrEmpty(typeFullName))
 				return filenameCreator.Create(".xaml", typeFullName);
 

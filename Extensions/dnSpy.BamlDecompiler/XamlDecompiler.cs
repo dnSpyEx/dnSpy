@@ -49,9 +49,9 @@ namespace dnSpy.BamlDecompiler {
 			xaml.Add(elem.Xaml.Element);
 
 			token.ThrowIfCancellationRequested();
-			rewritePasses[0].Run(ctx, xaml);
+			new XClassRewritePass().Run(ctx, xaml);
 
-			return xaml.Root.Elements().FirstOrDefault().Attributes().FirstOrDefault(x => x.Name.LocalName == "Class")?.Value;
+			return xaml.Root?.Elements().FirstOrDefault()?.Attributes().FirstOrDefault(x => x.Name.LocalName == "Class")?.Value;
 		}
 
 		public static XDocument Decompile(ModuleDef module, BamlDocument document, CancellationToken token, BamlDecompilerOptions bamlDecompilerOptions, List<string> assemblyReferences) {

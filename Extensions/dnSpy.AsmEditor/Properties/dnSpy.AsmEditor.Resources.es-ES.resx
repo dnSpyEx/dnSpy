@@ -2308,10 +2308,4 @@
   <data name="Type_Flags_Visibility" xml:space="preserve">
     <value>Visibilida_d</value>
   </data>
-  <data name="LoadDependenciesCommand" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LoadAllDependenciesCommand" xml:space="preserve">
-    <value />
-  </data>
 </root>

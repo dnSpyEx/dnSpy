@@ -2120,8 +2120,8 @@
   <data name="SaveModule_TablesHeap_UseENC" xml:space="preserve">
     <value>使用 #- 表(_U)</value>
   </data>
-  <data name="SaveModule_TablesHeap_ForceBigColumns" xml:space="preserve"> 
-    <value>强制大列(_F)</value> 
+  <data name="SaveModule_TablesHeap_ForceBigColumns" xml:space="preserve">
+    <value>强制大列(_F)</value>
   </data>
   <data name="CustomAttribute_NamedArg_Field" xml:space="preserve">
     <value>字段</value>
@@ -2333,7 +2333,7 @@
   <data name="LoadDependenciesCommand" xml:space="preserve">
     <value>加载依赖</value>
   </data>
-  <data name="LoadAllDependenciesCommand" xml:space="preserve">
+  <data name="LoadDependenciesRecursiveCommand" xml:space="preserve">
     <value>加载所有依赖</value>
   </data>
 </root>

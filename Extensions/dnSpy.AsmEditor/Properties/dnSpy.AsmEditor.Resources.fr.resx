@@ -2309,10 +2309,4 @@ La plupart des options seront réinitialisées si cette option est cochée</valu
   <data name="Type_Flags_Visibility" xml:space="preserve">
     <value>Visibili_té</value>
   </data>
-  <data name="LoadDependenciesCommand" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LoadAllDependenciesCommand" xml:space="preserve">
-    <value />
-  </data>
 </root>

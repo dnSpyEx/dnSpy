@@ -950,7 +950,7 @@
     <value>Вы уверены, что хотите отменить сохранение?</value>
   </data>
   <data name="AskCancelSaveCloseWindow" xml:space="preserve">
-    <value>Сохранение отменяется. 
+    <value>Сохранение отменяется.
 Вы уверены, что вы хотите закрыть окно?</value>
   </data>
   <data name="AskDeleteField" xml:space="preserve">
@@ -1749,7 +1749,7 @@
     <value>Все файлы записаны на диск.</value>
   </data>
   <data name="SaveModules_Log_Exception" xml:space="preserve">
-    <value>Произошло исключение 
+    <value>Произошло исключение
 
 {0}</value>
   </data>
@@ -1787,7 +1787,7 @@
     <value>_Сохранить старое значение MaxStack</value>
   </data>
   <data name="SaveModule_KeepOldMaxStack_ToolTip" xml:space="preserve">
-    <value>Использует значение MaxStack из метода вместо вычисления нового значения MaxStack. 
+    <value>Использует значение MaxStack из метода вместо вычисления нового значения MaxStack.
 Требуется, если методы все еще обфусцированы</value>
   </data>
   <data name="SaveModule_MetadataHeaderOptions" xml:space="preserve">
@@ -1803,7 +1803,7 @@
     <value>_Сохранить дополнительные данные подписи</value>
   </data>
   <data name="SaveModule_PreserveExtraSigData_ToolTip" xml:space="preserve">
-    <value>Сохранить дополнительные данные после подписи. 
+    <value>Сохранить дополнительные данные после подписи.
 Некоторые обфускаторы размещают здесь данные</value>
   </data>
   <data name="SaveModule_PreserveHeapOffsets" xml:space="preserve">
@@ -1819,7 +1819,7 @@
     <value>Общие тела методов</value>
   </data>
   <data name="SaveModule_ShareMethodBodies_ToolTip" xml:space="preserve">
-    <value>Методы .NET, которые имеют идентичный код, будут его разделять между собой. 
+    <value>Методы .NET, которые имеют идентичный код, будут его разделять между собой.
 Выходной файл будет немного меньше</value>
   </data>
   <data name="SaveModule_Title" xml:space="preserve">
@@ -2329,11 +2329,5 @@
   </data>
   <data name="CloseAllFrameworkAssembliesCommand" xml:space="preserve">
     <value>Закрыть все сборки фреймворка</value>
-  </data>
-  <data name="LoadDependenciesCommand" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LoadAllDependenciesCommand" xml:space="preserve">
-    <value />
   </data>
 </root>

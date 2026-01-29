@@ -917,7 +917,7 @@
     <value>Невідоме</value>
   </data>
   <data name="UnknownBytesMsg" xml:space="preserve">
-    <value>Деякі скопійовані байти є невідомі, оскільки метод був відредагований. Нові токени і зміщення 
+    <value>Деякі скопійовані байти є невідомі, оскільки метод був відредагований. Нові токени і зміщення
  стрічок стануть відомі після того, як файл збережеться на диск і знову буде відкрито.</value>
   </data>
   <data name="UnknownEnum" xml:space="preserve">
@@ -2308,11 +2308,5 @@
   </data>
   <data name="Type_Flags_Visibility" xml:space="preserve">
     <value>Видиміст_ть</value>
-  </data>
-  <data name="LoadDependenciesCommand" xml:space="preserve">
-    <value />
-  </data>
-  <data name="LoadAllDependenciesCommand" xml:space="preserve">
-    <value />
   </data>
 </root>

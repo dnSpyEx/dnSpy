@@ -416,7 +416,7 @@ namespace dnSpy.Decompiler.MSBuild {
 
 				var rsrcName = Uri.UnescapeDataString(e.Name);
 				if (decompileBaml && rsrcName.EndsWith(".baml", StringComparison.OrdinalIgnoreCase)) {
-					var bamlTypeName = Options.DecompileBamlTypeName!(module, data, Options.DecompilationContext.CancellationToken);
+					var bamlTypeName = Options.DecompileBamlTypeName?.Invoke(module, data, Options.DecompilationContext.CancellationToken);
 					var filename = resourceNameCreator.GetBamlResourceName(rsrcName, bamlTypeName, out string typeFullName);
 					yield return new BamlResourceProjectFile(filename, data, typeFullName, (bamlData, stream) => Options.DecompileBaml!(module, bamlData, Options.DecompilationContext.CancellationToken, stream));
 				}
