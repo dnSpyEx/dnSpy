@@ -25,9 +25,14 @@ namespace dnSpy.Documents.TreeView {
 	[ExportDsDocumentNodeProvider(Order = double.MaxValue)]
 	sealed class DefaultDsDocumentNodeProvider : IDsDocumentNodeProvider {
 		public DsDocumentNode? Create(IDocumentTreeView documentTreeView, DsDocumentNode? owner, IDsDocument document) {
+			if (document is DsBundleDocument bundleDocument) {
+				Debug2.Assert(document.SingleFileBundle is not null);
+				return new BundleDocumentNodeImpl(bundleDocument);
+			}
+
 			if (document is IDsDotNetDocument dnDocument) {
 				Debug2.Assert(document.ModuleDef is not null);
-				if (document.AssemblyDef is null || owner is not null)
+				if (document.AssemblyDef is null || owner is not null && owner.Document is not DsBundleDocument)
 					return new ModuleDocumentNodeImpl(dnDocument);
 				return new AssemblyDocumentNodeImpl(dnDocument);
 			}

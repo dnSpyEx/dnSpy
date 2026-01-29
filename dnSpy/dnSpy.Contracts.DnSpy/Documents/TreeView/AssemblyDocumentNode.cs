@@ -19,13 +19,14 @@
 
 using dnlib.DotNet;
 using dnlib.PE;
+using dnSpy.Contracts.Bundles;
 using dnSpy.Contracts.TreeView;
 
 namespace dnSpy.Contracts.Documents.TreeView {
 	/// <summary>
 	/// A .NET assembly file
 	/// </summary>
-	public abstract class AssemblyDocumentNode : DsDocumentNode, IMDTokenNode {
+	public abstract class AssemblyDocumentNode : DsDocumentNode, IMDTokenNode, IBundleEntryNode {
 		/// <summary>
 		/// Gets the <see cref="IDsDocument"/> instance
 		/// </summary>
@@ -37,6 +38,7 @@ namespace dnSpy.Contracts.Documents.TreeView {
 		public bool IsExe => (Document.ModuleDef!.Characteristics & Characteristics.Dll) == 0;
 
 		IMDTokenProvider? IMDTokenNode.Reference => Document.AssemblyDef;
+		BundleEntry? IBundleEntryNode.BundleEntry => Document.BundleEntry;
 
 		/// <summary>
 		/// Constructor

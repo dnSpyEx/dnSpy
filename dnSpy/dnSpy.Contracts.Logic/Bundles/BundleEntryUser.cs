@@ -1,0 +1,3 @@
+﻿namespace dnSpy.Contracts.Bundles {
+
+}

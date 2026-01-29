@@ -20,8 +20,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using dnlib.DotNet;
 using dnlib.PE;
+using dnSpy.Contracts.Bundles;
 using dnSpy.Contracts.Utilities;
 
 namespace dnSpy.Contracts.Documents {
@@ -39,6 +41,10 @@ namespace dnSpy.Contracts.Documents {
 		public virtual ModuleDef? ModuleDef => null;
 		/// <inheritdoc/>
 		public virtual IPEImage? PEImage => (ModuleDef as ModuleDefMD)?.Metadata?.PEImage;
+		/// <inheritdoc/>
+		public virtual SingleFileBundle? SingleFileBundle => null;
+		/// <inheritdoc/>
+		public virtual BundleEntry? BundleEntry => null;
 
 		/// <inheritdoc/>
 		public string Filename {
@@ -135,6 +141,9 @@ namespace dnSpy.Contracts.Documents {
 		public override IDsDocumentNameKey Key => FilenameKey.CreateFullPath(Filename);
 		/// <inheritdoc/>
 		public override IPEImage? PEImage { get; }
+		/// <inheritdoc/>
+		public override BundleEntry? BundleEntry => bundleEntry;
+		BundleEntry? bundleEntry;
 
 		/// <summary>
 		/// Constructor
@@ -144,6 +153,8 @@ namespace dnSpy.Contracts.Documents {
 			PEImage = peImage;
 			Filename = peImage.Filename ?? string.Empty;
 		}
+
+		internal void SetBundleEntry(BundleEntry bundleEntry) => this.bundleEntry = bundleEntry;
 
 		/// <inheritdoc/>
 		public void Dispose() => PEImage!.Dispose();
@@ -226,6 +237,10 @@ namespace dnSpy.Contracts.Documents {
 		public override DsDocumentInfo? SerializedDocument => documentInfo;
 		DsDocumentInfo documentInfo;
 
+		/// <inheritdoc/>
+		public override BundleEntry? BundleEntry => bundleEntry;
+		BundleEntry? bundleEntry;
+
 		/// <summary>
 		/// Constructor
 		/// </summary>
@@ -289,6 +304,8 @@ namespace dnSpy.Contracts.Documents {
 			return list;
 		}
 
+		internal void SetBundleEntry(BundleEntry bundleEntry) => this.bundleEntry = bundleEntry;
+
 		/// <inheritdoc/>
 		public void Dispose() => ModuleDef!.Dispose();
 	}
@@ -310,6 +327,69 @@ namespace dnSpy.Contracts.Documents {
 	}
 
 	/// <summary>
+	/// .NET single file bundle
+	/// </summary>
+	public class DsBundleDocument : DsDocument, IDsPEDocument, IDisposable {
+		/// <inheritdoc/>
+		public override DsDocumentInfo? SerializedDocument => DsDocumentInfo.CreateDocument(Filename);
+		/// <inheritdoc/>
+		public override IDsDocumentNameKey Key => FilenameKey.CreateFullPath(Filename);
+		/// <inheritdoc/>
+		public override IPEImage? PEImage { get; }
+		/// <summary>
+		/// The bundle represented by this document.
+		/// </summary>
+		public override SingleFileBundle? SingleFileBundle { get; }
+
+		readonly string directoryOfBundle;
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="peImage">PE image</param>
+		/// <param name="bundle">Parsed bundle</param>
+		public DsBundleDocument(IPEImage peImage, SingleFileBundle bundle) {
+			PEImage = peImage;
+			Filename = peImage.Filename ?? string.Empty;
+			directoryOfBundle = Path.GetDirectoryName(Filename) ?? string.Empty;
+			SingleFileBundle = bundle;
+		}
+
+		/// <inheritdoc/>
+		protected override TList<IDsDocument> CreateChildren() {
+			var list = new TList<IDsDocument>();
+			foreach (var entry in SingleFileBundle!.Entries) {
+				if (entry is AssemblyBundleEntry asmEntry) {
+					var mod = asmEntry.Module;
+					mod.Location = Path.Combine(directoryOfBundle, asmEntry.RelativePath);
+
+					var data = asmEntry.GetEntryData();
+
+					DsDocumentInfo documentInfo;
+					if (data is not null)
+						documentInfo = DsDocumentInfo.CreateInMemory(() => (data, true), asmEntry.FileName);
+					else
+						documentInfo = DsDocumentInfo.CreateDocument(string.Empty);
+
+					var document = DsDotNetDocument.CreateAssembly(documentInfo, mod, true);
+					document.SetBundleEntry(entry);
+					list.Add(document);
+				}
+				else if (entry is NativeBinaryBundleEntry nativeEntry) {
+					var peDocument = new DsPEDocument(nativeEntry.PEImage);
+					peDocument.SetBundleEntry(entry);
+					list.Add(peDocument);
+				}
+			}
+
+			return list;
+		}
+
+		/// <inheritdoc/>
+		public void Dispose() => PEImage!.Dispose();
+	}
+
+	/// <summary>
 	/// mmap'd I/O helper methods
 	/// </summary>
 	static class MemoryMappedIOHelper {
@@ -317,7 +397,7 @@ namespace dnSpy.Contracts.Documents {
 		/// Disable memory mapped I/O
 		/// </summary>
 		/// <param name="document">Document</param>
-		public static void DisableMemoryMappedIO(IDsDocument document) {
+		public static void DisableMemoryMappedIO(IDsDocument? document) {
 			if (document is null)
 				return;
 			DisableMemoryMappedIO(document.PEImage);
