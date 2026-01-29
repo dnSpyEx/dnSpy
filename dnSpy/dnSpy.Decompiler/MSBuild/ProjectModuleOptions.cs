@@ -74,6 +74,11 @@ namespace dnSpy.Decompiler.MSBuild {
 		public bool DecompileXaml { get; set; }
 
 		/// <summary>
+		/// Decompiles type name from baml data
+		/// </summary>
+		public Func<ModuleDef, byte[], CancellationToken, string?>? DecompileBamlTypeName;
+
+		/// <summary>
 		/// Decompiles baml data to a <see cref="Stream"/>
 		/// </summary>
 		public Func<ModuleDef, byte[], CancellationToken, Stream, IList<string>>? DecompileBaml;

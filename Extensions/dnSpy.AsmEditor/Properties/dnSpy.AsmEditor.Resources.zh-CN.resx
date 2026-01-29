@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
     Microsoft ResX Schema
@@ -2120,8 +2120,8 @@
   <data name="SaveModule_TablesHeap_UseENC" xml:space="preserve">
     <value>使用 #- 表(_U)</value>
   </data>
-  <data name="SaveModule_TablesHeap_ForceBigColumns" xml:space="preserve"> 
-    <value>强制大列(_F)</value> 
+  <data name="SaveModule_TablesHeap_ForceBigColumns" xml:space="preserve">
+    <value>强制大列(_F)</value>
   </data>
   <data name="CustomAttribute_NamedArg_Field" xml:space="preserve">
     <value>字段</value>
@@ -2329,5 +2329,11 @@
   </data>
   <data name="CloseAllFrameworkAssembliesCommand" xml:space="preserve">
     <value>关闭所有运行库框架程序集</value>
+  </data>
+  <data name="LoadDependenciesCommand" xml:space="preserve">
+    <value>加载依赖</value>
+  </data>
+  <data name="LoadDependenciesRecursiveCommand" xml:space="preserve">
+    <value>加载所有依赖</value>
   </data>
 </root>

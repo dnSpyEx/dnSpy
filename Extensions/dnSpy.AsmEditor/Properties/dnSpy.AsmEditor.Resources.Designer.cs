@@ -3364,6 +3364,24 @@ namespace dnSpy.AsmEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load Dependencies.
+        /// </summary>
+        public static string LoadDependenciesCommand {
+            get {
+                return ResourceManager.GetString("LoadDependenciesCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load Dependencies Recursively.
+        /// </summary>
+        public static string LoadDependenciesRecursiveCommand {
+            get {
+                return ResourceManager.GetString("LoadDependenciesRecursiveCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add New Local Be_fore Selection.
         /// </summary>
         public static string Local_Command1 {

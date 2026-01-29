@@ -950,7 +950,7 @@
     <value>Opravdu chcete zrušit ukládání?</value>
   </data>
   <data name="AskCancelSaveCloseWindow" xml:space="preserve">
-    <value>Ukládání se právě stornuje. 
+    <value>Ukládání se právě stornuje.
 Opravdu chcete zavřít okno?</value>
   </data>
   <data name="AskDeleteField" xml:space="preserve">
