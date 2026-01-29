@@ -1239,6 +1239,15 @@ namespace dnSpy.Debugger.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t auto update debugger launch settings unless first time since dnSpy launch.
+        /// </summary>
+        public static string DbgSettings_DontAutoUpdateDebugLaunchSettings {
+            get {
+                return ResourceManager.GetString("DbgSettings_DontAutoUpdateDebugLaunchSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable Just My Code debugging support.
         /// </summary>
         public static string DbgSettings_EnableJustMyCodeDebugging {
