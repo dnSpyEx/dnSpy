@@ -1,5 +1,5 @@
-/*
-    Copyright (C) 2014-2019 de4dot@gmail.com
+﻿/*
+    Copyright (C) 2023 ElektroKill
 
     This file is part of dnSpy
 
@@ -17,28 +17,16 @@
     along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-using System.Diagnostics;
-using dnlib.PE;
 using dnSpy.Contracts.Bundles;
-using dnSpy.Contracts.TreeView;
 
-namespace dnSpy.Contracts.Documents.TreeView {
+namespace dnSpy.Contracts.TreeView {
 	/// <summary>
-	/// A PE file (but not a .NET file)
+	/// A node which can be a bundle entry
 	/// </summary>
-	public abstract class PEDocumentNode : DsDocumentNode, IBundleEntryNode {
+	public interface IBundleEntryNode {
 		/// <summary>
-		/// true if it's an .exe file, false if it's a .dll file
+		///	Gets the bundle entry for this node or null
 		/// </summary>
-		public bool IsExe => (Document.PEImage!.ImageNTHeaders.FileHeader.Characteristics & Characteristics.Dll) == 0;
-
-		BundleEntry? IBundleEntryNode.BundleEntry => Document.BundleEntry;
-
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="document">Document</param>
-		protected PEDocumentNode(IDsDocument document)
-			: base(document) => Debug2.Assert(document.PEImage is not null && document.ModuleDef is null);
+		BundleEntry? BundleEntry { get; }
 	}
 }
