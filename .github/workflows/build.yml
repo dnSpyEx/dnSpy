@@ -45,7 +45,7 @@ jobs:
           dotnet-version: 10.0.x
           dotnet-quality: ga
 
-      - uses: microsoft/setup-msbuild@v2.0.0
+      - uses: microsoft/setup-msbuild@v3.0.0
 
       - name: Build dnSpy (${{matrix.platform}})
         run: .\build.ps1 ${{matrix.platform}}
