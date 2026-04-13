@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using dnlib.PE;
 
 namespace dnSpy.Decompiler.MSBuild {
@@ -62,6 +63,13 @@ namespace dnSpy.Decompiler.MSBuild {
 		}
 
 		public void Write() {
+			if (Path.GetExtension(filename) == ".slnx")
+				WriteXmlSolution();
+			else
+				WriteVisualStudioSolution();
+		}
+
+		private void WriteVisualStudioSolution() {
 			Directory.CreateDirectory(Path.GetDirectoryName(filename)!);
 			using (var writer = new StreamWriter(filename, false, Encoding.UTF8)) {
 				const string crlf = "\r\n"; // Make sure it's always CRLF
@@ -170,6 +178,46 @@ namespace dnSpy.Decompiler.MSBuild {
 				writer.Write("\t\tHideSolutionNode = FALSE" + crlf);
 				writer.Write("\tEndGlobalSection" + crlf);
 				writer.Write("EndGlobal" + crlf);
+			}
+		}
+
+		private void WriteXmlSolution() {
+			Directory.CreateDirectory(Path.GetDirectoryName(filename)!);
+
+			var settings = new XmlWriterSettings {
+				Encoding = Encoding.UTF8,
+				Indent = true,
+				OmitXmlDeclaration = true
+			};
+
+			using (var writer = XmlWriter.Create(filename, settings)) {
+				writer.WriteStartElement("Solution");
+
+				if (platforms.Count != 1 || platforms[0] != "Any CPU") {
+					writer.WriteStartElement("Configurations");
+
+					foreach (var p in platforms) {
+						if (p == "Mixed Platforms")
+							continue;
+						writer.WriteStartElement("Platform");
+						writer.WriteAttributeString("Name", p);
+						writer.WriteEndElement();
+					}
+
+					writer.WriteEndElement();
+				}
+
+				foreach (var p in projects) {
+					writer.WriteStartElement("Project");
+
+					var relativePath = Path.Combine(Path.GetFileName(Path.GetDirectoryName(p.Filename)!),
+						Path.GetFileName(p.Filename));
+
+					writer.WriteAttributeString("Path", relativePath);
+					writer.WriteEndElement();
+				}
+
+				writer.WriteEndElement();
 			}
 		}
 	}

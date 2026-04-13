@@ -103,6 +103,7 @@ namespace dnSpy.Debugger.DotNet.Metadata {
 		public bool IsNoOptimization => (MethodImplementationFlags & DmdMethodImplAttributes.NoOptimization) != 0;
 		public bool IsAggressiveOptimization => (MethodImplementationFlags & DmdMethodImplAttributes.AggressiveOptimization) != 0;
 		public bool HasSecurityMitigations => (MethodImplementationFlags & DmdMethodImplAttributes.SecurityMitigations) != 0;
+		public bool IsAsync => (MethodImplementationFlags & DmdMethodImplAttributes.Async) != 0;
 
 		public bool IsPublic => (Attributes & DmdMethodAttributes.MemberAccessMask) == DmdMethodAttributes.Public;
 		public bool IsPrivate => (Attributes & DmdMethodAttributes.MemberAccessMask) == DmdMethodAttributes.Private;

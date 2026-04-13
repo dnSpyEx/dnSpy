@@ -73,7 +73,7 @@ namespace dnSpy.Roslyn.Internal.SmartIndent.CSharp {
 			var previousToken = token.GetPreviousToken(includeZeroWidth: true);
 			if (previousToken.IsKind(SyntaxKind.None)) {
 				// no previous token. nothing to format
-				return SpecializedCollections.EmptyList<TextChange>();
+				return [];
 			}
 
 			// This is a heuristic to prevent brace completion from breaking user expectation/muscle memory in common scenarios (see Devdiv:823958).

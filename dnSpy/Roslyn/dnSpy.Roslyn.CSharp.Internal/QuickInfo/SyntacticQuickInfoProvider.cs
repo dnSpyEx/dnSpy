@@ -25,13 +25,14 @@ namespace dnSpy.Roslyn.Internal.QuickInfo.CSharp {
 			}
 
 			// Don't show for interpolations
-			if (token.Parent.IsKind(SyntaxKind.Interpolation) &&
-				((InterpolationSyntax)token.Parent).CloseBraceToken == token) {
+			if (token.Parent is InterpolationSyntax interpolation &&
+				interpolation.CloseBraceToken == token)
+			{
 				return Task.FromResult<QuickInfoContent>(null);
 			}
 
 			// Now check if we can find an open brace.
-			var parent = token.Parent;
+			var parent = token.Parent!;
 			var openBrace = parent.ChildNodesAndTokens().FirstOrDefault(n => n.IsKind(SyntaxKind.OpenBraceToken)).AsToken();
 			if (!openBrace.IsKind(SyntaxKind.OpenBraceToken)) {
 				return Task.FromResult<QuickInfoContent>(null);
@@ -50,15 +51,6 @@ namespace dnSpy.Roslyn.Internal.QuickInfo.CSharp {
 			else if (parent.GetFirstToken() == openBrace) {
 				spanStart = parent.Parent.SpanStart;
 			}
-
-			// Now that we know what we want to display, create a small elision buffer with that
-			// span, jam it in a view and show that to the user.
-			//var text = await document.GetTextAsync(cancellationToken).ConfigureAwait(false);
-			//var textSnapshot = text.FindCorrespondingEditorTextSnapshot();
-			//if (textSnapshot == null)
-			//{
-			//    return null;
-			//}
 
 			var span = TextSpan.FromBounds(spanStart, spanEnd);
 			return Task.FromResult(this.CreateProjectionBufferDeferredContent(span));

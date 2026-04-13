@@ -163,7 +163,7 @@ namespace dnSpy.Documents.Tabs {
 
 			public override void Execute(IMenuItemContext context) => GoToResourceCommand.Execute(documentTabService, TryCreate(context));
 
-			static ResourceRef? TryCreate(TextReference @ref) {
+			static ResourceRef? TryCreate(TextReference? @ref) {
 				if (@ref is null)
 					return null;
 				return ResourceRef.TryCreate(@ref.Reference);
@@ -187,7 +187,7 @@ namespace dnSpy.Documents.Tabs {
 
 			public override void Execute(IMenuItemContext context) => GoToResourceCommand.Execute(documentTabService, TryCreate(context));
 
-			static ResourceRef? TryCreate(TreeNodeData[] nodes) {
+			static ResourceRef? TryCreate(TreeNodeData[]? nodes) {
 				if (nodes is null || nodes.Length != 1)
 					return null;
 				if (nodes[0] is IMDTokenNode tokNode)

@@ -40,6 +40,7 @@
     <PackageReference Include="System.ComponentModel.Composition" Version="$(SCCompositionVersion)" />
     <PackageReference Include="Microsoft.VisualStudio.Language.Intellisense" Version="$(MSVSIntellisenseVersion)" />
     <PackageReference Include="Microsoft.VisualStudio.Text.UI.Wpf" Version="$(MSVSTextVersion)" />
+    <PackageReference Include="System.Formats.Nrbf" Version="$(NrbfVersion)" />
   </ItemGroup>
 
 </Project>

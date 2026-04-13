@@ -165,6 +165,7 @@ namespace dnSpy.Debugger.DotNet.Metadata {
 		public bool IsAutoLayout => (Attributes & DmdTypeAttributes.LayoutMask) == DmdTypeAttributes.AutoLayout;
 		public bool IsLayoutSequential => (Attributes & DmdTypeAttributes.LayoutMask) == DmdTypeAttributes.SequentialLayout;
 		public bool IsExplicitLayout => (Attributes & DmdTypeAttributes.LayoutMask) == DmdTypeAttributes.ExplicitLayout;
+		public bool IsExtendedLayout => (Attributes & DmdTypeAttributes.LayoutMask) == DmdTypeAttributes.ExtendedLayout;
 		public bool IsClass => (Attributes & DmdTypeAttributes.ClassSemanticsMask) == DmdTypeAttributes.Class && !IsValueType;
 		public bool IsInterface => (Attributes & DmdTypeAttributes.ClassSemanticsMask) == DmdTypeAttributes.Interface;
 		public bool IsValueType => BaseType is DmdType baseType && (baseType == AppDomain.System_ValueType ? this != AppDomain.System_Enum : baseType == AppDomain.System_Enum);

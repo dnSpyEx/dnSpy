@@ -122,12 +122,18 @@ namespace dnSpy.BamlDecompiler.Rewrite {
 		}
 
 		struct FieldAssignment {
-			public string FieldName;
+			public IField Field;
 
 			public void Callback(XamlContext ctx, XElement elem) {
 				var xName = ctx.GetKnownNamespace("Name", XamlContext.KnownNamespace_Xaml, elem);
 				if (elem.Attribute("Name") is null && elem.Attribute(xName) is null)
-					elem.Add(new XAttribute(xName, IdentifierEscaper.Escape(FieldName)));
+					elem.Add(new XAttribute(xName, IdentifierEscaper.Escape(Field.Name)));
+
+				var def = Field.ResolveFieldDef();
+				if (def is not null && def.IsPublic) {
+					var fieldModifier = ctx.GetKnownNamespace("FieldModifier", XamlContext.KnownNamespace_Xaml, elem);
+					elem.Add(new XAttribute(fieldModifier, ctx.BamlDecompilerOptions.PublicFieldModifier));
+				}
 			}
 		}
 
@@ -198,7 +204,7 @@ namespace dnSpy.BamlDecompiler.Rewrite {
 					switch (expr.Code) {
 					case ILCode.Stfld:
 						cb += new FieldAssignment {
-							FieldName = ((IField)expr.Operand).Name
+							Field = (IField)expr.Operand
 						}.Callback;
 						break;
 

@@ -29,7 +29,7 @@ namespace dnSpy.Documents.Tabs {
 		public static DsDocumentInfo? TryLoad(ISettingsSection section) {
 			var name = section.Attribute<string>(DOCUMENTINFO_NAME_ATTR);
 			var type = section.Attribute<Guid?>(DOCUMENTINFO_TYPE_ATTR) ?? DocumentConstants.DOCUMENTTYPE_FILE;
-			if (string.IsNullOrEmpty(name))
+			if (string2.IsNullOrEmpty(name))
 				return null;
 			return new DsDocumentInfo(name, type);
 		}

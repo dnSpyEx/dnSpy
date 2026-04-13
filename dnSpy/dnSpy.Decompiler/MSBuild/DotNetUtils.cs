@@ -35,7 +35,7 @@ namespace dnSpy.Decompiler.MSBuild {
 			return false;
 		}
 
-		public static bool IsWinForm(TypeDef type) => IsType(type, "System.Windows.Forms.Form");
+		public static bool IsWinForm(TypeDef type) => IsType(type, "System.Windows.Forms.Control") && type.Methods.Any(x => x.Name == "InitializeComponent");
 		public static bool IsSystemWindowsApplication(TypeDef type) => IsType(type, "System.Windows.Application");
 		public static bool IsStartUpClass(TypeDef type) => type.Module.EntryPoint is not null && type.Module.EntryPoint.DeclaringType == type;
 		public static bool IsUnsafe(ModuleDef module) => module.CustomAttributes.IsDefined("System.Security.UnverifiableCodeAttribute");

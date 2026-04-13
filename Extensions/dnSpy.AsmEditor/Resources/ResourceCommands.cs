@@ -1258,7 +1258,7 @@ namespace dnSpy.AsmEditor.Resources {
 			for (int i = 0; i < fnames.Length; i++) {
 				var fn = fnames[i];
 				try {
-					var node = (DocumentTreeNodeData)treeView.Create(resourceNodeFactory.Create(module, SerializationUtilities.CreateSerializedImage(fn), treeNodeGroup)).Data;
+					var node = (DocumentTreeNodeData)treeView.Create(resourceNodeFactory.Create(module, SerializedImageUtilities.CreateSerializedImage(fn), treeNodeGroup)).Data;
 					newNodes.Add(new NodeAndResourceElement(node));
 				}
 				catch (Exception ex) {
@@ -1671,7 +1671,7 @@ namespace dnSpy.AsmEditor.Resources {
 				Name = string.Empty,
 				ResourceData = new BuiltInResourceData(ResourceTypeCode.String, string.Empty),
 			});
-			var data = new ResourceElementVM(options, module, documentTreeViewSettings.DeserializeResources);
+			var data = new ResourceElementVM(options, module);
 			var win = new ResourceElementDlg();
 			win.Title = dnSpy_AsmEditor_Resources.CreateResourceCommand2;
 			win.DataContext = data;
@@ -1850,7 +1850,7 @@ namespace dnSpy.AsmEditor.Resources {
 				throw new InvalidOperationException();
 
 			var options = new ResourceElementOptions(rsrcElNode.ResourceElement);
-			var data = new ResourceElementVM(options, module, documentTreeViewSettings.DeserializeResources);
+			var data = new ResourceElementVM(options, module);
 			data.CanChangeType = false;
 			var win = new ResourceElementDlg();
 			win.Title = dnSpy_AsmEditor_Resources.EditResourceCommand2;

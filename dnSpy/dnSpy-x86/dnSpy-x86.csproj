@@ -18,10 +18,17 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
 
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+
     <PlatformTarget Condition="'$(IsDotNetFramework)' == 'false' AND '$(RuntimeIdentifier)' == ''" >x86</PlatformTarget>
 
     <DefineConstants Condition="'$(RuntimeIdentifier)' != ''">BUILD_SELF_CONTAINED</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="Switch.System.Windows.Media.EnableHardwareAccelerationInRdp" Value="true" />
+  </ItemGroup>
 
   <PropertyGroup>
     <ApplicationIcon>..\dnSpy\Images\dnSpy-x86.ico</ApplicationIcon>
