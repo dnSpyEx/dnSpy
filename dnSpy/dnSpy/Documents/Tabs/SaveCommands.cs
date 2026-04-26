@@ -92,7 +92,7 @@ namespace dnSpy.Documents.Tabs {
 			var vm = new ExportToProjectVM(new PickDirectory(), decompilerService, task, bamlDecompiler is not null);
 			task.vm = vm;
 			vm.ProjectVersion = exportToProjectSettings.ProjectVersion;
-			vm.CreateResX = documentTreeViewSettings.DeserializeResources;
+			vm.CreateResX = true;
 			vm.DontReferenceStdLib = modules.Any(a => a.Assembly.IsCorLib());
 			vm.Decompiler = vm.AllDecompilers.First(a => a.Decompiler == decompiler);
 			vm.SolutionFilename = GetSolutionFilename(modules);
@@ -189,6 +189,7 @@ namespace dnSpy.Documents.Tabs {
 						if (bamlDecompiler is not null) {
 							var o = BamlDecompilerOptions.Create(vm.Decompiler.Decompiler);
 							var outputOptions = xamlOutputOptionsProvider?.Default ?? new XamlOutputOptions();
+							projOpts.DecompileBamlTypeName = (a, b, c) => bamlDecompiler.DecompileTypeName(a, b, c, o);
 							projOpts.DecompileBaml = (a, b, c, d) => bamlDecompiler.Decompile(a, b, c, o, d, outputOptions);
 						}
 						options.ProjectModules.Add(projOpts);

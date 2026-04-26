@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
     Microsoft ResX Schema
@@ -2332,5 +2332,11 @@ Most options will be re-initialized when this checkbox is clicked</value>
   </data>
   <data name="CloseAllFrameworkAssembliesCommand" xml:space="preserve">
     <value>Close All Framework Assemblies</value>
+  </data>
+  <data name="LoadDependenciesCommand" xml:space="preserve">
+    <value>Load Dependencies</value>
+  </data>
+  <data name="LoadDependenciesRecursiveCommand" xml:space="preserve">
+    <value>Load Dependencies Recursively</value>
   </data>
 </root>

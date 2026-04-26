@@ -127,6 +127,7 @@ namespace dnSpy.Decompiler.CSharp {
 		bool ShowParameterNames => (options & FormatterOptions.ShowParameterNames) != 0;
 		bool ShowDeclaringTypes => (options & FormatterOptions.ShowDeclaringTypes) != 0;
 		bool ShowReturnTypes => (options & FormatterOptions.ShowReturnTypes) != 0;
+		bool ShowFieldTypes => (options & FormatterOptions.ShowFieldTypes) != 0;
 		bool ShowNamespaces => (options & FormatterOptions.ShowNamespaces) != 0;
 		bool ShowIntrinsicTypeKeywords => (options & FormatterOptions.ShowIntrinsicTypeKeywords) != 0;
 		bool UseDecimal => (options & FormatterOptions.UseDecimal) != 0;
@@ -540,8 +541,10 @@ namespace dnSpy.Decompiler.CSharp {
 					WriteSpace();
 				}
 				WriteModuleName(fd?.Module);
-				Write(sig?.Type, null, null, null, attributeProvider: fd);
-				WriteSpace();
+				if (ShowFieldTypes) {
+					Write(sig?.Type, null, null, null, attributeProvider: fd);
+					WriteSpace();
+				}
 			}
 			else
 				WriteModuleName(fd?.Module);

@@ -3562,6 +3562,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -3577,6 +3578,7 @@
                         <CheckBox Grid.Row="2" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding Column1.Bit6.BitValue}" Content="{Binding Column1.Bit6.NameUI, Mode=OneTime}" />
                         <CheckBox Grid.Row="2" Grid.Column="1" Margin="5 5 0 0" IsChecked="{Binding Column1.Bit9.BitValue}" Content="{Binding Column1.Bit9.NameUI, Mode=OneTime}" />
                         <CheckBox Grid.Row="2" Grid.Column="2" Margin="5 5 0 0" IsChecked="{Binding Column1.Bit10.BitValue}" Content="{Binding Column1.Bit10.NameUI, Mode=OneTime}" />
+                        <CheckBox Grid.Row="3" Grid.Column="0" Margin="0 5 0 0" IsChecked="{Binding Column1.Bit13.BitValue}" Content="{Binding Column1.Bit13.NameUI, Mode=OneTime}" />
                     </Grid>
                 </GroupBox>
 

@@ -82,11 +82,6 @@ namespace dnSpy.Documents.TreeView {
 		}
 		bool showToken = true;
 
-		public bool DeserializeResources {
-			get => false;
-			set { }
-		}
-
 		public DocumentFilterType FilterDraggedItems {
 			get => filterDraggedItems;
 			set {
@@ -155,7 +150,6 @@ namespace dnSpy.Documents.TreeView {
 			other.ShowAssemblyVersion = ShowAssemblyVersion;
 			other.ShowAssemblyPublicKeyToken = ShowAssemblyPublicKeyToken;
 			other.ShowToken = ShowToken;
-			other.DeserializeResources = DeserializeResources;
 			other.FilterDraggedItems = FilterDraggedItems;
 			other.MemberKind0 = MemberKind0;
 			other.MemberKind1 = MemberKind1;
@@ -182,7 +176,6 @@ namespace dnSpy.Documents.TreeView {
 			ShowAssemblyVersion = sect.Attribute<bool?>(nameof(ShowAssemblyVersion)) ?? ShowAssemblyVersion;
 			ShowAssemblyPublicKeyToken = sect.Attribute<bool?>(nameof(ShowAssemblyPublicKeyToken)) ?? ShowAssemblyPublicKeyToken;
 			ShowToken = sect.Attribute<bool?>(nameof(ShowToken)) ?? ShowToken;
-			DeserializeResources = sect.Attribute<bool?>(nameof(DeserializeResources)) ?? DeserializeResources;
 			FilterDraggedItems = sect.Attribute<DocumentFilterType?>(nameof(FilterDraggedItems)) ?? FilterDraggedItems;
 			MemberKind0 = sect.Attribute<MemberKind?>(nameof(MemberKind0)) ?? MemberKind0;
 			MemberKind1 = sect.Attribute<MemberKind?>(nameof(MemberKind1)) ?? MemberKind1;
@@ -199,7 +192,6 @@ namespace dnSpy.Documents.TreeView {
 			sect.Attribute(nameof(ShowAssemblyVersion), ShowAssemblyVersion);
 			sect.Attribute(nameof(ShowAssemblyPublicKeyToken), ShowAssemblyPublicKeyToken);
 			sect.Attribute(nameof(ShowToken), ShowToken);
-			sect.Attribute(nameof(DeserializeResources), DeserializeResources);
 			sect.Attribute(nameof(FilterDraggedItems), FilterDraggedItems);
 			sect.Attribute(nameof(MemberKind0), MemberKind0);
 			sect.Attribute(nameof(MemberKind1), MemberKind1);

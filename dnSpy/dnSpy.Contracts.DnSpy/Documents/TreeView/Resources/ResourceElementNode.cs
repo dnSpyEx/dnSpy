@@ -142,7 +142,7 @@ namespace dnSpy.Contracts.Documents.TreeView.Resources {
 			decompiler.WriteCommentBegin(output, true);
 			output.WriteOffsetComment(this, showOffset);
 			output.Write(IdentifierEscaper.Escape(Name), this, DecompilerReferenceFlags.Local | DecompilerReferenceFlags.Definition, BoxedTextColor.Comment);
-			output.Write($" = {ValueString}", BoxedTextColor.Comment);
+			output.Write($" = {IdentifierEscaper.Truncate(ValueString, 50000)}", BoxedTextColor.Comment);
 			decompiler.WriteCommentEnd(output, true);
 			output.WriteLine();
 		}

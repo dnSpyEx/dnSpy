@@ -74,7 +74,7 @@ namespace dnSpy.AsmEditor.Hex {
 			CreatorObject = creatorObject;
 		}
 
-		public HexContext(IDocumentViewer documentViewer, int? textPosition, object? @ref, bool isDefinition) {
+		public HexContext(IDocumentViewer? documentViewer, int? textPosition, object? @ref, bool isDefinition) {
 			Reference = @ref;
 			IsDefinition = isDefinition;
 			TextPosition = textPosition;
