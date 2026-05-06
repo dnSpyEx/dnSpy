@@ -318,4 +318,7 @@
   <data name="MissingArgument" xml:space="preserve">
     <value>آرگومان ها پیدا نشد</value>
   </data>
+  <data name="CmdLineDescription_SdkProject" xml:space="preserve">
+    <value>ایجاد فایل‌های پروژه به سبک SDK</value>
+  </data>
 </root>

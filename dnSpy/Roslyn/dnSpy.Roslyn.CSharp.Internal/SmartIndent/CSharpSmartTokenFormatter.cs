@@ -16,6 +16,7 @@ using Microsoft.CodeAnalysis.Formatting.Rules;
 using Microsoft.CodeAnalysis.Indentation;
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.CodeAnalysis.Shared.Extensions;
+using Microsoft.CodeAnalysis.PooledObjects;
 using Microsoft.CodeAnalysis.Text;
 using Roslyn.Utilities;
 
@@ -72,7 +73,7 @@ namespace dnSpy.Roslyn.Internal.SmartIndent.CSharp {
 			var previousToken = token.GetPreviousToken(includeZeroWidth: true);
 			if (previousToken.IsKind(SyntaxKind.None)) {
 				// no previous token. nothing to format
-				return SpecializedCollections.EmptyList<TextChange>();
+				return [];
 			}
 
 			// This is a heuristic to prevent brace completion from breaking user expectation/muscle memory in common scenarios (see Devdiv:823958).
@@ -90,7 +91,7 @@ namespace dnSpy.Roslyn.Internal.SmartIndent.CSharp {
 				}
 			}
 
-			var smartTokenformattingRules = new SmartTokenFormattingRule().Concat(_formattingRules);
+			ImmutableArray<AbstractFormattingRule> smartTokenFormattingRules = [new SmartTokenFormattingRule(), .. _formattingRules];
 			var adjustedStartPosition = previousToken.SpanStart;
 			if (token.IsKind(SyntaxKind.OpenBraceToken) && _options.IndentStyle != FormattingOptions2.IndentStyle.Smart) {
 				RoslynDebug.AssertNotNull(token.SyntaxTree);
@@ -101,7 +102,7 @@ namespace dnSpy.Roslyn.Internal.SmartIndent.CSharp {
 
 			var formatter = CSharpSyntaxFormatting.Instance;
 			var result = formatter.GetFormattingResult(
-				_root, new[] { TextSpan.FromBounds(adjustedStartPosition, adjustedEndPosition) }, _options.FormattingOptions, smartTokenformattingRules, cancellationToken);
+				_root, [ TextSpan.FromBounds(adjustedStartPosition, adjustedEndPosition) ], _options.FormattingOptions, smartTokenFormattingRules, cancellationToken);
 			return result.GetTextChanges(cancellationToken);
 		}
 
@@ -127,7 +128,7 @@ namespace dnSpy.Roslyn.Internal.SmartIndent.CSharp {
 		}
 
 		private class SmartTokenFormattingRule : NoLineChangeFormattingRule {
-			public override void AddSuppressOperations(List<SuppressOperation> list, SyntaxNode node,
+			public override void AddSuppressOperations(ArrayBuilder<SuppressOperation> list, SyntaxNode node,
 				in NextSuppressOperationAction nextOperation) {
 				// don't suppress anything
 			}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using NuGet.Configuration;
 
@@ -38,7 +39,7 @@ namespace dnSpy.Contracts.Utilities {
 		public static IReadOnlyList<IReadOnlyList<string>> GetPossibleNuGetPackageLocations(string packageName, string? packageVersion) =>
 			GetPossibleNuGetPackageLocations(new NuGetPackageInfo(packageName, packageVersion));
 
-		static IReadOnlyList<IReadOnlyList<string>> GetPossibleNuGetPackageLocations(NuGetPackageInfo packageInfo) {
+		static List<IReadOnlyList<string>> GetPossibleNuGetPackageLocations(NuGetPackageInfo packageInfo) {
 			var packageSources = new List<IReadOnlyList<string>>();
 
 			// This is the directory to which packages are downloaded to
@@ -69,6 +70,9 @@ namespace dnSpy.Contracts.Utilities {
 		}
 
 		static IReadOnlyList<string> FindPackages(string packageStore, NuGetPackageInfo packageInfo) {
+			if (!Directory.Exists(packageStore))
+				return Array.Empty<string>();
+
 			var result = new List<string>();
 
 			string[] packages = Directory.GetDirectories(packageStore);

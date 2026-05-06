@@ -39,6 +39,7 @@ namespace dnSpy.Debugger.DotNet.Metadata {
 		AutoLayout				= 0x00000000,
 		SequentialLayout		= 0x00000008,
 		ExplicitLayout			= 0x00000010,
+		ExtendedLayout			= 0x00000018,
 		ClassSemanticsMask		= 0x00000020,
 		Class					= 0x00000000,
 		Interface				= 0x00000020,

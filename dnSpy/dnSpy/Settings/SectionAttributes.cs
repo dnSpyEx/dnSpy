@@ -40,7 +40,7 @@ namespace dnSpy.Settings {
 			attributes = new Dictionary<string, string>(StringComparer.Ordinal);
 		}
 
-		public T Attribute<T>(string name) {
+		public T? Attribute<T>(string name) {
 			Debug2.Assert(name is not null);
 			if (name is null)
 				throw new ArgumentNullException(nameof(name));
@@ -48,7 +48,7 @@ namespace dnSpy.Settings {
 			string? stringValue;
 			lock (lockObj) {
 				if (!attributes.TryGetValue(name, out stringValue))
-					return default!;
+					return default;
 			}
 
 			var c = TypeDescriptor.GetConverter(typeof(T));
@@ -59,7 +59,7 @@ namespace dnSpy.Settings {
 			}
 			catch (NotSupportedException) {
 			}
-			return default!;
+			return default;
 		}
 
 		public void Attribute<T>(string name, T value) {

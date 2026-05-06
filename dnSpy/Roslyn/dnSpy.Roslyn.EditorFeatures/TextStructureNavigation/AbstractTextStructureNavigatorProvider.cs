@@ -28,10 +28,11 @@ namespace dnSpy.Roslyn.EditorFeatures.TextStructureNavigation {
 		}
 
 		protected abstract bool ShouldSelectEntireTriviaFromStart(SyntaxTrivia trivia);
-		protected abstract bool IsWithinNaturalLanguage(SyntaxToken token, int position);
 
-		protected virtual TextExtent GetExtentOfWordFromToken(SyntaxToken token, SnapshotPoint position) =>
-			new TextExtent(token.Span.ToSnapshotSpan(position.Snapshot), isSignificant: true);
+		protected abstract TextExtent GetExtentOfWordFromToken(ITextStructureNavigator naturalLanguageNavigator, SyntaxToken token, SnapshotPoint position);
+
+		protected static TextExtent GetTokenExtent(SyntaxToken token, ITextSnapshot snapshot)
+			=> new(token.Span.ToSnapshotSpan(snapshot), isSignificant: true);
 
 		public ITextStructureNavigator CreateTextStructureNavigator(ITextBuffer subjectBuffer) {
 			var naturalLanguageNavigator = _selectorService.CreateTextStructureNavigator(

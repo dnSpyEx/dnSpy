@@ -31,20 +31,22 @@ namespace dnSpy.Contracts.Decompiler {
 		ShowParameterNames			= 0x00000004,
 		ShowDeclaringTypes			= 0x00000008,
 		ShowReturnTypes				= 0x00000010,
-		ShowNamespaces				= 0x00000020,
-		ShowIntrinsicTypeKeywords	= 0x00000040,
-		UseDecimal					= 0x00000080,
-		ShowTokens					= 0x00000100,
-		ShowArrayValueSizes			= 0x00000200,
-		ShowFieldLiteralValues		= 0x00000400,
-		ShowParameterLiteralValues	= 0x00000800,
-		DigitSeparators				= 0x00001000,
+		ShowFieldTypes				= 0x00000020,
+		ShowNamespaces				= 0x00000040,
+		ShowIntrinsicTypeKeywords	= 0x00000080,
+		UseDecimal					= 0x00000100,
+		ShowTokens					= 0x00000200,
+		ShowArrayValueSizes			= 0x00000400,
+		ShowFieldLiteralValues		= 0x00000800,
+		ShowParameterLiteralValues	= 0x00001000,
+		DigitSeparators				= 0x00002000,
 
 		Default =
 			ShowParameterTypes |
 			ShowParameterNames |
 			ShowDeclaringTypes |
 			ShowReturnTypes |
+			ShowFieldTypes |
 			ShowIntrinsicTypeKeywords |
 			ShowFieldLiteralValues,
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

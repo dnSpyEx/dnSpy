@@ -54,6 +54,8 @@ namespace dnSpy.BamlDecompiler {
 				return null;
 			if (tab.UIContext is not IDocumentViewer uiContext)
 				return null;
+			if (tab.Content is null)
+				return null;
 			var nodes = tab.Content.Nodes.ToArray();
 			if (nodes.Length != 1)
 				return null;

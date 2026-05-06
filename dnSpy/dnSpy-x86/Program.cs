@@ -23,7 +23,7 @@ namespace dnSpy_x86 {
 	static class Program {
 		[STAThread]
 		static void Main() {
-#if NET
+#if NET && BUILD_SELF_CONTAINED
 			const string errmsg = "Wrong startup project";
 			System.Diagnostics.Debug.Fail(errmsg);
 			throw new InvalidOperationException(errmsg);

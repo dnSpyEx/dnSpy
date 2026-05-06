@@ -65,6 +65,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 			Name,
 			SlashGreaterThan,
 			LessThanSlash,
+			CDATA,
 		}
 
 		readonly struct Token {
@@ -125,6 +126,8 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 			SaveBraceInfo(token.Span, 1, 1, token.Kind == TokenKind.SingleQuoteString ? CodeBracesRangeFlags.SingleQuotes : CodeBracesRangeFlags.DoubleQuotes);
 		void SaveProcessingInstruction(in Token token) =>
 			SaveBraceInfo(token.Span, 2, 2, blockFlags);
+		void SaveCDATA(in Token token) =>
+			SaveBraceInfo(token.Span, 9, 3, blockFlags);
 
 		enum XmlNameReferenceKind {
 			Tag,// or markup extension
@@ -326,6 +329,10 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 						if (!isTopLevel)
 							Undo(token);
 						return;
+
+					case TokenKind.CDATA:
+						SaveCDATA(token);
+						break;
 
 					case TokenKind.SlashGreaterThan:
 					case TokenKind.Unknown:
@@ -649,14 +656,33 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 					return new Token(new Span(startPos, textPosition - startPos), TokenKind.LessThan);
 				SkipChar();
 				c = PeekChar();
-				if (c != '-')
-					return new Token(new Span(startPos, textPosition - startPos), TokenKind.Unknown);
-				SkipChar();
-				c = PeekChar();
-				if (c != '-')
-					return new Token(new Span(startPos, textPosition - startPos), TokenKind.Unknown);
-				SkipChar();
-				return ReadComment(startPos);
+				switch (c) {
+				case '[': {
+					SkipChar();
+					int backupPos = textPosition;
+					var name = ReadName(textPosition);
+					if (name.Kind != TokenKind.Name) {
+						textPosition = backupPos;
+						return new Token(new Span(startPos, textPosition - startPos), TokenKind.Unknown);
+					}
+					c = PeekChar();
+					if (c != '[') {
+						textPosition = backupPos;
+						return new Token(new Span(startPos, textPosition - startPos), TokenKind.Unknown);
+					}
+					SkipChar();
+					return ReadCDATA(startPos);
+				}
+				case '-': {
+					SkipChar();
+					c = PeekChar();
+					if (c != '-')
+						return new Token(new Span(startPos, textPosition - startPos), TokenKind.Unknown);
+					SkipChar();
+					return ReadComment(startPos);
+				}
+				}
+				return new Token(new Span(startPos, textPosition - startPos), TokenKind.Unknown);
 			}
 			if (c == '>')
 				return new Token(new Span(startPos, 1), TokenKind.GreaterThan);
@@ -768,6 +794,32 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 				break;
 			}
 			return new Token(new Span(startPos, textPosition - startPos), TokenKind.Comment);
+		}
+
+		Token ReadCDATA(int startPos) {
+			// We've already read <![CDATA[
+			for (;;) {
+				int c = NextChar();
+				if (c < 0)
+					break;
+				if (c != ']')
+					continue;
+
+				c = NextChar();
+				if (c < 0)
+					break;
+				if (c != ']')
+					continue;
+
+				c = NextChar();
+				if (c < 0)
+					break;
+				if (c != '>')
+					continue;
+
+				break;
+			}
+			return new Token(new Span(startPos, textPosition - startPos), TokenKind.CDATA);
 		}
 
 		void SkipWhitespace() {

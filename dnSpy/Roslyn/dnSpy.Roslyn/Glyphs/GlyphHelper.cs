@@ -83,7 +83,10 @@ namespace dnSpy.Roslyn.Glyphs {
 			case Glyph.ModulePrivate:			return DsImages.ModulePrivate;
 			case Glyph.ModuleInternal:			return DsImages.ModuleInternal;
 			case Glyph.OpenFolder:				return DsImages.FolderOpened;
-			case Glyph.Operator:				return DsImages.OperatorPublic;
+			case Glyph.OperatorPublic:			return DsImages.OperatorPublic;
+			case Glyph.OperatorProtected:		return DsImages.OperatorProtected;
+			case Glyph.OperatorPrivate:			return DsImages.OperatorPrivate;
+			case Glyph.OperatorInternal:		return DsImages.OperatorInternal;
 			case Glyph.Parameter:				return DsImages.LocalVariable;// Same image as Local, just like what VS does
 			case Glyph.PropertyPublic:			return DsImages.Property;
 			case Glyph.PropertyProtected:		return DsImages.PropertyProtected;

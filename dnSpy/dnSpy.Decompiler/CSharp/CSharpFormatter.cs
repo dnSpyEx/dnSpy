@@ -127,6 +127,7 @@ namespace dnSpy.Decompiler.CSharp {
 		bool ShowParameterNames => (options & FormatterOptions.ShowParameterNames) != 0;
 		bool ShowDeclaringTypes => (options & FormatterOptions.ShowDeclaringTypes) != 0;
 		bool ShowReturnTypes => (options & FormatterOptions.ShowReturnTypes) != 0;
+		bool ShowFieldTypes => (options & FormatterOptions.ShowFieldTypes) != 0;
 		bool ShowNamespaces => (options & FormatterOptions.ShowNamespaces) != 0;
 		bool ShowIntrinsicTypeKeywords => (options & FormatterOptions.ShowIntrinsicTypeKeywords) != 0;
 		bool UseDecimal => (options & FormatterOptions.UseDecimal) != 0;
@@ -222,22 +223,22 @@ namespace dnSpy.Decompiler.CSharp {
 				return;
 			}
 
-			if (member is IMethod method && method.MethodSig is not null) {
+			if (member.IsMethod && member is IMethod method) {
 				WriteToolTip(method);
 				return;
 			}
 
-			if (member is IField field && field.FieldSig is not null) {
+			if (member.IsField && member is IField field) {
 				WriteToolTip(field);
 				return;
 			}
 
-			if (member is PropertyDef prop && prop.PropertySig is not null) {
+			if (member is PropertyDef prop) {
 				WriteToolTip(prop);
 				return;
 			}
 
-			if (member is EventDef evt && evt.EventType is not null) {
+			if (member is EventDef evt) {
 				WriteToolTip(evt);
 				return;
 			}
@@ -261,22 +262,22 @@ namespace dnSpy.Decompiler.CSharp {
 				return;
 			}
 
-			if (member is IMethod method && method.MethodSig is not null) {
+			if (member.IsMethod && member is IMethod method) {
 				Write(method);
 				return;
 			}
 
-			if (member is IField field && field.FieldSig is not null) {
+			if (member.IsField && member is IField field) {
 				Write(field);
 				return;
 			}
 
-			if (member is PropertyDef prop && prop.PropertySig is not null) {
+			if (member is PropertyDef prop) {
 				Write(prop);
 				return;
 			}
 
-			if (member is EventDef evt && evt.EventType is not null) {
+			if (member is EventDef evt) {
 				Write(evt);
 				return;
 			}
@@ -476,18 +477,17 @@ namespace dnSpy.Decompiler.CSharp {
 			if (info.MethodDef is not null && info.MethodDef.IsConstructor && method.DeclaringType is not null)
 				WriteIdentifier(TypeFormatterUtils.RemoveGenericTick(method.DeclaringType.Name), CSharpMetadataTextColorProvider.Instance.GetColor(method));
 			else if (info.MethodDef is not null && info.MethodDef.Overrides.Count > 0) {
-				var ovrMeth = (IMemberRef)info.MethodDef.Overrides[0].MethodDeclaration;
+				var ovrMeth = info.MethodDef.Overrides[0].MethodDeclaration;
 				WriteMethodName(method, ovrMeth.Name, operatorInfo);
 			}
 			else
 				WriteMethodName(method, method.Name, operatorInfo);
+
+			WriteToken(method);
 			if (isExplicitOrImplicit) {
-				WriteToken(method);
 				WriteSpace();
 				ForceWriteReturnType(info, writeSpace: false, isReadOnly: TypeFormatterUtils.IsReadOnlyMethod(info.MethodDef));
 			}
-			else
-				WriteToken(method);
 
 			WriteGenericArguments(info);
 			WriteMethodParameterList(info, MethodParenOpen, MethodParenClose);
@@ -541,8 +541,10 @@ namespace dnSpy.Decompiler.CSharp {
 					WriteSpace();
 				}
 				WriteModuleName(fd?.Module);
-				Write(sig.Type, null, null, null, attributeProvider: fd);
-				WriteSpace();
+				if (ShowFieldTypes) {
+					Write(sig?.Type, null, null, null, attributeProvider: fd);
+					WriteSpace();
+				}
 			}
 			else
 				WriteModuleName(fd?.Module);

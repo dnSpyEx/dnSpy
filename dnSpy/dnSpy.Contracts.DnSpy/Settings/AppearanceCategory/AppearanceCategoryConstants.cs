@@ -21,7 +21,7 @@ namespace dnSpy.Contracts.Settings.AppearanceCategory {
 	/// <summary>
 	/// Appearance category constants
 	/// </summary>
-	static class AppearanceCategoryConstants {
+	public static class AppearanceCategoryConstants {
 		/// <summary>
 		/// Text editor
 		/// </summary>

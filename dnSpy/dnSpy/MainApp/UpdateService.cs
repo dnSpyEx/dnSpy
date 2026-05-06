@@ -24,9 +24,9 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
+using System.Text.Json;
 using System.Threading.Tasks;
 using dnSpy.Contracts.Settings;
-using Newtonsoft.Json.Linq;
 
 namespace dnSpy.MainApp {
 	public readonly struct UpdateCheckInfo {
@@ -146,11 +146,18 @@ namespace dnSpy.MainApp {
 					result = await client.GetStringAsync("https://api.github.com/repos/dnSpyEx/dnSpy/releases/latest");
 				}
 
-				var json = JObject.Parse(result);
-				if (!json.TryGetValue("tag_name", out var tagToken) || tagToken is not JValue tagValue || tagValue.Value is not string tagName)
+				using var doc = JsonDocument.Parse(result);
+				var root = doc.RootElement;
+				if (!root.TryGetProperty("tag_name", out var tagElement) || tagElement.ValueKind != JsonValueKind.String)
 					return null;
-				if (!json.TryGetValue("html_url", out var urlToken) || urlToken is not JValue urlValue || urlValue.Value is not string htmlUrl)
+				if (!root.TryGetProperty("html_url", out var urlElement) || urlElement.ValueKind != JsonValueKind.String)
 					return null;
+
+				string? tagName = tagElement.GetString();
+				string? htmlUrl = urlElement.GetString();
+				if (tagName is null || htmlUrl is null)
+					return null;
+
 				if (tagName[0] == 'v')
 					tagName = tagName.Remove(0, 1);
 				if (Version.TryParse(tagName, out var version)) {

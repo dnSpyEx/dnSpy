@@ -401,6 +401,7 @@ namespace dnSpy.AsmEditor.Hex.PE {
 			new IntegerHexBitFieldEnumInfo(0, "Auto"),
 			new IntegerHexBitFieldEnumInfo(1, "Sequential"),
 			new IntegerHexBitFieldEnumInfo(2, "Explicit"),
+			new IntegerHexBitFieldEnumInfo(3, "Extended"),
 		};
 
 		static readonly IntegerHexBitFieldEnumInfo[] SemanticsInfos = new IntegerHexBitFieldEnumInfo[] {
@@ -550,6 +551,7 @@ namespace dnSpy.AsmEditor.Hex.PE {
 				field.Add(new BooleanHexBitField("AggressiveOptimization", 9));
 				field.Add(new BooleanHexBitField("SecurityMitigations", 10));
 				field.Add(new BooleanHexBitField("InternalCall", 12));
+				field.Add(new BooleanHexBitField("Async", 13));
 				return field;
 			}
 			else if (colInfo.Index == 2) {
@@ -1095,6 +1097,7 @@ namespace dnSpy.AsmEditor.Hex.PE {
 			field.Add(new BooleanHexBitField("Reference", 2));
 			field.Add(new BooleanHexBitField("Struct", 3));
 			field.Add(new BooleanHexBitField("Default ctor", 4));
+			field.Add(new BooleanHexBitField("Allows ByRefLike", 5));
 			return field;
 		}
 

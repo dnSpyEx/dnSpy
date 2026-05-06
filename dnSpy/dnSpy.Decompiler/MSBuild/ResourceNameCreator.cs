@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using dnlib.DotNet;
@@ -159,7 +160,7 @@ namespace dnSpy.Decompiler.MSBuild {
 			return name.Substring(0, i).Replace('/', '.');
 		}
 
-		public string GetBamlResourceName(string resourceName, out string typeFullName) {
+		public string GetBamlResourceName(string resourceName, string? bamlTypeName, out string typeFullName) {
 			if (namespaces is null)
 				Initialize();
 			Debug2.Assert(partialNamespaceMap is not null);
@@ -169,10 +170,10 @@ namespace dnSpy.Decompiler.MSBuild {
 			Debug2.Assert(namespaces is not null);
 
 			Debug.Assert(resourceName.EndsWith(".baml", StringComparison.OrdinalIgnoreCase));
-			var name = resourceName.Substring(0, resourceName.Length - ".baml".Length);
+			var name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(resourceName.Substring(0, resourceName.Length - ".baml".Length));
 			var nameNoExt = name;
 			name = name.Replace('/', '.');
-			typeFullName = GetFullName(name) ?? string.Empty;
+			typeFullName = !string2.IsNullOrWhiteSpace(bamlTypeName) ? bamlTypeName : GetFullName(name) ?? string.Empty;
 			if (!string.IsNullOrEmpty(typeFullName))
 				return filenameCreator.Create(".xaml", typeFullName);
 

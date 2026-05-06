@@ -318,4 +318,7 @@
   <data name="MissingArgument" xml:space="preserve">
     <value>Eksik argüman</value>
   </data>
+  <data name="CmdLineDescription_SdkProject" xml:space="preserve">
+    <value>SDK tarzı proje dosyaları oluştur</value>
+  </data>
 </root>

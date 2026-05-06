@@ -318,4 +318,7 @@
   <data name="MissingArgument" xml:space="preserve">
     <value>Missing Argument</value>
   </data>
+  <data name="CmdLineDescription_SdkProject" xml:space="preserve">
+    <value>tạo tệp dự án kiểu SDK</value>
+  </data>
 </root>

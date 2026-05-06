@@ -75,11 +75,9 @@ namespace dnSpy.Roslyn.EditorFeatures.TextStructureNavigation {
 					var root = document.GetSyntaxRootSynchronously(cancellationToken);
 					var trivia = root.FindTrivia(position, findInsideTrivia: true);
 
-					if (trivia != default) {
-						if (trivia.Span.Start == position && _provider.ShouldSelectEntireTriviaFromStart(trivia)) {
-							// We want to select the entire comment
-							return new TextExtent(trivia.Span.ToSnapshotSpan(position.Snapshot), isSignificant: true);
-						}
+					if (trivia != default && trivia.Span.Start == position && _provider.ShouldSelectEntireTriviaFromStart(trivia)) {
+						// We want to select the entire comment
+						return new TextExtent(trivia.Span.ToSnapshotSpan(position.Snapshot), isSignificant: true);
 					}
 
 					var token = root.FindToken(position, findInsideTrivia: true);
@@ -89,10 +87,9 @@ namespace dnSpy.Roslyn.EditorFeatures.TextStructureNavigation {
 						token = token.GetPreviousToken();
 					}
 
-					if (token.Span.Length > 0 && token.Span.Contains(position) &&
-						!_provider.IsWithinNaturalLanguage(token, position)) {
+					if (token.Span.Length > 0 && token.Span.Contains(position)) {
 						// Cursor position is in our domain - handle it.
-						return _provider.GetExtentOfWordFromToken(token, position);
+						return _provider.GetExtentOfWordFromToken(_naturalLanguageNavigator, token, position);
 					}
 				}
 

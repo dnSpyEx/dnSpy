@@ -318,4 +318,7 @@
   <data name="MissingArgument" xml:space="preserve">
     <value>Пропущений аргумент</value>
   </data>
+  <data name="CmdLineDescription_SdkProject" xml:space="preserve">
+    <value>генерувати файли проєкту у стилі SDK</value>
+  </data>
 </root>
