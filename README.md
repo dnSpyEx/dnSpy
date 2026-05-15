@@ -28,6 +28,12 @@ cd dnSpy
 ./build.ps1 -NoMsbuild
 ```
 
+If you already cloned the repo without `--recursive`, run:
+
+```PS
+git submodule update --init --recursive
+```
+
 To debug Unity games, you need this repo too: https://github.com/dnSpyEx/dnSpy-Unity-mono
 
 # Debugger

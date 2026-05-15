@@ -23,7 +23,35 @@
 
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+    <NeutralLanguage>en-US</NeutralLanguage>
   </PropertyGroup>
+
+  <Target Name="RemoveLocalizationFolders" AfterTargets="Build;Publish">
+    <ItemGroup>
+      <_LanguageDirs Include="$(OutputPath)cs" Condition="Exists('$(OutputPath)cs')" />
+      <_LanguageDirs Include="$(OutputPath)de" Condition="Exists('$(OutputPath)de')" />
+      <_LanguageDirs Include="$(OutputPath)es" Condition="Exists('$(OutputPath)es')" />
+      <_LanguageDirs Include="$(OutputPath)es-ES" Condition="Exists('$(OutputPath)es-ES')" />
+      <_LanguageDirs Include="$(OutputPath)fa" Condition="Exists('$(OutputPath)fa')" />
+      <_LanguageDirs Include="$(OutputPath)fr" Condition="Exists('$(OutputPath)fr')" />
+      <_LanguageDirs Include="$(OutputPath)hu" Condition="Exists('$(OutputPath)hu')" />
+      <_LanguageDirs Include="$(OutputPath)it" Condition="Exists('$(OutputPath)it')" />
+      <_LanguageDirs Include="$(OutputPath)ja" Condition="Exists('$(OutputPath)ja')" />
+      <_LanguageDirs Include="$(OutputPath)ko" Condition="Exists('$(OutputPath)ko')" />
+      <_LanguageDirs Include="$(OutputPath)pl" Condition="Exists('$(OutputPath)pl')" />
+      <_LanguageDirs Include="$(OutputPath)pt-BR" Condition="Exists('$(OutputPath)pt-BR')" />
+      <_LanguageDirs Include="$(OutputPath)pt-PT" Condition="Exists('$(OutputPath)pt-PT')" />
+      <_LanguageDirs Include="$(OutputPath)ru" Condition="Exists('$(OutputPath)ru')" />
+      <_LanguageDirs Include="$(OutputPath)tr" Condition="Exists('$(OutputPath)tr')" />
+      <_LanguageDirs Include="$(OutputPath)uk" Condition="Exists('$(OutputPath)uk')" />
+      <_LanguageDirs Include="$(OutputPath)vi" Condition="Exists('$(OutputPath)vi')" />
+      <_LanguageDirs Include="$(OutputPath)zh-CN" Condition="Exists('$(OutputPath)zh-CN')" />
+      <_LanguageDirs Include="$(OutputPath)zh-Hans" Condition="Exists('$(OutputPath)zh-Hans')" />
+      <_LanguageDirs Include="$(OutputPath)zh-Hant" Condition="Exists('$(OutputPath)zh-Hant')" />
+    </ItemGroup>
+    <RemoveDir Directories="@(_LanguageDirs)" />
+  </Target>
 
   <ItemGroup>
     <RuntimeHostConfigurationOption Include="Switch.System.Windows.Media.EnableHardwareAccelerationInRdp" Value="true" />
