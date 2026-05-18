@@ -29,13 +29,13 @@ using dnSpy.Contracts.Documents.TreeView;
 using dnSpy.Contracts.Settings;
 
 namespace dnSpy.Documents.Tabs {
-	interface IDocumentListLoader {
+	interface IDocumentListLoader : dnSpy.Contracts.Documents.Tabs.IDocumentListLoader {
 		IEnumerable<object?> Load(ISettingsSection section, bool loadDocuments);
 		void Save(ISettingsSection section);
 		bool CanLoad { get; }
 		bool Load(DocumentList documentList, IDsDocumentLoader? documentLoader = null);
-		bool CanReload { get; }
-		bool Reload(IDsDocumentLoader? documentLoader = null);
+		new bool CanReload { get; }
+		new bool Reload(IDsDocumentLoader? documentLoader = null);
 		bool CanCloseAll { get; }
 		void CloseAll();
 		void SaveCurrentDocumentsToList();
@@ -148,34 +148,35 @@ namespace dnSpy.Documents.Tabs {
 
 		public bool CanReload => !disableLoadAndReload && documentListListeners.All(a => a.Value.CanReload);
 
-		public bool Reload(IDsDocumentLoader? documentLoader) {
-			const bool isReload = true;
-			if (documentLoader is null)
-				documentLoader = new DefaultDsDocumentLoader(documentTabService.DocumentTreeView.DocumentService);
-			if (!CanReload)
-				return false;
-			if (!CheckCanLoad(isReload))
-				return false;
-			SaveCurrentDocumentsToList();
+		public bool Reload(IDsDocumentLoader? documentLoader) => Reload();
 
-			NotifyBeforeLoad(isReload);
-			var tgws = documentTabSerializer.SaveTabs();
-			using (DisableSaveToList())
-			using (documentTabService.OnReloadAll()) {
-				documentTabService.CloseAll();
-				documentTabService.DocumentTreeView.DocumentService.Clear();
-				var documents = documentListService.SelectedDocumentList.Documents.Select(a => new DocumentToLoad(a)).ToList();
-				foreach (var tgw in tgws) {
-					foreach (var g in tgw.TabGroups) {
-						foreach (var t in g.Tabs) {
-							foreach (var f in t.AutoLoadedDocuments)
-								documents.Add(new DocumentToLoad(f, true));
-						}
+	public bool Reload() {
+		const bool isReload = true;
+		var documentLoader = new DefaultDsDocumentLoader(documentTabService.DocumentTreeView.DocumentService);
+		if (!CanReload)
+			return false;
+		if (!CheckCanLoad(isReload))
+			return false;
+		SaveCurrentDocumentsToList();
+
+		NotifyBeforeLoad(isReload);
+		var tgws = documentTabSerializer.SaveTabs();
+		using (DisableSaveToList())
+		using (documentTabService.OnReloadAll()) {
+			documentTabService.CloseAll();
+			documentTabService.DocumentTreeView.DocumentService.Clear();
+			var documents = documentListService.SelectedDocumentList.Documents.Select(a => new DocumentToLoad(a)).ToList();
+			foreach (var tgw in tgws) {
+				foreach (var g in tgw.TabGroups) {
+					foreach (var t in g.Tabs) {
+						foreach (var f in t.AutoLoadedDocuments)
+							documents.Add(new DocumentToLoad(f, true));
 					}
 				}
-				documentLoader.Load(documents);
 			}
-			NotifyAfterLoad(isReload);
+			documentLoader.Load(documents);
+		}
+		NotifyAfterLoad(isReload);
 
 			// The documents in the TV is loaded with a delay so make sure we delay before restoring
 			// or the code that tries to find the nodes might fail to find them.
