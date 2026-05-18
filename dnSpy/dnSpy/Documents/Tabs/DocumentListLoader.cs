@@ -42,6 +42,7 @@ namespace dnSpy.Documents.Tabs {
 	}
 
 	[Export(typeof(IDocumentListLoader))]
+	[Export(typeof(dnSpy.Contracts.Documents.Tabs.IDocumentListLoader))]
 	sealed class DocumentListLoader : IDocumentListLoader {
 		readonly DocumentListService documentListService;
 		readonly DocumentTabService documentTabService;
