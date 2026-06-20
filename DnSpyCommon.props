@@ -34,7 +34,7 @@
     <!-- Update app.config whenever this value changes -->
     <DnSpyAssemblyVersion>6.6.0.0</DnSpyAssemblyVersion>
     <!-- This is shown in the title bar -->
-    <DnSpyAssemblyInformationalVersion>v6.6.0-rc1</DnSpyAssemblyInformationalVersion>
+    <DnSpyAssemblyInformationalVersion>v6.6.0</DnSpyAssemblyInformationalVersion>
     <!-- Prevent .NET SDK from appening the git commit hash to the information version -->
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <DnSpyAssemblyCopyright>Copyright (C) 2014-2020 de4dot@gmail.com</DnSpyAssemblyCopyright>
