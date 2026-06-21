@@ -36,11 +36,11 @@ jobs:
             build-dir: net10.0-windows\win-x64\publish
 
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v6.0.3
         with:
           submodules: true
 
-      - uses: actions/setup-dotnet@v5.2.0
+      - uses: actions/setup-dotnet@v5.3.0
         with:
           dotnet-version: 10.0.x
           dotnet-quality: ga
