@@ -1,0 +1,5 @@
+{
+  "dotnet.defaultSolution": "dnSpy.sln",
+  "omnisharp.enableMsBuildLoadProjectsOnDemand": false,
+  "omnisharp.useModernNet": true
+}

@@ -1,0 +1,1273 @@
+version=1
+
+# This file caches language service data to improve the performance of C# Dev Kit.
+# It is not intended for manual editing. It can safely be deleted and will be
+# regenerated automatically. For more information, see https://aka.ms/lscache
+#
+# To control where cache files are stored, use the following VS Code setting:
+#   "dotnet.projectsystem.cacheInProjectFolder": true
+
+[project]
+language=C#
+primary
+lastDtbSucceeded
+
+[sliceDimensions]
+TargetFramework=net10.0-windows
+
+[properties]
+AssemblyName=dnSpy.Contracts.DnSpy
+CommandLineArgsForDesignTimeEvaluation=-langversion:latest -define:TRACE -features:strict;nullablePublicOnly -doc:"obj\Debug\net10.0-windows\dnSpy.Contracts.DnSpy.xml"
+CompilerGeneratedFilesOutputPath=
+MaxSupportedLangVersion=14.0
+ProjectAssetsFile=<PATH>obj/project.assets.json
+RootNamespace=dnSpy.Contracts.DnSpy
+RunAnalyzers=
+RunAnalyzersDuringLiveAnalysis=
+SolutionPath=<PATH>../../dnSpy.sln
+TargetFrameworkIdentifier=.NETCoreApp
+TargetPath=<PATH>bin/Debug/net10.0-windows/dnSpy.Contracts.DnSpy.dll
+TargetRefPath=<PATH>obj/Debug/net10.0-windows/ref/dnSpy.Contracts.DnSpy.dll
+TemporaryDependencyNodeTargetIdentifier=net10.0-windows
+
+[commandLineArguments]
+/noconfig
+/unsafe+
+/checked-
+/nowarn:NU1701,AD0001,WFAC010,NETSDK1189,WFO0003,1701,1702,8002
+/fullpaths
+/nostdlib+
+/errorreport:prompt
+/warn:10
+/doc:obj\Debug\net10.0-windows\dnSpy.Contracts.DnSpy.xml
+/define:TRACE;DEBUG;NET;NET10_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NET10_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
+/highentropyva+
+/nullable:enable
+/features:"InterceptorsNamespaces=;Microsoft.Extensions.Validation.Generated"
+/debug+
+/debug:portable
+/filealign:512
+/keyfile:..\..\dnSpy.snk
+/optimize-
+/out:obj\Debug\net10.0-windows\dnSpy.Contracts.DnSpy.dll
+/refout:obj\Debug\net10.0-windows\refint\dnSpy.Contracts.DnSpy.dll
+/target:library
+/warnaserror-
+/utf8output
+/deterministic+
+/langversion:latest
+/features:strict
+/features:nullablePublicOnly
+/warnaserror+:NU1605,SYSLIB0011
+
+[sourceFiles]
+App/
+ AppDirectories.cs
+ IAppCommandLineArgs.cs
+ IAppCommandLineArgsHandler.cs
+ IAppInfoBar.cs
+ IAppStatusBar.cs
+ IAppWindow.cs
+ IDsLoader.cs
+ IInfoBarElement.cs
+ IInfoBarInteractionContext.cs
+ IMessageBoxService.cs
+ InfoBarIcon.cs
+ InfoBarInteraction.cs
+ IOpenFromGAC.cs
+ LoaderConstants.cs
+ MsgBox.cs
+ MsgBoxButton.cs
+AsmEditor/Compiler/
+ CompilationKind.cs
+ CompilationResult.cs
+ CompilerDiagnostic.cs
+ CompilerDiagnosticSeverity.cs
+ CompilerDocumentInfo.cs
+ CompilerMetadataReference.cs
+ CompilerProjectInfo.cs
+ DebugFileFormat.cs
+ DebugFileResult.cs
+ IAssemblyReferenceResolver.cs
+ ICodeDocument.cs
+ ILanguageCompiler.cs
+ ILanguageCompilerProvider.cs
+ LineLocation.cs
+ LineLocationSpan.cs
+ TargetPlatform.cs
+BackgroundImage/
+ BackgroundImageOptionDefinitionConstants.cs
+ DefaultImageSettings.cs
+ IBackgroundImageOptionDefinition.cs
+ ImagePlacement.cs
+Bookmarks/
+ BMObject.cs
+ Bookmark.cs
+ BookmarkDisplaySettings.cs
+ BookmarkLocation.cs
+ BookmarkLocationFormatter.cs
+ BookmarkLocationFormatterProvider.cs
+ BookmarkLocationSerializer.cs
+ BookmarkSettings.cs
+ BookmarksService.cs
+ BookmarksSettings.cs
+ CollectionChangedEventArgs.cs
+ DotNet/
+  DotNetBookmarkFactory.cs
+  DotNetBookmarkLocation.cs
+ Navigator/
+  BookmarkDocument.cs
+  BookmarkDocumentProvider.cs
+  BookmarkNavigator.cs
+ PredefinedBookmarkLocationTypes.cs
+ TextEditor/
+  BookmarkGlyphTextMarkerLocationProvider.cs
+  TextViewBookmarkLocationProvider.cs
+Command/
+ BookmarkIds.cs
+ BookmarkIdsExtensions.cs
+ CommandConstants.cs
+ CommandInfo.cs
+ CommandInfoProviderOrder.cs
+ CommandShortcut.cs
+ CommandTargetCommand.cs
+ CommandTargetFilterOrder.cs
+ CommandTargetStatus.cs
+ HexEditorIds.cs
+ HexEditorIdsExtensions.cs
+ ICommandHolder.cs
+ ICommandInfoProvider.cs
+ ICommandService.cs
+ ICommandTarget.cs
+ ICommandTargetCollection.cs
+ ICommandTargetCollectionProvider.cs
+ ICommandTargetFilter.cs
+ ICommandTargetFilterProvider.cs
+ IRegisteredCommandElement.cs
+ KeyInput.cs
+ KeyShortcut.cs
+ OutputTextPaneIds.cs
+ OutputTextPaneIdsExtensions.cs
+ ReplIds.cs
+ ReplIdsExtensions.cs
+ StandardIds.cs
+ StandardIdsExtensions.cs
+ TextEditorIds.cs
+ TextEditorIdsExtensions.cs
+ TextReferenceIds.cs
+ TextReferenceIdsExtensions.cs
+Controls/
+ ControlConstants.cs
+ FastTextBlock.cs
+ FontUtilities.cs
+ IFocusable.cs
+ IUIObjectProvider.cs
+ IWpfCommands.cs
+ IWpfCommandService.cs
+ IWpfFocusChecker.cs
+ IWpfFocusService.cs
+ IZoomable.cs
+ MetroWindow.cs
+ MetroWindowCreatedEventArgs.cs
+ TextControl.cs
+ ToolWindows/
+  EditValueControl.xaml.cs
+  EditValueProviderService.cs
+  IEditableValue.cs
+  IEditValue.cs
+  ListBoxSelectedItemsAP.cs
+ WindowBase.cs
+ Windows11RoundedCorners.cs
+Decompiler/
+ IDecompilerService.cs
+ IMethodDebugService.cs
+Disassembly/
+ ISymbolResolver.cs
+ IX86DisassemblySettings.cs
+ MemorySizeOptions.cs
+ NativeCode.cs
+ NativeCodeBlock.cs
+ NativeCodeBlockKind.cs
+ NativeCodeKind.cs
+ NativeCodeOptimization.cs
+ NativeVariableInfo.cs
+ NumberBase.cs
+ Viewer/
+  DisassemblyContent.cs
+  DisassemblyContentFormatterOptions.cs
+  DisassemblyContentProvider.cs
+  DisassemblyContentProviderFactory.cs
+  DisassemblyContentSettings.cs
+  DisassemblyText.cs
+  DisassemblyViewerService.cs
+  DisassemblyViewerServiceSettings.cs
+ X86NativeCodeInfo.cs
+ X86Register.cs
+ X86Variable.cs
+Documents/
+ AnnotationsImpl.cs
+ DocumentConstants.cs
+ DotNetReferences.cs
+ DsDocument.cs
+ DsDocumentInfo.cs
+ FilenameKey.cs
+ IAnnotations.cs
+ IDsDocument.cs
+ IDsDocumentNameKey.cs
+ IDsDocumentProvider.cs
+ IDsDocumentService.cs
+ IDsDocumentServiceProvider.cs
+ IDsDotNetDocument.cs
+ IDsPEDocument.cs
+ IInMemoryDocument.cs
+ IMethodAnnotations.cs
+ NotifyDocumentCollectionChangedEventArgs.cs
+ NotifyDocumentCollectionType.cs
+ ReferenceNavigator.cs
+ Tabs/
+  AsyncDocumentTabContent.cs
+  DefaultDocumentTabContentProviderConstants.cs
+  DocumentModifiedEventArgs.cs
+  DocumentTabContent.cs
+  DocumentTabReferenceResult.cs
+  DocumentTabUIContext.cs
+  DocViewer/
+   DocumentViewerContent.cs
+   DocumentViewerContentDataIds.cs
+   DocumentViewerExtensions.cs
+   DocumentViewerListenerConstants.cs
+   IDecompileNode.cs
+   IDecompileNodeCollection.cs
+   IDecompileNodeContext.cs
+   IDecompileSelf.cs
+   IDocumentViewer.cs
+   IDocumentViewerCustomDataContext.cs
+   IDocumentViewerCustomDataProvider.cs
+   IDocumentViewerOutput.cs
+   IDocumentViewerPostProcessor.cs
+   IDocumentViewerPostProcessorContext.cs
+   IDocumentViewerReferenceEnablerProvider.cs
+   IDocumentViewerService.cs
+   IDocumentWriter.cs
+   IDocumentWriterProvider.cs
+   IDocumentWriterService.cs
+   MoveCaretOptions.cs
+   PredefinedDocumentWriterProviderNames.cs
+   ReferenceAndId.cs
+   ReferenceInfo.cs
+   TextReference.cs
+   ToolTips/
+    ICodeToolTipProvider.cs
+    ICodeToolTipWriter.cs
+    IDocumentViewerToolTipProvider.cs
+    IDocumentViewerToolTipProviderContext.cs
+  IAsyncShowContext.cs
+  IAsyncShowResult.cs
+  IDecompilerTabContent.cs
+  IDefaultDocumentTabContentProvider.cs
+  IDocumentListListener.cs
+  IDocumentTab.cs
+  IDocumentTabContentFactory.cs
+  IDocumentTabContentFactoryContext.cs
+  IDocumentTabService.cs
+  IDocumentTabUIContextLocator.cs
+  IDocumentTabUIContextProvider.cs
+  IReferenceDocumentTabContentProvider.cs
+  IReferenceHandler.cs
+  IReferenceHandlerContext.cs
+  ISaveService.cs
+  IShowContext.cs
+  ITabSaver.cs
+  ITabSaverProvider.cs
+  ShowTabContentEventArgs.cs
+  TabConstants.cs
+ TList.cs
+ TreeView/
+  AssemblyDocumentNode.cs
+  AssemblyReferenceNode.cs
+  BaseTypeFolderNode.cs
+  BaseTypeNode.cs
+  DerivedTypeNode.cs
+  DerivedTypesFolderNode.cs
+  DocumentFilterType.cs
+  DocumentNodeWriteOptions.cs
+  DocumentTreeNodeActivatedEventArgs.cs
+  DocumentTreeNodeData.cs
+  DocumentTreeNodeFilterResult.cs
+  DocumentTreeNodeGroupType.cs
+  DocumentTreeViewConstants.cs
+  DsDocumentNode.cs
+  EventNode.cs
+  FieldNode.cs
+  FilterType.cs
+  IDocumentTreeNodeDataContext.cs
+  IDocumentTreeNodeDataFinder.cs
+  IDocumentTreeNodeFilter.cs
+  IDocumentTreeNodeGroups.cs
+  IDocumentTreeNodeProvider.cs
+  IDocumentTreeView.cs
+  IDocumentTreeViewProvider.cs
+  IDocumentTreeViewSettings.cs
+  IDsDocumentNodeProvider.cs
+  MemberKind.cs
+  MessageNode.cs
+  MethodNode.cs
+  ModuleDocumentNode.cs
+  ModuleReferenceNode.cs
+  NamespaceNode.cs
+  NodeFormatter.cs
+  NodePathName.cs
+  NotifyDocumentTreeViewCollection.cs
+  NotifyDocumentTreeViewCollectionChangedEventArgs.cs
+  PEDocumentNode.cs
+  PropertyNode.cs
+  ReferencesFolderNode.cs
+  Resources/
+   BuiltInResourceElementNode.cs
+   GuessFileType.cs
+   ImageListOptions.cs
+   ImageResourceElementNode.cs
+   ImageResourceNode.cs
+   ImageResourceUtilities.cs
+   IResourceDataProvider.cs
+   IResourceNodeFactory.cs
+   IResourceNodeProvider.cs
+   ResourceData.cs
+   ResourceDataType.cs
+   ResourceElementNode.cs
+   ResourceElementSetNode.cs
+   ResourceNode.cs
+   ResourceUtilities.cs
+   SaveResources.cs
+   SerializationUtilities.cs
+   SerializedImageListStreamerResourceElementNode.cs
+   SerializedImageListStreamerUtilities.cs
+   SerializedImageResourceElementNode.cs
+   SerializedImageUtilities.cs
+   SerializedResourceElementNode.cs
+   UnknownResourceNode.cs
+   UnknownSerializedResourceElementNode.cs
+  ResourcesFolderNode.cs
+  TypeNode.cs
+  TypeReferencesFolderNode.cs
+  UnknownDocumentNode.cs
+ETW/DnSpyEventSource.cs
+Extension/
+ ExtensionEvent.cs
+ ExtensionInfo.cs
+ IAutoLoaded.cs
+ IExtension.cs
+Hex/Adornments/
+ HexToolTipProvider.cs
+ HexToolTipProviderFactory.cs
+Hex/Classification/DnSpy/
+ HexTextElementCreator.cs
+ HexTextElementCreatorProvider.cs
+Hex/Classification/
+ HexClassificationChangedEventArgs.cs
+ HexClassificationContext.cs
+ HexClassificationFormatMapService.cs
+ HexClassificationSpan.cs
+ HexClassifier.cs
+ HexClassifierAggregatorService.cs
+ HexEditorFormatMapService.cs
+ HexViewClassifierAggregatorService.cs
+Hex/Editor/
+ DefaultHexEditorOptionDefinitions.cs
+ DefaultHexViewEditorOptionDefinitions.cs
+ DefaultHexViewHostEditorOptionDefinitions.cs
+ DefaultHexViewHostOptions.cs
+ DefaultHexViewOptions.cs
+ DefaultWpfHexViewEditorOptionDefinitions.cs
+ DefaultWpfHexViewOptions.cs
+ HexAdornmentLayer.cs
+ HexAdornmentLayerDefinition.cs
+ HexAdornmentLayerElement.cs
+ HexCaret.cs
+ HexCaretPosition.cs
+ HexColumnLineKind.cs
+ HexCursorProvider.cs
+ HexEditorFactoryService.cs
+ HexEditorFactoryServiceListener.cs
+ HexEditorOptionDefinition.cs
+ HexEditorOptionsFactoryService.cs
+ HexGlyphFactory.cs
+ HexGlyphFactoryProvider.cs
+ HexGlyphMouseProcessorProvider.cs
+ HexGlyphTag.cs
+ HexGroups/
+  HexEditorGroupFactoryService.cs
+  LocalGroupOptions.cs
+ HexImageReferenceTag.cs
+ HexIntraTextAdornmentTag.cs
+ HexKeyProcessor.cs
+ HexKeyProcessorProvider.cs
+ HexLayerKind.cs
+ HexLayerKindAttribute.cs
+ HexMarginContextMenuHandlerProvider.cs
+ HexMarginContextMenuService.cs
+ HexMarginNameAttribute.cs
+ HexMarkerServiceZIndexes.cs
+ HexMouseHoverAttribute.cs
+ HexMouseHoverEventArgs.cs
+ HexMouseProcessor.cs
+ HexMouseProcessorProvider.cs
+ HexReferenceConverter.cs
+ HexReferenceHandler.cs
+ HexReferenceHandlerService.cs
+ HexScrollMap.cs
+ HexScrollMapFactoryService.cs
+ HexSelection.cs
+ HexSpaceReservationAgent.cs
+ HexSpaceReservationManager.cs
+ HexSpaceReservationManagerDefinition.cs
+ HexStructureInfoAggregator.cs
+ HexStructureInfoAggregatorFactory.cs
+ HexStructureInfoProvider.cs
+ HexStructureInfoProviderAndData.cs
+ HexStructureInfoProviderFactory.cs
+ HexVerticalFractionMap.cs
+ HexView.cs
+ HexViewCreatedEventArgs.cs
+ HexViewCreationListener.cs
+ HexViewCreatorOptions.cs
+ HexViewLayoutChangedEventArgs.cs
+ HexViewLineCollection.cs
+ HexViewMargin.cs
+ HexViewScroller.cs
+ HexViewState.cs
+ OptionsExtensionMethods/
+  DefaultHexViewHostOptionsExtensions.cs
+  DefaultHexViewOptionsExtensions.cs
+  DefaultWpfHexViewOptionsExtensions.cs
+ PredefinedHexAdornmentLayers.cs
+ PredefinedHexGlyphFactoryProviderNames.cs
+ PredefinedHexMarginNames.cs
+ PredefinedHexReferenceHandlerNames.cs
+ PredefinedHexReferenceHandlerTags.cs
+ PredefinedHexSpaceReservationManagerNames.cs
+ PredefinedHexStructureInfoProviderFactoryNames.cs
+ PredefinedHexViewRoles.cs
+ WpfHexView.cs
+ WpfHexViewCreationListener.cs
+ WpfHexViewHost.cs
+ WpfHexViewLineCollection.cs
+ WpfHexViewMargin.cs
+ WpfHexViewMarginProvider.cs
+Hex/Files/
+ BasicData.cs
+ BufferData.cs
+ BufferField.cs
+ BufferFileHeadersProvider.cs
+ BufferFileHeadersProviderFactory.cs
+ BufferFileOptions.cs
+ BufferFilesEventArgs.cs
+ DnSpy/
+  HexFileImageReferenceProvider.cs
+  ToolTipCreator.cs
+  ToolTipCreatorFactory.cs
+  ToolTipObjectFactory.cs
+ DotNet/
+  Bit7EncodedInt32Data.cs
+  Bit7EncodedStringData.cs
+  BlobEncodedUInt32Data.cs
+  CodedToken.cs
+  ColumnInfo.cs
+  ColumnSize.cs
+  DotNetCor20Data.cs
+  DotNetEmbeddedResource.cs
+  DotNetHeaders.cs
+  DotNetHeap.cs
+  DotNetHeapKind.cs
+  DotNetMetadataHeaderData.cs
+  DotNetMetadataHeaders.cs
+  DotNetMethodBodyData.cs
+  DotNetMethodProvider.cs
+  DotNetMultiFileResourceHeaderData.cs
+  DotNetMultiFileResources.cs
+  DotNetResourceProvider.cs
+  DotNetStorageStream.cs
+  HeapData.cs
+  MDStreamFlags.cs
+  MDTable.cs
+  MDToken.cs
+  MultiResourceDataHeaderData.cs
+  MultiResourceUnicodeNameAndOffsetData.cs
+  PdbStreamHeaderData.cs
+  PredefinedDotNetDataIds.cs
+  ResourceTypeCode.cs
+  ResourceTypeCodeData.cs
+  SimpleData.cs
+  StructureData.cs
+  Table.cs
+  TableInfo.cs
+  TableRecordData.cs
+  TablesHeaderData.cs
+  TablesHeapType.cs
+  TokenData.cs
+  Utils.cs
+ EnumFieldInfo.cs
+ FlagInfo.cs
+ HexBufferFile.cs
+ HexBufferFileService.cs
+ HexBufferFileServiceFactory.cs
+ HexFieldFormatter.cs
+ HexFieldFormatterFactory.cs
+ HexFieldFormatterOptions.cs
+ HexFileStructureInfoProvider.cs
+ HexFileStructureInfoProviderFactory.cs
+ HexFileStructureInfoService.cs
+ HexFileStructureInfoServiceFactory.cs
+ HexNumberOptions.cs
+ IBufferFileHeaders.cs
+ PE/
+  DataDirectoryData.cs
+  PeDosHeaderData.cs
+  PeFileHeaderData.cs
+  PeFileLayoutProvider.cs
+  PeHeaders.cs
+  PeOptionalHeaderData.cs
+  PeSectionsData.cs
+  PredefinedPeDataIds.cs
+  SimpleData.cs
+ PredefinedBufferFileTags.cs
+ PredefinedHexFileStructureInfoProviderFactoryNames.cs
+ PredefinedStructureProviderFactoryNames.cs
+ StructureProvider.cs
+ StructureProviderFactory.cs
+ ToolTips/
+  HexToolTipContent.cs
+  HexToolTipContentCreator.cs
+  HexToolTipContentCreatorFactory.cs
+Hex/Formatting/
+ FormattedHexSourceFactoryService.cs
+ HexAdornmentElement.cs
+ HexAndAdornmentCollection.cs
+ HexAndAdornmentSequencer.cs
+ HexAndAdornmentSequencerFactoryService.cs
+ HexFormattedLine.cs
+ HexFormattedLineSource.cs
+ HexHtmlBuilderService.cs
+ HexLineTransformSource.cs
+ HexLineTransformSourceProvider.cs
+ HexSequenceElement.cs
+ HexViewLine.cs
+ NullHexClassifier.cs
+ WpfHexViewLine.cs
+Hex/
+ HexBuffer.cs
+ HexBufferCreatedEventArgs.cs
+ HexBufferFactoryService.cs
+ HexBufferLine.cs
+ HexBufferLineFormatter.cs
+ HexBufferLineFormatterFactoryService.cs
+ HexBufferLineFormatterOptions.cs
+ HexBufferPoint.cs
+ HexBufferSpan.cs
+ HexBufferSpanEventArgs.cs
+ HexBufferSpanSelection.cs
+ HexBufferStream.cs
+ HexBufferStreamFactoryService.cs
+ HexBytes.cs
+ HexCachedBufferStream.cs
+ HexCell.cs
+ HexCellCollection.cs
+ HexCellPosition.cs
+ HexChange.cs
+ HexChangeImpl.cs
+ HexColumnPosition.cs
+ HexColumnType.cs
+ HexContentChangedEventArgs.cs
+ HexContentChangingEventArgs.cs
+ HexEdit.cs
+ HexGroupInformation.cs
+ HexLinePositionInfo.cs
+ HexLinePositionInfoType.cs
+ HexLineSpan.cs
+ HexOffsetFormat.cs
+ HexPosition.cs
+ HexPositionConverter.cs
+ HexSimpleBufferStream.cs
+ HexSpan.cs
+ HexSpanInfo.cs
+ HexSpanSelectionFlags.cs
+ HexTags.cs
+ HexValuesDisplayFormat.cs
+ HexVersion.cs
+ HexVersionChangedEventArgs.cs
+ Intellisense/
+  HexIntellisenseController.cs
+  HexIntellisenseControllerProvider.cs
+  HexIntellisensePresenter.cs
+  HexIntellisensePresenterProvider.cs
+  HexIntellisenseSession.cs
+  HexIntellisenseSessionStack.cs
+  HexIntellisenseSessionStackMapService.cs
+  HexIntellisenseSpaceReservationManagerNames.cs
+  HexQuickInfoBroker.cs
+  HexQuickInfoSession.cs
+  HexQuickInfoSource.cs
+  HexQuickInfoSourceProvider.cs
+  IHexCustomIntellisensePresenter.cs
+  IHexInteractiveQuickInfoContent.cs
+  IHexPopupIntellisensePresenter.cs
+  PredefinedHexIntellisensePresenterProviders.cs
+ NormalizedHexBufferSpanCollection.cs
+ NormalizedHexChangeCollection.cs
+ NormalizedHexSpanCollection.cs
+ Operations/
+  HexEditorOperations.cs
+  HexEditorOperationsFactoryService.cs
+  HexFindOptions.cs
+  HexSearchService.cs
+  HexSearchServiceProvider.cs
+ PositionAndData.cs
+ PredefinedHexBufferTags.cs
+ Tagging/
+  HexBatchedTagsChangedEventArgs.cs
+  HexBufferTagAggregatorFactoryService.cs
+  HexClassificationTag.cs
+  HexMarkerTag.cs
+  HexSpaceNegotiatingAdornmentTag.cs
+  HexTag.cs
+  HexTagAggregator.cs
+  HexTagger.cs
+  HexTaggerContext.cs
+  HexTaggerProvider.cs
+  HexTagsChangedEventArgs.cs
+  HexTagSpan.cs
+  HexTagTypeAttribute.cs
+  HexTextTagSpan.cs
+  HexToolTipStructureSpanTag.cs
+  HexViewTagAggregatorFactoryService.cs
+  HexViewTaggerProvider.cs
+ Text/
+  HexClassifiedText.cs
+  HexClassifiedTextCollection.cs
+  HexTextWriter.cs
+  PredefinedClassifiedTextTags.cs
+ TextAndHexSpan.cs
+Images/
+ DsImage.cs
+ DsImages.cs
+ DsImagesAttribute.cs
+ DsImageStrings.cs
+ IDotNetImageService.cs
+ IImageService.cs
+ IImageSourceInfoProvider.cs
+ ImageOptions.cs
+ ImageReference.cs
+ ImageReferenceConverter.cs
+ ImageSourceInfo.cs
+Language/Intellisense/
+ AcronymSearchHelpers.cs
+ BestMatchSelector.cs
+ Classification/
+  CompletionClassifierContext.cs
+  CompletionClassifierKind.cs
+  CompletionDisplayTextClassifierContext.cs
+  CompletionSuffixClassifierContext.cs
+ CompletionConstants.cs
+ CompletionExtensions.cs
+ CompletionFilter.cs
+ DsCompletion.cs
+ DsCompletionIcon.cs
+ DsCompletionSet.cs
+ DsIntellisenseFilter.cs
+ FilteredCompletionCollection.cs
+ ICompletionFilter.cs
+ ICompletionSetContentTypeProvider.cs
+ PredefinedDsCompletionSourceProviders.cs
+ PredefinedDsQuickInfoSourceProviders.cs
+ PredefinedDsSignatureHelpSourceProviders.cs
+ PredefinedIntellisensePresenterProviders.cs
+ PredefinedUIElementProviderNames.cs
+ SignatureHelpClassifierContext.cs
+ SignatureHelpConstants.cs
+Menus/
+ CommandTargetMenuItemBase.cs
+ CreatedMenuItem.cs
+ GuidObject.cs
+ GuidObjectsProviderArgs.cs
+ IContextMenuInitializer.cs
+ IContextMenuProvider.cs
+ IGuidObjectsProvider.cs
+ IMenu.cs
+ IMenuItem.cs
+ IMenuItemContext.cs
+ IMenuItemProvider.cs
+ IMenuService.cs
+ MenuConstants.cs
+ MenuItemBase.cs
+ MenuItemCommand.cs
+Metadata/
+ IModuleIdFactory.cs
+ IModuleIdFactoryProvider.cs
+ IModuleIdProvider.cs
+ IRuntimeAssemblyResolver.cs
+ ModuleIdFactoryProviderConstants.cs
+MVVM/
+ AutomationPeerMemoryLeakWorkaround.cs
+ Converters/
+  FontSizeConverter.cs
+  NegateBooleanConverter.cs
+ DataFieldVM.cs
+ Dialogs/
+  ProgressDlg.xaml.cs
+  ProgressVM.cs
+ EnumVM.cs
+ GridViewColumnSorter.cs
+ IGridViewColumnDescsProvider.cs
+ IInitializeDataTemplate.cs
+ InitDataTemplateAP.cs
+ IsDraggableAP.cs
+ ListVM.cs
+ PickDirectory.cs
+ PickFilename.cs
+ PickFilenameConstants.cs
+ PickSaveFilename.cs
+ RelayCommand.cs
+obj/Debug/net10.0-windows/
+ .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+ Controls/ToolWindows/EditValueControl.g.cs
+ dnSpy.Contracts.DnSpy.AssemblyInfo.cs
+ GeneratedInternalTypeHelper.g.cs
+ MVVM/Dialogs/ProgressDlg.g.cs
+Output/
+ ICachedWriter.cs
+ IOutputService.cs
+ IOutputServiceListener.cs
+ IOutputTextPane.cs
+ IOutputWriter.cs
+Properties/
+ AssemblyInfo.cs
+ dnSpy.Contracts.DnSpy.Resources.Designer.cs
+Scripting/
+ IOutputWritable.cs
+ IOutputWriter.cs
+ IServiceLocator.cs
+ Roslyn/
+  ICachedWriter.cs
+  IPrintOptions.cs
+  IScriptGlobals.cs
+  ITextPrinter.cs
+  MemberDisplayFormat.cs
+ ScriptException.cs
+ UIUtils.cs
+Search/
+ BodyResult.cs
+ ChainDocumentTreeNodeFilter.cs
+ DocumentSearcherOptions.cs
+ DocumentTreeNodeFilterBase.cs
+ EntryPointDocumentTreeNodeFilter.cs
+ FilterNothingDocumentTreeNodeFilter.cs
+ FlagsDocumentTreeNodeFilter.cs
+ IDocumentSearcher.cs
+ IDocumentSearcherProvider.cs
+ ISearchComparer.cs
+ ISearchResult.cs
+ NamespaceRef.cs
+ NamespaceSearchResult.cs
+ SameAssemblyDocumentTreeNodeFilter.cs
+ SameModuleDocumentTreeNodeFilter.cs
+ SearchComparers.cs
+ SearchResultEventArgs.cs
+ SearchTypeInfo.cs
+ ShowNothingDocumentTreeNodeFilterBase.cs
+ VisibleMembersFlags.cs
+Settings/AppearanceCategory/
+ AppearanceCategoryConstants.cs
+ TextAppearanceCategoryDefinition.cs
+Settings/CodeEditor/
+ CodeEditorOptionsDefinition.cs
+ DefaultCodeEditorOptions.cs
+Settings/Dialog/
+ AppSettingsConstants.cs
+ AppSettingsPage.cs
+ IAppRefreshSettings.cs
+ IAppSettingsModifiedListener.cs
+ IAppSettingsPageContainer.cs
+ IAppSettingsPageProvider.cs
+ IAppSettingsService.cs
+Settings/Fonts/
+ FontSettings.cs
+ FontType.cs
+ ThemeFontSettings.cs
+ ThemeFontSettingsDefinition.cs
+ ThemeFontSettingsService.cs
+Settings/FontsAndColors/
+ FontAndColorOptions.cs
+ FontAndColorOptionsProvider.cs
+ FontOption.cs
+Settings/Groups/
+ ContentTypeOptionDefinition.cs
+ IContentTypeOptionDefinitionProvider.cs
+ ITextViewOptionsGroup.cs
+ ITextViewOptionsGroupNameProvider.cs
+ ITextViewOptionsGroupService.cs
+ PredefinedTextViewGroupNames.cs
+ TextViewOptionChangedEventArgs.cs
+Settings/HexEditor/
+ DefaultHexEditorOptions.cs
+ HexEditorOptionsDefinition.cs
+Settings/HexGroups/
+ HexViewOptionChangedEventArgs.cs
+ HexViewOptionsGroup.cs
+ HexViewOptionsGroupNameProvider.cs
+ HexViewOptionsGroupService.cs
+ PredefinedHexViewGroupNames.cs
+ TagOptionDefinition.cs
+ TagOptionDefinitionProvider.cs
+Settings/
+ ISettingsSection.cs
+ ISettingsSectionProvider.cs
+ ISettingsService.cs
+ ISettingsService2.cs
+ ISettingsServiceFactory.cs
+ Repl/
+  DefaultReplOptions.cs
+  ReplOptionsDefinition.cs
+Tabs/
+ ITabContent.cs
+ ITabGroup.cs
+ ITabGroupService.cs
+ ITabService.cs
+ ITabServiceProvider.cs
+ TabContentAttachedEventArgs.cs
+ TabContentVisibilityEvent.cs
+ TabGroupCollectionChangedEventArgs.cs
+ TabGroupSelectedEventArgs.cs
+ TabGroupServiceOptions.cs
+ TabSelectedEventArgs.cs
+Text/
+ CachedTextColorsCollection.cs
+ Classification/
+  EditorFormatMapConstants.cs
+  ISynchronousClassifier.cs
+  ISynchronousClassifierAggregatorService.cs
+  ISynchronousViewClassifierAggregatorService.cs
+  ITextClassifier.cs
+  ITextClassifierAggregator.cs
+  ITextClassifierAggregatorService.cs
+  ITextClassifierProvider.cs
+  ITextElementFactory.cs
+  ITextElementProvider.cs
+  IThemeClassificationTypeService.cs
+  IThemeFormatDefinition.cs
+  LanguagePriority.cs
+  PredefinedClassificationTypeNames.cs
+  PredefinedTextClassifierTags.cs
+  RoslynClassificationTypeNames.cs
+  TextBlockFactory.cs
+  TextClassificationTag.cs
+  TextClassifierContext.cs
+  TextClassifierTextColorWriter.cs
+  TextElementFlags.cs
+  ThemeClassificationFormatDefinition.cs
+  ThemeClassificationTypeNameKeys.cs
+  ThemeClassificationTypeNames.cs
+  ThemeMarkerFormatDefinition.cs
+ ColorAndText.cs
+ ContentTypes.cs
+ ContentTypesHelper.cs
+ Editor/
+  BlockStructureData.cs
+  BlockStructureKind.cs
+  BlockStructureLineKind.cs
+  CodeEditorOptions.cs
+  CommonTextEditorOptions.cs
+  DefaultDsOptions.cs
+  DefaultDsTextViewOptions.cs
+  DefaultDsWpfViewOptions.cs
+  DefaultReplEditorOptions.cs
+  GlyphTextMarkerServiceZIndexes.cs
+  IBlockStructureService.cs
+  IBlockStructureServiceDataProvider.cs
+  IBlockStructureServiceProvider.cs
+  ICodeEditor.cs
+  ICodeEditorProvider.cs
+  ICustomLineNumberMargin.cs
+  IDsTextEditorFactoryService.cs
+  IDsTextView.cs
+  IDsTextViewLine.cs
+  IDsWpfTextView.cs
+  IDsWpfTextViewHost.cs
+  IGlyphTextMarkerHandler.cs
+  IGlyphTextMarkerMouseProcessor.cs
+  IGlyphTextMarkerService.cs
+  ILineSeparatorTag.cs
+  ILogEditor.cs
+  ILogEditorProvider.cs
+  IMarginContextMenuHandler.cs
+  IMarginContextMenuHandlerProviderService.cs
+  IndentStyle.cs
+  IReplaceListener.cs
+  IReplaceListenerProvider.cs
+  IReplCommandHandler.cs
+  IReplCommandInput.cs
+  IReplEditor.cs
+  IReplEditorProvider.cs
+  IsOverlayLayerAttribute.cs
+  LayerKind.cs
+  LayerKindAttribute.cs
+  LogEditorOptions.cs
+  MarginNameAttribute.cs
+  Operations/
+   ITextViewUndoManager.cs
+   ITextViewUndoManagerProvider.cs
+  OptionsExtensionMethods/
+   DefaultDsOptionsExtensions.cs
+   DefaultDsTextViewOptionsExtensions.cs
+   DefaultDsWpfViewOptionsExtensions.cs
+   DefaultReplEditorOptionsExtensions.cs
+  PredefinedDsAdornmentLayers.cs
+  PredefinedDsGlyphFactoryProviderNames.cs
+  PredefinedDsGlyphMouseProcessorProviders.cs
+  PredefinedDsGlyphTextMarkerMouseProcessorProviderNames.cs
+  PredefinedDsMarginNames.cs
+  PredefinedDsMouseProcessorProviders.cs
+  PredefinedDsTextViewRoles.cs
+  PredefinedSpaceReservationManagerNames.cs
+  ReplEditorOptions.cs
+  ReplEditorUtils.cs
+  TextMarkerServiceZIndexes.cs
+  TextViewCreatorOptions.cs
+  TextViewExtensions.cs
+  WordWrapStylesConstants.cs
+ Formatting/
+  HtmlClipboardFormatWriter.cs
+  IHtmlBuilderService.cs
+ LineConstants.cs
+ Operations/IReplEditorOperations.cs
+ SpanDataCollection.cs
+ StringBuilderTextColorOutput.cs
+ Tagging/
+  ISynchronousBufferTagAggregatorFactoryService.cs
+  ISynchronousTagAggregator.cs
+  ISynchronousTagger.cs
+  ISynchronousViewTagAggregatorFactoryService.cs
+ TextEditorPosition.cs
+ WPF/WpfUnicodeUtils.cs
+Themes/
+ ColorType.cs
+ ExtensionMethods.cs
+ ITheme.cs
+ IThemeColor.cs
+ IThemeService.cs
+ ThemeChangedEventArgs.cs
+ ThemeConstants.cs
+ToolBars/
+ IToolBarButton.cs
+ IToolBarItem.cs
+ IToolBarItemContext.cs
+ IToolBarObject.cs
+ IToolBarService.cs
+ IToolBarToggleButton.cs
+ ToolBarButtonBase.cs
+ ToolBarButtonCommand.cs
+ ToolBarConstants.cs
+ ToolBarObjectBase.cs
+ToolWindows/App/
+ AppToolWindowConstants.cs
+ AppToolWindowLocation.cs
+ IDsToolWindowService.cs
+ IToolWindowContentProvider.cs
+ ToolWindowContentInfo.cs
+ToolWindows/
+ IToolWindowGroup.cs
+ IToolWindowGroupService.cs
+ IToolWindowService.cs
+ IToolWindowServiceProvider.cs
+ Search/
+  SearchColumnCommandParser.cs
+  SearchColumnDefinition.cs
+  SearchMatcher.cs
+  SearchTextClassifierContext.cs
+  SearchTextClassifierProvider.cs
+ ToolWindowContent.cs
+ ToolWindowContentVisibilityEvent.cs
+ ToolWindowGroupCollectionChangedEventArgs.cs
+ ToolWindowGroupSelectedEventArgs.cs
+ ToolWindowGroupServiceOptions.cs
+ ToolWindowSelectedEventArgs.cs
+TreeView/
+ AsyncNodeProvider.cs
+ IMDTokenNode.cs
+ ITreeNode.cs
+ ITreeNodeDataProvider.cs
+ ITreeNodeGroup.cs
+ ITreeView.cs
+ ITreeViewListener.cs
+ ITreeViewService.cs
+ Text/
+  ITreeViewNodeTextElementProvider.cs
+  TreeViewContentTypes.cs
+  TreeViewNodeClassifierContext.cs
+ TreeNodeData.cs
+ TreeNodeDataProviderContext.cs
+ TreeViewConstants.cs
+ TreeViewListenerEvent.cs
+ TreeViewListenerEventArgs.cs
+ TreeViewNodeRemovedEventArgs.cs
+ TreeViewOptions.cs
+ TreeViewSelectionChangedEventArgs.cs
+Utilities/
+ DelayedAction.cs
+ ProfileOptimizationHelper.cs
+ ToolTipHelper.cs
+ UIUtilities.cs
+
+[metadataReferences]
+../dnSpy.Contracts.Logic/obj/Debug/net10.0-windows/ref/dnSpy.Contracts.Logic.dll
+<DOTNET>/packs/Microsoft.NETCore.App.Ref/10.0.8/ref/net10.0/
+ Microsoft.CSharp.dll
+ Microsoft.VisualBasic.Core.dll
+ Microsoft.Win32.Primitives.dll
+ Microsoft.Win32.Registry.dll
+ mscorlib.dll
+ netstandard.dll
+ System.AppContext.dll
+ System.Buffers.dll
+ System.Collections.Concurrent.dll
+ System.Collections.dll
+ System.Collections.Immutable.dll
+ System.Collections.NonGeneric.dll
+ System.Collections.Specialized.dll
+ System.ComponentModel.Annotations.dll
+ System.ComponentModel.DataAnnotations.dll
+ System.ComponentModel.dll
+ System.ComponentModel.EventBasedAsync.dll
+ System.ComponentModel.Primitives.dll
+ System.ComponentModel.TypeConverter.dll
+ System.Configuration.dll
+ System.Console.dll
+ System.Core.dll
+ System.Data.Common.dll
+ System.Data.DataSetExtensions.dll
+ System.Data.dll
+ System.Diagnostics.Contracts.dll
+ System.Diagnostics.Debug.dll
+ System.Diagnostics.DiagnosticSource.dll
+ System.Diagnostics.FileVersionInfo.dll
+ System.Diagnostics.Process.dll
+ System.Diagnostics.StackTrace.dll
+ System.Diagnostics.TextWriterTraceListener.dll
+ System.Diagnostics.Tools.dll
+ System.Diagnostics.TraceSource.dll
+ System.Diagnostics.Tracing.dll
+ System.dll
+ System.Drawing.Primitives.dll
+ System.Dynamic.Runtime.dll
+ System.Formats.Asn1.dll
+ System.Formats.Tar.dll
+ System.Globalization.Calendars.dll
+ System.Globalization.dll
+ System.Globalization.Extensions.dll
+ System.IO.Compression.Brotli.dll
+ System.IO.Compression.dll
+ System.IO.Compression.FileSystem.dll
+ System.IO.Compression.ZipFile.dll
+ System.IO.dll
+ System.IO.FileSystem.AccessControl.dll
+ System.IO.FileSystem.dll
+ System.IO.FileSystem.DriveInfo.dll
+ System.IO.FileSystem.Primitives.dll
+ System.IO.FileSystem.Watcher.dll
+ System.IO.IsolatedStorage.dll
+ System.IO.MemoryMappedFiles.dll
+ System.IO.Pipelines.dll
+ System.IO.Pipes.AccessControl.dll
+ System.IO.Pipes.dll
+ System.IO.UnmanagedMemoryStream.dll
+ System.Linq.AsyncEnumerable.dll
+ System.Linq.dll
+ System.Linq.Expressions.dll
+ System.Linq.Parallel.dll
+ System.Linq.Queryable.dll
+ System.Memory.dll
+ System.Net.dll
+ System.Net.Http.dll
+ System.Net.Http.Json.dll
+ System.Net.HttpListener.dll
+ System.Net.Mail.dll
+ System.Net.NameResolution.dll
+ System.Net.NetworkInformation.dll
+ System.Net.Ping.dll
+ System.Net.Primitives.dll
+ System.Net.Quic.dll
+ System.Net.Requests.dll
+ System.Net.Security.dll
+ System.Net.ServerSentEvents.dll
+ System.Net.ServicePoint.dll
+ System.Net.Sockets.dll
+ System.Net.WebClient.dll
+ System.Net.WebHeaderCollection.dll
+ System.Net.WebProxy.dll
+ System.Net.WebSockets.Client.dll
+ System.Net.WebSockets.dll
+ System.Numerics.dll
+ System.Numerics.Vectors.dll
+ System.ObjectModel.dll
+ System.Reflection.DispatchProxy.dll
+ System.Reflection.dll
+ System.Reflection.Emit.dll
+ System.Reflection.Emit.ILGeneration.dll
+ System.Reflection.Emit.Lightweight.dll
+ System.Reflection.Extensions.dll
+ System.Reflection.Metadata.dll
+ System.Reflection.Primitives.dll
+ System.Reflection.TypeExtensions.dll
+ System.Resources.Reader.dll
+ System.Resources.ResourceManager.dll
+ System.Resources.Writer.dll
+ System.Runtime.CompilerServices.Unsafe.dll
+ System.Runtime.CompilerServices.VisualC.dll
+ System.Runtime.dll
+ System.Runtime.Extensions.dll
+ System.Runtime.Handles.dll
+ System.Runtime.InteropServices.dll
+ System.Runtime.InteropServices.JavaScript.dll
+ System.Runtime.InteropServices.RuntimeInformation.dll
+ System.Runtime.Intrinsics.dll
+ System.Runtime.Loader.dll
+ System.Runtime.Numerics.dll
+ System.Runtime.Serialization.dll
+ System.Runtime.Serialization.Formatters.dll
+ System.Runtime.Serialization.Json.dll
+ System.Runtime.Serialization.Primitives.dll
+ System.Runtime.Serialization.Xml.dll
+ System.Security.AccessControl.dll
+ System.Security.Claims.dll
+ System.Security.Cryptography.Algorithms.dll
+ System.Security.Cryptography.Cng.dll
+ System.Security.Cryptography.Csp.dll
+ System.Security.Cryptography.dll
+ System.Security.Cryptography.Encoding.dll
+ System.Security.Cryptography.OpenSsl.dll
+ System.Security.Cryptography.Primitives.dll
+ System.Security.Cryptography.X509Certificates.dll
+ System.Security.dll
+ System.Security.Principal.dll
+ System.Security.Principal.Windows.dll
+ System.Security.SecureString.dll
+ System.ServiceModel.Web.dll
+ System.ServiceProcess.dll
+ System.Text.Encoding.CodePages.dll
+ System.Text.Encoding.dll
+ System.Text.Encoding.Extensions.dll
+ System.Text.Encodings.Web.dll
+ System.Text.Json.dll
+ System.Text.RegularExpressions.dll
+ System.Threading.AccessControl.dll
+ System.Threading.Channels.dll
+ System.Threading.dll
+ System.Threading.Overlapped.dll
+ System.Threading.Tasks.Dataflow.dll
+ System.Threading.Tasks.dll
+ System.Threading.Tasks.Extensions.dll
+ System.Threading.Tasks.Parallel.dll
+ System.Threading.Thread.dll
+ System.Threading.ThreadPool.dll
+ System.Threading.Timer.dll
+ System.Transactions.dll
+ System.Transactions.Local.dll
+ System.ValueTuple.dll
+ System.Web.dll
+ System.Web.HttpUtility.dll
+ System.Windows.dll
+ System.Xml.dll
+ System.Xml.Linq.dll
+ System.Xml.ReaderWriter.dll
+ System.Xml.Serialization.dll
+ System.Xml.XDocument.dll
+ System.Xml.XmlDocument.dll
+ System.Xml.XmlSerializer.dll
+ System.Xml.XPath.dll
+ System.Xml.XPath.XDocument.dll
+<DOTNET>/packs/Microsoft.WindowsDesktop.App.Ref/10.0.8/ref/net10.0/
+ Accessibility.dll
+ Microsoft.VisualBasic.dll
+ Microsoft.VisualBasic.Forms.dll
+ Microsoft.Win32.Registry.AccessControl.dll
+ Microsoft.Win32.SystemEvents.dll
+ PresentationCore.dll
+ PresentationFramework.Aero.dll
+ PresentationFramework.Aero2.dll
+ PresentationFramework.AeroLite.dll
+ PresentationFramework.Classic.dll
+ PresentationFramework.dll
+ PresentationFramework.Luna.dll
+ PresentationFramework.Royale.dll
+ PresentationUI.dll
+ ReachFramework.dll
+ System.CodeDom.dll
+ System.Configuration.ConfigurationManager.dll
+ System.Design.dll
+ System.Diagnostics.EventLog.dll
+ System.Diagnostics.PerformanceCounter.dll
+ System.DirectoryServices.dll
+ System.Drawing.Common.dll
+ System.Drawing.Design.dll
+ System.Drawing.dll
+ System.Formats.Nrbf.dll
+ System.IO.Packaging.dll
+ System.Printing.dll
+ System.Private.Windows.Core.dll
+ System.Private.Windows.GdiPlus.dll
+ System.Resources.Extensions.dll
+ System.Security.Cryptography.Pkcs.dll
+ System.Security.Cryptography.ProtectedData.dll
+ System.Security.Cryptography.Xml.dll
+ System.Security.Permissions.dll
+ System.Windows.Controls.Ribbon.dll
+ System.Windows.Extensions.dll
+ System.Windows.Forms.Design.dll
+ System.Windows.Forms.Design.Editors.dll
+ System.Windows.Forms.dll
+ System.Windows.Forms.Primitives.dll
+ System.Windows.Input.Manipulations.dll
+ System.Windows.Presentation.dll
+ System.Windows.Primitives.dll
+ System.Xaml.dll
+ UIAutomationClient.dll
+ UIAutomationClientSideProviders.dll
+ UIAutomationProvider.dll
+ UIAutomationTypes.dll
+ WindowsBase.dll
+ WindowsFormsIntegration.dll
+<NUGET>/
+ dnlib/4.5.0/lib/net6.0/dnlib.dll
+ nuget.common/7.3.1/lib/net8.0/NuGet.Common.dll
+ nuget.configuration/7.3.1/lib/net8.0/NuGet.Configuration.dll
+ nuget.frameworks/7.3.1/lib/net8.0/NuGet.Frameworks.dll
+ ookii.dialogs.wpf/5.0.1/lib/net6.0-windows7.0/Ookii.Dialogs.Wpf.dll
+ system.componentmodel.composition/10.0.7/lib/net10.0/System.ComponentModel.Composition.dll
+obj/Debug/net10.0-windows/ConvertToNetstandardReferences/
+ Microsoft.VisualStudio.CoreUtility_cnsrefs_v1 46328 5248162728207387904_.dll
+ Microsoft.VisualStudio.Language.Intellisense_cnsrefs_v1 111392 5248162728207387904_.dll
+ Microsoft.VisualStudio.Text.Data_cnsrefs_v1 138472 5248162728207387904_.dll
+ Microsoft.VisualStudio.Text.Logic_cnsrefs_v1 83184 5248162728207387904_.dll
+ Microsoft.VisualStudio.Text.UI.Wpf_cnsrefs_v1 106744 5248162728207387904_.dll
+ Microsoft.VisualStudio.Text.UI_cnsrefs_v1 131304 5248162728207387904_.dll
+
+[analyzerReferences]
+<DOTNET>/packs/Microsoft.NETCore.App.Ref/10.0.8/analyzers/dotnet/cs/
+ Microsoft.Interop.ComInterfaceGenerator.dll
+ Microsoft.Interop.JavaScript.JSImportGenerator.dll
+ Microsoft.Interop.LibraryImportGenerator.dll
+ Microsoft.Interop.SourceGeneration.dll
+ System.Text.Json.SourceGeneration.dll
+ System.Text.RegularExpressions.Generator.dll
+<DOTNET>/packs/Microsoft.WindowsDesktop.App.Ref/10.0.8/analyzers/dotnet/cs/
+ System.Windows.Forms.Analyzers.CodeFixes.CSharp.dll
+ System.Windows.Forms.Analyzers.CSharp.dll
+<DOTNET>/
+ packs/Microsoft.WindowsDesktop.App.Ref/10.0.8/analyzers/dotnet/System.Windows.Forms.Analyzers.dll
+ sdk/10.0.300/Sdks/Microsoft.NET.Sdk/analyzers/
+  Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll
+  Microsoft.CodeAnalysis.NetAnalyzers.dll
+
+[analyzerConfigFiles]
+../../.editorconfig
+<DOTNET>/sdk/10.0.300/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_default.globalconfig
+obj/Debug/net10.0-windows/dnSpy.Contracts.DnSpy.GeneratedMSBuildEditorConfig.editorconfig

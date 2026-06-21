@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36623.8 d17.14
+VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 16.0.29318.209
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dnSpy", "dnSpy", "{293F0A13-6653-4580-9116-1D255F4C4E69}"
 EndProject
@@ -112,6 +112,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppHostInfoGenerator", "Extensions\dnSpy.Debugger\AppHostInfoGenerator\AppHostInfoGenerator.csproj", "{C40804E2-F748-4162-A554-658ADD6E6EDA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dnSpy.StringSearcher", "Extensions\dnSpy.StringSearcher\dnSpy.StringSearcher.csproj", "{64F6A135-BEAC-B4FB-89DC-0DE57F34C7DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dnSpy.AIChat", "Extensions\dnSpy.AIChat\dnSpy.AIChat.csproj", "{AF7F406B-FFF5-4F5C-AC30-C787D1558E38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -675,6 +677,18 @@ Global
 		{64F6A135-BEAC-B4FB-89DC-0DE57F34C7DD}.Release|x64.Build.0 = Release|Any CPU
 		{64F6A135-BEAC-B4FB-89DC-0DE57F34C7DD}.Release|x86.ActiveCfg = Release|Any CPU
 		{64F6A135-BEAC-B4FB-89DC-0DE57F34C7DD}.Release|x86.Build.0 = Release|Any CPU
+		{AF7F406B-FFF5-4F5C-AC30-C787D1558E38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF7F406B-FFF5-4F5C-AC30-C787D1558E38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF7F406B-FFF5-4F5C-AC30-C787D1558E38}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AF7F406B-FFF5-4F5C-AC30-C787D1558E38}.Debug|x64.Build.0 = Debug|Any CPU
+		{AF7F406B-FFF5-4F5C-AC30-C787D1558E38}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AF7F406B-FFF5-4F5C-AC30-C787D1558E38}.Debug|x86.Build.0 = Debug|Any CPU
+		{AF7F406B-FFF5-4F5C-AC30-C787D1558E38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF7F406B-FFF5-4F5C-AC30-C787D1558E38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF7F406B-FFF5-4F5C-AC30-C787D1558E38}.Release|x64.ActiveCfg = Release|Any CPU
+		{AF7F406B-FFF5-4F5C-AC30-C787D1558E38}.Release|x64.Build.0 = Release|Any CPU
+		{AF7F406B-FFF5-4F5C-AC30-C787D1558E38}.Release|x86.ActiveCfg = Release|Any CPU
+		{AF7F406B-FFF5-4F5C-AC30-C787D1558E38}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -731,6 +745,7 @@ Global
 		{7B579A88-FA0B-46DD-8150-3CFD332C05F9} = {C6E9757D-E267-4CEF-B550-EF864373A92E}
 		{C40804E2-F748-4162-A554-658ADD6E6EDA} = {29E1907A-9C87-4F6E-961C-1C45273EFAFA}
 		{64F6A135-BEAC-B4FB-89DC-0DE57F34C7DD} = {01A442C1-3CE6-45A7-BE1B-9E288ADC33F3}
+		{AF7F406B-FFF5-4F5C-AC30-C787D1558E38} = {01A442C1-3CE6-45A7-BE1B-9E288ADC33F3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73CB4820-3A98-46A7-AF32-E0939347B2AC}
