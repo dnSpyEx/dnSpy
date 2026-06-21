@@ -34,7 +34,7 @@
     <!-- Update app.config whenever this value changes -->
     <DnSpyAssemblyVersion>6.6.0.0</DnSpyAssemblyVersion>
     <!-- This is shown in the title bar -->
-    <DnSpyAssemblyInformationalVersion>v6.6.0-rc1</DnSpyAssemblyInformationalVersion>
+    <DnSpyAssemblyInformationalVersion>v6.6.0</DnSpyAssemblyInformationalVersion>
     <!-- Prevent .NET SDK from appening the git commit hash to the information version -->
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <DnSpyAssemblyCopyright>Copyright (C) 2014-2020 de4dot@gmail.com</DnSpyAssemblyCopyright>
@@ -56,11 +56,11 @@
     <NewtonsoftJsonVersion>13.0.4</NewtonsoftJsonVersion>
     <OokiiDialogsWpfVersion>5.0.1</OokiiDialogsWpfVersion>
     <RoslynVersion>5.3.0</RoslynVersion>
-    <SCCompositionVersion>10.0.8</SCCompositionVersion>
+    <SCCompositionVersion>10.0.9</SCCompositionVersion>
     <NuGetVersion>7.6.0</NuGetVersion>
     <DbgShimVersion>9.0.661903</DbgShimVersion>
-    <SCImmutableVersion>10.0.8</SCImmutableVersion>
-    <NrbfVersion>10.0.8</NrbfVersion>
+    <SCImmutableVersion>10.0.9</SCImmutableVersion>
+    <NrbfVersion>10.0.9</NrbfVersion>
   </PropertyGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)Build\ConvertToNetstandardReferences\ConvertToNetstandardReferences.tasks" Condition=" '$(IsDotNet)' == 'true' " />
