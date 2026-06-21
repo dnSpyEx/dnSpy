@@ -61,7 +61,13 @@
     <DbgShimVersion>9.0.661903</DbgShimVersion>
     <SCImmutableVersion>10.0.9</SCImmutableVersion>
     <NrbfVersion>10.0.9</NrbfVersion>
+    <MessagePackVersion>2.5.301</MessagePackVersion>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(MSBuildProjectName)' == 'dnSpy' Or '$(MSBuildProjectName)' == 'dnSpy-x86'">
+    <PackageReference Include="MessagePack" Version="$(MessagePackVersion)" />
+    <PackageReference Include="MessagePack.Annotations" Version="$(MessagePackVersion)" />
+  </ItemGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)Build\ConvertToNetstandardReferences\ConvertToNetstandardReferences.tasks" Condition=" '$(IsDotNet)' == 'true' " />
 
