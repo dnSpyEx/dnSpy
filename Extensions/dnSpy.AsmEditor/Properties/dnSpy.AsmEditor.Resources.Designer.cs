@@ -3920,6 +3920,15 @@ namespace dnSpy.AsmEditor.Properties {
                 return ResourceManager.GetString("MethodBody_Column_OpCode", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Sequence Point.
+        /// </summary>
+        public static string MethodBody_Column_SequencePoint {
+            get {
+                return ResourceManager.GetString("MethodBody_Column_SequencePoint", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Header O_ffset.
