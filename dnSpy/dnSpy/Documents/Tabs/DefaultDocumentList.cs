@@ -26,6 +26,7 @@ using System.Threading;
 using System.Xml.Linq;
 using dnSpy.Contracts.App;
 using dnSpy.Contracts.Documents;
+using dnSpy.Contracts.Utilities;
 
 namespace dnSpy.Documents.Tabs {
 	sealed class DefaultDocumentList {
@@ -46,6 +47,61 @@ namespace dnSpy.Documents.Tabs {
 		}
 
 		public void Add(DsDocumentInfo file) => files.Add(file);
+	}
+
+	sealed class DotnetReferenceFileFinder {
+		readonly CancellationToken cancellationToken;
+		readonly List<DefaultDocumentList> allLists;
+
+		public DotnetReferenceFileFinder(CancellationToken cancellationToken) {
+			this.cancellationToken = cancellationToken;
+			allLists = new List<DefaultDocumentList>();
+		}
+
+		public IEnumerable<DefaultDocumentList> AllFiles => allLists.ToArray();
+
+		public void Find() {
+			cancellationToken.ThrowIfCancellationRequested();
+
+			var dotNetPathProvider = new DotNetPathProvider();
+
+			foreach (var frameworkPath in dotNetPathProvider.GetSharedDotNetPaths()) {
+				cancellationToken.ThrowIfCancellationRequested();
+				var appName = $"{Path.GetFileName(Path.GetDirectoryName(frameworkPath.Path))} {frameworkPath.Version} (x{frameworkPath.Bitness:d})";
+				allLists.Add(new DefaultDocumentList(appName, Directory.GetFiles(frameworkPath.Path, "*.dll").Where(FilterFiles).Select(DsDocumentInfo.CreateDocument)));
+			}
+		}
+
+		static bool FilterFiles(string file) {
+			var fileName = Path.GetFileNameWithoutExtension(file);
+
+			if (fileName.Length == 0)
+				return false;
+
+			// The official managed assemblies in .NET Core almost always start with uppercase characters, which makes it easy for quick filtering.
+			if (fileName[0] >= 'A' && fileName[0] <= 'Z') {
+				// Exclude native assemblies here
+				// Microsoft.NETCore.App
+				if (fileName.StartsWith("Microsoft.DiaSymReader.Native.", StringComparison.Ordinal))
+					return false;
+
+				// Microsoft.WindowsDesktop.App
+				if (fileName.StartsWith("D3DCompiler_", StringComparison.Ordinal) || fileName.Equals("PenImc_cor3") || fileName.Equals("PresentationNative_cor3"))
+					return false;
+
+				return true;
+			}
+			if (fileName[0] >= 'a' && fileName[0] <= 'z') {
+				// Include managed assemblies here
+				// Microsoft.NETCore.App
+				if (fileName.Equals("mscorlib") || fileName.Equals("netstandard"))
+					return true;
+
+				return false;
+			}
+
+			return true;
+		}
 	}
 
 	sealed class ReferenceFileFinder {
@@ -356,6 +412,9 @@ namespace dnSpy.Documents.Tabs {
 			var finder = new ReferenceFileFinder(cancellationToken);
 			finder.Find();
 
+			var dotnetFinder = new DotnetReferenceFileFinder(cancellationToken);
+			dotnetFinder.Find();
+
 			var xmlFiles = new List<(DefaultDocumentList list, bool isDefault)>();
 			foreach (var dir in FilesDirs) {
 				cancellationToken.ThrowIfCancellationRequested();
@@ -379,6 +438,9 @@ namespace dnSpy.Documents.Tabs {
 			}
 
 			foreach (var f in finder.AllFiles)
+				dict[f.Name] = f;
+
+			foreach (var f in dotnetFinder.AllFiles)
 				dict[f.Name] = f;
 
 			foreach (var t in xmlFiles) {

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DbgAsm_Args" xml:space="preserve">
-    <value>Аргументы</value>
+    <value>_Аргументы</value>
   </data>
   <data name="DbgAsm_BreakAt" xml:space="preserve">
     <value>_Остановиться в</value>
@@ -127,7 +127,7 @@
     <value>_Хост</value>
   </data>
   <data name="DbgAsm_HostArgs" xml:space="preserve">
-    <value>Ар_гументы хоста</value>
+    <value>_Аргументы хоста</value>
   </data>
   <data name="DbgAsm_WorkingDir" xml:space="preserve">
     <value>_Рабочий каталог</value>
@@ -276,5 +276,17 @@ HR: 0x{0:X8}
   </data>
   <data name="DbgAsm_Executable" xml:space="preserve">
     <value>E_xecutable</value>
+  </data>
+  <data name="DbgAsm_RuntimeVersion" xml:space="preserve">
+    <value>_Версия среды выполнения</value>
+  </data>
+  <data name="DbgAsm_Autodetect" xml:space="preserve">
+    <value>Автоопределение</value>
+  </data>
+  <data name="DbgAsm_Timeout" xml:space="preserve">
+    <value>_Время ожидания</value>
+  </data>
+  <data name="DbgBreak_ModuleClassConstructorOrEntryPoint" xml:space="preserve">
+    <value>.cctor модуля или точка входа</value>
   </data>
 </root>

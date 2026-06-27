@@ -42,14 +42,16 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 		readonly IClassificationFormatMap classificationFormatMap;
 		readonly IThemeClassificationTypeService themeClassificationTypeService;
 		readonly IClassificationTypeRegistryService classificationTypeRegistryService;
+		readonly ITextElementFactory textElementFactory;
 		readonly bool syntaxHighlight;
 
-		public CodeToolTipProvider(IWpfTextView wpfTextView, IDotNetImageService dotNetImageService, IClassificationFormatMap classificationFormatMap, IThemeClassificationTypeService themeClassificationTypeService, IClassificationTypeRegistryService classificationTypeRegistryService, bool syntaxHighlight) {
+		public CodeToolTipProvider(IWpfTextView wpfTextView, IDotNetImageService dotNetImageService, IClassificationFormatMap classificationFormatMap, IThemeClassificationTypeService themeClassificationTypeService, IClassificationTypeRegistryService classificationTypeRegistryService, ITextElementFactory textElementFactory, bool syntaxHighlight) {
 			this.wpfTextView = wpfTextView ?? throw new ArgumentNullException(nameof(wpfTextView));
 			this.dotNetImageService = dotNetImageService ?? throw new ArgumentNullException(nameof(dotNetImageService));
 			this.classificationFormatMap = classificationFormatMap ?? throw new ArgumentNullException(nameof(classificationFormatMap));
 			this.themeClassificationTypeService = themeClassificationTypeService ?? throw new ArgumentNullException(nameof(themeClassificationTypeService));
 			this.classificationTypeRegistryService = classificationTypeRegistryService ?? throw new ArgumentNullException(nameof(classificationTypeRegistryService));
+			this.textElementFactory = textElementFactory ?? throw new ArgumentNullException(nameof(textElementFactory));
 			this.syntaxHighlight = syntaxHighlight;
 			writers = new List<CodeToolTipWriter>();
 			CreateNewOutput();
@@ -85,7 +87,7 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 		}
 
 		public ICodeToolTipWriter CreateNewOutput() {
-			writers.Add(new CodeToolTipWriter(classificationFormatMap, themeClassificationTypeService, classificationTypeRegistryService, syntaxHighlight));
+			writers.Add(new CodeToolTipWriter(classificationFormatMap, themeClassificationTypeService, classificationTypeRegistryService, textElementFactory, syntaxHighlight));
 			return writers[writers.Count - 1];
 		}
 

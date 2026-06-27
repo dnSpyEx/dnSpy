@@ -21,7 +21,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using dnSpy.Contracts.App;
+using dnSpy.Contracts.Controls.ToolWindows;
 using dnSpy.Contracts.Debugger;
+using dnSpy.Contracts.Debugger.Dialogs;
 using dnSpy.Contracts.Debugger.DotNet.CorDebug;
 using dnSpy.Contracts.Debugger.StartDebugging;
 using dnSpy.Contracts.Debugger.StartDebugging.Dialog;
@@ -47,8 +50,8 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Dialogs.DebugProgram {
 			return list.ToArray();
 		}
 
-		public DotNetFrameworkStartDebuggingOptionsPage(IPickFilename pickFilename, IPickDirectory pickDirectory)
-			: base(pickFilename, pickDirectory) {
+		public DotNetFrameworkStartDebuggingOptionsPage(IPickFilename pickFilename, IPickDirectory pickDirectory, IDbgEnvironmentEditorService environmentEditorService)
+			: base(pickFilename, pickDirectory, environmentEditorService) {
 		}
 
 		protected override void PickNewFilename() {

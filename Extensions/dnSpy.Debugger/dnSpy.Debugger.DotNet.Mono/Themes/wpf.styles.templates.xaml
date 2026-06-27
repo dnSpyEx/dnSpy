@@ -31,6 +31,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -49,15 +50,19 @@
             <TextBox Grid.Row="2" Grid.Column="1" Margin="5 5 0 0" Name="cwdTextBox" Text="{Binding WorkingDirectory, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
             <Button Grid.Row="2" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource EllipsisButton}" Command="{Binding PickWorkingDirectoryCommand}" />
 
-            <Label Grid.Row="3" Grid.Column="0" Margin="0 5 0 0" Content="_mono.exe" Target="{Binding ElementName=monoExeTextBox}" />
-            <TextBox Grid.Row="3" Grid.Column="1" Margin="5 5 0 0" Name="monoExeTextBox" Text="{Binding MonoExePath, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Grid.Row="3" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource EllipsisButton}" Command="{Binding PickMonoExePathCommand}" />
+            <Label Grid.Row="3" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Debugger_DotNet_Mono_Resources.DbgAsm_Environment}" Target="{Binding ElementName=envTextBox}" />
+            <TextBox Grid.Row="3" Grid.Column="1" Margin="5 5 0 0" Name="envTextBox" Text="{Binding EnvironmentString, Mode=OneWay}" IsReadOnly="True" />
+            <Button Grid.Row="3" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource EllipsisButton}" Command="{Binding EditEnvironmentCommand}" />
 
-            <Label Grid.Row="4" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Debugger_DotNet_Mono_Resources.DbgAsm_ConnectionPort}" Target="{Binding ElementName=portTextBox}" />
-            <TextBox Grid.Row="4" Grid.Column="1" Margin="5 5 0 0" Name="portTextBox" Text="{Binding ConnectionPort.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Grid.Row="4" Grid.Column="0" Margin="0 5 0 0" Content="_mono.exe" Target="{Binding ElementName=monoExeTextBox}" />
+            <TextBox Grid.Row="4" Grid.Column="1" Margin="5 5 0 0" Name="monoExeTextBox" Text="{Binding MonoExePath, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
+            <Button Grid.Row="4" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource EllipsisButton}" Command="{Binding PickMonoExePathCommand}" />
 
-            <Label Grid.Row="5" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Debugger_DotNet_Mono_Resources.DbgAsm_BreakAt}" Target="{Binding ElementName=breakComboBox}" />
-            <ComboBox Grid.Row="5" Grid.Column="1" Margin="5 5 0 0" HorizontalAlignment="Stretch" Name="breakComboBox" DisplayMemberPath="Name" ItemsSource="{Binding BreakProcessKindVM.Items}" SelectedIndex="{Binding BreakProcessKindVM.SelectedIndex}" VerticalContentAlignment="Center" />
+            <Label Grid.Row="5" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Debugger_DotNet_Mono_Resources.DbgAsm_ConnectionPort}" Target="{Binding ElementName=portTextBox}" />
+            <TextBox Grid.Row="5" Grid.Column="1" Margin="5 5 0 0" Name="portTextBox" Text="{Binding ConnectionPort.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Label Grid.Row="6" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Debugger_DotNet_Mono_Resources.DbgAsm_BreakAt}" Target="{Binding ElementName=breakComboBox}" />
+            <ComboBox Grid.Row="6" Grid.Column="1" Margin="5 5 0 0" HorizontalAlignment="Stretch" Name="breakComboBox" DisplayMemberPath="Name" ItemsSource="{Binding BreakProcessKindVM.Items}" SelectedIndex="{Binding BreakProcessKindVM.SelectedIndex}" VerticalContentAlignment="Center" />
         </Grid>
     </DataTemplate>
 
@@ -99,6 +104,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -117,23 +123,27 @@
             <TextBox Grid.Row="2" Grid.Column="1" Margin="5 5 0 0" Name="cwdTextBox" Text="{Binding WorkingDirectory, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
             <Button Grid.Row="2" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource EllipsisButton}" Command="{Binding PickWorkingDirectoryCommand}" />
 
-            <Label Grid.Row="3" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Debugger_DotNet_Mono_Resources.DbgAsm_ConnectionPort}" Target="{Binding ElementName=portTextBox}" />
-            <TextBox Grid.Row="3" Grid.Column="1" Margin="5 5 0 0" Name="portTextBox" Text="{Binding ConnectionPort.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Grid.Row="3" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Debugger_DotNet_Mono_Resources.DbgAsm_Environment}" Target="{Binding ElementName=envTextBox}" />
+            <TextBox Grid.Row="3" Grid.Column="1" Margin="5 5 0 0" Name="envTextBox" Text="{Binding EnvironmentString, Mode=OneWay}" IsReadOnly="True" />
+            <Button Grid.Row="3" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource EllipsisButton}" Command="{Binding EditEnvironmentCommand}" />
 
-            <Label Grid.Row="4" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Debugger_DotNet_Mono_Resources.DbgAsm_ConnectionTimeoutInSeconds}" Target="{Binding ElementName=connectionTimeoutTextBox}" />
-            <TextBox Grid.Row="4" Grid.Column="1" Margin="5 5 0 0" Name="connectionTimeoutTextBox" Text="{Binding ConnectionTimeout.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
+            <Label Grid.Row="4" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Debugger_DotNet_Mono_Resources.DbgAsm_ConnectionPort}" Target="{Binding ElementName=portTextBox}" />
+            <TextBox Grid.Row="4" Grid.Column="1" Margin="5 5 0 0" Name="portTextBox" Text="{Binding ConnectionPort.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
 
-            <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" Margin="5 5 0 0">
+            <Label Grid.Row="5" Grid.Column="0" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Debugger_DotNet_Mono_Resources.DbgAsm_ConnectionTimeoutInSeconds}" Target="{Binding ElementName=connectionTimeoutTextBox}" />
+            <TextBox Grid.Row="5" Grid.Column="1" Margin="5 5 0 0" Name="connectionTimeoutTextBox" Text="{Binding ConnectionTimeout.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
+
+            <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" Margin="5 5 0 0">
                 <img:DsImage ImageReference="{x:Static img:DsImages.StatusWarning}"/>
                 <TextBlock Margin="5 0 0 0" Text="{x:Static p:dnSpy_Debugger_DotNet_Mono_Resources.CouldNotConnectToUnityGame_MakeSureMonoDllFileIsPatched}" />
             </StackPanel>
 
-            <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" Margin="5 5 0 0">
+            <StackPanel Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" Margin="5 5 0 0">
                 <img:DsImage ImageReference="{x:Static img:DsImages.StatusInformation}"/>
                 <TextBlock Margin="5 0 0 0" Text="{x:Static p:dnSpy_Debugger_DotNet_Mono_Resources.ConnectToUnity_UseAttachToUnityProcessDlgBoxMessage}" />
             </StackPanel>
 
-            <TextBlock Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Margin="5 5 0 0"><Hyperlink Command="{Binding DebuggingUnityGamesCommand}"><Run Text="{Binding DebuggingUnityGamesText, Mode=OneWay}" /></Hyperlink></TextBlock>
+            <TextBlock Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Margin="5 5 0 0"><Hyperlink Command="{Binding DebuggingUnityGamesCommand}"><Run Text="{Binding DebuggingUnityGamesText, Mode=OneWay}" /></Hyperlink></TextBlock>
         </Grid>
     </DataTemplate>
 

@@ -52,9 +52,19 @@ namespace dnSpy.Text.Classification {
 			var ct = contentTypeRegistryService.GetContentType(contentType);
 			if (ct is null)
 				throw new ArgumentException($"Invalid content type: {contentType}");
+			return CreateTextElement(classificationFormatMap, context, ct, flags);
+		}
 
-			if (!toAggregator.TryGetValue(ct, out var aggregator))
-				toAggregator.Add(ct, aggregator = textClassifierAggregatorService.Create(ct));
+		public FrameworkElement CreateTextElement(IClassificationFormatMap classificationFormatMap, TextClassifierContext context, IContentType contentType, TextElementFlags flags) {
+			if (classificationFormatMap is null)
+				throw new ArgumentNullException(nameof(classificationFormatMap));
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
+			if (contentType is null)
+				throw new ArgumentNullException(nameof(contentType));
+
+			if (!toAggregator.TryGetValue(contentType, out var aggregator))
+				toAggregator.Add(contentType, aggregator = textClassifierAggregatorService.Create(contentType));
 			try {
 				tagsList.AddRange(aggregator.GetTags(context));
 				return TextElementFactory.Create(classificationFormatMap, context.Text, tagsList, flags);

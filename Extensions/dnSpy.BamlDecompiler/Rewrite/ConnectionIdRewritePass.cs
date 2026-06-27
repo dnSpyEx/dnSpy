@@ -129,12 +129,18 @@ namespace dnSpy.BamlDecompiler.Rewrite {
 		}
 
 		struct FieldAssignment {
-			public string FieldName;
+			public dnlib.DotNet.IField Field;
 
 			public void Callback(XamlContext ctx, XElement elem) {
 				var xName = ctx.GetKnownNamespace("Name", XamlContext.KnownNamespace_Xaml, elem);
 				if (elem.Attribute("Name") is null && elem.Attribute(xName) is null)
-					elem.Add(new XAttribute(xName, IdentifierEscaper.Escape(FieldName)));
+					elem.Add(new XAttribute(xName, IdentifierEscaper.Escape(Field.Name)));
+
+				var def = Field.ResolveFieldDef();
+				if (def is not null && def.IsPublic) {
+					var fieldModifier = ctx.GetKnownNamespace("FieldModifier", XamlContext.KnownNamespace_Xaml, elem);
+					elem.Add(new XAttribute(fieldModifier, ctx.BamlDecompilerOptions.PublicFieldModifier));
+				}
 			}
 		}
 
@@ -215,7 +221,7 @@ namespace dnSpy.BamlDecompiler.Rewrite {
 						if (instr.MatchStFld(out _, out var fld, out var value) &&
 							value.MatchCastClass(out var arg, out _) && arg.MatchLdLoc(out var loc) &&
 							loc.Kind == VariableKind.Parameter && loc.Index == 1) {
-							cb += new FieldAssignment { FieldName = fld.Name }.Callback;
+							cb += new FieldAssignment { Field = fld.MetadataToken }.Callback;
 						}
 						else if (instr is CallInstruction call && call.OpCode != OpCode.NewObj) {
 							var operand = call.Method;

@@ -113,7 +113,7 @@ namespace dnSpy.Scripting.Roslyn.Common {
 
 		public MsgBoxButton ShowYNC(string message, Window? ownerWindow = null) => ShowYesNoCancel(message, ownerWindow);
 
-		public T Ask<T>(string labelMessage, string? defaultText = null, string? title = null, Func<string, T>? converter = null, Func<string, string>? verifier = null, Window? ownerWindow = null) =>
+		public T? Ask<T>(string labelMessage, string? defaultText = null, string? title = null, Func<string, T>? converter = null, Func<string, string>? verifier = null, Window? ownerWindow = null) =>
 			dispatcher.UI(() => MsgBox.Instance.Ask(labelMessage, defaultText, title, converter, verifier, ownerWindow));
 
 		public void Show(Exception exception, string? msg = null, Window? ownerWindow = null) =>

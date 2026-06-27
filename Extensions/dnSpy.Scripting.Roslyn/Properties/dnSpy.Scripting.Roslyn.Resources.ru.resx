@@ -124,10 +124,10 @@
     <value>+ {0} дополнительных ошибок</value>
   </data>
   <data name="CopyCommand" xml:space="preserve">
-    <value>Коп_ировать</value>
+    <value>_Копировать</value>
   </data>
   <data name="CutCommand" xml:space="preserve">
-    <value>Выр_езать</value>
+    <value>_Вырезать</value>
   </data>
   <data name="HelpAltDown" xml:space="preserve">
     <value>Показать следующую команду</value>

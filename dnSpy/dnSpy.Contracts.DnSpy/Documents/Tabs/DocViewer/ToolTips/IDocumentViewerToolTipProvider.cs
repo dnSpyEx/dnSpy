@@ -54,8 +54,7 @@ namespace dnSpy.Contracts.Documents.Tabs.DocViewer.ToolTips {
 		/// <summary>Constructor</summary>
 		/// <param name="order">Order of this instance</param>
 		public ExportDocumentViewerToolTipProviderAttribute(double order)
-			: base(typeof(IDocumentViewerToolTipProvider)) {
-		}
+			: base(typeof(IDocumentViewerToolTipProvider)) => Order = order;
 
 		/// <summary>
 		/// Order of this instance

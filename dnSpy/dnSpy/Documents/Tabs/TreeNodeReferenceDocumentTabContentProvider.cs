@@ -27,6 +27,7 @@ using dnSpy.Contracts.Documents.Tabs.DocViewer;
 using dnSpy.Contracts.Documents.TreeView;
 using dnSpy.Decompiler.Utils;
 using dnSpy.Documents.Tabs.DocViewer;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace dnSpy.Documents.Tabs {
 	[ExportReferenceDocumentTabContentProvider(Order = TabConstants.ORDER_CONTENTPROVIDER_TEXTREF)]
@@ -71,12 +72,17 @@ namespace dnSpy.Documents.Tabs {
 			if (@ref is EventDef)
 				return (EventDef)@ref;
 
+			if (@ref is GenericParam genericParam)
+				return genericParam;
+
 			return null;
 		}
 
 		object? GetReference(object? @ref) {
 			var @ref2 = ResolveMemberDef(@ref);
-			var def = @ref2 as IMemberDef ?? (@ref2 as ParamDef)?.DeclaringMethod;
+			var def = (@ref as GenericParam)?.DeclaringMethod
+				?? @ref2 as IMemberDef
+				?? (@ref2 as ParamDef)?.DeclaringMethod;
 
 			if (!documentTabServiceSettings.DecompileFullType || @ref2 is null || def is null)
 				return @ref2 ?? @ref;

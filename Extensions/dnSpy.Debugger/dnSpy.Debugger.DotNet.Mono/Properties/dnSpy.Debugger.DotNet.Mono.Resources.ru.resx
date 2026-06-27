@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DbgAsm_Args" xml:space="preserve">
-    <value>Аргументы</value>
+    <value>_Аргументы</value>
   </data>
   <data name="DbgAsm_Assembly" xml:space="preserve">
     <value>_Сборка</value>
@@ -248,5 +248,8 @@
   </data>
   <data name="DebuggingUnityGamesText" xml:space="preserve">
     <value>Отладка игр Unity</value>
+  </data>
+  <data name="MonoDebuggerConnectionMessage" xml:space="preserve">
+    <value>Подключено к: {0}, версия Mono: {1}, версия протокола: {2}</value>
   </data>
 </root>

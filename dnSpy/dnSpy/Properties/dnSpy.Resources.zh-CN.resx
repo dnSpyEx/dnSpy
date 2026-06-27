@@ -504,6 +504,9 @@
   <data name="ResourcesFolder" xml:space="preserve">
     <value>资源</value>
   </data>
+  <data name="RestartAsAdministratorCommand" xml:space="preserve"> 
+    <value>以管理员身份重启</value> 
+   </data>
   <data name="SaveKey" xml:space="preserve">
     <value>Ctrl+S</value>
   </data>

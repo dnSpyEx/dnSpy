@@ -125,6 +125,7 @@ namespace dnSpy.Decompiler.ILSpy.Core.Settings {
 				if (hexadecimalNumbers != value) {
 					hexadecimalNumbers = value;
 					OnPropertyChanged(nameof(HexadecimalNumbers));
+					OptionsChanged();
 				}
 			}
 		}

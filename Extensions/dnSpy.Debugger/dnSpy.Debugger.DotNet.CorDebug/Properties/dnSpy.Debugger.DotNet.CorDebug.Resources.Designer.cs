@@ -88,6 +88,15 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Environment.
+        /// </summary>
+        public static string DbgAsm_Environment {
+            get {
+                return ResourceManager.GetString("DbgAsm_Environment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E_xecutable.
         /// </summary>
         public static string DbgAsm_Executable {

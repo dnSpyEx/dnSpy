@@ -202,8 +202,7 @@ namespace dnSpy.Contracts.Debugger {
 		/// <param name="process">Process</param>
 		/// <param name="exitCode">Process exit code</param>
 		public DbgMessageProcessExitedEventArgs(DbgProcess process, int exitCode)
-			: base(process) {
-		}
+			: base(process) => ExitCode = exitCode;
 	}
 
 	/// <summary>
@@ -420,8 +419,7 @@ namespace dnSpy.Contracts.Debugger {
 		/// <param name="thread">Thread</param>
 		/// <param name="exitCode">Thread exit code</param>
 		public DbgMessageThreadExitedEventArgs(DbgThread thread, int exitCode)
-			: base(thread) {
-		}
+			: base(thread) => ExitCode = exitCode;
 	}
 
 	/// <summary>

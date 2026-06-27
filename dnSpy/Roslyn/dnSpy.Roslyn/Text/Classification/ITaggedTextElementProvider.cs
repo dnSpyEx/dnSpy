@@ -19,22 +19,22 @@
 
 using System;
 using System.Collections.Immutable;
-using System.Windows.Controls;
+using System.Windows;
 using Microsoft.CodeAnalysis;
 
 namespace dnSpy.Roslyn.Text.Classification {
 	/// <summary>
-	/// Creates a <see cref="TextBlock"/>. Call its <see cref="IDisposable.Dispose"/> method
+	/// Creates a <see cref="FrameworkElement"/> which displays the given tagged text. Call its <see cref="IDisposable.Dispose"/> method
 	/// to clean up its resources.
 	/// </summary>
 	interface ITaggedTextElementProvider : IDisposable {
 		/// <summary>
-		/// Creates a <see cref="TextBlock"/>
+		/// Creates a <see cref="FrameworkElement"/> which displays the tagged text
 		/// </summary>
 		/// <param name="tag">Tag, can be null</param>
 		/// <param name="taggedParts">Tagged parts to classify</param>
 		/// <param name="colorize">true if it should be colorized</param>
 		/// <returns></returns>
-		TextBlock Create(string tag, ImmutableArray<TaggedText> taggedParts, bool colorize);
+		FrameworkElement Create(string tag, ImmutableArray<TaggedText> taggedParts, bool colorize);
 	}
 }

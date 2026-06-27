@@ -66,6 +66,7 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 					OnPropertyChanged(nameof(ReferenceTypeConstraint));
 					OnPropertyChanged(nameof(NotNullableValueTypeConstraint));
 					OnPropertyChanged(nameof(DefaultConstructorConstraint));
+					OnPropertyChanged(nameof(AllowByRefLike));
 				}
 			}
 		}
@@ -86,6 +87,11 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 		public bool DefaultConstructorConstraint {
 			get => GetFlagValue(GenericParamAttributes.DefaultConstructorConstraint);
 			set => SetFlagValue(GenericParamAttributes.DefaultConstructorConstraint, value);
+		}
+
+		public bool AllowByRefLike {
+			get => GetFlagValue(GenericParamAttributes.AllowByRefLike);
+			set => SetFlagValue(GenericParamAttributes.AllowByRefLike, value);
 		}
 
 		bool GetFlagValue(GenericParamAttributes flag) => (Attributes & flag) != 0;

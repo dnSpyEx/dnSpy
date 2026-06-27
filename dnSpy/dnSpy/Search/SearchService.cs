@@ -124,7 +124,9 @@ namespace dnSpy.Search {
 			classificationFormatMap.ClassificationFormatMappingChanged += ClassificationFormatMap_ClassificationFormatMappingChanged;
 			searchSettings.PropertyChanged += SearchSettings_PropertyChanged;
 			documentTabService.DocumentTreeView.DocumentService.CollectionChanged += DocumentService_CollectionChanged;
-			documentTabService.DocumentTreeView.SelectionChanged += DocumentTreeView_SelectionChanged;
+			// TODO: This currently causes frequent refreshes since the SelectionChanged event gets fired twice when the selection changes.
+			// Once to remove the old selection and once to add the new selection.
+			// documentTabService.DocumentTreeView.SelectionChanged += DocumentTreeView_SelectionChanged;
 			documentTabService.DocumentModified += DocumentTabService_FileModified;
 
 			searchControl.SearchListBoxDoubleClick += (s, e) => FollowSelectedReference();

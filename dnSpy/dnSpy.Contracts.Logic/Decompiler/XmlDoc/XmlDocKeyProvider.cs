@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using dnlib.DotNet;
@@ -59,10 +60,24 @@ namespace dnSpy.Contracts.Decompiler.XmlDoc {
 					b.Append("E:");
 				else if (member.IsMethod)
 					b.Append("M:");
-				AppendTypeName(b, member.DeclaringType);
-				b.Append('.');
+				if (member.DeclaringType is not null) {
+					AppendTypeName(b, member.DeclaringType);
+					b.Append('.');
+				}
+				if (IsExplicitInterfaceImplementation(member, out var declType)) {
+					AppendTypeName(b, declType, compiler, true);
+					b.Append('#');
+				}
 				var nameAsSystemString = UTF8String.ToSystemStringOrEmpty(member.Name);
-				b.Append(nameAsSystemString.Replace('.', '#'));
+				for (var i = 0; i < nameAsSystemString.Length; i++) {
+					char c = nameAsSystemString[i];
+					b.Append(c switch {
+						'.' => '#',
+						'<' => '{',
+						'>' => '}',
+						_ => c
+					});
+				}
 				IList<Parameter>? parameters;
 				TypeSig? explicitReturnType = null;
 				if (member.IsPropertyDef) {
@@ -102,6 +117,24 @@ namespace dnSpy.Contracts.Decompiler.XmlDoc {
 			return b;
 		}
 
+		static bool IsExplicitInterfaceImplementation(IMemberRef member, [NotNullWhen(true)] out TypeSig? type) {
+			type = null;
+			if (member.Name.IndexOf('.') >= 0)
+				return false;
+			var method = member switch {
+				MethodDef m => m,
+				PropertyDef p => p.GetMethod ?? p.SetMethod,
+				EventDef e => e.AddMethod ?? e.RemoveMethod ?? e.InvokeMethod,
+				_ => null
+			};
+			if (method is null)
+				return false;
+			if (method.Overrides.Count != 1)
+				return false;
+			type = method.Overrides[0].MethodDeclaration.DeclaringType.ToTypeSig();
+			return true;
+		}
+
 		static IEnumerable<Parameter> GetParameters(PropertyDef property) {
 			if (property.GetMethod is not null) {
 				foreach (var param in property.GetMethod.Parameters)
@@ -124,47 +157,53 @@ namespace dnSpy.Contracts.Decompiler.XmlDoc {
 			}
 		}
 
-		static void AppendTypeName(StringBuilder b, TypeSig? type, XmlDocCompiler compiler) {
+		static void AppendTypeName(StringBuilder b, TypeSig? type, XmlDocCompiler compiler, bool explicitInterfaceImpl = false) {
 			if (type is null)
 				return;
 			// MSVC writes modifiers signatures and pinned to XML doc unlike other compilers.
 			if (compiler != XmlDocCompiler.MSVC)
 				type = type.RemovePinnedAndModifiers();
 			if (type is GenericInstSig giType) {
-				AppendTypeNameWithArguments(b, giType.GenericType?.TypeDefOrRef, giType.GenericArguments, compiler);
+				AppendTypeNameWithArguments(b, giType.GenericType?.TypeDefOrRef, giType.GenericArguments, compiler, explicitInterfaceImpl);
 				return;
 			}
 			if (type is ArraySigBase arrayType) {
-				AppendTypeName(b, arrayType.Next, compiler);
+				AppendTypeName(b, arrayType.Next, compiler, explicitInterfaceImpl);
 				b.Append('[');
 				var lowerBounds = arrayType.GetLowerBounds();
 				var sizes = arrayType.GetSizes();
 				for (int i = 0; i < arrayType.Rank; i++) {
 					if (i > 0)
 						b.Append(',');
-					if (i < lowerBounds.Count && i < sizes.Count) {
+					if (!explicitInterfaceImpl && i < lowerBounds.Count) {
 						b.Append(lowerBounds[i]);
 						b.Append(':');
-						b.Append(sizes[i] + lowerBounds[i] - 1);
+						if (i < sizes.Count)
+							b.Append(sizes[i] + lowerBounds[i] - 1);
 					}
 				}
 				b.Append(']');
 				return;
 			}
 			if (type is ByRefSig refType) {
-				AppendTypeName(b, refType.Next, compiler);
+				AppendTypeName(b, refType.Next, compiler, explicitInterfaceImpl);
 				b.Append('@');
 				return;
 			}
 			if (type is PtrSig ptrType) {
-				AppendTypeName(b, ptrType.Next, compiler);
+				AppendTypeName(b, ptrType.Next, compiler, explicitInterfaceImpl);
 				b.Append('*');
 				return;
 			}
 			if (type is GenericSig gp) {
-				b.Append('`');
+				if (explicitInterfaceImpl && gp.GenericParam?.Name is not null) {
+					b.Append(gp.GenericParam.Name);
+					return;
+				}
+				char c = explicitInterfaceImpl ? '!' : '`';
+				b.Append(c);
 				if (gp.IsMethodVar)
-					b.Append('`');
+					b.Append(c);
 				b.Append(gp.Number);
 				return;
 			}
@@ -207,32 +246,34 @@ namespace dnSpy.Contracts.Decompiler.XmlDoc {
 				return;
 			}
 
-			AppendTypeName(b, type.ToTypeDefOrRef());
+			AppendTypeName(b, type.ToTypeDefOrRef(), explicitInterfaceImpl);
 		}
 
-		static void AppendTypeName(StringBuilder b, ITypeDefOrRef typeDefOrRef) {
+		static void AppendTypeName(StringBuilder b, ITypeDefOrRef typeDefOrRef, bool explicitInterfaceImpl = false) {
 			if (typeDefOrRef.DeclaringType is not null) {
 				AppendTypeName(b, typeDefOrRef.DeclaringType);
-				b.Append('.');
+				b.Append(explicitInterfaceImpl ? '#' : '.');
 				b.Append(typeDefOrRef.Name);
 			}
+			else if (explicitInterfaceImpl)
+				b.Append(FullNameFactory.FullName(typeDefOrRef, false, null, null).Replace('.', '#'));
 			else
 				FullNameFactory.FullNameSB(typeDefOrRef, false, null, b);
 		}
 
-		static int AppendTypeNameWithArguments(StringBuilder b, ITypeDefOrRef? type, IList<TypeSig> genericArguments, XmlDocCompiler compiler) {
+		static int AppendTypeNameWithArguments(StringBuilder b, ITypeDefOrRef? type, IList<TypeSig> genericArguments, XmlDocCompiler compiler, bool explicitInterfaceImpl) {
 			if (type is null)
 				return 0;
 			int outerTypeParameterCount = 0;
 			if (type.DeclaringType is not null) {
-				outerTypeParameterCount = AppendTypeNameWithArguments(b, type.DeclaringType, genericArguments, compiler);
-				b.Append('.');
+				outerTypeParameterCount = AppendTypeNameWithArguments(b, type.DeclaringType, genericArguments, compiler, explicitInterfaceImpl);
+				b.Append(explicitInterfaceImpl ? '#' : '.');
 			}
 			else {
 				int len = b.Length;
 				FullNameFactory.NamespaceSB(type, true, b);
 				if (len != b.Length)
-					b.Append('.');
+					b.Append(explicitInterfaceImpl ? '#' : '.');
 			}
 			b.Append(SplitTypeParameterCountFromReflectionName(UTF8String.ToSystemStringOrEmpty(type.Name), out int localTypeParameterCount));
 
@@ -241,8 +282,8 @@ namespace dnSpy.Contracts.Decompiler.XmlDoc {
 				b.Append('{');
 				for (int i = outerTypeParameterCount; i < totalTypeParameterCount && i < genericArguments.Count; i++) {
 					if (i > outerTypeParameterCount)
-						b.Append(',');
-					AppendTypeName(b, genericArguments[i], compiler);
+						b.Append(explicitInterfaceImpl ? '@' : ',');
+					AppendTypeName(b, genericArguments[i], compiler, explicitInterfaceImpl);
 				}
 				b.Append('}');
 			}

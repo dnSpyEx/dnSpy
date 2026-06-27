@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AnalyzeCommand" xml:space="preserve">
-    <value>Анали_зировать</value>
+    <value>_Анализировать</value>
   </data>
   <data name="AnalyzerWindowTitle" xml:space="preserve">
     <value>Анализатор</value>
@@ -130,7 +130,7 @@
     <value>Назначается в</value>
   </data>
   <data name="CopyCommand" xml:space="preserve">
-    <value>Коп_ировать</value>
+    <value>_Копировать</value>
   </data>
   <data name="DoubleClick" xml:space="preserve">
     <value>Двойнок клик</value>
@@ -148,10 +148,10 @@
     <value>Показать ссылку на метод</value>
   </data>
   <data name="GoToReferenceInCodeNewTabCommand" xml:space="preserve">
-    <value>Показать ссылку в методе (новая _вкладка)</value>
+    <value>_Показать ссылку в методе (новая вкладка)</value>
   </data>
   <data name="GoToReferenceNewTabCommand" xml:space="preserve">
-    <value>Перейти к ссылке (Новая вкла_дка)</value>
+    <value>_Перейти к ссылке (Новая вкладка)</value>
   </data>
   <data name="HidesParent" xml:space="preserve">
     <value>hides</value>

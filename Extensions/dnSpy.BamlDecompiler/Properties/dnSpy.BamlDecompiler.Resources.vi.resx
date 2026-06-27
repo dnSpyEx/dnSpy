@@ -135,9 +135,6 @@
   <data name="Error_AttachedEvent" xml:space="preserve">
     <value>Event được gắn '{0}'.</value>
   </data>
-  <data name="Error_IComponentConnectorConnetCannotBeParsed" xml:space="preserve">
-    <value>Lớp '{0}' có IComponentConnector.Connect Method, nhưng không thể phân tích.</value>
-  </data>
   <data name="Error_UnknownConnectionId" xml:space="preserve">
     <value>ID kết nối không xác định: {0}</value>
   </data>

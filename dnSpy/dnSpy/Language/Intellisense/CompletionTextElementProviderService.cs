@@ -17,7 +17,6 @@
     along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-using System;
 using System.ComponentModel.Composition;
 using dnSpy.Contracts.Settings.AppearanceCategory;
 using dnSpy.Contracts.Text.Classification;
@@ -27,17 +26,17 @@ using Microsoft.VisualStudio.Utilities;
 namespace dnSpy.Language.Intellisense {
 	[Export(typeof(ICompletionTextElementProviderService))]
 	sealed class CompletionTextElementProviderService : ICompletionTextElementProviderService {
-		readonly Lazy<ITextClassifierAggregatorService> textClassifierAggregatorService;
 		readonly IClassificationFormatMapService classificationFormatMapService;
 		readonly IContentTypeRegistryService contentTypeRegistryService;
+		readonly ITextElementProvider textElementProvider;
 
 		[ImportingConstructor]
-		CompletionTextElementProviderService(Lazy<ITextClassifierAggregatorService> textClassifierAggregatorService, IClassificationFormatMapService classificationFormatMapService, IContentTypeRegistryService contentTypeRegistryService) {
-			this.textClassifierAggregatorService = textClassifierAggregatorService;
+		CompletionTextElementProviderService(IClassificationFormatMapService classificationFormatMapService, IContentTypeRegistryService contentTypeRegistryService, ITextElementProvider textElementProvider) {
 			this.classificationFormatMapService = classificationFormatMapService;
 			this.contentTypeRegistryService = contentTypeRegistryService;
+			this.textElementProvider = textElementProvider;
 		}
 
-		public ICompletionTextElementProvider Create() => new CompletionTextElementProvider(textClassifierAggregatorService.Value, classificationFormatMapService.GetClassificationFormatMap(AppearanceCategoryConstants.UIMisc), contentTypeRegistryService);
+		public ICompletionTextElementProvider Create() => new CompletionTextElementProvider(classificationFormatMapService.GetClassificationFormatMap(AppearanceCategoryConstants.UIMisc), contentTypeRegistryService, textElementProvider);
 	}
 }

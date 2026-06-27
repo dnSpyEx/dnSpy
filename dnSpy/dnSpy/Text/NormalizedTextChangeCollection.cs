@@ -50,6 +50,8 @@ namespace dnSpy.Text {
 		NormalizedTextChangeCollection(ITextChange[] changes) => this.changes = changes;
 
 		public static INormalizedTextChangeCollection Create(IList<ITextChange> changes) {
+			if (changes is INormalizedTextChangeCollection normalizedTextChangeCollection)
+				return normalizedTextChangeCollection;
 			if (changes.Count == 0)
 				return new NormalizedTextChangeCollection(Array.Empty<ITextChange>());
 			return new NormalizedTextChangeCollection(CreateNormalizedList(changes).ToArray());

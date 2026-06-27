@@ -275,7 +275,7 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 					return new NameToken(first);
 				}
 				var last = GetNextToken();
-				if (last.Kind == TokenKind.CloseCurlyBrace) {
+				if (last.Kind == TokenKind.CloseCurlyBrace || last.Kind == TokenKind.Comma) {
 					Undo(last);
 					return new NameToken(first);
 				}

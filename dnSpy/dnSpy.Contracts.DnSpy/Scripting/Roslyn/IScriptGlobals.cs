@@ -339,7 +339,7 @@ namespace dnSpy.Contracts.Scripting.Roslyn {
 		/// it's a valid value, else an error message to show to the user.</param>
 		/// <param name="ownerWindow">Owner window or null to use the main window</param>
 		/// <returns></returns>
-		T Ask<T>(string labelMessage, string? defaultText = null, string? title = null, Func<string, T>? converter = null, Func<string, string>? verifier = null, Window? ownerWindow = null);
+		T? Ask<T>(string labelMessage, string? defaultText = null, string? title = null, Func<string, T>? converter = null, Func<string, string>? verifier = null, Window? ownerWindow = null);
 
 		/// <summary>
 		/// Shows an exception message

@@ -141,6 +141,9 @@
   <data name="DecompilerGeneratedVariablesCanNotBeEvaluated" xml:space="preserve">
     <value>反编译器生成的变量不能被求值</value>
   </data>
+  <data name="FailedToObtainValidInMemoryMetadataForModule" xml:space="preserve">
+    <value>未能获取模块的有效内存元数据!</value>
+  </data>
   <data name="GlyphToolTip_IL_offset_0" xml:space="preserve">
     <value>IL 偏移量 {0}</value>
   </data>

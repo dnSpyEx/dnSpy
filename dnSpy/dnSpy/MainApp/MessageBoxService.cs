@@ -132,7 +132,7 @@ namespace dnSpy.MainApp {
 			catch (ExternalException) { }
 		}
 
-		public T Ask<T>(string labelMessage, string? defaultText, string? title, Func<string, T>? converter, Func<string, string?>? verifier, Window? ownerWindow) {
+		public T? Ask<T>(string labelMessage, string? defaultText, string? title, Func<string, T>? converter, Func<string, string?>? verifier, Window? ownerWindow) {
 			var win = new AskDlg();
 			if (converter is null)
 				converter = CreateDefaultConverter<T>();
@@ -146,8 +146,8 @@ namespace dnSpy.MainApp {
 			if (!string.IsNullOrWhiteSpace(title))
 				win.Title = title;
 			if (win.ShowDialog() != true)
-				return default!;
-			return (T)vm.Value!;
+				return default;
+			return (T?)vm.Value;
 		}
 
 		Func<string, T> CreateDefaultConverter<T>() {

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
     Microsoft ResX Schema
@@ -444,6 +444,9 @@
   </data>
   <data name="GP_DefaultConstructor" xml:space="preserve">
     <value>_Default ctor</value>
+  </data>
+  <data name="GP_AllowByRefLike" xml:space="preserve">
+    <value>_Allows ByRefLike</value>
   </data>
   <data name="GP_Kind" xml:space="preserve">
     <value>Kind</value>
@@ -2326,5 +2329,14 @@ Most options will be re-initialized when this checkbox is clicked</value>
   </data>
   <data name="Type_Flags_Visibility" xml:space="preserve">
     <value>Visibilit_y</value>
+  </data>
+  <data name="CloseAllFrameworkAssembliesCommand" xml:space="preserve">
+    <value>Close All Framework Assemblies</value>
+  </data>
+  <data name="LoadDependenciesCommand" xml:space="preserve">
+    <value>Load Dependencies</value>
+  </data>
+  <data name="LoadDependenciesRecursiveCommand" xml:space="preserve">
+    <value>Load Dependencies Recursively</value>
   </data>
 </root>

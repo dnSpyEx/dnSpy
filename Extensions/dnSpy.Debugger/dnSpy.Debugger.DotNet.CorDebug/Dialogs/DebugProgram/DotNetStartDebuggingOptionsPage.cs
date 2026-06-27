@@ -20,7 +20,10 @@
 using System;
 using System.IO;
 using System.Windows.Input;
+using dnSpy.Contracts.App;
+using dnSpy.Contracts.Controls.ToolWindows;
 using dnSpy.Contracts.Debugger;
+using dnSpy.Contracts.Debugger.Dialogs;
 using dnSpy.Contracts.Debugger.DotNet.CorDebug;
 using dnSpy.Contracts.Debugger.StartDebugging;
 using dnSpy.Contracts.Debugger.StartDebugging.Dialog;
@@ -75,8 +78,8 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Dialogs.DebugProgram {
 
 		public ICommand PickHostFilenameCommand => new RelayCommand(a => PickNewHostFilename(), a => CanPickNewHostFilename);
 
-		public DotNetStartDebuggingOptionsPage(IPickFilename pickFilename, IPickDirectory pickDirectory)
-			: base(pickFilename, pickDirectory) => ConnectionTimeout = new UInt32VM(a => UpdateIsValid(), useDecimal: true);
+		public DotNetStartDebuggingOptionsPage(IPickFilename pickFilename, IPickDirectory pickDirectory, IDbgEnvironmentEditorService environmentEditorService)
+			: base(pickFilename, pickDirectory, environmentEditorService) => ConnectionTimeout = new UInt32VM(a => UpdateIsValid(), useDecimal: true);
 
 		bool CanPickNewHostFilename => UseHost;
 

@@ -17,6 +17,7 @@
     along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+using System;
 using System.ComponentModel.Composition;
 using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Documents.Tabs.DocViewer;
@@ -38,9 +39,15 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 		public XmlDocumentWriter(bool isXaml) => this.isXaml = isXaml;
 
 		public void Write(IDecompilerOutput output, string text) {
-			var parser = new XmlParser(text, isXaml);
-			parser.Parse();
-			parser.WriteTo(output);
+			try {
+				var parser = new XmlParser(text, isXaml);
+				parser.Parse();
+				parser.WriteTo(output);
+			}
+			catch (Exception ex) {
+				output.WriteLine($"<!-- Error parsing XML/XAML: {ex.Message} -->", BoxedTextColor.XmlComment);
+				output.Write(text, BoxedTextColor.Text);
+			}
 		}
 	}
 }

@@ -35,8 +35,9 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 		readonly IClassificationFormatMap classificationFormatMap;
 		readonly IThemeClassificationTypeService themeClassificationTypeService;
 		readonly IClassificationTypeRegistryService classificationTypeRegistryService;
+		readonly ITextElementFactory textElementFactory;
 
-		public ToolTipProviderContext(IDotNetImageService dotNetImageService, IDecompiler decompiler, ICodeToolTipSettings codeToolTipSettings, IDocumentViewer documentViewer, IClassificationFormatMap classificationFormatMap, IThemeClassificationTypeService themeClassificationTypeService, IClassificationTypeRegistryService classificationTypeRegistryService) {
+		public ToolTipProviderContext(IDotNetImageService dotNetImageService, IDecompiler decompiler, ICodeToolTipSettings codeToolTipSettings, IDocumentViewer documentViewer, IClassificationFormatMap classificationFormatMap, IThemeClassificationTypeService themeClassificationTypeService, IClassificationTypeRegistryService classificationTypeRegistryService, ITextElementFactory textElementFactory) {
 			DocumentViewer = documentViewer ?? throw new ArgumentNullException(nameof(documentViewer));
 			this.dotNetImageService = dotNetImageService ?? throw new ArgumentNullException(nameof(dotNetImageService));
 			Decompiler = decompiler ?? throw new ArgumentNullException(nameof(decompiler));
@@ -44,9 +45,10 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 			this.classificationFormatMap = classificationFormatMap ?? throw new ArgumentNullException(nameof(classificationFormatMap));
 			this.themeClassificationTypeService = themeClassificationTypeService ?? throw new ArgumentNullException(nameof(themeClassificationTypeService));
 			this.classificationTypeRegistryService = classificationTypeRegistryService ?? throw new ArgumentNullException(nameof(classificationTypeRegistryService));
+			this.textElementFactory = textElementFactory ?? throw new ArgumentNullException(nameof(textElementFactory));
 		}
 
 		public ICodeToolTipProvider Create() =>
-			new CodeToolTipProvider(DocumentViewer.TextView, dotNetImageService, classificationFormatMap, themeClassificationTypeService, classificationTypeRegistryService, codeToolTipSettings.SyntaxHighlight);
+			new CodeToolTipProvider(DocumentViewer.TextView, dotNetImageService, classificationFormatMap, themeClassificationTypeService, classificationTypeRegistryService, textElementFactory, codeToolTipSettings.SyntaxHighlight);
 	}
 }

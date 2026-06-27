@@ -322,5 +322,15 @@ namespace dnSpy.Contracts.Text {
 		/// Default hex tooltip content type
 		/// </summary>
 		public const string DefaultHexToolTip = nameof(DefaultHexToolTip);
+
+		/// <summary>
+		/// Environment variable key
+		/// </summary>
+		public const string EnvironmentVariableKey = nameof(EnvironmentVariableKey);
+
+		/// <summary>
+		/// Environment variable value
+		/// </summary>
+		public const string EnvironmentVariableValue = nameof(EnvironmentVariableValue);
 	}
 }

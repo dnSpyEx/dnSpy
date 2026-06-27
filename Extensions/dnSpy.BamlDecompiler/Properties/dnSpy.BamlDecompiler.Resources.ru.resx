@@ -153,4 +153,19 @@
   <data name="Plugin_ShortDescription" xml:space="preserve">
     <value>Декомпилятор BAML</value>
   </data>
+  <data name="BAMLFile" xml:space="preserve">
+    <value>BAML файл</value>
+  </data>
+  <data name="SaveBAML" xml:space="preserve">
+    <value>_Сохранить BAML...</value>
+  </data>
+  <data name="SaveXAML" xml:space="preserve">
+    <value>_Сохранить XAML...</value>
+  </data>
+  <data name="Saving" xml:space="preserve">
+    <value>Сохранение...</value>
+  </data>
+  <data name="XAMLFile" xml:space="preserve">
+    <value>XAML файл</value>
+  </data>
 </root>

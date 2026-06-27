@@ -120,6 +120,9 @@
   <data name="AllFiles" xml:space="preserve">
     <value>所有文件</value>
   </data>
+  <data name="BAMLFile" xml:space="preserve">
+    <value>BAML 文件</value>
+  </data>
   <data name="BamlOptionDlgTab" xml:space="preserve">
     <value>BAML 反编译器</value>
   </data>

@@ -18,9 +18,7 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows;
 using dnSpy.Contracts.Language.Intellisense;
 using dnSpy.Contracts.Language.Intellisense.Classification;
@@ -32,22 +30,14 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace dnSpy.Language.Intellisense {
 	sealed class CompletionTextElementProvider : ICompletionTextElementProvider {
-		readonly ITextClassifierAggregatorService textClassifierAggregatorService;
 		readonly IClassificationFormatMap classificationFormatMap;
 		readonly IContentTypeRegistryService contentTypeRegistryService;
-		readonly Dictionary<IContentType, ITextClassifier> toClassifier;
+		readonly ITextElementProvider textElementProvider;
 
-		public CompletionTextElementProvider(ITextClassifierAggregatorService textClassifierAggregatorService, IClassificationFormatMap classificationFormatMap, IContentTypeRegistryService contentTypeRegistryService) {
-			this.textClassifierAggregatorService = textClassifierAggregatorService ?? throw new ArgumentNullException(nameof(textClassifierAggregatorService));
+		public CompletionTextElementProvider(IClassificationFormatMap classificationFormatMap, IContentTypeRegistryService contentTypeRegistryService, ITextElementProvider textElementProvider) {
 			this.classificationFormatMap = classificationFormatMap ?? throw new ArgumentNullException(nameof(classificationFormatMap));
 			this.contentTypeRegistryService = contentTypeRegistryService ?? throw new ArgumentNullException(nameof(contentTypeRegistryService));
-			toClassifier = new Dictionary<IContentType, ITextClassifier>();
-		}
-
-		ITextClassifier GetTextClassifier(IContentType contentType) {
-			if (!toClassifier.TryGetValue(contentType, out var completionClassifier))
-				toClassifier.Add(contentType, completionClassifier = textClassifierAggregatorService.Create(contentType));
-			return completionClassifier;
+			this.textElementProvider = textElementProvider ?? throw new ArgumentNullException(nameof(textElementProvider));
 		}
 
 		public FrameworkElement Create(CompletionSet completionSet, Completion completion, CompletionClassifierKind kind, bool colorize) {
@@ -78,16 +68,10 @@ namespace dnSpy.Language.Intellisense {
 
 			var contentType = (completionSet as ICompletionSetContentTypeProvider)?.GetContentType(contentTypeRegistryService, kind);
 			if (contentType is null)
-				contentType = contentTypeRegistryService.GetContentType(defaultContentType);
-			var classifier = GetTextClassifier(contentType);
-			return TextBlockFactory.Create(context.Text, classificationFormatMap.DefaultTextProperties,
-				classifier.GetTags(context).Select(a => new TextRunPropertiesAndSpan(a.Span, classificationFormatMap.GetTextProperties(a.ClassificationType))), TextBlockFactory.Flags.DisableSetTextBlockFontFamily | TextBlockFactory.Flags.DisableFontSize);
+				return textElementProvider.CreateTextElement(classificationFormatMap, context, defaultContentType, TextElementFlags.None);
+			return textElementProvider.CreateTextElement(classificationFormatMap, context, contentType, TextElementFlags.None);
 		}
 
-		public void Dispose() {
-			foreach (var classifier in toClassifier.Values)
-				(classifier as IDisposable)?.Dispose();
-			toClassifier.Clear();
-		}
+		public void Dispose() { }
 	}
 }

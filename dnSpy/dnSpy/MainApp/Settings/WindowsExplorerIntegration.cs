@@ -74,16 +74,7 @@ namespace dnSpy.MainApp.Settings {
 					return;
 				bool enabled = value.Value;
 
-				var path = Assembly.GetEntryAssembly()!.Location;
-#if NET
-				// Use the native exe and not the managed file
-				path = Path.ChangeExtension(path, "exe");
-				if (!File.Exists(path)) {
-					// All .NET files could be in a bin sub dir
-					if (Path.GetDirectoryName(Path.GetDirectoryName(path)) is string baseDir)
-						path = Path.Combine(baseDir, Path.GetFileName(path));
-				}
-#endif
+				var path = Constants.ExecutablePath;
 				if (!File.Exists(path)) {
 					messageBoxService.Show("Cannot locate dnSpy!");
 					return;

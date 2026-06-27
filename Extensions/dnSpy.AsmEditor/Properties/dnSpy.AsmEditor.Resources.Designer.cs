@@ -556,6 +556,15 @@ namespace dnSpy.AsmEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close All Framework Assemblies.
+        /// </summary>
+        public static string CloseAllFrameworkAssembliesCommand {
+            get {
+                return ResourceManager.GetString("CloseAllFrameworkAssembliesCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close All Missing Files.
         /// </summary>
         public static string CloseAllMissingFilesCommand {
@@ -2869,6 +2878,15 @@ namespace dnSpy.AsmEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to _Allows ByRefLike.
+        /// </summary>
+        public static string GP_AllowByRefLike {
+            get {
+                return ResourceManager.GetString("GP_AllowByRefLike", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to C_lass.
         /// </summary>
         public static string GP_Class {
@@ -3342,6 +3360,24 @@ namespace dnSpy.AsmEditor.Properties {
         public static string InvertBranchesCommand {
             get {
                 return ResourceManager.GetString("InvertBranchesCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load Dependencies.
+        /// </summary>
+        public static string LoadDependenciesCommand {
+            get {
+                return ResourceManager.GetString("LoadDependenciesCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load Dependencies Recursively.
+        /// </summary>
+        public static string LoadDependenciesRecursiveCommand {
+            get {
+                return ResourceManager.GetString("LoadDependenciesRecursiveCommand", resourceCulture);
             }
         }
         

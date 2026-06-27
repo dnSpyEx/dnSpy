@@ -44,6 +44,7 @@ namespace dnSpy.Contracts.Controls {
 			"Lucida Console",
 			"Courier New",
 			"Courier",
+			"Liberation Mono",
 			GLOBAL_MONOSPACE_FONT,
 		};
 
@@ -172,7 +173,7 @@ namespace dnSpy.Contracts.Controls {
 		/// Gets all monospaced fonts
 		/// </summary>
 		/// <returns></returns>
-		public static FontFamily[] GetMonospacedFonts() => SystemFontFamilies.Where(a => IsMonospacedFont(a)).OrderBy(a => a.Source.ToUpperInvariant()).ToArray();
+		public static FontFamily[] GetMonospacedFonts() => SystemFontFamilies.Where(IsMonospacedFont).OrderBy(a => a.Source.ToUpperInvariant()).ToArray();
 
 		/// <summary>
 		/// Checks whether <paramref name="ff"/> is a monospaced font. It currently only checks

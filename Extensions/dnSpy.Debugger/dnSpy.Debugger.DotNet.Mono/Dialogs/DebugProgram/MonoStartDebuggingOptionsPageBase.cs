@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Input;
 using dnSpy.Contracts.Debugger;
+using dnSpy.Contracts.Debugger.Dialogs;
 using dnSpy.Contracts.Debugger.DotNet.Mono;
 using dnSpy.Contracts.Debugger.StartDebugging.Dialog;
 using dnSpy.Contracts.MVVM;
@@ -70,6 +71,21 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 		}
 		string workingDirectory = string.Empty;
 
+		public string EnvironmentString {
+			get {
+				var sb = new System.Text.StringBuilder();
+				foreach (var kv in Environment.Environment) {
+					sb.Append(kv.Key);
+					sb.Append('=');
+					sb.Append(kv.Value);
+					sb.Append(';');
+				}
+				return sb.ToString();
+			}
+		}
+
+		public DbgEnvironment Environment { get; } = new DbgEnvironment();
+
 		public UInt16VM ConnectionPort { get; }
 		public UInt32VM ConnectionTimeout { get; }
 
@@ -83,6 +99,7 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 
 		public ICommand PickFilenameCommand => new RelayCommand(a => PickNewFilename());
 		public ICommand PickWorkingDirectoryCommand => new RelayCommand(a => PickNewWorkingDirectory());
+		public ICommand EditEnvironmentCommand => new RelayCommand(a => EditEnvironment());
 
 		public override bool IsValid => isValid;
 		bool isValid;
@@ -97,10 +114,12 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 
 		protected readonly IPickFilename pickFilename;
 		readonly IPickDirectory pickDirectory;
+		readonly IDbgEnvironmentEditorService environmentEditorService;
 
-		protected MonoStartDebuggingOptionsPageBase(IPickFilename pickFilename, IPickDirectory pickDirectory) {
+		protected MonoStartDebuggingOptionsPageBase(IPickFilename pickFilename, IPickDirectory pickDirectory, IDbgEnvironmentEditorService environmentEditorService) {
 			this.pickFilename = pickFilename ?? throw new ArgumentNullException(nameof(pickFilename));
 			this.pickDirectory = pickDirectory ?? throw new ArgumentNullException(nameof(pickDirectory));
+			this.environmentEditorService = environmentEditorService ?? throw new ArgumentNullException(nameof(environmentEditorService));
 			ConnectionPort = new UInt16VM(a => UpdateIsValid(), useDecimal: true);
 			ConnectionTimeout = new UInt32VM(a => UpdateIsValid(), useDecimal: true);
 		}
@@ -143,11 +162,18 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 			WorkingDirectory = newDir;
 		}
 
+		void EditEnvironment() {
+			if (environmentEditorService.ShowEditDialog(Environment))
+				OnPropertyChanged(nameof(EnvironmentString));
+		}
+
 		protected void Initialize(MonoStartDebuggingOptionsBase options) {
 			Filename = options.Filename ?? string.Empty;
 			CommandLine = options.CommandLine ?? string.Empty;
 			// Must be init'd after Filename since it also overwrites this property
 			WorkingDirectory = options.WorkingDirectory ?? string.Empty;
+			Environment.Clear();
+			Environment.AddRange(options.Environment.Environment);
 			ConnectionPort.Value = options.ConnectionPort;
 			ConnectionTimeout.Value = (uint)options.ConnectionTimeout.TotalSeconds;
 			BreakKind = FilterBreakKind(options.BreakKind);
@@ -161,6 +187,8 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 			options.Filename = Filename;
 			options.CommandLine = CommandLine;
 			options.WorkingDirectory = WorkingDirectory;
+			options.Environment.Clear();
+			options.Environment.AddRange(Environment.Environment);
 			options.ConnectionPort = ConnectionPort.Value;
 			options.ConnectionTimeout = TimeSpan.FromSeconds(ConnectionTimeout.Value);
 			options.BreakKind = FilterBreakKind(BreakKind);

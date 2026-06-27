@@ -29,7 +29,7 @@ using dnSpy.Contracts.Menus;
 using dnSpy.Contracts.Utilities;
 
 namespace dnSpy.AsmEditor.Commands {
-	[ExportMenuItem(OwnerGuid = MenuConstants.APP_MENU_FILE_GUID, Header = "Close All Framework Assemblies", Group = MenuConstants.GROUP_APP_MENU_FILE_OPEN, Order = 55)]
+	[ExportMenuItem(OwnerGuid = MenuConstants.APP_MENU_FILE_GUID, Header = "res:CloseAllFrameworkAssembliesCommand", Group = MenuConstants.GROUP_APP_MENU_FILE_OPEN, Order = 55)]
 	sealed class CloseAllFrameworkAssembliesCommand : MenuItemBase {
 		readonly IDocumentTreeView documentTreeView;
 		readonly Lazy<IUndoCommandService> undoCommandService;

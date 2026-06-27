@@ -132,6 +132,9 @@
   <data name="DbgAsm_Connect_To_Process" xml:space="preserve">
     <value>Connect</value>
   </data>
+  <data name="DbgAsm_Environment" xml:space="preserve">
+    <value>Environment</value>
+  </data>
   <data name="DbgAsm_IP_Address" xml:space="preserve">
     <value>IP Address</value>
   </data>

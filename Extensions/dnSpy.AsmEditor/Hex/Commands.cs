@@ -74,7 +74,7 @@ namespace dnSpy.AsmEditor.Hex {
 			CreatorObject = creatorObject;
 		}
 
-		public HexContext(IDocumentViewer documentViewer, int? textPosition, object? @ref, bool isDefinition) {
+		public HexContext(IDocumentViewer? documentViewer, int? textPosition, object? @ref, bool isDefinition) {
 			Reference = @ref;
 			IsDefinition = isDefinition;
 			TextPosition = textPosition;
@@ -551,22 +551,27 @@ namespace dnSpy.AsmEditor.Hex {
 
 			if (context.Nodes is null || context.Nodes.Length != 1)
 				return null;
-			if (!(context.Nodes[0] is HexNode))
+			if (!(context.Nodes[0] is HexNode hexNode))
 				return null;
 
-			var mod = context.Nodes[0].GetModule() as ModuleDefMD;
-			if (mod is null)
+			var name = ShowAddressReferenceInHexEditorCommand.GetFilename(hexNode);
+			if (string.IsNullOrEmpty(name))
 				return null;
-			var pe = mod.Metadata.PEImage;
 
-			if (context.Nodes[0] is ImageSectionHeaderNode sectNode) {
+			var doc = hexNode.GetDocumentNode();
+			if (doc is null)
+				return null;
+
+			var pe = doc.Document.PEImage;
+			if (pe is not null && hexNode is ImageSectionHeaderNode sectNode) {
 				if (sectNode.SectionNumber >= pe.ImageSectionHeaders.Count)
 					return null;
 				var sect = pe.ImageSectionHeaders[sectNode.SectionNumber];
-				return new AddressReference(mod.Location, false, sect.PointerToRawData, sect.SizeOfRawData);
+				return new AddressReference(name, false, sect.PointerToRawData, sect.SizeOfRawData);
 			}
 
-			if (context.Nodes[0] is StorageStreamNode stgNode) {
+			var mod = doc.Document.ModuleDef as ModuleDefMD;
+			if (mod is not null && hexNode is StorageStreamNode stgNode) {
 				if (stgNode.StreamNumber >= mod.Metadata.MetadataHeader.StreamHeaders.Count)
 					return null;
 				var sh = mod.Metadata.MetadataHeader.StreamHeaders[stgNode.StreamNumber];

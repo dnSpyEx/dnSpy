@@ -121,13 +121,13 @@
     <value>_Добавить точку останова</value>
   </data>
   <data name="AddExceptionCommand" xml:space="preserve">
-    <value>Добавить _Исключение</value>
+    <value>_Добавить Исключение</value>
   </data>
   <data name="AppDomainNotAvailable" xml:space="preserve">
     <value>&lt;не существует&gt;</value>
   </data>
   <data name="AppMenu_Debug" xml:space="preserve">
-    <value>О_тладка</value>
+    <value>_Отладка</value>
   </data>
   <data name="AppTitle_Debugging" xml:space="preserve">
     <value>Отладка</value>
@@ -136,7 +136,7 @@
     <value>Вы хотите удалить все точки останова?</value>
   </data>
   <data name="AttachToProcessCommand" xml:space="preserve">
-    <value>Присоединиться к _процессу...</value>
+    <value>_Присоединиться к процессу...</value>
   </data>
   <data name="Attach_AttachToProcess" xml:space="preserve">
     <value>Присоединиться к процессу</value>
@@ -148,10 +148,10 @@
     <value>Используйте 32-бит dnSpy для присоединения к 32-битным процессам</value>
   </data>
   <data name="BreakCommand" xml:space="preserve">
-    <value>Прер_вать все</value>
+    <value>_Прервать все</value>
   </data>
   <data name="BreakpointsCommand" xml:space="preserve">
-    <value>Точки _останова</value>
+    <value>_Точки останова</value>
   </data>
   <data name="Button_Attach" xml:space="preserve">
     <value>_Присоединиться</value>
@@ -166,7 +166,7 @@
     <value>_Обновить</value>
   </data>
   <data name="CallStackCommand" xml:space="preserve">
-    <value>С_тек вызовов</value>
+    <value>_Стек вызовов</value>
   </data>
   <data name="CallStack_MaxFramesExceeded" xml:space="preserve">
     <value>Превышено максимальное количество кадров стека, поддерживаемых dnSpy.</value>
@@ -253,10 +253,10 @@
     <value>Версия</value>
   </data>
   <data name="ContinueDebuggingCommand" xml:space="preserve">
-    <value>П_родолжить</value>
+    <value>_Продолжить</value>
   </data>
   <data name="CopyCommand" xml:space="preserve">
-    <value>К_опировать</value>
+    <value>_Копировать</value>
   </data>
   <data name="DbgAsm_Title" xml:space="preserve">
     <value>Отладка программы</value>
@@ -301,25 +301,25 @@
     <value>Необработанное исключение</value>
   </data>
   <data name="DeleteAllBreakpointsCommand" xml:space="preserve">
-    <value>Удалить _все точки останова</value>
+    <value>_Удалить все точки останова</value>
   </data>
   <data name="DeleteBreakpointCommand" xml:space="preserve">
-    <value>У_далить точку останова</value>
+    <value>_Удалить точку останова</value>
   </data>
   <data name="DetachAllCommand" xml:space="preserve">
-    <value>Отсоединить в_се</value>
+    <value>_Отсоединить все</value>
   </data>
   <data name="DisableAllBreakpointsCommand" xml:space="preserve">
-    <value>Выключить все точки оста_нова</value>
+    <value>_Выключить все точки останова</value>
   </data>
   <data name="EnableAllBreakpointsCommand" xml:space="preserve">
-    <value>Включить все точки оста_нова</value>
+    <value>_Включить все точки останова</value>
   </data>
   <data name="EnableBreakpointCommand" xml:space="preserve">
     <value>_Включить точку останова</value>
   </data>
   <data name="EnableBreakpointCommand2" xml:space="preserve">
-    <value>Вк_лючить точку останова</value>
+    <value>_Включить точку останова</value>
   </data>
   <data name="ErrorOccurredX" xml:space="preserve">
     <value>Произошла ошибка:
@@ -337,7 +337,7 @@
 ОШИБКА: {1}</value>
   </data>
   <data name="ExceptionSettingsCommand" xml:space="preserve">
-    <value>Настройки и_сключений</value>
+    <value>_Настройки исключений</value>
   </data>
   <data name="Exceptions_Remove_ToolTip" xml:space="preserve">
     <value>Удалить исключение из списка</value>
@@ -358,28 +358,28 @@
     <value>_Заморозить</value>
   </data>
   <data name="GoToDisassemblyCommand2" xml:space="preserve">
-    <value>К _дизассемблированному коду</value>
+    <value>_К дизассемблированному коду</value>
   </data>
   <data name="GoToModuleCommand" xml:space="preserve">
-    <value>Перейти _к модулю</value>
+    <value>_Перейти к модулю</value>
   </data>
   <data name="HexDisplayCommand" xml:space="preserve">
     <value>_Hex отображение</value>
   </data>
   <data name="LocalsAddWatchCommand" xml:space="preserve">
-    <value>Добавить watch</value>
+    <value>_Добавить Watch</value>
   </data>
   <data name="LocalsCollapseChildrenNodesCommand" xml:space="preserve">
     <value>_Свернуть дочерние узлы</value>
   </data>
   <data name="LocalsCollapseParentNodeCommand" xml:space="preserve">
-    <value>С_вернуть родительский узел</value>
+    <value>_Свернуть родительский узел</value>
   </data>
   <data name="LocalsCommand" xml:space="preserve">
     <value>_Локальные переменные</value>
   </data>
   <data name="LocalsCopyValueCommand" xml:space="preserve">
-    <value>Копировать зна_чение</value>
+    <value>_Копировать значение</value>
   </data>
   <data name="LocalsEditValueCommand" xml:space="preserve">
     <value>_Изменить значение</value>
@@ -424,7 +424,7 @@
     <value>Сохранение модуля</value>
   </data>
   <data name="ModulesCommand" xml:space="preserve">
-    <value>М_одули</value>
+    <value>_Модули</value>
   </data>
   <data name="Module_NoAddress" xml:space="preserve">
     <value>&lt;нет адреса&gt;</value>
@@ -448,7 +448,7 @@
     <value>Восстановить настройки по умолчанию</value>
   </data>
   <data name="RunToCursorCommand" xml:space="preserve">
-    <value>В_ыполнить до курсора</value>
+    <value>_Выполнить до курсора</value>
   </data>
   <data name="SaveModuleCommand" xml:space="preserve">
     <value>Сохранить модуль...</value>
@@ -457,10 +457,10 @@
     <value>Сохранить {0} модулей...</value>
   </data>
   <data name="SelectAllCommand" xml:space="preserve">
-    <value>Выбр_ать все</value>
+    <value>_Выбрать все</value>
   </data>
   <data name="SetNextStatementCommand" xml:space="preserve">
-    <value>Установить сле_дующую инструкцию</value>
+    <value>_Установить следующую инструкцию</value>
   </data>
   <data name="ShortCutAltAsterisk" xml:space="preserve">
     <value>Alt+Num *</value>
@@ -562,25 +562,25 @@
     <value>Показать IP</value>
   </data>
   <data name="ShowModuleNamesCommand" xml:space="preserve">
-    <value>Показать имена _модулей</value>
+    <value>_Показать имена модулей</value>
   </data>
   <data name="ShowNamespacesCommand" xml:space="preserve">
     <value>Показать пространства имен</value>
   </data>
   <data name="ShowNextStatementCommand" xml:space="preserve">
-    <value>По_казать следующую инструкцию</value>
+    <value>_Показать следующую инструкцию</value>
   </data>
   <data name="ShowDeclaringTypesCommand" xml:space="preserve">
     <value>Показать объявляемые типы</value>
   </data>
   <data name="ShowParameterNamesCommand" xml:space="preserve">
-    <value>Показать имена _параметров</value>
+    <value>_Показать имена параметров</value>
   </data>
   <data name="ShowParameterTypesCommand" xml:space="preserve">
-    <value>Показать _типы параметров</value>
+    <value>_Показать типы параметров</value>
   </data>
   <data name="ShowParameterValuesCommand" xml:space="preserve">
-    <value>Показать _значения параметров</value>
+    <value>_Показать значения параметров</value>
   </data>
   <data name="ShowReturnTypesCommand" xml:space="preserve">
     <value>Показать возвращаемые типы</value>
@@ -592,7 +592,7 @@
     <value>Показать ключевые слова встроенных типов</value>
   </data>
   <data name="StartWithoutDebuggingCommand" xml:space="preserve">
-    <value>Старт б_ез отладки</value>
+    <value>_Старт без отладки</value>
   </data>
   <data name="StatusBar_Ready" xml:space="preserve">
     <value>Готово</value>
@@ -601,16 +601,16 @@
     <value>Выполняется...</value>
   </data>
   <data name="StepIntoCommand" xml:space="preserve">
-    <value>Шаг _внутрь</value>
+    <value>_Шаг внутрь</value>
   </data>
   <data name="StepOutCommand" xml:space="preserve">
-    <value>Шаг _наружу</value>
+    <value>_Шаг наружу</value>
   </data>
   <data name="StepOverCommand" xml:space="preserve">
-    <value>Шаг _через</value>
+    <value>_Шаг через</value>
   </data>
   <data name="StopDebuggingCommand" xml:space="preserve">
-    <value>Остановить _отладку</value>
+    <value>_Остановить отладку</value>
   </data>
   <data name="SwitchToFrameCommand" xml:space="preserve">
     <value>_Переключиться на фрейм</value>
@@ -622,7 +622,7 @@
     <value>_Разморозить</value>
   </data>
   <data name="ThreadsCommand" xml:space="preserve">
-    <value>По_токи</value>
+    <value>_Потоки</value>
   </data>
   <data name="ThreadType_Main" xml:space="preserve">
     <value>Главный поток</value>
@@ -661,7 +661,7 @@
     <value>Нормальный</value>
   </data>
   <data name="ToggleBreakpointCommand" xml:space="preserve">
-    <value>Пер_еключить точку останова</value>
+    <value>_Переключить точку останова</value>
   </data>
   <data name="ToolBarBreakAllToolTip" xml:space="preserve">
     <value>Прерывает все</value>
@@ -754,22 +754,22 @@
     <value>_Сообщения об исключениях</value>
   </data>
   <data name="ShowModuleLoadMessages" xml:space="preserve">
-    <value>Сообщения _загрузки модуля</value>
+    <value>_Сообщения загрузки модуля</value>
   </data>
   <data name="ShowModuleUnloadMessages" xml:space="preserve">
-    <value>Сообщения _выгрузки модуля</value>
+    <value>_Сообщения выгрузки модуля</value>
   </data>
   <data name="ShowProcessExitMessages" xml:space="preserve">
-    <value>Сообщения выхода _процесса</value>
+    <value>_Сообщения выхода процесса</value>
   </data>
   <data name="ShowProgramOutputMessages" xml:space="preserve">
     <value>_Вывод программы</value>
   </data>
   <data name="ShowStepFilteringMessages" xml:space="preserve">
-    <value>Сообщения фильтрации _шагов</value>
+    <value>_Сообщения фильтрации шагов</value>
   </data>
   <data name="ShowThreadExitMessages" xml:space="preserve">
-    <value>Сообщения о завершении _потока</value>
+    <value>_Сообщения о завершении потока</value>
   </data>
   <data name="ShowMDAMessages" xml:space="preserve">
     <value>Сообщения MDA</value>
@@ -817,7 +817,7 @@
     <value>_Окна</value>
   </data>
   <data name="OutputCommand" xml:space="preserve">
-    <value>Выв_од</value>
+    <value>_Вывод</value>
   </data>
   <data name="ShortCutKeyCtrlAltW_DIGIT" xml:space="preserve">
     <value>Ctrl+Alt+W, {0}</value>
@@ -886,7 +886,7 @@
     <value>_Отсоединиться от процесса</value>
   </data>
   <data name="DetachWhenDebuggingStoppedCommand" xml:space="preserve">
-    <value>Отсоединить, _когда отладка завершится</value>
+    <value>_Отсоединить, когда отладка завершится</value>
   </data>
   <data name="TerminateProcessCommand" xml:space="preserve">
     <value>_Завершить процесс</value>
@@ -955,7 +955,7 @@
     <value>_Добавить условие</value>
   </data>
   <data name="ModuleBreakpointsCommand" xml:space="preserve">
-    <value>Точки останова _модуля</value>
+    <value>_Точки останова модуля</value>
   </data>
   <data name="Window_ModuleBreakpoints" xml:space="preserve">
     <value>Точки останова модуля</value>
@@ -1162,7 +1162,7 @@
     <value>Кратно</value>
   </data>
   <data name="EditBreakpointSettings_ConditionalExpression" xml:space="preserve">
-    <value>Условное _выражение</value>
+    <value>_Условное выражение</value>
   </data>
   <data name="EditBreakpointSettings_Filter" xml:space="preserve">
     <value>_Фильтр</value>
@@ -1222,7 +1222,7 @@
     <value>Экспорт...</value>
   </data>
   <data name="SettingsCommand2" xml:space="preserve">
-    <value>На_стройки...</value>
+    <value>_Настройки...</value>
   </data>
   <data name="StartDebuggingCommand" xml:space="preserve">
     <value>Начать отладку</value>
@@ -1309,10 +1309,10 @@
     <value>_Точка останова</value>
   </data>
   <data name="InsertBreakpointCommand" xml:space="preserve">
-    <value>Вставить т_очку останова</value>
+    <value>_Вставить точку останова</value>
   </data>
   <data name="InsertTracepointCommand" xml:space="preserve">
-    <value>Вставить то_чку трассировки</value>
+    <value>_Вставить точку трассировки</value>
   </data>
   <data name="UnwindToThisFrameCommand" xml:space="preserve">
     <value>_Размотать до этого кадра</value>
@@ -1357,7 +1357,7 @@
     <value>Очистить всё</value>
   </data>
   <data name="DeleteWatchCommand" xml:space="preserve">
-    <value>У_далить watch</value>
+    <value>_Удалить watch</value>
   </data>
   <data name="PasteCommand" xml:space="preserve">
     <value>_Вставить</value>
@@ -1453,7 +1453,7 @@
     <value>Включает или выключает все исключения, соответствующие текущему условию поиска</value>
   </data>
   <data name="DisableBreakpointCommand2" xml:space="preserve">
-    <value>В_ыключить точку останова</value>
+    <value>_Выключить точку останова</value>
   </data>
   <data name="Exceptions_Add_ToolTip" xml:space="preserve">
     <value>Добавить исключение в список</value>
@@ -1492,7 +1492,7 @@
     <value>Обход свойств и операторов</value>
   </data>
   <data name="CopyExpressionCommand" xml:space="preserve">
-    <value>Копировать и_сключение</value>
+    <value>_Копировать исключение</value>
   </data>
   <data name="Error_CouldNotShowDisassembly" xml:space="preserve">
     <value>Не удалось найти код метода. Убедитесь, что процесс приостановлен, и что этот метод был скомпилирован.</value>
@@ -1529,5 +1529,35 @@
   </data>
   <data name="Column_LoadModule" xml:space="preserve">
     <value>Загрузить</value>
+  </data>
+  <data name="DetachingWillCauseTerminationOfDebuggeeProcess" xml:space="preserve">
+    <value>Отсоединение приведет к завершению отлаживаемого процесса. Вы точно хотите продолжить?</value>
+  </data>
+  <data name="Window_StaticFields" xml:space="preserve">
+    <value>Статические поля</value>
+  </data>
+  <data name="StaticFieldsCommand" xml:space="preserve">
+    <value>_Статические поля</value>
+  </data>
+  <data name="StartDebuggingWarning_UnknownBitness" xml:space="preserve">
+    <value>Разрядность целевого файла определить не удалось. Отладка может привести к нежелательному/неконтролируемому выполнению образа.
+
+Вы точно хотите продолжить?</value>
+  </data>
+  <data name="StartDebuggingWarning_IncorrectBitness" xml:space="preserve">
+    <value>Разрядность целевого файла не соответствует текущей версии dnSpy. Отладка может привести к нежелательному/неконтролируемому выполнению образа.
+
+Рекомендуется использовать 32-разрядный dnSpy для отладки 32-разрядных образов и 64-разрядный dnSpy для отладки 64-разрядных образов.
+
+Вы точно хотите продолжить?</value>
+  </data>
+  <data name="DbgSettings_EnableJustMyCodeDebugging" xml:space="preserve">
+    <value>Включить поддержку отладки только моего кода</value>
+  </data>
+  <data name="DbgSettings_StepOverCodeInSystemModules" xml:space="preserve">
+    <value>Переступать код в системных модулях</value>
+  </data>
+  <data name="DbgSettings_OnlyStepIntoCodeInPrimaryModule" xml:space="preserve">
+    <value>Входить только в код, расположенный в основном модуле</value>
   </data>
 </root>

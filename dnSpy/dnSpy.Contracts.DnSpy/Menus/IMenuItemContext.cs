@@ -62,6 +62,6 @@ namespace dnSpy.Contracts.Menus {
 		/// </summary>
 		/// <typeparam name="T">Type</typeparam>
 		/// <returns></returns>
-		T Find<T>();
+		T? Find<T>();
 	}
 }

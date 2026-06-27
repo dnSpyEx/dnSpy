@@ -123,6 +123,9 @@
   <data name="DbgAsm_BreakAt" xml:space="preserve">
     <value>_Break at</value>
   </data>
+  <data name="DbgAsm_Environment" xml:space="preserve">
+    <value>Environment</value>
+  </data>
   <data name="DbgAsm_Host" xml:space="preserve">
     <value>_Host</value>
   </data>

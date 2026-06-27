@@ -132,6 +132,9 @@
   <data name="DbgAsm_Connect_To_Process" xml:space="preserve">
     <value>连接</value>
   </data>
+  <data name="DbgAsm_Environment" xml:space="preserve">
+    <value>环境变量</value>
+  </data>
   <data name="DbgAsm_IP_Address" xml:space="preserve">
     <value>IP 地址</value>
   </data>
@@ -248,5 +251,8 @@
   </data>
   <data name="DebuggingUnityGamesText" xml:space="preserve">
     <value>调试 Unity 游戏 (Wiki)</value>
+  </data>
+  <data name="MonoDebuggerConnectionMessage" xml:space="preserve">
+    <value>连接到: {0}, Mono 版本: {1}, 协议版本: {2}</value>
   </data>
 </root>

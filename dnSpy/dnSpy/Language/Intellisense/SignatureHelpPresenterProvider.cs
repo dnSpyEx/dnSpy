@@ -21,6 +21,7 @@ using System.ComponentModel.Composition;
 using dnSpy.Contracts.Language.Intellisense;
 using dnSpy.Contracts.Settings.AppearanceCategory;
 using dnSpy.Contracts.Text;
+using dnSpy.Contracts.Text.Classification;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
@@ -35,20 +36,22 @@ namespace dnSpy.Language.Intellisense {
 		readonly IContentTypeRegistryService contentTypeRegistryService;
 		readonly IClassifierAggregatorService classifierAggregatorService;
 		readonly IClassificationFormatMapService classificationFormatMapService;
+		readonly ITextElementFactory textElementFactory;
 
 		[ImportingConstructor]
-		SignatureHelpPresenterProvider(ITextBufferFactoryService textBufferFactoryService, IContentTypeRegistryService contentTypeRegistryService, IClassifierAggregatorService classifierAggregatorService, IClassificationFormatMapService classificationFormatMapService) {
+		SignatureHelpPresenterProvider(ITextBufferFactoryService textBufferFactoryService, IContentTypeRegistryService contentTypeRegistryService, IClassifierAggregatorService classifierAggregatorService, IClassificationFormatMapService classificationFormatMapService, ITextElementFactory textElementFactory) {
 			this.textBufferFactoryService = textBufferFactoryService;
 			this.contentTypeRegistryService = contentTypeRegistryService;
 			this.classifierAggregatorService = classifierAggregatorService;
 			this.classificationFormatMapService = classificationFormatMapService;
+			this.textElementFactory = textElementFactory;
 		}
 
 		public IIntellisensePresenter? TryCreateIntellisensePresenter(IIntellisenseSession session) {
 			var signatureHelpSession = session as ISignatureHelpSession;
 			if (signatureHelpSession is null)
 				return null;
-			return new SignatureHelpPresenter(signatureHelpSession, textBufferFactoryService, contentTypeRegistryService, classifierAggregatorService, classificationFormatMapService.GetClassificationFormatMap(AppearanceCategoryConstants.UIMisc));
+			return new SignatureHelpPresenter(signatureHelpSession, textBufferFactoryService, contentTypeRegistryService, classifierAggregatorService, classificationFormatMapService.GetClassificationFormatMap(AppearanceCategoryConstants.UIMisc), textElementFactory);
 		}
 	}
 }

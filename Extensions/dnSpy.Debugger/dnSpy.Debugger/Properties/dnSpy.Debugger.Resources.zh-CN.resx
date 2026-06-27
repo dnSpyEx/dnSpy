@@ -309,6 +309,9 @@
   <data name="DetachAllCommand" xml:space="preserve">
     <value>分离所有(_L)</value>
   </data>
+  <data name="DetachingWillCauseTerminationOfDebuggeeProcess" xml:space="preserve">
+    <value>分离将导致调试对象进程终止。是否继续？</value>
+  </data>
   <data name="DisableAllBreakpointsCommand" xml:space="preserve">
     <value>禁用所有断点(_N)</value>
   </data>
@@ -395,7 +398,9 @@
 错误: {1}</value>
   </data>
   <data name="Locals_Ask_TooManyItems" xml:space="preserve">
-    <value>该节点中的子元素数量已超过最大值 ({0} 个)，当展开时会限制显示的子元素数量。是否需要显示所有的内容？</value>
+    <value>该节点中的子元素数量已超过最大值 ({0} 个)，当展开时会限制显示的子元素数量。
+
+是否需要显示所有的内容？</value>
   </data>
   <data name="Locals_Error_CantEvaluateWhenThreadIsAtUnsafePoint" xml:space="preserve">
     <value>当线程位于不安全状态时无法对表达式进行求值。按步调试或运行直到触发断点。</value>
@@ -724,6 +729,12 @@
   <data name="Window_Threads" xml:space="preserve">
     <value>线程</value>
   </data>
+  <data name="Window_StaticFields" xml:space="preserve">
+    <value>静态字段</value>
+  </data>
+  <data name="StaticFieldsCommand" xml:space="preserve">
+    <value>静态字段(_S)</value>
+  </data>
   <data name="YesNo_No" xml:space="preserve">
     <value>否</value>
   </data>
@@ -940,6 +951,18 @@
   <data name="AddExceptionButton" xml:space="preserve">
     <value>添加</value>
   </data>
+  <data name="AddEnvironmentVariableButton" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="AddEnvironmentVariablesMsgBoxTitle" xml:space="preserve">
+    <value>添加环境变量</value>
+  </data>
+  <data name="AddEnvironmentVariablesMsgBoxLabel" xml:space="preserve">
+    <value>环境变量</value>
+  </data>
+  <data name="AddManyEnvironmentVariablesButton" xml:space="preserve">
+    <value>添加多个</value>
+  </data>
   <data name="ExceptionDescription" xml:space="preserve">
     <value>异常说明</value>
   </data>
@@ -948,6 +971,9 @@
   </data>
   <data name="EditConditions_Title" xml:space="preserve">
     <value>编辑条件</value>
+  </data>
+  <data name="EditEnvironmentVariables_Title" xml:space="preserve">
+    <value>编辑环境变量</value>
   </data>
   <data name="Button_AddCondition" xml:space="preserve">
     <value>添加条件(_A)</value>
@@ -981,6 +1007,9 @@
   </data>
   <data name="RemoveBreakpointCommand" xml:space="preserve">
     <value>移除断点</value>
+  </data>
+  <data name="RemoveEnvironmentVariableButton" xml:space="preserve">
+    <value>删除</value>
   </data>
   <data name="DisableBreakpointCommand3" xml:space="preserve">
     <value>禁用断点</value>
@@ -1225,6 +1254,18 @@
   <data name="StartDebuggingCommand" xml:space="preserve">
     <value>开始调试</value>
   </data>
+  <data name="StartDebuggingWarning_UnknownBitness" xml:space="preserve">
+    <value>无法确定目标文件的位数。调试可能会导致非预期的或者不受控制的程序映像执行。
+
+是否继续？</value>
+  </data>
+  <data name="StartDebuggingWarning_IncorrectBitness" xml:space="preserve">
+    <value>目标文件的位数与当前版本的 dnSpy 不匹配。调试可能会导致非预期的或者不受控制的程序映像执行。
+
+建议使用 32 位 dnSpy 调试 32 位程序，使用 64 位 dnSpy 调试 64 位程序。
+
+是否继续？</value>
+  </data>
   <data name="Breakpoint_Tracepoint_BreakPrintMessage" xml:space="preserve">
     <value>中断并打印消息 '{0}'</value>
   </data>
@@ -1282,6 +1323,9 @@
   <data name="ResetBreakpointHitCountCommand" xml:space="preserve">
     <value>重置命中次数</value>
   </data>
+  <data name="ResetEnvironmentVariablesButton" xml:space="preserve">
+    <value>重置</value>
+  </data>
   <data name="HelpToolTip" xml:space="preserve">
     <value>帮助</value>
   </data>
@@ -1312,6 +1356,9 @@
   <data name="InsertTracepointCommand" xml:space="preserve">
     <value>插入跟踪点(_T)</value>
   </data>
+  <data name="InvalidInputString" xml:space="preserve">
+    <value>输入的内容无效</value>
+  </data>
   <data name="UnwindToThisFrameCommand" xml:space="preserve">
     <value>回溯到目标栈帧</value>
   </data>
@@ -1323,6 +1370,15 @@
   </data>
   <data name="DbgSettings_EnableManagedDebuggingAssistants" xml:space="preserve">
     <value>启用托管调试助手 (MDA)</value>
+  </data>
+  <data name="DbgSettings_EnableJustMyCodeDebugging" xml:space="preserve">
+    <value>启用"仅我的代码"</value>
+  </data>
+  <data name="DbgSettings_StepOverCodeInSystemModules" xml:space="preserve">
+    <value>跳过系统模块中的代码(系统自带程序集)</value>
+  </data>
+  <data name="DbgSettings_OnlyStepIntoCodeInPrimaryModule" xml:space="preserve">
+    <value>仅进入主模块中的代码</value>
   </data>
   <data name="DebugStepProcessError" xml:space="preserve">
     <value>无法单步执行: {0}</value>
@@ -1422,6 +1478,9 @@
   </data>
   <data name="ExceptionMessage" xml:space="preserve">
     <value>信息: {0}</value>
+  </data>
+  <data name="ExceptionHResult" xml:space="preserve">
+    <value>HResult: 0x{0:X8}</value>
   </data>
   <data name="ExceptionName" xml:space="preserve">
     <value>异常: {0}</value>

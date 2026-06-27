@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
     Microsoft ResX Schema
@@ -124,22 +124,22 @@
     <value>Добавить тип</value>
   </data>
   <data name="AssemblyDlg_Main_CB_DisableJITCompileOpt" xml:space="preserve">
-    <value>В_ыключить оптимизатор JIT-компиляции</value>
+    <value>_Выключить оптимизатор JIT-компиляции</value>
   </data>
   <data name="AssemblyDlg_Main_CB_EnableJITCompTrck" xml:space="preserve">
-    <value>Включить отслеживание _JIT-компиляции</value>
+    <value>_Включить отслеживание JIT-компиляции</value>
   </data>
   <data name="AssemblyDlg_Main_CB_ProcessArchSpec" xml:space="preserve">
-    <value>Архитектура проц_ессора указана</value>
+    <value>_Архитектура процессора указана</value>
   </data>
   <data name="AssemblyDlg_Main_CB_PublicKey" xml:space="preserve">
-    <value>Открытый _ключ</value>
+    <value>_Открытый ключ</value>
   </data>
   <data name="AssemblyDlg_Main_CB_Retargetable" xml:space="preserve">
     <value>_Перенаправляемый</value>
   </data>
   <data name="AssemblyDlg_Main_ContentType" xml:space="preserve">
-    <value>Тип _содержимого</value>
+    <value>_Тип содержимого</value>
   </data>
   <data name="AssemblyDlg_Main_Culture" xml:space="preserve">
     <value>_Культура</value>
@@ -154,7 +154,7 @@
     <value>_Имя</value>
   </data>
   <data name="AssemblyDlg_Main_ProcessorArch" xml:space="preserve">
-    <value>Архитектура проце_ссора</value>
+    <value>_Архитектура процессора</value>
   </data>
   <data name="AssemblyDlg_Main_PublicKey" xml:space="preserve">
     <value>_Публичный ключ</value>
@@ -178,10 +178,10 @@
     <value>_Правка...</value>
   </data>
   <data name="Button_OK" xml:space="preserve">
-    <value>_OK</value>
+    <value>_ОК</value>
   </data>
   <data name="Button_Remove" xml:space="preserve">
-    <value>У_брать</value>
+    <value>_Убрать</value>
   </data>
   <data name="Button_RestoreSettings" xml:space="preserve">
     <value>Сброс</value>
@@ -211,10 +211,10 @@
     <value>Аргументы конструктора</value>
   </data>
   <data name="CopyAsTextCommand" xml:space="preserve">
-    <value>Копировать как те_кст</value>
+    <value>_Копировать как текст</value>
   </data>
   <data name="CopyCommand" xml:space="preserve">
-    <value>Коп_ировать</value>
+    <value>_Копировать</value>
   </data>
   <data name="CopyILBytesCommand" xml:space="preserve">
     <value>Копировать байты IL</value>
@@ -313,7 +313,7 @@
     <value>Пользовательские атрибуты</value>
   </data>
   <data name="CutCommand" xml:space="preserve">
-    <value>Выреза_ть</value>
+    <value>_Вырезать</value>
   </data>
   <data name="DeleteCommandKey" xml:space="preserve">
     <value>Del</value>
@@ -401,7 +401,7 @@
     <value>Установить в null</value>
   </data>
   <data name="Event_InvokeMethod" xml:space="preserve">
-    <value>В_ызвать...</value>
+    <value>_Вызвать...</value>
   </data>
   <data name="Event_Name" xml:space="preserve">
     <value>_Имя</value>
@@ -428,7 +428,7 @@
     <value>_Имя</value>
   </data>
   <data name="Field_Offset" xml:space="preserve">
-    <value>С_мещение</value>
+    <value>_Смещение</value>
   </data>
   <data name="Field_RVA" xml:space="preserve">
     <value>_RVA</value>
@@ -437,13 +437,13 @@
     <value>gparam({0})</value>
   </data>
   <data name="GP_Class" xml:space="preserve">
-    <value>К_ласс</value>
+    <value>_Класс</value>
   </data>
   <data name="GP_Constraints" xml:space="preserve">
     <value>Ограничения</value>
   </data>
   <data name="GP_DefaultConstructor" xml:space="preserve">
-    <value>Конструктор _по умолчанию</value>
+    <value>_Конструктор по умолчанию</value>
   </data>
   <data name="GP_Kind" xml:space="preserve">
     <value>Вид</value>
@@ -455,7 +455,7 @@
     <value>_Имя</value>
   </data>
   <data name="GP_Number" xml:space="preserve">
-    <value>Ч_исло</value>
+    <value>_Число</value>
   </data>
   <data name="GP_Struct" xml:space="preserve">
     <value>_Структура</value>
@@ -467,7 +467,7 @@
     <value>Предпочтительно 32-бит</value>
   </data>
   <data name="HexNode_Cor20Header_Flags_32BitReqd" xml:space="preserve">
-    <value>Требуется 32-bit</value>
+    <value>Требуется 32-бит</value>
   </data>
   <data name="HexNode_Cor20Header_Flags_ILLibrary" xml:space="preserve">
     <value>Библиотека IL</value>
@@ -503,10 +503,10 @@
     <value>Реализация</value>
   </data>
   <data name="ImplMap_Enable" xml:space="preserve">
-    <value>Прим_енить</value>
+    <value>_Применить</value>
   </data>
   <data name="ImplMap_Module" xml:space="preserve">
-    <value>Мо_дуль</value>
+    <value>_Модуль</value>
   </data>
   <data name="ImplMap_Name" xml:space="preserve">
     <value>_Имя</value>
@@ -536,7 +536,7 @@
     <value>Elem_Type</value>
   </data>
   <data name="MarshalType_Enable" xml:space="preserve">
-    <value>Прим_енить</value>
+    <value>_Применить</value>
   </data>
   <data name="MarshalType_EnumNotInitialized" xml:space="preserve">
     <value>&lt;Не инициализирован&gt;</value>
@@ -572,7 +572,7 @@
     <value>_Размер</value>
   </data>
   <data name="MarshalType_Vector" xml:space="preserve">
-    <value>Век_тор</value>
+    <value>Vec_tor</value>
   </data>
   <data name="MarshalType_VT" xml:space="preserve">
     <value>_VT</value>
@@ -629,7 +629,7 @@
     <value>Типы методов создания экземпляров</value>
   </data>
   <data name="MethodSig_CallingConv" xml:space="preserve">
-    <value>Сог_л. о вызове</value>
+    <value>_Согл. о вызове</value>
   </data>
   <data name="MethodSig_MethodParameterTypes" xml:space="preserve">
     <value>Типы параметров метода</value>
@@ -641,7 +641,7 @@
     <value># Generic_s</value>
   </data>
   <data name="MethodSig_ReturnType" xml:space="preserve">
-    <value>Возвращаем_ый тип...</value>
+    <value>_Возвращаемый тип...</value>
   </data>
   <data name="MethodSpec_Method" xml:space="preserve">
     <value>_Метод</value>
@@ -650,13 +650,13 @@
     <value>Методы</value>
   </data>
   <data name="MoveDownCommand" xml:space="preserve">
-    <value>Переместить _вниз</value>
+    <value>_Переместить вниз</value>
   </data>
   <data name="MoveDown_ToolTip" xml:space="preserve">
     <value>Переместить вниз</value>
   </data>
   <data name="MoveUpCommand" xml:space="preserve">
-    <value>Переместить вв_ерх</value>
+    <value>_Переместить вверх</value>
   </data>
   <data name="MoveUp_ToolTip" xml:space="preserve">
     <value>Переместить вверх</value>
@@ -680,7 +680,7 @@
     <value>_In</value>
   </data>
   <data name="ParamDef_Flags_Optional" xml:space="preserve">
-    <value>О_пциональный</value>
+    <value>_Опциональный</value>
   </data>
   <data name="ParamDef_Flags_Out" xml:space="preserve">
     <value>O_ut</value>
@@ -704,7 +704,7 @@
     <value>Значение по умолчанию для этого параметра</value>
   </data>
   <data name="PasteAfterSelectionCommand" xml:space="preserve">
-    <value>Вставить после выд_еления</value>
+    <value>_Вставить после выделения</value>
   </data>
   <data name="PasteCommand" xml:space="preserve">
     <value>_Вставить</value>
@@ -806,16 +806,16 @@
     <value>Тип должен быть обобщенным</value>
   </data>
   <data name="TypeSigCreator_Array" xml:space="preserve">
-    <value>Масси_в</value>
+    <value>_Массив</value>
   </data>
   <data name="TypeSigCreator_Array_LowerBounds" xml:space="preserve">
-    <value>Ни_жние границы</value>
+    <value>_Нижние границы</value>
   </data>
   <data name="TypeSigCreator_Array_LowerBounds_ToolTip" xml:space="preserve">
     <value>Список нижних границ массивов через запятую (целые со знаком)</value>
   </data>
   <data name="TypeSigCreator_Array_Rank" xml:space="preserve">
-    <value>Ран_г</value>
+    <value>_Ранг</value>
   </data>
   <data name="TypeSigCreator_Array_Sizes" xml:space="preserve">
     <value>Размеры</value>
@@ -833,7 +833,7 @@
     <value>Преобразовать тип в ссылочный</value>
   </data>
   <data name="TypeSigCreator_Clear" xml:space="preserve">
-    <value>Оч_истить</value>
+    <value>_Очистить</value>
   </data>
   <data name="TypeSigCreator_Clear_ToolTip" xml:space="preserve">
     <value>Очистить тип</value>
@@ -878,7 +878,7 @@
     <value>Добавить обобщающую переменную для метода</value>
   </data>
   <data name="TypeSigCreator_Pinned" xml:space="preserve">
-    <value>За_креплен</value>
+    <value>_Закреплен</value>
   </data>
   <data name="TypeSigCreator_Pinned_ToolTip" xml:space="preserve">
     <value>Преобразовать в закрепленную переменную</value>
@@ -893,7 +893,7 @@
     <value>Удалить последний добавленный тип</value>
   </data>
   <data name="TypeSigCreator_SZArray" xml:space="preserve">
-    <value>S_Z массив</value>
+    <value>_SZ массив</value>
   </data>
   <data name="TypeSigCreator_SZArray_ToolTip" xml:space="preserve">
     <value>Преобразовать тип в одномерный массив с нулевой нижней границей</value>
@@ -950,7 +950,8 @@
     <value>Вы уверены, что хотите отменить сохранение?</value>
   </data>
   <data name="AskCancelSaveCloseWindow" xml:space="preserve">
-    <value>Сохранение отменяется. Вы уверены, что вы хотите закрыть окно?</value>
+    <value>Сохранение отменяется.
+Вы уверены, что вы хотите закрыть окно?</value>
   </data>
   <data name="AskDeleteField" xml:space="preserve">
     <value>На это поле может ссылаться код из какой-нибудь сборки. Вы уверены, что хотите удалить поле?</value>
@@ -986,7 +987,7 @@
     <value>Базовый тип: {0}</value>
   </data>
   <data name="Button_Append" xml:space="preserve">
-    <value>Д_обавить</value>
+    <value>_Добавить</value>
   </data>
   <data name="Button_Assembly" xml:space="preserve">
     <value>Сборка</value>
@@ -995,16 +996,16 @@
     <value>Преобразовать сборку в NetModule</value>
   </data>
   <data name="ConvertUncondBranchCommand" xml:space="preserve">
-    <value>Преобразовать в безусловную _ветвь</value>
+    <value>_Преобразовать в безусловную ветвь</value>
   </data>
   <data name="ConvertUncondBranchesCommand" xml:space="preserve">
-    <value>Преобразовать в безусловные _ветви</value>
+    <value>_Преобразовать в безусловные ветви</value>
   </data>
   <data name="ConvNetModuleToAssemblyCommand" xml:space="preserve">
     <value>Преобразовать NetModule в сборку</value>
   </data>
   <data name="CopyAsTextCommand2" xml:space="preserve">
-    <value>Копировать как _текст</value>
+    <value>_Копировать как текст</value>
   </data>
   <data name="CopyFileOffsetCommand" xml:space="preserve">
     <value>Копировать смещение в файле</value>
@@ -1013,16 +1014,16 @@
     <value>Копировать смещения в файле</value>
   </data>
   <data name="CopyMetaDataToken" xml:space="preserve">
-    <value>Копировать токен _метаданных</value>
+    <value>_Копировать токен метаданных</value>
   </data>
   <data name="CopyMetaDataTokens" xml:space="preserve">
-    <value>Копировать токены _метаданных</value>
+    <value>_Копировать токены метаданных</value>
   </data>
   <data name="CopyRVACommand" xml:space="preserve">
-    <value>К_опировать RVA</value>
+    <value>_Копировать RVA</value>
   </data>
   <data name="CopyRVAsCommand" xml:space="preserve">
-    <value>К_опировать все RVA</value>
+    <value>_Копировать все RVA</value>
   </data>
   <data name="CreateAnExceptionCatchType" xml:space="preserve">
     <value>Создать тип для захвата исключения</value>
@@ -1154,7 +1155,7 @@
     <value>Изменить MemberRef поля</value>
   </data>
   <data name="EditILInstructionsCommand" xml:space="preserve">
-    <value>Изменить ин_струкции IL...</value>
+    <value>_Изменить инструкции IL...</value>
   </data>
   <data name="EditInterfaceImpl" xml:space="preserve">
     <value>Изменить реализацию интерфейса</value>
@@ -1187,7 +1188,7 @@
     <value>_Поле...</value>
   </data>
   <data name="EditOperand_Field_MemberRef" xml:space="preserve">
-    <value>MemberRef п_оля...</value>
+    <value>_MemberRef поля...</value>
   </data>
   <data name="EditOperand_Method" xml:space="preserve">
     <value>_Метод...</value>
@@ -1196,7 +1197,7 @@
     <value>Met_hodSpec...</value>
   </data>
   <data name="EditOperand_Method_MemberRef" xml:space="preserve">
-    <value>MemberRef м_етода...</value>
+    <value>_MemberRef метода...</value>
   </data>
   <data name="EditOperand_Type" xml:space="preserve">
     <value>_Тип...</value>
@@ -1235,10 +1236,10 @@
     <value>Редактировать тип</value>
   </data>
   <data name="EH_Command1" xml:space="preserve">
-    <value>Добавить новый обработчик исключений Пе_ред выделенным</value>
+    <value>_Добавить новый обработчик исключений Перед выделенным</value>
   </data>
   <data name="EH_Command2" xml:space="preserve">
-    <value>Добавить новый обработчик исключений По_сле выделенного</value>
+    <value>_Добавить новый обработчик исключений После выделенного</value>
   </data>
   <data name="EH_Command3" xml:space="preserve">
     <value>_Добавить новый обработчик исключений</value>
@@ -1250,7 +1251,7 @@
     <value>_Удалить обработчики исключений</value>
   </data>
   <data name="EH_Command6" xml:space="preserve">
-    <value>Удали_ть все обработчики исключений</value>
+    <value>_Удалить все обработчики исключений</value>
   </data>
   <data name="EmptyFilename" xml:space="preserve">
     <value>&lt;пустое имя файла&gt;</value>
@@ -1445,10 +1446,10 @@
     <value>Операнд</value>
   </data>
   <data name="Instr_Command1" xml:space="preserve">
-    <value>Добавить новую инструкцию п_еред выделением</value>
+    <value>_Добавить новую инструкцию перед выделением</value>
   </data>
   <data name="Instr_Command2" xml:space="preserve">
-    <value>Добавить новую инструкцию п_осле выделения</value>
+    <value>_Добавить новую инструкцию после выделения</value>
   </data>
   <data name="Instr_Command3" xml:space="preserve">
     <value>_Добавить новую инструкцию в конец</value>
@@ -1481,13 +1482,13 @@
     <value>Тип</value>
   </data>
   <data name="Local_Command1" xml:space="preserve">
-    <value>Добавить новую локальную переменную пе_ред выделением</value>
+    <value>_Добавить новую локальную переменную перед выделением</value>
   </data>
   <data name="Local_Command2" xml:space="preserve">
-    <value>Добавить новую локальную переменную по_сле выделения</value>
+    <value>_Добавить новую локальную переменную после выделения</value>
   </data>
   <data name="Local_Command3" xml:space="preserve">
-    <value>Доб_авить новую локальную переменную</value>
+    <value>_Добавить новую локальную переменную</value>
   </data>
   <data name="Local_Command4" xml:space="preserve">
     <value>_Удалить локальную переменную</value>
@@ -1496,7 +1497,7 @@
     <value>_Удалить локальные переменные</value>
   </data>
   <data name="Local_Command6" xml:space="preserve">
-    <value>У_далить все локальные переменные</value>
+    <value>_Удалить все локальные переменные</value>
   </data>
   <data name="Local_CompilerGenerated_Character" xml:space="preserve">
     <value>C</value>
@@ -1526,10 +1527,10 @@
     <value>Нет</value>
   </data>
   <data name="MethodBody_CodeType" xml:space="preserve">
-    <value>Т_ип кода</value>
+    <value>_Тип кода</value>
   </data>
   <data name="MethodBody_HeaderOffset" xml:space="preserve">
-    <value>Смещение заголо_вка</value>
+    <value>_Смещение заголовка</value>
   </data>
   <data name="MethodBody_HeaderRVA" xml:space="preserve">
     <value>_RVA заголовка</value>
@@ -1550,7 +1551,7 @@
     <value>_RVA</value>
   </data>
   <data name="MethodBody_Type" xml:space="preserve">
-    <value>Тип _содержимого</value>
+    <value>_Тип содержимого</value>
   </data>
   <data name="MethodOverridesTab" xml:space="preserve">
     <value>Переопределения</value>
@@ -1586,10 +1587,10 @@
     <value>Метаданные</value>
   </data>
   <data name="Module_ModuleType" xml:space="preserve">
-    <value>Тип _модуля</value>
+    <value>_Тип модуля</value>
   </data>
   <data name="Module_Name" xml:space="preserve">
-    <value>И_мя</value>
+    <value>_Имя</value>
   </data>
   <data name="MoveTypesToEmptyNamespaceCommand" xml:space="preserve">
     <value>Переместить типы в пустое пространство имен</value>
@@ -1616,10 +1617,10 @@
     <value>Смещение</value>
   </data>
   <data name="OpenHexEditorCommand" xml:space="preserve">
-    <value>Открыть He_x-редактор</value>
+    <value>_Открыть Hex-редактор</value>
   </data>
   <data name="OptimizeAllInstructionsCommand" xml:space="preserve">
-    <value>Оптими_зировать все инструкции</value>
+    <value>_Оптимизировать все инструкции</value>
   </data>
   <data name="Padding" xml:space="preserve">
     <value>Дополнить</value>
@@ -1670,7 +1671,7 @@
     <value>Удалить NetModule из сборки</value>
   </data>
   <data name="RenameNamespaceCommand" xml:space="preserve">
-    <value>Переименовать пространство имен...</value>
+    <value>Переименовать пространство имен</value>
   </data>
   <data name="Resource_ColorDepth" xml:space="preserve">
     <value>_Глубина цвета</value>
@@ -1700,7 +1701,7 @@
     <value>_Размер</value>
   </data>
   <data name="Resource_TransparentColor" xml:space="preserve">
-    <value>Цве_т прозрачности</value>
+    <value>_Цвет прозрачности</value>
   </data>
   <data name="Resource_Type" xml:space="preserve">
     <value>_Тип</value>
@@ -1715,19 +1716,19 @@
     <value>_Сохранить...</value>
   </data>
   <data name="SaveAllCommand" xml:space="preserve">
-    <value>Сохранить в_се...</value>
+    <value>_Сохранить все...</value>
   </data>
   <data name="SaveAllToolBarToolTip" xml:space="preserve">
     <value>Сохранить все</value>
   </data>
   <data name="SaveModuleCommand" xml:space="preserve">
-    <value>Сохранить _модуль...</value>
+    <value>_Сохранить модуль...</value>
   </data>
   <data name="SaveModuleCommand2" xml:space="preserve">
     <value>Сохранить модуль</value>
   </data>
   <data name="SaveModulesCommand" xml:space="preserve">
-    <value>Сохранить _модули...</value>
+    <value>_Сохранить модули...</value>
   </data>
   <data name="SaveModules_CancelingSave" xml:space="preserve">
     <value>Отмена сохранения. Подождите...</value>
@@ -1748,7 +1749,9 @@
     <value>Все файлы записаны на диск.</value>
   </data>
   <data name="SaveModules_Log_Exception" xml:space="preserve">
-    <value>Произошло исключение {0}</value>
+    <value>Произошло исключение
+
+{0}</value>
   </data>
   <data name="SaveModules_Log_FileError" xml:space="preserve">
     <value>Ошибка файла: {0}</value>
@@ -1772,7 +1775,7 @@
     <value>Сохранить модули</value>
   </data>
   <data name="SaveModule_AddPECheckSum" xml:space="preserve">
-    <value>Доб_авить контрольную сумму PE</value>
+    <value>_Добавить контрольную сумму PE</value>
   </data>
   <data name="SaveModule_CreateHeapEvenIfEmpty" xml:space="preserve">
     <value>Создавать кучу, даже если она пустая</value>
@@ -1784,7 +1787,8 @@
     <value>_Сохранить старое значение MaxStack</value>
   </data>
   <data name="SaveModule_KeepOldMaxStack_ToolTip" xml:space="preserve">
-    <value>Использует значение MaxStack из метода вместо вычисления нового значения MaxStack. Требуется, если методы все еще обфусцированы</value>
+    <value>Использует значение MaxStack из метода вместо вычисления нового значения MaxStack.
+Требуется, если методы все еще обфусцированы</value>
   </data>
   <data name="SaveModule_MetadataHeaderOptions" xml:space="preserve">
     <value>Опции заголовка метаданных</value>
@@ -1796,10 +1800,11 @@
     <value>_Тип модуля</value>
   </data>
   <data name="SaveModule_PreserveExtraSigData" xml:space="preserve">
-    <value>Сохранить до_полнительные данные подписи</value>
+    <value>_Сохранить дополнительные данные подписи</value>
   </data>
   <data name="SaveModule_PreserveExtraSigData_ToolTip" xml:space="preserve">
-    <value>Сохранить дополнительные данные после подписи. Некоторые обфускаторы размещают здесь данные</value>
+    <value>Сохранить дополнительные данные после подписи.
+Некоторые обфускаторы размещают здесь данные</value>
   </data>
   <data name="SaveModule_PreserveHeapOffsets" xml:space="preserve">
     <value>Сохранить смещения в куче</value>
@@ -1814,7 +1819,8 @@
     <value>Общие тела методов</value>
   </data>
   <data name="SaveModule_ShareMethodBodies_ToolTip" xml:space="preserve">
-    <value>Методы .NET, которые имеют идентичный код, будут его разделять между собой. Выходной файл будет немного меньше</value>
+    <value>Методы .NET, которые имеют идентичный код, будут его разделять между собой.
+Выходной файл будет немного меньше</value>
   </data>
   <data name="SaveModule_Title" xml:space="preserve">
     <value>Сохранение модуля</value>
@@ -1827,7 +1833,7 @@
 После установки флага большинство опций будет переинициалировано</value>
   </data>
   <data name="SaveModule_WritePdb" xml:space="preserve">
-    <value>Сохранить _PDB-файл</value>
+    <value>_Сохранить PDB-файл</value>
   </data>
   <data name="SaveResourceCommand" xml:space="preserve">
     <value>Сохранить {0}</value>
@@ -1893,10 +1899,10 @@
     <value>Shift+Alt+R</value>
   </data>
   <data name="ShowDataInHexEditorCommand" xml:space="preserve">
-    <value>Показать данные в He_x-редакторе</value>
+    <value>_Показать данные в Hex-редакторе</value>
   </data>
   <data name="ShowInHexEditorCommand" xml:space="preserve">
-    <value>Показать в He_x-редакторе</value>
+    <value>_Показать в Hex-редакторе</value>
   </data>
   <data name="ShowInHexEditorCommand2" xml:space="preserve">
     <value>Показать в Hex-редакторе</value>
@@ -1905,7 +1911,7 @@
     <value>Показать исходное значение в Hex-редакторе</value>
   </data>
   <data name="ShowInstrsInHexEditorCommand" xml:space="preserve">
-    <value>Показать инструкции в He_x-редакторе</value>
+    <value>_Показать инструкции в Hex-редакторе</value>
   </data>
   <data name="ShowMethodBodyInHexEditorCommand" xml:space="preserve">
     <value>Показать тело метода в Hex-редакторе</value>
@@ -1917,7 +1923,7 @@
     <value>_Сортировать таблицу</value>
   </data>
   <data name="SortSelectionCommand" xml:space="preserve">
-    <value>Со_ртировать выделенное</value>
+    <value>_Сортировать выделенное</value>
   </data>
   <data name="TablesHeapOptionsTab" xml:space="preserve">
     <value>Опции табличной кучи</value>
@@ -1929,16 +1935,16 @@
     <value>Вы выбрали слишком много данных</value>
   </data>
   <data name="Type_ClassSize" xml:space="preserve">
-    <value>Размер к_ласса</value>
+    <value>_Размер класса</value>
   </data>
   <data name="Type_Name" xml:space="preserve">
     <value>_Имя</value>
   </data>
   <data name="Type_Namespace" xml:space="preserve">
-    <value>Простр_анство имен</value>
+    <value>_Пространство имен</value>
   </data>
   <data name="Type_PackingSize" xml:space="preserve">
-    <value>Размер упак_овки</value>
+    <value>_Размер упаковки</value>
   </data>
   <data name="UndoCommand" xml:space="preserve">
     <value>Отменить</value>
@@ -1965,13 +1971,13 @@
     <value>_Новый</value>
   </data>
   <data name="Module_NewGuid2" xml:space="preserve">
-    <value>Н_овый</value>
+    <value>_Новый</value>
   </data>
   <data name="Module_NewGuid3" xml:space="preserve">
-    <value>Но_вый</value>
+    <value>_Новый</value>
   </data>
   <data name="NetModule_NewGuid1" xml:space="preserve">
-    <value>Но_вый</value>
+    <value>_Новый</value>
   </data>
   <data name="Pick_Assembly" xml:space="preserve">
     <value>Выберите сборку</value>
@@ -2037,13 +2043,13 @@
     <value>Доступ</value>
   </data>
   <data name="Module_Cor20_RuntimeVersion" xml:space="preserve">
-    <value>Версия _рантайма</value>
+    <value>_Версия среды выполнения</value>
   </data>
   <data name="Module_Metadata_HeaderVersion" xml:space="preserve">
-    <value>Версия _заголовка</value>
+    <value>_Версия заголовка</value>
   </data>
   <data name="Module_Metadata_VersionString" xml:space="preserve">
-    <value>Строка _версии</value>
+    <value>_Строка версии</value>
   </data>
   <data name="Module_PE_Machine" xml:space="preserve">
     <value>_Архитектура</value>
@@ -2061,7 +2067,7 @@
     <value>_Major RT Ver</value>
   </data>
   <data name="SaveModule_Cor20_MinorRuntimeVersion" xml:space="preserve">
-    <value>Mino_r RT Ver</value>
+    <value>_Minor RT Ver</value>
   </data>
   <data name="SaveModule_Metadata_MajorVersion" xml:space="preserve">
     <value>_MajorVersion</value>
@@ -2082,7 +2088,7 @@
     <value>S_torageFlags</value>
   </data>
   <data name="SaveModule_Metadata_VersionString" xml:space="preserve">
-    <value>Строка _версии</value>
+    <value>_Строка версии</value>
   </data>
   <data name="SaveModule_PE_Machine" xml:space="preserve">
     <value>_Архитектура</value>
@@ -2103,7 +2109,7 @@
     <value>M_ajorVersion</value>
   </data>
   <data name="SaveModule_TablesHeap_MinorVersion" xml:space="preserve">
-    <value>Reserv_ed1</value>
+    <value>M_inorVersion</value>
   </data>
   <data name="SaveModule_TablesHeap_Reserved1" xml:space="preserve">
     <value>Reserv_ed1</value>
@@ -2280,10 +2286,10 @@
     <value>Добавить члены класса ({0})...</value>
   </data>
   <data name="SaveModule_PreserveOtherMetadataStreams" xml:space="preserve">
-    <value>Копировать неопознанн_ые потоки метаданных</value>
+    <value>_Копировать неопознанные потоки метаданных</value>
   </data>
   <data name="RerunNgenIfGacAssembly" xml:space="preserve">
-    <value>Запустить _NGEN.exe, если эта сборка установлена в GAC</value>
+    <value>Запустить NGEN.exe, если эта сборка установлена в GAC</value>
   </data>
   <data name="CompilerDlgTabTitle" xml:space="preserve">
     <value>Компилятор</value>
@@ -2295,7 +2301,7 @@
     <value>_Заменить NOP-ами</value>
   </data>
   <data name="Type_Flags_Accessibility" xml:space="preserve">
-    <value>Доступност_ь</value>
+    <value>_Доступность</value>
   </data>
   <data name="Type_Flags_Kind" xml:space="preserve">
     <value>_Тип</value>
@@ -2304,9 +2310,24 @@
     <value>Layo_ut</value>
   </data>
   <data name="Type_Flags_String" xml:space="preserve">
-    <value>Стро_ка</value>
+    <value>_Строка</value>
   </data>
   <data name="Type_Flags_Visibility" xml:space="preserve">
-    <value>Видимост_ть</value>
+    <value>_Видимость</value>
+  </data>
+  <data name="SaveModule_AddMVIDSection" xml:space="preserve">
+    <value>_Добавить раздел MVID</value>
+  </data>
+  <data name="SaveModule_TablesHeap_ForceBigColumns" xml:space="preserve">
+    <value>_Принудительное разделение столбцов</value>
+  </data>
+  <data name="ReplaceMethodBodyWithStubCommand" xml:space="preserve">
+    <value>Заменить тело метода заглушкой...</value>
+  </data>
+  <data name="ReplaceMethodBodyWithStubCommand2" xml:space="preserve">
+    <value>Заменить тело метода заглушкой</value>
+  </data>
+  <data name="CloseAllFrameworkAssembliesCommand" xml:space="preserve">
+    <value>Закрыть все сборки фреймворка</value>
   </data>
 </root>

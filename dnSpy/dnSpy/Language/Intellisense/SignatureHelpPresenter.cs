@@ -93,6 +93,7 @@ namespace dnSpy.Language.Intellisense {
 		readonly IClassifierAggregatorService classifierAggregatorService;
 		readonly IClassificationFormatMap classificationFormatMap;
 		readonly IContentType defaultExtendedContentType;
+		readonly ITextElementFactory textElementFactory;
 		ISignature? currentSignature;
 		IClassifier? signatureClassifier;
 		IClassifier? otherClassifier;
@@ -105,7 +106,7 @@ namespace dnSpy.Language.Intellisense {
 		static readonly ContentTypeDefinition? defaultContentTypeDefinition;
 #pragma warning restore CS0169
 
-		public SignatureHelpPresenter(ISignatureHelpSession session, ITextBufferFactoryService textBufferFactoryService, IContentTypeRegistryService contentTypeRegistryService, IClassifierAggregatorService classifierAggregatorService, IClassificationFormatMap classificationFormatMap) {
+		public SignatureHelpPresenter(ISignatureHelpSession session, ITextBufferFactoryService textBufferFactoryService, IContentTypeRegistryService contentTypeRegistryService, IClassifierAggregatorService classifierAggregatorService, IClassificationFormatMap classificationFormatMap, ITextElementFactory textElementFactory) {
 			if (textBufferFactoryService is null)
 				throw new ArgumentNullException(nameof(textBufferFactoryService));
 			this.session = session ?? throw new ArgumentNullException(nameof(session));
@@ -117,6 +118,7 @@ namespace dnSpy.Language.Intellisense {
 			this.contentTypeRegistryService = contentTypeRegistryService ?? throw new ArgumentNullException(nameof(contentTypeRegistryService));
 			this.classifierAggregatorService = classifierAggregatorService ?? throw new ArgumentNullException(nameof(classifierAggregatorService));
 			this.classificationFormatMap = classificationFormatMap ?? throw new ArgumentNullException(nameof(classificationFormatMap));
+			this.textElementFactory = textElementFactory ?? throw new ArgumentNullException(nameof(textElementFactory));
 			defaultExtendedContentType = contentTypeRegistryService.GetContentType(DefaultExtendedContentTypeName);
 			Debug2.Assert(defaultExtendedContentType is not null);
 			classificationFormatMap.ClassificationFormatMappingChanged += ClassificationFormatMap_ClassificationFormatMappingChanged;
@@ -225,9 +227,7 @@ namespace dnSpy.Language.Intellisense {
 			if (sigIndex < 0)
 				return null;
 			var text = string.Format(dnSpy_Resources.SignatureHelp_Signature_N_of_TotalCount, sigIndex + 1, session.Signatures.Count);
-
-			var propsSpans = Array.Empty<TextRunPropertiesAndSpan>();
-			return TextBlockFactory.Create(text, classificationFormatMap.DefaultTextProperties, propsSpans, TextBlockFactory.Flags.DisableSetTextBlockFontFamily | TextBlockFactory.Flags.DisableFontSize);
+			return textElementFactory.Create(classificationFormatMap, text, Array.Empty<TextClassificationTag>(), TextElementFlags.None);
 		}
 
 		object? CreateSignatureDocumentationObject() {
@@ -275,8 +275,8 @@ namespace dnSpy.Language.Intellisense {
 			}
 
 			var classificationSpans = signatureClassifier.GetClassificationSpans(new SnapshotSpan(signatureTextBuffer.CurrentSnapshot, 0, signatureTextBuffer.CurrentSnapshot.Length));
-			var propsSpans = classificationSpans.Select(a => new TextRunPropertiesAndSpan(a.Span.Span, classificationFormatMap.GetTextProperties(a.ClassificationType)));
-			return TextBlockFactory.Create(text, classificationFormatMap.DefaultTextProperties, propsSpans, TextBlockFactory.Flags.DisableSetTextBlockFontFamily | TextBlockFactory.Flags.DisableFontSize);
+			var classificationTags = classificationSpans.Select(x => new TextClassificationTag(x.Span.Span, x.ClassificationType)).ToArray();
+			return textElementFactory.Create(classificationFormatMap, text, classificationTags, TextElementFlags.None);
 		}
 
 		void RegisterSignatureClassifierEvents() {
@@ -330,8 +330,8 @@ namespace dnSpy.Language.Intellisense {
 			}
 
 			var classificationSpans = otherClassifier.GetClassificationSpans(new SnapshotSpan(otherTextBuffer.CurrentSnapshot, 0, otherTextBuffer.CurrentSnapshot.Length));
-			var propsSpans = classificationSpans.Select(a => new TextRunPropertiesAndSpan(a.Span.Span, classificationFormatMap.GetTextProperties(a.ClassificationType)));
-			var result = TextBlockFactory.Create(text, classificationFormatMap.DefaultTextProperties, propsSpans, TextBlockFactory.Flags.DisableSetTextBlockFontFamily | TextBlockFactory.Flags.DisableFontSize);
+			var classificationTags = classificationSpans.Select(x => new TextClassificationTag(x.Span.Span, x.ClassificationType)).ToArray();
+			var result = textElementFactory.Create(classificationFormatMap, text, classificationTags, TextElementFlags.None);
 			otherTextBuffer.Properties.RemoveProperty(SignatureHelpConstants.SignatureHelpClassifierContextBufferKey);
 			return result;
 		}

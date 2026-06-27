@@ -26,13 +26,13 @@ using Microsoft.VisualStudio.Utilities;
 namespace dnSpy.Roslyn.Text.Classification {
 	[Export(typeof(ITaggedTextElementProviderService))]
 	sealed class TaggedTextElementProviderService : ITaggedTextElementProviderService {
-		readonly ITextClassifierAggregatorService textClassifierAggregatorService;
 		readonly IClassificationFormatMapService classificationFormatMapService;
+		readonly ITextElementProvider textElementProvider;
 
 		[ImportingConstructor]
-		TaggedTextElementProviderService(ITextClassifierAggregatorService textClassifierAggregatorService, IClassificationFormatMapService classificationFormatMapService) {
-			this.textClassifierAggregatorService = textClassifierAggregatorService;
+		TaggedTextElementProviderService(IClassificationFormatMapService classificationFormatMapService, ITextElementProvider textElementProvider) {
 			this.classificationFormatMapService = classificationFormatMapService;
+			this.textElementProvider = textElementProvider;
 		}
 
 		public ITaggedTextElementProvider Create(IContentType contentType, string category) {
@@ -40,7 +40,7 @@ namespace dnSpy.Roslyn.Text.Classification {
 				throw new ArgumentNullException(nameof(contentType));
 			if (category is null)
 				throw new ArgumentNullException(nameof(category));
-			return new TaggedTextElementProvider(contentType, textClassifierAggregatorService, classificationFormatMapService.GetClassificationFormatMap(category));
+			return new TaggedTextElementProvider(contentType, classificationFormatMapService.GetClassificationFormatMap(category), textElementProvider);
 		}
 	}
 }

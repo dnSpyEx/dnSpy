@@ -752,8 +752,10 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Impl {
 				if (debuggerSettings.SuppressJITOptimization_SystemModules) {
 					if (options is DotNetFrameworkStartDebuggingOptions)
 						env.Add("COMPlus_ZapDisable", "1");
-					else if (options is DotNetStartDebuggingOptions)
+					else if (options is DotNetStartDebuggingOptions) {
 						env.Add("COMPlus_ReadyToRun", "0");
+						env.Add("DOTNET_ReadyToRun", "0");
+					}
 					else
 						Debug.Fail("Unreachable code");
 				}

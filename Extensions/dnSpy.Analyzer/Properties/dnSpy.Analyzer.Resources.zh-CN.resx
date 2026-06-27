@@ -159,6 +159,9 @@
   <data name="ImplementedByTreeNode" xml:space="preserve">
     <value>实现于</value>
   </data>
+  <data name="SubtypesTreeNode" xml:space="preserve"> 
+    <value>子类型</value> 
+  </data>
   <data name="InstantiatedByTreeNode" xml:space="preserve">
     <value>实例化于</value>
   </data>

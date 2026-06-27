@@ -19,6 +19,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using dnSpy.AsmEditor.Properties;
 using dnSpy.Contracts.App;
@@ -26,17 +27,23 @@ using dnSpy.Contracts.Controls;
 
 namespace dnSpy.AsmEditor.SaveModule {
 	class SaveModuleWindow : WindowBase {
+		private const int minimumWaitMs = 250;
+		Task? waitTask;
+
 		public SaveModuleWindow() => Loaded += SaveMultiModule_Loaded;
 
 		void SaveMultiModule_Loaded(object? sender, RoutedEventArgs e) {
 			var data = (SaveMultiModuleVM)DataContext;
 			data.OnSavedEvent += SaveMultiModuleVM_OnSavedEvent;
+			waitTask = Task.Run(() => Task.Delay(minimumWaitMs));
 		}
 
 		void SaveMultiModuleVM_OnSavedEvent(object? sender, EventArgs e) {
 			var data = (SaveMultiModuleVM)DataContext;
-			if (!data.HasError)
+			if (!data.HasError) {
+				waitTask?.Wait(TimeSpan.FromMilliseconds(minimumWaitMs));
 				okButton_Click(null, null);
+			}
 		}
 
 		protected override void OnClosing(CancelEventArgs e) {

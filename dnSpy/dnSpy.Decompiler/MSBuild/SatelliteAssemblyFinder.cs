@@ -75,7 +75,7 @@ namespace dnSpy.Decompiler.MSBuild {
 			}
 		}
 
-		static IEnumerable<string> GetPrivatePaths(string configFileName) {
+		static List<string> GetPrivatePaths(string configFileName) {
 			var searchPaths = new List<string>();
 
 			try {
@@ -83,22 +83,21 @@ namespace dnSpy.Decompiler.MSBuild {
 				if (dirName is null)
 					return searchPaths;
 
-				using (var xmlStream = new FileStream(configFileName, FileMode.Open, FileAccess.Read, FileShare.Read)) {
+				using (var xmlStream = File.OpenRead(configFileName)) {
 					var doc = new XmlDocument();
-					doc.Load(XmlReader.Create(xmlStream));
+					doc.Load(XmlReader.Create(xmlStream, new XmlReaderSettings { XmlResolver = null }));
 					foreach (object tmp in doc.GetElementsByTagName("probing")) {
-						var probingElem = tmp as XmlElement;
-						if (probingElem is null)
+						if (tmp is not XmlElement probingElem)
 							continue;
 						string privatePath = probingElem.GetAttribute("privatePath");
 						if (string.IsNullOrEmpty(privatePath))
 							continue;
-						foreach (string tmp2 in privatePath.Split(';')) {
-							string path = tmp2.Trim();
-							if (path == "")
+						string[] paths = privatePath.Split(';');
+						for (int i = 0; i < paths.Length; i++) {
+							string path = paths[i].Trim();
+							if (string.IsNullOrEmpty(path))
 								continue;
-							string newPath =
-								Path.GetFullPath(Path.Combine(dirName, path.Replace('\\', Path.DirectorySeparatorChar)));
+							string newPath = Path.GetFullPath(Path.Combine(dirName, path.Replace('\\', Path.DirectorySeparatorChar)));
 							if (Directory.Exists(newPath) && newPath.StartsWith(dirName + Path.DirectorySeparatorChar, StringComparison.Ordinal))
 								searchPaths.Add(newPath);
 						}

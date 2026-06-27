@@ -43,6 +43,7 @@ namespace dnSpy.Debugger.DotNet.Metadata {
 		NoOptimization			= 0x0040,
 		AggressiveOptimization	= 0x0200,
 		SecurityMitigations		= 0x0400,
+		Async					= 0x2000,
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 	}
 }

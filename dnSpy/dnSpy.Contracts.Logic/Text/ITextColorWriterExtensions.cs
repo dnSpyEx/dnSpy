@@ -208,5 +208,38 @@ namespace dnSpy.Contracts.Text {
 			}
 			return output;
 		}
+
+		/// <summary>
+		/// Writes a filename, escaping the filename and directory parts using <see cref="IdentifierEscaper"/>
+		/// </summary>
+		/// <typeparam name="T">Writer type</typeparam>
+		/// <param name="output">Output</param>
+		/// <param name="filename">Filename</param>
+		/// <returns></returns>
+		public static T WriteFilenameIdentifier<T>(this T output, string? filename) where T : ITextColorWriter {
+			if (filename is null)
+				return output;
+			var s = filename.Replace('\\', '/');
+			var parts = s.Split('/');
+			int slashIndex = 0;
+			for (int i = 0; i < parts.Length - 1; i++) {
+				output.Write(BoxedTextColor.DirectoryPart, IdentifierEscaper.Escape(parts[i], true));
+				slashIndex += parts[i].Length;
+				output.Write(BoxedTextColor.Text, filename[slashIndex].ToString());
+				slashIndex++;
+			}
+			var fn = parts[parts.Length - 1];
+			int index = fn.LastIndexOf('.');
+			if (index < 0)
+				output.Write(BoxedTextColor.FileNameNoExtension, IdentifierEscaper.Escape(fn, true));
+			else {
+				string ext = fn.Substring(index + 1);
+				fn = fn.Substring(0, index);
+				output.Write(BoxedTextColor.FileNameNoExtension, IdentifierEscaper.Escape(fn, true));
+				output.Write(BoxedTextColor.Text, ".");
+				output.Write(BoxedTextColor.FileExtension, ext);
+			}
+			return output;
+		}
 	}
 }

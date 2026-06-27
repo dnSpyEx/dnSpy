@@ -85,7 +85,10 @@ namespace dnSpy.Roslyn.Internal {
 
 		OpenFolder,
 
-		Operator,
+		OperatorPublic,
+		OperatorProtected,
+		OperatorPrivate,
+		OperatorInternal,
 
 		Parameter,
 
@@ -111,6 +114,8 @@ namespace dnSpy.Roslyn.Internal {
 
 		AddReference,
 		NuGet,
-		TargetTypeMatch
+		TargetTypeMatch,
+
+		Copilot
 	}
 }

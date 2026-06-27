@@ -308,7 +308,6 @@ namespace dnSpy.Debugger.DotNet.Mono.Impl {
 						psi.RedirectStandardOutput = true;
 						psi.RedirectStandardError = true;
 					}
-					var env = new Dictionary<string, string>();
 					foreach (var kv in startMonoOptions.Environment.Environment)
 						psi.Environment[kv.Key] = kv.Value;
 					using (var process = Process.Start(psi)!) {
@@ -344,7 +343,6 @@ namespace dnSpy.Debugger.DotNet.Mono.Impl {
 						psi.RedirectStandardOutput = true;
 						psi.RedirectStandardError = true;
 					}
-					var env = new Dictionary<string, string>();
 					foreach (var kv in startUnityOptions.Environment.Environment)
 						psi.Environment[kv.Key] = kv.Value;
 

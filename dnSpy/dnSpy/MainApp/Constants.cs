@@ -17,10 +17,34 @@
     along with dnSpy.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+using System.IO;
+using System.Reflection;
+using System.Security.Principal;
+
 namespace dnSpy.MainApp {
 	static class Constants {
 		public const string DnSpy = "dnSpy";
 		// Used in filenames so must only have valid filename chars
 		public const string DnSpyFile = DnSpy;
+
+		public static bool IsRunningAsAdministrator { get; }
+
+		public static string ExecutablePath { get; }
+
+		static Constants() {
+			using var id = WindowsIdentity.GetCurrent();
+			IsRunningAsAdministrator = new WindowsPrincipal(id).IsInRole(WindowsBuiltInRole.Administrator);
+
+			ExecutablePath = Assembly.GetEntryAssembly()!.Location;
+#if NET
+			// Use the native exe and not the managed file
+			ExecutablePath = Path.ChangeExtension(ExecutablePath, "exe");
+			if (!File.Exists(ExecutablePath)) {
+				// All .NET files could be in a bin sub dir
+				if (Path.GetDirectoryName(Path.GetDirectoryName(ExecutablePath)) is string baseDir)
+					ExecutablePath = Path.Combine(baseDir, Path.GetFileName(ExecutablePath));
+			}
+#endif
+		}
 	}
 }

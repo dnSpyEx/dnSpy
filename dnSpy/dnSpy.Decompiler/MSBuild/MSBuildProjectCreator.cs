@@ -94,7 +94,7 @@ namespace dnSpy.Decompiler.MSBuild {
 					maxProgress++;
 				progressListener.SetMaxProgress(maxProgress);
 
-				Parallel.ForEach(GetJobs(), opts, job => {
+				Parallel.ForEach(jobs, opts, job => {
 					options.CancellationToken.ThrowIfCancellationRequested();
 					try {
 						job.Create(ctx);

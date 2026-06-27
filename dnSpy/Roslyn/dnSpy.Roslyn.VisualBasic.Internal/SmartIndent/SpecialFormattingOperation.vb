@@ -2,18 +2,18 @@
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
 
+Imports dnSpy.Roslyn.Internal.SmartIndent
 Imports Microsoft.CodeAnalysis
 Imports Microsoft.CodeAnalysis.Formatting
 Imports Microsoft.CodeAnalysis.Formatting.Rules
-Imports Microsoft.CodeAnalysis.Options
+Imports Microsoft.CodeAnalysis.PooledObjects
 Imports Microsoft.CodeAnalysis.Text
 Imports Microsoft.CodeAnalysis.VisualBasic
 Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
-Imports Roslyn.Utilities
 
 Namespace Global.dnSpy.Roslyn.VisualBasic.Internal.SmartIndent
 	Friend Class SpecialFormattingRule
-		Inherits CompatAbstractFormattingRule
+		Inherits VBHackCompatAbstractFormattingRule
 
 		Private ReadOnly _indentStyle As FormattingOptions2.IndentStyle
 
@@ -21,9 +21,10 @@ Namespace Global.dnSpy.Roslyn.VisualBasic.Internal.SmartIndent
 			_indentStyle = indentStyle
 		End Sub
 
-		Public Overrides Sub AddSuppressOperationsSlow(list As List(Of SuppressOperation), node As SyntaxNode, ByRef nextOperation As NextSuppressOperationAction)
-			' don't suppress anything
-		End Sub
+		' VBHackCompatAbstractFormattingRule implements this to avoid a ambiguity
+'		Public Overrides Sub AddSuppressOperationsSlow(list As ArrayBuilder(Of SuppressOperation), node As SyntaxNode, ByRef nextOperation As NextSuppressOperationAction)
+'			' don't suppress anything
+'		End Sub
 
 		Public Overrides Function GetAdjustNewLinesOperationSlow(ByRef previousToken As SyntaxToken, ByRef currentToken As SyntaxToken, ByRef nextOperation As NextGetAdjustNewLinesOperation) As AdjustNewLinesOperation
 

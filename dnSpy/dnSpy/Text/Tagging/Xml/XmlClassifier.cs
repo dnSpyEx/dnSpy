@@ -164,20 +164,41 @@ namespace dnSpy.Text.Tagging.Xml {
 						return XmlKind.Delimiter;
 					}
 					SkipChar();
-					if (PeekChar() != '-') {
-						// Error
-						state = State.ElementName;
-						return XmlKind.Delimiter;
+					c = PeekChar();
+					if (c == '[') {
+						SkipChar();
+						pos = snapshotPos;
+						ReadName();
+						if (pos == snapshotPos) {
+							// Error
+							state = State.ElementName;
+							return XmlKind.Delimiter;
+						}
+						c = PeekChar();
+						if (c != '[') {
+							// Error
+							state = State.ElementName;
+							return XmlKind.Delimiter;
+						}
+						SkipChar();
+						ReadCDATA();
+						return XmlKind.Text;
 					}
-					SkipChar();
-					if (PeekChar() != '-') {
-						// Error
-						state = State.ElementName;
-						return XmlKind.Delimiter;
+					if (c == '-') {
+						SkipChar();
+						if (PeekChar() != '-') {
+							// Error
+							state = State.ElementName;
+							return XmlKind.Delimiter;
+						}
+
+						SkipChar();
+						ReadComment();
+						return XmlKind.Comment;
 					}
-					SkipChar();
-					ReadComment();
-					return XmlKind.Comment;
+					// Error
+					state = State.ElementName;
+					return XmlKind.Delimiter;
 
 				case '&':
 					ReadEntityReference();
@@ -399,6 +420,31 @@ namespace dnSpy.Text.Tagging.Xml {
 				if (c < 0)
 					break;
 				if (c != '-')
+					continue;
+
+				c = NextChar();
+				if (c < 0)
+					break;
+				if (c != '>')
+					continue;
+
+				break;
+			}
+		}
+
+		void ReadCDATA() {
+			// We've already read <![CDATA[
+			for (;;) {
+				int c = NextChar();
+				if (c < 0)
+					break;
+				if (c != ']')
+					continue;
+
+				c = NextChar();
+				if (c < 0)
+					break;
+				if (c != ']')
 					continue;
 
 				c = NextChar();

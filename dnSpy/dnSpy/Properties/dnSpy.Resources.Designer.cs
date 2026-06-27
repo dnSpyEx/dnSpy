@@ -3962,6 +3962,15 @@ namespace dnSpy.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restart as Administrator.
+        /// </summary>
+        public static string RestartAsAdministratorCommand {
+            get {
+                return ResourceManager.GetString("RestartAsAdministratorCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ctrl+S.
         /// </summary>
         public static string SaveKey {

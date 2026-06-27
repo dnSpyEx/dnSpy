@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text;
-using System.Windows.Controls;
+using System.Windows;
 using dnSpy.Contracts.Images;
 using dnSpy.Contracts.MVVM;
 using dnSpy.Contracts.Text.Classification;
@@ -51,7 +51,7 @@ namespace dnSpy.Roslyn.Intellisense.QuickInfo {
 		public object? ExceptionObject { get; }
 		public bool HasExceptionObject => ExceptionObject is not null;
 
-		public InformationQuickInfoContentVM(ITextView textView, InformationQuickInfoContent content, IClassificationFormatMap classificationFormatMap, IThemeClassificationTypeService themeClassificationTypeService) {
+		public InformationQuickInfoContentVM(ITextView textView, InformationQuickInfoContent content, IClassificationFormatMap classificationFormatMap, IThemeClassificationTypeService themeClassificationTypeService, ITextElementFactory textElementFactory) {
 			if (textView is null)
 				throw new ArgumentNullException(nameof(textView));
 			if (content is null)
@@ -65,30 +65,32 @@ namespace dnSpy.Roslyn.Intellisense.QuickInfo {
 				SymbolImageReference = content.SymbolGlyph.Value.GetImageReference() ?? default;
 			if (content.WarningGlyph is not null)
 				WarningImageReference = content.WarningGlyph.Value.GetImageReference() ?? default;
-			MainDescriptionObject = TryCreateObject(sb, content.MainDescription, classificationFormatMap, themeClassificationTypeService);
-			DocumentationObject = TryCreateObject(sb, content.Documentation, classificationFormatMap, themeClassificationTypeService);
-			UsageObject = TryCreateObject(sb, content.UsageText, classificationFormatMap, themeClassificationTypeService);
-			TypeParameterMapObject = TryCreateObject(sb, content.TypeParameterMap, classificationFormatMap, themeClassificationTypeService);
-			AnonymousTypesObject = TryCreateObject(sb, content.AnonymousTypes, classificationFormatMap, themeClassificationTypeService);
-			ExceptionObject = TryCreateObject(sb, content.ExceptionText, classificationFormatMap, themeClassificationTypeService);
+			MainDescriptionObject = TryCreateObject(sb, content.MainDescription, classificationFormatMap, themeClassificationTypeService, textElementFactory);
+			DocumentationObject = TryCreateObject(sb, content.Documentation, classificationFormatMap, themeClassificationTypeService, textElementFactory);
+			UsageObject = TryCreateObject(sb, content.UsageText, classificationFormatMap, themeClassificationTypeService, textElementFactory);
+			TypeParameterMapObject = TryCreateObject(sb, content.TypeParameterMap, classificationFormatMap, themeClassificationTypeService, textElementFactory);
+			AnonymousTypesObject = TryCreateObject(sb, content.AnonymousTypes, classificationFormatMap, themeClassificationTypeService, textElementFactory);
+			ExceptionObject = TryCreateObject(sb, content.ExceptionText, classificationFormatMap, themeClassificationTypeService, textElementFactory);
 		}
 
-		TextBlock? TryCreateObject(StringBuilder sb, ImmutableArray<TaggedText> taggedParts, IClassificationFormatMap classificationFormatMap, IThemeClassificationTypeService themeClassificationTypeService) {
+		static FrameworkElement? TryCreateObject(StringBuilder sb, ImmutableArray<TaggedText> taggedParts, IClassificationFormatMap classificationFormatMap, IThemeClassificationTypeService themeClassificationTypeService, ITextElementFactory textElementFactory) {
 			if (taggedParts.IsDefaultOrEmpty)
 				return null;
 			var text = ToString(sb, taggedParts);
-			var propsSpans = CreateTextRunPropertiesAndSpans(taggedParts, classificationFormatMap, themeClassificationTypeService);
-			return TextBlockFactory.Create(text, classificationFormatMap.DefaultTextProperties, propsSpans, TextBlockFactory.Flags.DisableSetTextBlockFontFamily | TextBlockFactory.Flags.DisableFontSize);
+			return textElementFactory.Create(classificationFormatMap, text, CreateTextClassificationTags(taggedParts, themeClassificationTypeService), TextElementFlags.None);
 		}
 
-		IEnumerable<TextRunPropertiesAndSpan> CreateTextRunPropertiesAndSpans(ImmutableArray<TaggedText> taggedParts, IClassificationFormatMap classificationFormatMap, IThemeClassificationTypeService themeClassificationTypeService) {
+		static IList<TextClassificationTag> CreateTextClassificationTags(ImmutableArray<TaggedText> taggedParts, IThemeClassificationTypeService themeClassificationTypeService) {
 			int pos = 0;
-			foreach (var part in taggedParts) {
+			var result = new TextClassificationTag[taggedParts.Length];
+			for (int i = 0; i < taggedParts.Length; i++) {
+				var part = taggedParts[i];
 				var color = TextTagsHelper.ToTextColor(part.Tag);
 				var classificationType = themeClassificationTypeService.GetClassificationType(color);
-				yield return new TextRunPropertiesAndSpan(new Span(pos, part.Text.Length), classificationFormatMap.GetTextProperties(classificationType));
+				result[i] = new TextClassificationTag(new Span(pos, part.Text.Length), classificationType);
 				pos += part.Text.Length;
 			}
+			return result;
 		}
 
 		static string ToString(StringBuilder sb, ImmutableArray<TaggedText> taggedParts) {

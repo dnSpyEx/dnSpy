@@ -40,24 +40,28 @@ namespace dnSpy.Roslyn.Intellisense.QuickInfo {
 	sealed class QuickInfoContentCreatorProvider : IQuickInfoContentCreatorProvider {
 		readonly IClassificationFormatMapService classificationFormatMapService;
 		readonly IThemeClassificationTypeService themeClassificationTypeService;
+		readonly ITextElementFactory textElementFactory;
 
 		[ImportingConstructor]
-		QuickInfoContentCreatorProvider(IClassificationFormatMapService classificationFormatMapService, IThemeClassificationTypeService themeClassificationTypeService) {
+		QuickInfoContentCreatorProvider(IClassificationFormatMapService classificationFormatMapService, IThemeClassificationTypeService themeClassificationTypeService, ITextElementFactory textElementFactory) {
 			this.classificationFormatMapService = classificationFormatMapService;
 			this.themeClassificationTypeService = themeClassificationTypeService;
+			this.textElementFactory = textElementFactory;
 		}
 
-		public IQuickInfoContentCreator Create(ITextView textView) => new QuickInfoContentCreator(classificationFormatMapService.GetClassificationFormatMap(AppearanceCategoryConstants.UIMisc), themeClassificationTypeService, textView);
+		public IQuickInfoContentCreator Create(ITextView textView) => new QuickInfoContentCreator(classificationFormatMapService.GetClassificationFormatMap(AppearanceCategoryConstants.UIMisc), themeClassificationTypeService, textElementFactory, textView);
 	}
 
 	sealed class QuickInfoContentCreator : IQuickInfoContentCreator {
 		readonly IClassificationFormatMap classificationFormatMap;
 		readonly IThemeClassificationTypeService themeClassificationTypeService;
 		readonly ITextView textView;
+		readonly ITextElementFactory textElementFactory;
 
-		public QuickInfoContentCreator(IClassificationFormatMap classificationFormatMap, IThemeClassificationTypeService themeClassificationTypeService, ITextView textView) {
+		public QuickInfoContentCreator(IClassificationFormatMap classificationFormatMap, IThemeClassificationTypeService themeClassificationTypeService, ITextElementFactory textElementFactory, ITextView textView) {
 			this.classificationFormatMap = classificationFormatMap ?? throw new ArgumentNullException(nameof(classificationFormatMap));
 			this.themeClassificationTypeService = themeClassificationTypeService ?? throw new ArgumentNullException(nameof(themeClassificationTypeService));
+			this.textElementFactory = textElementFactory ?? throw new ArgumentNullException(nameof(textElementFactory));
 			this.textView = textView ?? throw new ArgumentNullException(nameof(textView));
 		}
 
@@ -80,7 +84,7 @@ namespace dnSpy.Roslyn.Intellisense.QuickInfo {
 
 		IEnumerable<object> Create(InformationQuickInfoContent content) {
 			yield return new InformationQuickInfoContentControl {
-				DataContext = new InformationQuickInfoContentVM(textView, content, classificationFormatMap, themeClassificationTypeService),
+				DataContext = new InformationQuickInfoContentVM(textView, content, classificationFormatMap, themeClassificationTypeService, textElementFactory),
 			};
 		}
 

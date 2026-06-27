@@ -95,6 +95,8 @@ namespace dnSpy.MainApp {
 		Task<ExportProvider> initializeMEFTask;
 		Stopwatch? startupStopwatch;
 		public App(bool readSettings, Stopwatch startupStopwatch) {
+			WineFixes.Initialize();
+
 			resourceManagerTokenCacheImpl = new ResourceManagerTokenCacheImpl();
 			args = new AppCommandLineArgs();
 

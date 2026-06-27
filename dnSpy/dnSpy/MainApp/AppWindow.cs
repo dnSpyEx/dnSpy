@@ -143,7 +143,7 @@ namespace dnSpy.MainApp {
 #if DEBUG
 			AddTitleInfo("Debug Build");
 #endif
-			if (IsAdministrator())
+			if (Constants.IsRunningAsAdministrator)
 				AddTitleInfo(dnSpy_Resources.User_Administrator);
 			wpfCommandService.Add(ControlConstants.GUID_MAINWINDOW, mainWindow);
 			new SavedWindowStateRestorer(mainWindow, uiSettings.SavedWindowState, DefaultWindowLocation);
@@ -152,11 +152,6 @@ namespace dnSpy.MainApp {
 			mainWindow.GotKeyboardFocus += MainWindow_GotKeyboardFocus;
 			RefreshToolBar();
 			return mainWindow;
-		}
-
-		static bool IsAdministrator() {
-			using (var id = WindowsIdentity.GetCurrent())
-				return new WindowsPrincipal(id).IsInRole(WindowsBuiltInRole.Administrator);
 		}
 
 		void IDsLoaderContentProvider.SetLoadingContent(object content) {

@@ -17,7 +17,5 @@ namespace dnSpy.Roslyn.EditorFeatures.Host {
 
 		bool AllowCancel { get; set; }
 		string Message { get; set; }
-
-		IProgressTracker ProgressTracker { get; }
 	}
 }

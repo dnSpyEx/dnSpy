@@ -21,6 +21,7 @@ using System;
 using System.IO;
 using System.Windows.Input;
 using dnSpy.Contracts.Debugger;
+using dnSpy.Contracts.Debugger.Dialogs;
 using dnSpy.Contracts.Debugger.DotNet.Mono;
 using dnSpy.Contracts.Debugger.StartDebugging;
 using dnSpy.Contracts.Debugger.StartDebugging.Dialog;
@@ -36,8 +37,8 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 		public ICommand DebuggingUnityGamesCommand => new RelayCommand(a => DebuggingUnityGamesHelper.OpenDebuggingUnityGames());
 		public string DebuggingUnityGamesText => DebuggingUnityGamesHelper.DebuggingUnityGamesText;
 
-		public UnityStartDebuggingOptionsPage(IPickFilename pickFilename, IPickDirectory pickDirectory)
-			: base(pickFilename, pickDirectory) {
+		public UnityStartDebuggingOptionsPage(IPickFilename pickFilename, IPickDirectory pickDirectory, IDbgEnvironmentEditorService environmentEditorService)
+			: base(pickFilename, pickDirectory, environmentEditorService) {
 		}
 
 		void Initialize(UnityStartDebuggingOptions options) {

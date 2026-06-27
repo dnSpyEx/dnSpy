@@ -101,6 +101,12 @@ namespace dnSpy.Contracts.Utilities {
 		/// <summary>
 		/// Returns the .NET Core runtime assembly directories found on the system.
 		/// </summary>
+		/// <returns>.NET Core framework path info</returns>
+		public FrameworkPath[] GetSharedDotNetPaths() => netPathsShared.SelectMany(x => x.frameworkPaths).ToArray();
+
+		/// <summary>
+		/// Returns the .NET Core runtime assembly directories found on the system.
+		/// </summary>
 		/// <param name="version">Preferred .NET Core version</param>
 		/// <param name="bitness">Preferred bitness</param>
 		/// <returns>.NET Core runtime assembly directories, null if not found</returns>

@@ -186,4 +186,7 @@
   <data name="UnknownVariableOrObjectId" xml:space="preserve">
     <value>Неизвестная идентификатор переменной или объекта</value>
   </data>
+  <data name="FailedToObtainValidInMemoryMetadataForModule" xml:space="preserve">
+    <value>Не удалось получить действительные метаданные в памяти для модуля!</value>
+  </data>
 </root>

@@ -99,13 +99,13 @@ namespace dnSpy.Roslyn.Internal.SignatureHelp {
 		}
 
 		public async Task<SignatureHelpResult> GetItemsAsync(Document document, int position, SignatureHelpTriggerInfo triggerInfo, CancellationToken cancellationToken = default(CancellationToken)) {
-			var res = await ComputeItemsAsync(signatureHelpProviders, position, triggerInfo.ToSignatureHelpTriggerInfo(), SignatureHelpOptions.Default, document, cancellationToken).ConfigureAwait(false);
+			var res = await ComputeItemsAsync(signatureHelpProviders, position, triggerInfo.ToSignatureHelpTriggerInfo(), MemberDisplayOptions.Default, document, cancellationToken).ConfigureAwait(false);
 			return GetSignatureHelpResult(res, document);
 		}
 
 		public bool IsTriggerCharacter(char ch) {
 			foreach (var p in signatureHelpProviders) {
-				if (p.IsTriggerCharacter(ch))
+				if (p.TriggerCharacters.Contains(ch))
 					return true;
 			}
 			return false;
@@ -113,7 +113,7 @@ namespace dnSpy.Roslyn.Internal.SignatureHelp {
 
 		public bool IsRetriggerCharacter(char ch) {
 			foreach (var p in signatureHelpProviders) {
-				if (p.IsRetriggerCharacter(ch))
+				if (p.RetriggerCharacters.Contains(ch))
 					return true;
 			}
 			return false;

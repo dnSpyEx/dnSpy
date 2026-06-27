@@ -49,11 +49,11 @@ namespace dnSpy.Contracts.Documents.TreeView.Resources {
 
 		/// <inheritdoc/>
 		protected sealed override void WriteCore(ITextColorWriter output, IDecompiler decompiler, DocumentNodeWriteOptions options) {
-			output.WriteFilename(Uri.UnescapeDataString(resourceElement.Name));
+			output.WriteFilenameIdentifier(Uri.UnescapeDataString(resourceElement.Name));
 			if ((options & DocumentNodeWriteOptions.ToolTip) != 0) {
 				if (TreeNode.Parent?.Data is ResourceNode parentNode) {
 					output.WriteLine();
-					output.WriteFilename(parentNode.Name);
+					output.WriteFilenameIdentifier(parentNode.Name);
 				}
 				output.WriteLine();
 				WriteFilename(output);
@@ -141,9 +141,8 @@ namespace dnSpy.Contracts.Documents.TreeView.Resources {
 		public virtual void WriteShort(IDecompilerOutput output, IDecompiler decompiler, bool showOffset) {
 			decompiler.WriteCommentBegin(output, true);
 			output.WriteOffsetComment(this, showOffset);
-			const string LTR = "\u200E";
-			output.Write(NameUtilities.CleanName(Name) + LTR, this, DecompilerReferenceFlags.Local | DecompilerReferenceFlags.Definition, BoxedTextColor.Comment);
-			output.Write($" = {ValueString}", BoxedTextColor.Comment);
+			output.Write(IdentifierEscaper.Escape(Name), this, DecompilerReferenceFlags.Local | DecompilerReferenceFlags.Definition, BoxedTextColor.Comment);
+			output.Write($" = {IdentifierEscaper.Truncate(ValueString, 50000)}", BoxedTextColor.Comment);
 			decompiler.WriteCommentEnd(output, true);
 			output.WriteLine();
 		}

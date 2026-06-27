@@ -71,6 +71,33 @@ namespace dnSpy.Debugger.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
+        public static string AddEnvironmentVariableButton {
+            get {
+                return ResourceManager.GetString("AddEnvironmentVariableButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Environment.
+        /// </summary>
+        public static string AddEnvironmentVariablesMsgBoxLabel {
+            get {
+                return ResourceManager.GetString("AddEnvironmentVariablesMsgBoxLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Environment Variables.
+        /// </summary>
+        public static string AddEnvironmentVariablesMsgBoxTitle {
+            get {
+                return ResourceManager.GetString("AddEnvironmentVariablesMsgBoxTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
         public static string AddExceptionButton {
             get {
                 return ResourceManager.GetString("AddExceptionButton", resourceCulture);
@@ -83,6 +110,15 @@ namespace dnSpy.Debugger.Properties {
         public static string AddExceptionCommand {
             get {
                 return ResourceManager.GetString("AddExceptionCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Many.
+        /// </summary>
+        public static string AddManyEnvironmentVariablesButton {
+            get {
+                return ResourceManager.GetString("AddManyEnvironmentVariablesButton", resourceCulture);
             }
         }
         
@@ -1833,6 +1869,15 @@ namespace dnSpy.Debugger.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Environment Variables.
+        /// </summary>
+        public static string EditEnvironmentVariables_Title {
+            get {
+                return ResourceManager.GetString("EditEnvironmentVariables_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Labels.
         /// </summary>
         public static string EditLabelsCommand {
@@ -2385,6 +2430,15 @@ namespace dnSpy.Debugger.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid Input String.
+        /// </summary>
+        public static string InvalidInputString {
+            get {
+                return ResourceManager.GetString("InvalidInputString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string LanguageCommand {
@@ -2919,6 +2973,15 @@ namespace dnSpy.Debugger.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string RemoveEnvironmentVariableButton {
+            get {
+                return ResourceManager.GetString("RemoveEnvironmentVariableButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to _Remove.
         /// </summary>
         public static string RemoveExceptionCommand {
@@ -2942,6 +3005,15 @@ namespace dnSpy.Debugger.Properties {
         public static string ResetBreakpointHitCountCommand {
             get {
                 return ResourceManager.GetString("ResetBreakpointHitCountCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset.
+        /// </summary>
+        public static string ResetEnvironmentVariablesButton {
+            get {
+                return ResourceManager.GetString("ResetEnvironmentVariablesButton", resourceCulture);
             }
         }
         

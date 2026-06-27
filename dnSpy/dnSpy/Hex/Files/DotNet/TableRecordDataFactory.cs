@@ -150,6 +150,7 @@ namespace dnSpy.Hex.Files.DotNet {
 			new FlagInfo(0x00000018, 0x00000000, "AutoLayout"),
 			new FlagInfo(0x00000018, 0x00000008, "SequentialLayout"),
 			new FlagInfo(0x00000018, 0x00000010, "ExplicitLayout"),
+			new FlagInfo(0x00000018, 0x00000018, "ExtendedLayout"),
 
 			FlagInfo.CreateEnumName(0x00000020, "ClassSemantics"),
 			new FlagInfo(0x00000020, 0x00000000, "Class"),
@@ -245,6 +246,7 @@ namespace dnSpy.Hex.Files.DotNet {
 			new FlagInfo(0x0200, "AggressiveOptimization"),
 			new FlagInfo(0x0400, "SecurityMitigations"),
 			new FlagInfo(0x1000, "InternalCall"),
+			new FlagInfo(0x2000, "Async"),
 		});
 
 		static readonly ReadOnlyCollection<FlagInfo> attrFlagInfos = new ReadOnlyCollection<FlagInfo>(new FlagInfo[] {
@@ -653,6 +655,7 @@ namespace dnSpy.Hex.Files.DotNet {
 			new FlagInfo(0x0004, "ReferenceTypeConstraint"),
 			new FlagInfo(0x0008, "NotNullableValueTypeConstraint"),
 			new FlagInfo(0x0010, "DefaultConstructorConstraint"),
+			new FlagInfo(0x0020, "AllowByRefLike"),
 		});
 
 		protected override BufferData CreateData(HexPosition position, ColumnInfo column) {

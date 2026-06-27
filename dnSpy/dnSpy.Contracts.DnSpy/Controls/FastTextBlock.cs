@@ -21,18 +21,21 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.TextFormatting;
+using dnSpy.Contracts.Text;
 
 namespace dnSpy.Contracts.Controls {
 	sealed class FastTextBlock : FrameworkElement {
 		public interface IFastTextSource {
 			void UpdateParent(FastTextBlock ftb);
 			TextSource Source { get; }
+			bool GetNextLineIndex(ref int index);
 		}
 
 		public string Text {
@@ -47,7 +50,6 @@ namespace dnSpy.Contracts.Controls {
 		public FastTextBlock(IFastTextSource src) {
 			this.src = src;
 		}
-
 
 		public static readonly DependencyProperty TextProperty;
 		public static readonly DependencyProperty FontFamilyProperty;
@@ -103,7 +105,7 @@ namespace dnSpy.Contracts.Controls {
 		TextFormattingMode? textFormattingMode;
 
 		class TextProps : TextRunProperties {
-			FastTextBlock tb;
+			readonly FastTextBlock tb;
 
 			public TextProps(FastTextBlock tb) => this.tb = tb;
 
@@ -143,11 +145,23 @@ namespace dnSpy.Contracts.Controls {
 			}
 
 			public TextSource Source => this;
+
+			public bool GetNextLineIndex(ref int index) {
+				if (index >= text.Length || index < 0)
+					return false;
+				index = text.IndexOfAny(LineConstants.newLineChars, index);
+				if (index < 0)
+					return false;
+				if (text[index] == '\r' && index + 1 < text.Length && text[index + 1] == '\n')
+					index++;
+				index++;
+				return true;
+			}
 		}
 
-		internal sealed class ParaProps : TextParagraphProperties {
-			FastTextBlock tb;
-			TextProps props;
+		sealed class ParaProps : TextParagraphProperties {
+			readonly FastTextBlock tb;
+			readonly TextProps props;
 
 			public ParaProps(FastTextBlock tb) {
 				this.tb = tb;
@@ -164,9 +178,9 @@ namespace dnSpy.Contracts.Controls {
 			public override TextWrapping TextWrapping => TextWrapping.NoWrap;
 		}
 
-
 		TextFormatter? fmt = null;
 		TextLine? line = null;
+		List<TextLine>? lines = null;
 
 		Typeface GetTypeface() {
 			var fontFamily = (FontFamily)GetValue(FontFamilyProperty);
@@ -176,17 +190,29 @@ namespace dnSpy.Contracts.Controls {
 			return new Typeface(fontFamily, fontStyle, fontWeight, fontStrech, null);
 		}
 
-		IFastTextSource src;
+		readonly IFastTextSource src;
 
 		void MakeNewText() {
-			if (fmt is null)
-				fmt = TextFormatterFactory.GetTextFormatter(this);
+			fmt ??= TextFormatterFactory.GetTextFormatter(this);
 
-			if (line is not null)
-				line.Dispose();
+			line?.Dispose();
+			lines?.Clear();
 
 			src.UpdateParent(this);
-			line = fmt.FormatLine(src.Source, 0, 0, new ParaProps(this), null);
+
+			var paragraphProperties = new ParaProps(this);
+			line = fmt.FormatLine(src.Source, 0, 0, paragraphProperties, null);
+
+			int index = 0;
+			while (src.GetNextLineIndex(ref index)) {
+				if (line is not null) {
+					lines ??= new List<TextLine>();
+					lines.Add(line);
+					line = null;
+				}
+				// lines should not be empty at this point!
+				lines!.Add(fmt.FormatLine(src.Source, index, 0, paragraphProperties, null));
+			}
 		}
 
 		void EnsureText() {
@@ -197,17 +223,34 @@ namespace dnSpy.Contracts.Controls {
 			}
 		}
 
-
 		protected override Size MeasureOverride(Size availableSize) {
 			EnsureText();
-			Debug2.Assert(line is not null);
-			return new Size(line.Width, line.Height);
+			if (line is not null)
+				return new Size(line.Width, line.Height);
+
+			Debug2.Assert(lines is not null);
+			var size = new Size();
+			for (int i = 0; i < lines.Count; i++) {
+				var textLine = lines[i];
+				size.Width = Math.Max(size.Width, textLine.Width);
+				size.Height += textLine.Height;
+			}
+			return size;
 		}
 
 		protected override void OnRender(DrawingContext drawingContext) {
 			EnsureText();
-			Debug2.Assert(line is not null);
-			line.Draw(drawingContext, new Point(0, 0), InvertAxes.None);
+			if (line is not null) {
+				line.Draw(drawingContext, new Point(0, 0), InvertAxes.None);
+				return;
+			}
+			Debug2.Assert(lines is not null);
+			double y = 0;
+			for (int i = 0; i < lines.Count; i++) {
+				var textLine = lines[i];
+				textLine.Draw(drawingContext, new Point(0, y), InvertAxes.None);
+				y += textLine.Height;
+			}
 		}
 	}
 

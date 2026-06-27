@@ -23,7 +23,6 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -43,21 +42,6 @@ namespace dnSpy.Controls {
 	}
 
 	static class TextElementFactory {
-		static string ToString(string s, bool filterOutNewLines) {
-			if (!filterOutNewLines)
-				return s;
-			if (s.IndexOfAny(LineConstants.newLineChars) < 0)
-				return s;
-			var sb = new StringBuilder(s.Length);
-			foreach (var c in s) {
-				if (Array.IndexOf(LineConstants.newLineChars, c) >= 0)
-					sb.Append(' ');
-				else
-					sb.Append(c);
-			}
-			return sb.ToString();
-		}
-
 		static TextTrimming GetTextTrimming(TextElementFlags flags) {
 			switch (flags & TextElementFlags.TrimmingMask) {
 			case TextElementFlags.NoTrimming: return TextTrimming.None;
@@ -77,12 +61,12 @@ namespace dnSpy.Controls {
 		}
 
 		public static FrameworkElement Create(IClassificationFormatMap classificationFormatMap, string text, IList<TextClassificationTag> tags, TextElementFlags flags) {
-			bool useFastTextBlock = (flags & (TextElementFlags.TrimmingMask | TextElementFlags.WrapMask | TextElementFlags.FilterOutNewLines)) == (TextElementFlags.NoTrimming | TextElementFlags.NoWrap | TextElementFlags.FilterOutNewLines);
+			bool useFastTextBlock = (flags & (TextElementFlags.TrimmingMask | TextElementFlags.WrapMask)) == (TextElementFlags.NoTrimming | TextElementFlags.NoWrap);
 			bool filterOutNewLines = (flags & TextElementFlags.FilterOutNewLines) != 0;
 			if (tags.Count != 0) {
 				if (useFastTextBlock) {
 					return new FastTextBlock(new TextSrc {
-						text = ToString(WpfUnicodeUtils.ReplaceBadChars(text), filterOutNewLines),
+						text = TextBlockFactory.ToString(WpfUnicodeUtils.ReplaceBadChars(text), filterOutNewLines),
 						classificationFormatMap = classificationFormatMap,
 						tagsList = tags.ToArray(),
 					});
@@ -98,12 +82,12 @@ namespace dnSpy.Controls {
 			FrameworkElement fwElem;
 			if (useFastTextBlock) {
 				fwElem = new FastTextBlock() {
-					Text = ToString(WpfUnicodeUtils.ReplaceBadChars(text), filterOutNewLines)
+					Text = TextBlockFactory.ToString(WpfUnicodeUtils.ReplaceBadChars(text), filterOutNewLines)
 				};
 			}
 			else {
 				fwElem = new TextBlock {
-					Text = ToString(WpfUnicodeUtils.ReplaceBadChars(text), filterOutNewLines),
+					Text = TextBlockFactory.ToString(WpfUnicodeUtils.ReplaceBadChars(text), filterOutNewLines),
 					TextTrimming = GetTextTrimming(flags),
 					TextWrapping = GetTextWrapping(flags),
 				};
@@ -232,16 +216,15 @@ namespace dnSpy.Controls {
 					info = tagsList[collIndex + 1];
 				}
 
-				int startIndex = info.Span.Start;
 				int endIndex = info.Span.End;
 
-				int nlIndex = text.IndexOfAny(LineConstants.newLineChars, index, endIndex - startIndex);
+				int nlIndex = text.IndexOfAny(LineConstants.newLineChars, index, endIndex - index);
 				if (nlIndex > 0)
 					endIndex = nlIndex;
 
 				var props = classificationFormatMap.GetTextProperties(info.ClassificationType);
 
-				var tokenText = text.Substring(index, endIndex - startIndex);
+				var tokenText = text.Substring(index, endIndex - index);
 
 				var textProps = new TextProps();
 				textProps.fontSize = TextElement.GetFontSize(parent);
@@ -260,6 +243,18 @@ namespace dnSpy.Controls {
 				);
 
 				return new TextCharacters(tokenText.Length == 0 ? " " : tokenText, textProps);
+			}
+
+			public bool GetNextLineIndex(ref int index) {
+				if (index >= text.Length || index < 0)
+					return false;
+				index = text.IndexOfAny(LineConstants.newLineChars, index);
+				if (index < 0)
+					return false;
+				if (text[index] == '\r' && index + 1 < text.Length && text[index + 1] == '\n')
+					index++;
+				index++;
+				return true;
 			}
 		}
 	}

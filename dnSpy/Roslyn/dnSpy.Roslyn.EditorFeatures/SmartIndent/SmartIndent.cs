@@ -50,7 +50,7 @@ namespace dnSpy.Roslyn.EditorFeatures.SmartIndent {
 					NewLine = _textView.Options.GetNewLineCharacter()
 				};
 
-				var indentationOptions = new IndentationOptions(SyntaxFormattingOptions.GetDefault(document.Project.Services) with { LineFormatting = lineFormattingOptions });
+				var indentationOptions = new IndentationOptions(SyntaxFormattingOptions.CommonDefaults with { LineFormatting = lineFormattingOptions });
 				var parsedDocument = ParsedDocument.CreateSynchronously(document, cancellationToken);
 				var result = newService.GetIndentation(parsedDocument, line.LineNumber, indentationOptions, cancellationToken);
 				return result.GetIndentation(_textView, line);

@@ -101,14 +101,14 @@ namespace dnSpy.Documents.Tabs.Dialogs {
 		readonly DocumentListService documentListService;
 		readonly HashSet<DocumentListVM> removedDocumentLists;
 		readonly List<DocumentListVM> addedDocumentLists;
-		readonly Func<string, string> askUser;
+		readonly Func<string, string?> askUser;
 		readonly CancellationTokenSource cancellationTokenSource;
 		readonly CancellationToken cancellationToken;
 
 		public IClassificationFormatMap ClassificationFormatMap { get; }
 		public ITextElementProvider TextElementProvider { get; }
 
-		public OpenDocumentListVM(bool syntaxHighlight, IClassificationFormatMap classificationFormatMap, ITextElementProvider textElementProvider, DocumentListService documentListService, Func<string, string> askUser) {
+		public OpenDocumentListVM(bool syntaxHighlight, IClassificationFormatMap classificationFormatMap, ITextElementProvider textElementProvider, DocumentListService documentListService, Func<string, string?> askUser) {
 			SyntaxHighlight = syntaxHighlight;
 			ClassificationFormatMap = classificationFormatMap;
 			TextElementProvider = textElementProvider;
@@ -188,7 +188,7 @@ namespace dnSpy.Documents.Tabs.Dialogs {
 			if (!CanCreateList)
 				return;
 			var name = askUser(dnSpy_Resources.OpenList_AskForName);
-			if (string.IsNullOrEmpty(name))
+			if (string2.IsNullOrEmpty(name))
 				return;
 
 			var vm = new DocumentListVM(this, new DocumentList(name), false, true);

@@ -951,6 +951,18 @@ Are you sure you want to expand it?</value>
   <data name="AddExceptionButton" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="AddEnvironmentVariableButton" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddEnvironmentVariablesMsgBoxTitle" xml:space="preserve">
+    <value>Add Environment Variables</value>
+  </data>
+  <data name="AddEnvironmentVariablesMsgBoxLabel" xml:space="preserve">
+    <value>Environment</value>
+  </data>
+  <data name="AddManyEnvironmentVariablesButton" xml:space="preserve">
+    <value>Add Many</value>
+  </data>
   <data name="ExceptionDescription" xml:space="preserve">
     <value>Exception description</value>
   </data>
@@ -959,6 +971,9 @@ Are you sure you want to expand it?</value>
   </data>
   <data name="EditConditions_Title" xml:space="preserve">
     <value>Edit Conditions</value>
+  </data>
+  <data name="EditEnvironmentVariables_Title" xml:space="preserve">
+    <value>Edit Environment Variables</value>
   </data>
   <data name="Button_AddCondition" xml:space="preserve">
     <value>_Add Condition</value>
@@ -992,6 +1007,9 @@ Are you sure you want to expand it?</value>
   </data>
   <data name="RemoveBreakpointCommand" xml:space="preserve">
     <value>Remove Breakpoint</value>
+  </data>
+  <data name="RemoveEnvironmentVariableButton" xml:space="preserve">
+    <value>Remove</value>
   </data>
   <data name="DisableBreakpointCommand3" xml:space="preserve">
     <value>Disable Breakpoint</value>
@@ -1305,6 +1323,9 @@ Do you wish to continue?</value>
   <data name="ResetBreakpointHitCountCommand" xml:space="preserve">
     <value>Reset Hit Count</value>
   </data>
+  <data name="ResetEnvironmentVariablesButton" xml:space="preserve">
+    <value>Reset</value>
+  </data>
   <data name="HelpToolTip" xml:space="preserve">
     <value>Help</value>
   </data>
@@ -1334,6 +1355,9 @@ Do you wish to continue?</value>
   </data>
   <data name="InsertTracepointCommand" xml:space="preserve">
     <value>Insert _Tracepoint</value>
+  </data>
+  <data name="InvalidInputString" xml:space="preserve">
+    <value>Invalid Input String</value>
   </data>
   <data name="UnwindToThisFrameCommand" xml:space="preserve">
     <value>_Unwind To This Frame</value>

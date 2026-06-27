@@ -234,4 +234,10 @@
   <data name="DecompilerSettings_UseSourceCodeOrder" xml:space="preserve">
     <value>Сортировать члены как в исходном коде</value>
   </data>
+  <data name="DecompilerSettings_EmitCalliAsInvocationExpression" xml:space="preserve">
+    <value>Декомпилировать calli в виде выражения вызова</value>
+  </data>
+  <data name="DecompilerSettings_InsertParenthesesForReadability" xml:space="preserve">
+    <value>Вставлять круглые скобки для удобства чтения</value>
+  </data>
 </root>

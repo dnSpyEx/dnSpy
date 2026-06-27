@@ -19,6 +19,7 @@
 
 using System.Windows;
 using Microsoft.VisualStudio.Text.Classification;
+using Microsoft.VisualStudio.Utilities;
 
 namespace dnSpy.Contracts.Text.Classification {
 	/// <summary>
@@ -34,5 +35,15 @@ namespace dnSpy.Contracts.Text.Classification {
 		/// <param name="flags">Flags</param>
 		/// <returns></returns>
 		FrameworkElement CreateTextElement(IClassificationFormatMap classificationFormatMap, TextClassifierContext context, string contentType, TextElementFlags flags);
+
+		/// <summary>
+		/// Creates a WPF text element
+		/// </summary>
+		/// <param name="classificationFormatMap">Classification format map</param>
+		/// <param name="context">Text classifier context</param>
+		/// <param name="contentType">Content type</param>
+		/// <param name="flags">Flags</param>
+		/// <returns></returns>
+		FrameworkElement CreateTextElement(IClassificationFormatMap classificationFormatMap, TextClassifierContext context, IContentType contentType, TextElementFlags flags);
 	}
 }

@@ -29,7 +29,7 @@ namespace dnSpy.Roslyn.Internal.SignatureHelp {
 			ISignatureHelpProvider[] providers,
 			int caretPosition,
 			SIGHLP.SignatureHelpTriggerInfo triggerInfo,
-			SignatureHelpOptions options,
+			MemberDisplayOptions options,
 			Document document,
 			CancellationToken cancellationToken) {
 			ISignatureHelpProvider bestProvider = null;

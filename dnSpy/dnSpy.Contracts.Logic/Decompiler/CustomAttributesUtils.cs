@@ -324,7 +324,8 @@ namespace dnSpy.Contracts.Decompiler {
 			var implAttr = method.ImplAttributes & ~MethodImplAttributes.CodeTypeMask;
 			var methodCodeType = method.ImplAttributes & MethodImplAttributes.CodeTypeMask;
 			if (method.ImplMap is ImplMap implMap) {
-				var declType = new TypeRefUser(module, systemRuntimeInteropServicesName, dllImportAttributeName, GetSystemRuntimeInteropServicesAssemblyRef(module));
+				var interopAsmRef = GetSystemRuntimeInteropServicesAssemblyRef(module);
+				var declType = new TypeRefUser(module, systemRuntimeInteropServicesName, dllImportAttributeName, interopAsmRef);
 				var ca = new CustomAttribute(new MemberRefUser(module, ctorName, MethodSig.CreateInstance(module.CorLibTypes.Void, module.CorLibTypes.String), declType));
 				ca.ConstructorArguments.Add(new CAArgument(module.CorLibTypes.String, implMap.Module?.Name ?? UTF8String.Empty));
 
@@ -355,7 +356,7 @@ namespace dnSpy.Contracts.Decompiler {
 					break;
 				}
 				if (callingConvention != System.Runtime.InteropServices.CallingConvention.Winapi) {
-					var callingConventionType = new ValueTypeSig(new TypeRefUser(module, systemRuntimeInteropServicesName, callingConventionName, module.CorLibTypes.AssemblyRef));
+					var callingConventionType = new ValueTypeSig(new TypeRefUser(module, systemRuntimeInteropServicesName, callingConventionName, interopAsmRef));
 					ca.NamedArguments.Add(new CANamedArgument(isField: true, callingConventionType, callingConventionName, new CAArgument(callingConventionType, (int)callingConvention)));
 				}
 
@@ -471,7 +472,7 @@ namespace dnSpy.Contracts.Decompiler {
 				if (fami.IsElementTypeValid)
 					ca.NamedArguments.Add(new CANamedArgument(isField: true, unmanagedTypeType, arraySubTypeName, new CAArgument(unmanagedTypeType, (int)fami.ElementType)));
 			}
-			if (mt is SafeArrayMarshalType sami) {
+			else if (mt is SafeArrayMarshalType sami) {
 				if (sami.IsVariantTypeValid) {
 					var varEnumType = new ValueTypeSig(new TypeRefUser(module, systemRuntimeInteropServicesName, varEnumName, interopAsmRef));
 					ca.NamedArguments.Add(new CANamedArgument(isField: true, varEnumType, safeArraySubTypeName, new CAArgument(varEnumType, (int)sami.VariantType)));
@@ -481,7 +482,7 @@ namespace dnSpy.Contracts.Decompiler {
 					ca.NamedArguments.Add(new CANamedArgument(isField: true, typeType, safeArrayUserDefinedSubTypeName, new CAArgument(typeType, sami.UserDefinedSubType)));
 				}
 			}
-			if (mt is ArrayMarshalType ami) {
+			else if (mt is ArrayMarshalType ami) {
 				if (ami.IsElementTypeValid && ami.ElementType != NativeType.Max)
 					ca.NamedArguments.Add(new CANamedArgument(isField: true, unmanagedTypeType, arraySubTypeName, new CAArgument(unmanagedTypeType, (int)ami.ElementType)));
 				if (ami.IsSizeValid)
@@ -489,7 +490,7 @@ namespace dnSpy.Contracts.Decompiler {
 				if (ami.Flags != 0 && ami.ParamNumber >= 0)
 					ca.NamedArguments.Add(new CANamedArgument(isField: true, module.CorLibTypes.Int16, sizeParamIndexName, new CAArgument(module.CorLibTypes.Int16, (short)ami.ParamNumber)));
 			}
-			if (mt is CustomMarshalType cmi) {
+			else if (mt is CustomMarshalType cmi) {
 				if (cmi.CustomMarshaler != null) {
 					var typeType = new ClassSig(new TypeRefUser(module, systemName, typeName, module.CorLibTypes.AssemblyRef));
 					ca.NamedArguments.Add(new CANamedArgument(isField: true, typeType, marshalTypeRefName, new CAArgument(typeType, cmi.CustomMarshaler)));
@@ -497,11 +498,11 @@ namespace dnSpy.Contracts.Decompiler {
 				if (!UTF8String.IsNullOrEmpty(cmi.Cookie))
 					ca.NamedArguments.Add(new CANamedArgument(isField: true, module.CorLibTypes.String, marshalCookieName, new CAArgument(module.CorLibTypes.String, cmi.Cookie)));
 			}
-			if (mt is FixedSysStringMarshalType fssmi) {
+			else if (mt is FixedSysStringMarshalType fssmi) {
 				if (fssmi.IsSizeValid)
 					ca.NamedArguments.Add(new CANamedArgument(isField: true, module.CorLibTypes.Int32, sizeConstName, new CAArgument(module.CorLibTypes.Int32, fssmi.Size)));
 			}
-			if (mt is InterfaceMarshalType imti) {
+			else if (mt is InterfaceMarshalType imti) {
 				if (imti.IsIidParamIndexValid)
 					ca.NamedArguments.Add(new CANamedArgument(isField: true, module.CorLibTypes.Int32, iidParameterIndexName, new CAArgument(module.CorLibTypes.Int32, imti.IidParamIndex)));
 			}
@@ -536,7 +537,7 @@ namespace dnSpy.Contracts.Decompiler {
 				defMember != itemName && defMember == property.Name) {
 				var module = property.Module;
 				var declType = new TypeRefUser(module, systemRuntimeCompilerServicesName, indexerNameAttributeName, module.CorLibTypes.AssemblyRef);
-				var newCa = new CustomAttribute(new MemberRefUser(module, ctorName, MethodSig.CreateInstance(module.CorLibTypes.Void), declType));
+				var newCa = new CustomAttribute(new MemberRefUser(module, ctorName, MethodSig.CreateInstance(module.CorLibTypes.Void, module.CorLibTypes.String), declType));
 				newCa.ConstructorArguments.Add(new CAArgument(module.CorLibTypes.String, defMember));
 				yield return newCa;
 			}

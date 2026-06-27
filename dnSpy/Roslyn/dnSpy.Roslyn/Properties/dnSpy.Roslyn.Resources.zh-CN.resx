@@ -133,16 +133,16 @@
     <value>优化代码</value>
   </data>
   <data name="CompilerSettings_OptionCompareBinary" xml:space="preserve">
-    <value>Option Compare Binary</value>
+    <value>Option Compare Binary (以二进制方式进行字符比较)</value>
   </data>
   <data name="CompilerSettings_OptionExplicit" xml:space="preserve">
-    <value>Option Explicit</value>
+    <value>Option Explicit (强制显式声明变量)</value>
   </data>
   <data name="CompilerSettings_OptionInfer" xml:space="preserve">
-    <value>Option Infer</value>
+    <value>Option Infer (允许编译器推断数据类型)</value>
   </data>
   <data name="CompilerSettings_OptionStrict" xml:space="preserve">
-    <value>Option Strict</value>
+    <value>Option Strict (保证数值变量精度)</value>
   </data>
   <data name="CompilerSettings_PreprocessorSymbols" xml:space="preserve">
     <value>条件编译符号</value>

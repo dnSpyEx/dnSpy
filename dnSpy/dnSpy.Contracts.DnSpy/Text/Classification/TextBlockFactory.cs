@@ -64,13 +64,27 @@ namespace dnSpy.Contracts.Text.Classification {
 			FilterOutNewlines						= 8,
 		}
 
-		static string ToString(string s, bool filterOutNewLines) {
+		internal static string ToString(string s, bool filterOutNewLines) {
 			if (!filterOutNewLines)
 				return s;
 			if (s.IndexOfAny(LineConstants.newLineChars) < 0)
 				return s;
 			var sb = new StringBuilder(s.Length);
 			foreach (var c in s) {
+				if (Array.IndexOf(LineConstants.newLineChars, c) >= 0)
+					sb.Append(' ');
+				else
+					sb.Append(c);
+			}
+			return sb.ToString();
+		}
+
+		static string ToString(string s, int startIndex, int length, bool filterOutNewLines) {
+			if (!filterOutNewLines)
+				return s.Substring(startIndex, length);
+			var sb = new StringBuilder(length);
+			for (int i = 0; i < length; i++) {
+				var c = s[startIndex + i];
 				if (Array.IndexOf(LineConstants.newLineChars, c) >= 0)
 					sb.Append(' ');
 				else
@@ -147,12 +161,12 @@ namespace dnSpy.Contracts.Text.Classification {
 				int textOffset = 0;
 				foreach (var tag in propsAndSpansList) {
 					if (textOffset < tag.Span.Start)
-						textBlock.Inlines.Add(CreateRun(ToString(text.Substring(textOffset, tag.Span.Start - textOffset), filterOutNewlines), defaultProperties, null, flags));
-					textBlock.Inlines.Add(CreateRun(ToString(text.Substring(tag.Span.Start, tag.Span.Length), filterOutNewlines), defaultProperties, tag.Properties, flags));
+						textBlock.Inlines.Add(CreateRun(ToString(text, textOffset, tag.Span.Start - textOffset, filterOutNewlines), defaultProperties, null, flags));
+					textBlock.Inlines.Add(CreateRun(ToString(text, tag.Span.Start, tag.Span.Length, filterOutNewlines), defaultProperties, tag.Properties, flags));
 					textOffset = tag.Span.End;
 				}
 				if (textOffset < text.Length)
-					textBlock.Inlines.Add(CreateRun(ToString(text.Substring(textOffset), filterOutNewlines), defaultProperties, null, flags));
+					textBlock.Inlines.Add(CreateRun(ToString(text, textOffset, text.Length - textOffset, filterOutNewlines), defaultProperties, null, flags));
 			}
 
 			propsAndSpansList.Clear();

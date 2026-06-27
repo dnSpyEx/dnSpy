@@ -121,13 +121,13 @@
     <value>_Задачи</value>
   </data>
   <data name="About_LatestBuild" xml:space="preserve">
-    <value>П_оследний билд</value>
+    <value>_Последний билд</value>
   </data>
   <data name="About_LatestRelease" xml:space="preserve">
     <value>_Последний релиз</value>
   </data>
   <data name="About_Menu" xml:space="preserve">
-    <value>О_ программе</value>
+    <value>_О программе</value>
   </data>
   <data name="About_SourceCode" xml:space="preserve">
     <value>_Исходный код</value>
@@ -139,7 +139,7 @@
     <value>Все файлы</value>
   </data>
   <data name="AssemblyExplorerCommand" xml:space="preserve">
-    <value>Обозреватель _сборок</value>
+    <value>_Обозреватель сборок</value>
   </data>
   <data name="AssemblyExplorerKey" xml:space="preserve">
     <value>Ctrl+Alt+L</value>
@@ -172,10 +172,10 @@
     <value>Закрыть все группы вкладок, кроме этой</value>
   </data>
   <data name="CloseAllTabsButThisCommand" xml:space="preserve">
-    <value>Закрыть _все, кроме текущей</value>
+    <value>_Закрыть все, кроме текущей</value>
   </data>
   <data name="CloseAllTabsCommand" xml:space="preserve">
-    <value>З_акрыть все вкладки</value>
+    <value>_Закрыть все вкладки</value>
   </data>
   <data name="CloseTabCommand" xml:space="preserve">
     <value>_Закрыть</value>
@@ -220,7 +220,7 @@
     <value>Произошло исключение:</value>
   </data>
   <data name="ExitAppCommand" xml:space="preserve">
-    <value>В_ыход</value>
+    <value>_Выход</value>
   </data>
   <data name="ExitAppKey" xml:space="preserve">
     <value>Alt+F4</value>
@@ -238,7 +238,7 @@
     <value>Ctrl+F</value>
   </data>
   <data name="FullScreenCommand" xml:space="preserve">
-    <value>П_олный экран</value>
+    <value>_Полный экран</value>
   </data>
   <data name="FullScreenKey" xml:space="preserve">
     <value>Shift+Alt+Enter</value>
@@ -247,10 +247,10 @@
     <value>Во весь экран</value>
   </data>
   <data name="GoToEntryPointCommand" xml:space="preserve">
-    <value>Перейти к _точке входа</value>
+    <value>_Перейти к точке входа</value>
   </data>
   <data name="GoToGlobalCctorCommand" xml:space="preserve">
-    <value>Перейти к &lt;Module&gt; .ccto_r</value>
+    <value>_Перейти к &lt;Module&gt; .cctor</value>
   </data>
   <data name="GoToLine_EnterLineNum" xml:space="preserve">
     <value>Введите номер строки</value>
@@ -271,7 +271,7 @@
     <value>Двойной клик</value>
   </data>
   <data name="GoToTokenCommand" xml:space="preserve">
-    <value>Перейти к токену мета_данных...</value>
+    <value>_Перейти к токену метаданных...</value>
   </data>
   <data name="GoToTokenKey" xml:space="preserve">
     <value>Ctrl+D</value>
@@ -283,19 +283,19 @@
     <value>Неверный токен метаданных: 0x{0:X8}</value>
   </data>
   <data name="GoToToken_Label" xml:space="preserve">
-    <value>Токен _метаданных</value>
+    <value>_Токен метаданных</value>
   </data>
   <data name="GoToToken_Title" xml:space="preserve">
     <value>Переход к токену метаданных</value>
   </data>
   <data name="HideAllToolWindowsCommand" xml:space="preserve">
-    <value>Ск_рыть все вкладки</value>
+    <value>_Скрыть все вкладки</value>
   </data>
   <data name="HideToolWindowCommand" xml:space="preserve">
     <value>_Скрыть</value>
   </data>
   <data name="HighlightLine" xml:space="preserve">
-    <value>П_одсветить текущую строку</value>
+    <value>_Подсветить текущую строку</value>
   </data>
   <data name="InvalidInputTextMessageBox" xml:space="preserve">
     <value>Неверный текст</value>
@@ -334,13 +334,13 @@
     <value>Перенести все в предыдущую группу вкладок</value>
   </data>
   <data name="MoveBottomCommand" xml:space="preserve">
-    <value>В_низ</value>
+    <value>_Вниз</value>
   </data>
   <data name="MoveLeftCommand" xml:space="preserve">
-    <value>В_лево</value>
+    <value>_Влево</value>
   </data>
   <data name="MoveRightCommand" xml:space="preserve">
-    <value>В_право</value>
+    <value>_Вправо</value>
   </data>
   <data name="MoveTabGroupAfterNextTabGroupCommand" xml:space="preserve">
     <value>Переместить группу вкладок после следующей</value>
@@ -349,19 +349,19 @@
     <value>Переместить группу вкладок перед предыдущей</value>
   </data>
   <data name="MoveToNextTabGroupCommand" xml:space="preserve">
-    <value>Переместить в _следующую группу вкладок</value>
+    <value>_Переместить в следующую группу вкладок</value>
   </data>
   <data name="MoveToolWindowCommand" xml:space="preserve">
     <value>_Переместить</value>
   </data>
   <data name="MoveToolWindowGroupCommand" xml:space="preserve">
-    <value>Переместить _группу</value>
+    <value>_Переместить группу</value>
   </data>
   <data name="MoveTopCommand" xml:space="preserve">
-    <value>В_верх</value>
+    <value>_Вверх</value>
   </data>
   <data name="MoveToPreviousTabGroupCommand" xml:space="preserve">
-    <value>Переместить в _предыдущую группу вкладок</value>
+    <value>_Переместить в предыдущую группу вкладок</value>
   </data>
   <data name="NavigateBackCommand" xml:space="preserve">
     <value>Переход назад</value>
@@ -373,13 +373,13 @@
     <value>Новые данные не являются картинкой.</value>
   </data>
   <data name="NewHorizontalTabGroupCommand" xml:space="preserve">
-    <value>Новая _горизонтальная группа вкладок</value>
+    <value>_Новая горизонтальная группа вкладок</value>
   </data>
   <data name="NewTabCommand" xml:space="preserve">
-    <value>Новая _вкладка</value>
+    <value>_Новая вкладка</value>
   </data>
   <data name="NewVerticalTabGroupCommand" xml:space="preserve">
-    <value>Новая _вертикальная группа вкладок</value>
+    <value>_Новая вертикальная группа вкладок</value>
   </data>
   <data name="NewWindowCommand" xml:space="preserve">
     <value>_Новое окно</value>
@@ -391,7 +391,7 @@
     <value>_Открыть каталог</value>
   </data>
   <data name="OpenGACCommand" xml:space="preserve">
-    <value>Открыть из _GAC...</value>
+    <value>_Открыть из GAC...</value>
   </data>
   <data name="OpenGAC_CreatedBy_Label" xml:space="preserve">
     <value>Создано:</value>
@@ -424,7 +424,7 @@
     <value>Версия:</value>
   </data>
   <data name="OpenInNewTabCommand" xml:space="preserve">
-    <value>Открыть в новой _вкладке</value>
+    <value>_Открыть в новой вкладке</value>
   </data>
   <data name="OpenInNewTabKey" xml:space="preserve">
     <value>Ctrl+T</value>
@@ -439,7 +439,7 @@
     <value>Ctrl+O</value>
   </data>
   <data name="OpenListCommand" xml:space="preserve">
-    <value>Открыть сп_исок...</value>
+    <value>_Открыть список...</value>
   </data>
   <data name="OpenList_AskForName" xml:space="preserve">
     <value>_Имя</value>
@@ -463,7 +463,7 @@
     <value>_Убрать</value>
   </data>
   <data name="OpenList_SavedLists_CheckBox" xml:space="preserve">
-    <value>С_охраненные списки</value>
+    <value>_Сохраненные списки</value>
   </data>
   <data name="OpenList_Search_Label" xml:space="preserve">
     <value>_Поиск</value>
@@ -511,7 +511,7 @@
     <value>Поиск...</value>
   </data>
   <data name="SearchMsdnCommand" xml:space="preserve">
-    <value>Искать в _MSDN</value>
+    <value>_Искать в MSDN</value>
   </data>
   <data name="SearchWindow_Options" xml:space="preserve">
     <value>Настройки</value>
@@ -727,7 +727,7 @@
     <value>_Высокая контрастность</value>
   </data>
   <data name="Theme_Light" xml:space="preserve">
-    <value>С_ветлая</value>
+    <value>_Светлая</value>
   </data>
   <data name="OpenGAC_Search_ToolTip" xml:space="preserve">
     <value>Поиск</value>
@@ -745,13 +745,13 @@
     <value>Ctrl+Shift+O</value>
   </data>
   <data name="SortAsmsCommand" xml:space="preserve">
-    <value>Сор_тировать сборки</value>
+    <value>_Сортировать сборки</value>
   </data>
   <data name="AskReadSettings" xml:space="preserve">
     <value>Вы хотите загрузить сохраненные настройки?</value>
   </data>
   <data name="ExportToProjectCommand" xml:space="preserve">
-    <value>Экспорт в про_ект...</value>
+    <value>_Экспорт в проект...</value>
   </data>
   <data name="ExportToProject_Title" xml:space="preserve">
     <value>Экспорт в проект</value>
@@ -766,10 +766,10 @@
     <value>_Экспорт</value>
   </data>
   <data name="ExportToProject_CreateResX" xml:space="preserve">
-    <value>Создать файлы .res_x</value>
+    <value>_Создать файлы .resx</value>
   </data>
   <data name="ExportToProject_DecompileXaml" xml:space="preserve">
-    <value>Декомпилировать _baml в xaml</value>
+    <value>_Декомпилировать baml в xaml</value>
   </data>
   <data name="ExportToProject_DestinationFolder" xml:space="preserve">
     <value>_Каталог</value>
@@ -849,10 +849,10 @@
     <value>Выбранный тип</value>
   </data>
   <data name="GoToResourceCommand" xml:space="preserve">
-    <value>Перейти к ре_сурсу</value>
+    <value>_Перейти к ресурсу</value>
   </data>
   <data name="CollapseTreeViewNodesCommand" xml:space="preserve">
-    <value>Свернуть узлы _дерева</value>
+    <value>_Свернуть узлы дерева</value>
   </data>
   <data name="CloseAllCommand" xml:space="preserve">
     <value>Закрыть все</value>
@@ -885,7 +885,7 @@
     <value>Alt+2</value>
   </data>
   <data name="Window_Output2" xml:space="preserve">
-    <value>Выв_од</value>
+    <value>_Вывод</value>
   </data>
   <data name="Output_Save_ToolTip" xml:space="preserve">
     <value>Сохранить</value>
@@ -1080,7 +1080,7 @@
     <value>{0} из {1}</value>
   </data>
   <data name="UriFollowLinkMessage" xml:space="preserve">
-    <value>CTRL + клик для перехода</value>
+    <value>Ctrl + клик для перехода</value>
   </data>
   <data name="EnvironmentSettings" xml:space="preserve">
     <value>Окружение</value>
@@ -1113,22 +1113,22 @@
     <value>Табуляция</value>
   </data>
   <data name="TextEditorConvertTabsToSpaces" xml:space="preserve">
-    <value>Преобразовывать табуляцию в _пробелы</value>
+    <value>_Преобразовывать табуляцию в пробелы</value>
   </data>
   <data name="TextEditorLineNumbers" xml:space="preserve">
-    <value>Номера строк</value>
+    <value>_Номера строк</value>
   </data>
   <data name="TextEditorVirtualSpace" xml:space="preserve">
-    <value>Виртуальное пространство</value>
+    <value>_Виртуальное пространство</value>
   </data>
   <data name="TextEditorWordWrap" xml:space="preserve">
     <value>Перенос слов</value>
   </data>
   <data name="TextEditorIndentSize" xml:space="preserve">
-    <value>Размер отступа</value>
+    <value>_Размер отступа</value>
   </data>
   <data name="TextEditorTabSize" xml:space="preserve">
-    <value>Размер _табуляции</value>
+    <value>_Размер табуляции</value>
   </data>
   <data name="TextViewerSettings" xml:space="preserve">
     <value>Просмотр текста</value>
@@ -1158,7 +1158,7 @@
     <value>Подсветить связанные ключевые слова</value>
   </data>
   <data name="TextEditorHorizontalScrollBar" xml:space="preserve">
-    <value>Показывать _горизонтальную полосу прокрутки</value>
+    <value>_Показывать горизонтальную полосу прокрутки</value>
   </data>
   <data name="TextEditorLineHeight" xml:space="preserve">
     <value>Высота строки</value>
@@ -1185,7 +1185,7 @@
     <value>Показывать границы отступа</value>
   </data>
   <data name="TextEditorVerticalScrollBar" xml:space="preserve">
-    <value>Показывать _вертикальную полосу прокрутки</value>
+    <value>_Показывать вертикальную полосу прокрутки</value>
   </data>
   <data name="TextEditorZoom" xml:space="preserve">
     <value>Масштаб</value>
@@ -1215,7 +1215,8 @@
     <value>Только .NET</value>
   </data>
   <data name="AssemblyExplorer_AllFilesFilteredOut" xml:space="preserve">
-    <value>Все файлы были отфильтрованы. Фильтр можно изменить в опциях Assembly Explorer.</value>
+    <value>Все файлы были отфильтрованы. 
+Фильтр можно изменить в опциях Assembly Explorer.</value>
   </data>
   <data name="BlockStructureLineKind_DashedLines" xml:space="preserve">
     <value>Штриховые линии</value>
@@ -1260,13 +1261,13 @@
     <value>Показать разделители столбцов</value>
   </data>
   <data name="GoToOffset_Offset_Label" xml:space="preserve">
-    <value>С_мещение</value>
+    <value>_Смещение</value>
   </data>
   <data name="GoToOffset_Title" xml:space="preserve">
     <value>Переход по смещению</value>
   </data>
   <data name="HexEditorSelect_End" xml:space="preserve">
-    <value>Кон_ец</value>
+    <value>_Конец</value>
   </data>
   <data name="HexEditorSelect_Start" xml:space="preserve">
     <value>_Начало</value>
@@ -1289,7 +1290,7 @@
     <value>Сохранение выбранного 0x{0:X}-0x{1:X}</value>
   </data>
   <data name="Button_DefaultSettings" xml:space="preserve">
-    <value>Настройки _по умолчанию</value>
+    <value>_Настройки по умолчанию</value>
   </data>
   <data name="Button_RestoreSettings" xml:space="preserve">
     <value>Сброс</value>
@@ -1337,7 +1338,7 @@
     <value>Перейти по смещению...</value>
   </data>
   <data name="HexEditorSaveSelectionCommand" xml:space="preserve">
-    <value>Сохранить вы_бранное...</value>
+    <value>_Сохранить выбранное...</value>
   </data>
   <data name="HexEditorSelectCommand" xml:space="preserve">
     <value>Выбрать...</value>
@@ -1370,22 +1371,22 @@
     <value>Это значение добавляется по начальному смещению, прежде чем оно отображается на экране</value>
   </data>
   <data name="LocalHexSettings_BytesPerLine" xml:space="preserve">
-    <value>Б_айтов в строке</value>
+    <value>_Байтов в строке</value>
   </data>
   <data name="LocalHexSettings_EndOffset" xml:space="preserve">
-    <value>Смещение _конца</value>
+    <value>_Смещение конца</value>
   </data>
   <data name="LocalHexSettings_OffsetBitSize" xml:space="preserve">
-    <value>Количество би_тов смещения</value>
+    <value>_Количество битов смещения</value>
   </data>
   <data name="LocalHexSettings_ShowASCII" xml:space="preserve">
-    <value>Пока_зать ASCII</value>
+    <value>_Показать ASCII</value>
   </data>
   <data name="LocalHexSettings_ShowOffset" xml:space="preserve">
-    <value>Пок_азать смещение</value>
+    <value>_Показать смещение</value>
   </data>
   <data name="LocalHexSettings_ShowValues" xml:space="preserve">
-    <value>Показать з_начения</value>
+    <value>_Показать значения</value>
   </data>
   <data name="LocalHexSettings_StartOffset" xml:space="preserve">
     <value>_Смещение начала</value>
@@ -1394,7 +1395,7 @@
     <value>Настройки локального Hex-редактора</value>
   </data>
   <data name="LocalHexSettings_UseRelOffsets" xml:space="preserve">
-    <value>Использовать _относительные смещения</value>
+    <value>_Использовать относительные смещения</value>
   </data>
   <data name="LocalHexSettings_UseRelOffsets_ToolTip" xml:space="preserve">
     <value>Все смещения указаны относительно стартового смещения</value>
@@ -1488,10 +1489,10 @@
     <value>Alt+8</value>
   </data>
   <data name="ShortCutKeyAltH" xml:space="preserve">
-    <value>ALT+H</value>
+    <value>Alt+H</value>
   </data>
   <data name="ShortCutKeyAltU" xml:space="preserve">
-    <value>ALT+U</value>
+    <value>Alt+U</value>
   </data>
   <data name="ShortCutKeyCtrlF" xml:space="preserve">
     <value>Ctrl+F</value>
@@ -1503,10 +1504,10 @@
     <value>Вставить (UTF-8 и длина)</value>
   </data>
   <data name="ShortCutKeyCtrlKCtrl8" xml:space="preserve">
-    <value>CTRL+K, Ctrl+8</value>
+    <value>Ctrl+K, Ctrl+8</value>
   </data>
   <data name="ShortCutKeyCtrlKCtrlU" xml:space="preserve">
-    <value>CTRL+K, Ctrl+U</value>
+    <value>Ctrl+K, Ctrl+U</value>
   </data>
   <data name="HexGoToCodeOrStructure" xml:space="preserve">
     <value>Перейти к коду или структуре</value>
@@ -1716,10 +1717,10 @@
     <value>Поиск</value>
   </data>
   <data name="BookmarksCommand" xml:space="preserve">
-    <value>За_кладки</value>
+    <value>_Закладки</value>
   </data>
   <data name="BookmarksWindowCommand" xml:space="preserve">
-    <value>Окно _закладок</value>
+    <value>_Окно закладок</value>
   </data>
   <data name="Bookmarks_ExportMatchingBookmarks_ToolTip" xml:space="preserve">
     <value>Экспортирует все закладки, соответствующие текущему фильтру</value>
@@ -1797,7 +1798,7 @@
     <value>Убрать закладку</value>
   </data>
   <data name="SelectAllCommand" xml:space="preserve">
-    <value>Выбр_ать все</value>
+    <value>_Выбрать все</value>
   </data>
   <data name="ShortCutKeyCtrlA" xml:space="preserve">
     <value>Ctrl+A</value>
@@ -1818,13 +1819,13 @@
     <value>Показать ключевые слова встроенных типов</value>
   </data>
   <data name="ShowModuleNamesCommand" xml:space="preserve">
-    <value>Показать имена _модулей</value>
+    <value>_Показать имена модулей</value>
   </data>
   <data name="ShowNamespacesCommand" xml:space="preserve">
     <value>Показать пространства имен</value>
   </data>
   <data name="ShowParameterNamesCommand" xml:space="preserve">
-    <value>Показать имена _параметров</value>
+    <value>_Показать имена параметров</value>
   </data>
   <data name="ShowParameterTypesCommand2" xml:space="preserve">
     <value>Показать типы параметров</value>
@@ -1845,19 +1846,19 @@
     <value>_Очистить закладки</value>
   </data>
   <data name="DisableAllBookmarksCommand" xml:space="preserve">
-    <value>Выключить _все закладки</value>
+    <value>_Выключить все закладки</value>
   </data>
   <data name="EnableAllBookmarksCommand" xml:space="preserve">
-    <value>Включить _все закладки</value>
+    <value>_Включить все закладки</value>
   </data>
   <data name="EnableBookmarkCommand" xml:space="preserve">
     <value>Включить закладку</value>
   </data>
   <data name="GoToNextBookmarkCommand" xml:space="preserve">
-    <value>Следующая _закладка</value>
+    <value>_Следующая закладка</value>
   </data>
   <data name="GoToNextBookmarkInDocumentCommand" xml:space="preserve">
-    <value>Сл_едующая закладка в документе</value>
+    <value>_Следующая закладка в документе</value>
   </data>
   <data name="GoToNextBookmarkWithSameLabelCommand" xml:space="preserve">
     <value>Следующая закладка с той же меткой</value>
@@ -1866,7 +1867,7 @@
     <value>_Предыдущая закладка</value>
   </data>
   <data name="GoToPreviousBookmarkInDocumentCommand" xml:space="preserve">
-    <value>П_редыдущая закладка в документе</value>
+    <value>_Предыдущая закладка в документе</value>
   </data>
   <data name="GoToPreviousBookmarkWithSameLabelCommand" xml:space="preserve">
     <value>Предыдущая закладка с той же меткой</value>
@@ -1884,7 +1885,7 @@
     <value>Ctrl+K, Ctrl+P</value>
   </data>
   <data name="ToggleBookmarkCommand" xml:space="preserve">
-    <value>Переключи_ть закладку</value>
+    <value>_Переключить закладку</value>
   </data>
   <data name="EditLabelsMsgBoxLabel" xml:space="preserve">
     <value>Метки</value>
@@ -2071,5 +2072,50 @@
   </data>
   <data name="ToolTip_OpCode" xml:space="preserve">
     <value>Опкод</value>
+  </data>
+  <data name="Button_SaveCode" xml:space="preserve">
+    <value>_Сохранить код...</value>
+  </data>
+  <data name="CopyFullNameCommand" xml:space="preserve">
+    <value>Копировать полное имя</value>
+  </data>
+  <data name="Options_Misc_CheckForUpdatesOnStartup" xml:space="preserve">
+    <value>Проверять наличие обновлений при запуске</value>
+  </data>
+  <data name="Options_Misc_Button_ResetIgnoredUpdates" xml:space="preserve">
+    <value>Сбросить проигнорированные обновления</value>
+  </data>
+  <data name="SavingCode" xml:space="preserve">
+    <value>Сохранение...</value>
+  </data>
+  <data name="ExportToProject_UseSDKStyleProjectFormat" xml:space="preserve">
+    <value>_Использовать формат проекта в SDK стиле</value>
+  </data>
+  <data name="AboutScreen_CheckForUpdates" xml:space="preserve">
+    <value>Проверить наличие обновлений</value>
+  </data>
+  <data name="AboutScreen_CheckingForUpdates" xml:space="preserve">
+    <value>Проверка наличия обновлений...</value>
+  </data>
+  <data name="AboutScreen_FailedToRetrieveUpdateInfo" xml:space="preserve">
+    <value>Не удалось получить информацию об обновлении!</value>
+  </data>
+  <data name="AboutScreen_NewUpdateAvailable" xml:space="preserve">
+    <value>Доступна новая версия dnSpy: {0}, вы хотите открыть страницу загрузки?</value>
+  </data>
+  <data name="AboutScreen_RunningLatestVersion" xml:space="preserve">
+    <value>Вы используете последнюю версию dnSpy!</value>
+  </data>
+  <data name="SearchWindow_SearchCompilerGeneratedMembers" xml:space="preserve">
+    <value>Поиск элементов, созданных компилятором</value>
+  </data>
+  <data name="InfoBar_NewUpdateAvailable" xml:space="preserve">
+    <value>Доступна новая версия dnSpy: {0}</value>
+  </data>
+  <data name="InfoBar_OpenDownloadPage" xml:space="preserve">
+    <value>Открыть страницу загрузки</value>
+  </data>
+  <data name="InfoBar_IgnoreThisUpdate" xml:space="preserve">
+    <value>Проигнорировать это обновление</value>
   </data>
 </root>

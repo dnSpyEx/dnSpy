@@ -154,8 +154,8 @@ namespace dnSpy.Roslyn.Debugger.ExpressionCompiler.CSharp {
 
 		public override DbgDotNetCompilationResult CompileTypeExpression(DbgEvaluationInfo evalInfo, DmdType type, DbgModuleReference[] references, DbgDotNetAlias[] aliases, string expression, DbgEvaluationOptions options) {
 			GetTypeCompilationState<CSharpEvalContextState>(evalInfo, references, out var state, out var metadataBlocks);
-			var compilation = metadataBlocks.ToCompilation(moduleVersionId: default, MakeAssemblyReferencesKind.AllAssemblies);
-			var evalCtx = EvaluationContext.CreateTypeContext(compilation, type.Module.ModuleVersionId, type.MetadataToken);
+			var compilation = metadataBlocks.ToCompilation(moduleId: default, MakeAssemblyReferencesKind.AllAssemblies);
+			var evalCtx = EvaluationContext.CreateTypeContext(compilation, GetModuleId(type.Module), type.MetadataToken);
 			return CompileExpressionCore(aliases, expression, options, state, evalCtx, evalInfo.CancellationToken);
 		}
 

@@ -82,7 +82,10 @@ namespace dnSpy.Roslyn.Internal {
 			case MSCA.Glyph.ModulePrivate: return Glyph.ModulePrivate;
 			case MSCA.Glyph.ModuleInternal: return Glyph.ModuleInternal;
 			case MSCA.Glyph.OpenFolder: return Glyph.OpenFolder;
-			case MSCA.Glyph.Operator: return Glyph.Operator;
+			case MSCA.Glyph.OperatorPublic: return Glyph.OperatorPublic;
+			case MSCA.Glyph.OperatorProtected: return Glyph.OperatorPublic;
+			case MSCA.Glyph.OperatorPrivate: return Glyph.OperatorPrivate;
+			case MSCA.Glyph.OperatorInternal: return Glyph.OperatorInternal;
 			case MSCA.Glyph.Parameter: return Glyph.Parameter;
 			case MSCA.Glyph.PropertyPublic: return Glyph.PropertyPublic;
 			case MSCA.Glyph.PropertyProtected: return Glyph.PropertyProtected;
@@ -100,6 +103,7 @@ namespace dnSpy.Roslyn.Internal {
 			case MSCA.Glyph.AddReference: return Glyph.AddReference;
 			case MSCA.Glyph.NuGet: return Glyph.NuGet;
 			case MSCA.Glyph.TargetTypeMatch: return Glyph.TargetTypeMatch;
+			case MSCA.Glyph.Copilot: return Glyph.Copilot;
 			default:
 				Debug.Fail($"New Glyph: {glyph}");
 				return Glyph.Error;

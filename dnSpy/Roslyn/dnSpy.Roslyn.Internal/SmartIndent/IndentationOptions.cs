@@ -14,7 +14,5 @@ namespace dnSpy.Roslyn.Internal.SmartIndent {
 
 		public const FormattingOptions2.IndentStyle DefaultIndentStyle = FormattingOptions2.IndentStyle.Smart;
 
-		public static IndentationOptions GetDefault(LanguageServices languageServices) =>
-			new IndentationOptions(SyntaxFormattingOptions.GetDefault(languageServices));
 	}
 }

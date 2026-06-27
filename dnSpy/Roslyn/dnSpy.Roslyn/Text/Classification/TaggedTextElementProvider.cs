@@ -19,8 +19,7 @@
 
 using System;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Windows.Controls;
+using System.Windows;
 using dnSpy.Contracts.Text.Classification;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.Text.Classification;
@@ -28,24 +27,21 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace dnSpy.Roslyn.Text.Classification {
 	sealed class TaggedTextElementProvider : ITaggedTextElementProvider {
-		readonly ITextClassifierAggregator classifierAggregator;
+		readonly IContentType contentType;
 		readonly IClassificationFormatMap classificationFormatMap;
+		readonly ITextElementProvider textElementProvider;
 
-		public TaggedTextElementProvider(IContentType contentType, ITextClassifierAggregatorService textClassifierAggregatorService, IClassificationFormatMap classificationFormatMap) {
-			if (contentType is null)
-				throw new ArgumentNullException(nameof(contentType));
-			if (textClassifierAggregatorService is null)
-				throw new ArgumentNullException(nameof(textClassifierAggregatorService));
-			classifierAggregator = textClassifierAggregatorService.Create(contentType);
+		public TaggedTextElementProvider(IContentType contentType, IClassificationFormatMap classificationFormatMap, ITextElementProvider textElementProvider) {
+			this.contentType = contentType ?? throw new ArgumentNullException(nameof(contentType));
 			this.classificationFormatMap = classificationFormatMap ?? throw new ArgumentNullException(nameof(classificationFormatMap));
+			this.textElementProvider = textElementProvider ?? throw new ArgumentNullException(nameof(textElementProvider));
 		}
 
-		public TextBlock Create(string tag, ImmutableArray<TaggedText> taggedParts, bool colorize) {
+		public FrameworkElement Create(string tag, ImmutableArray<TaggedText> taggedParts, bool colorize) {
 			var context = TaggedTextClassifierContext.Create(tag, taggedParts, colorize);
-			return TextBlockFactory.Create(context.Text, classificationFormatMap.DefaultTextProperties,
-				classifierAggregator.GetTags(context).Select(a => new TextRunPropertiesAndSpan(a.Span, classificationFormatMap.GetTextProperties(a.ClassificationType))), TextBlockFactory.Flags.DisableSetTextBlockFontFamily | TextBlockFactory.Flags.DisableFontSize);
+			return textElementProvider.CreateTextElement(classificationFormatMap, context, contentType, TextElementFlags.None);
 		}
 
-		public void Dispose() => classifierAggregator?.Dispose();
+		public void Dispose() { }
 	}
 }

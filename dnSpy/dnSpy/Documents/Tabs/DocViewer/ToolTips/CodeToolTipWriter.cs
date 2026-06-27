@@ -30,7 +30,6 @@ using dnSpy.Contracts.Text.Classification;
 using dnSpy.Text;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Formatting;
 
 namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 	sealed class CodeToolTipWriter : ICodeToolTipWriter, IXmlDocOutput {
@@ -39,14 +38,16 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 		readonly IClassificationFormatMap classificationFormatMap;
 		readonly IThemeClassificationTypeService themeClassificationTypeService;
 		readonly IClassificationTypeRegistryService classificationTypeRegistryService;
+		readonly ITextElementFactory textElementFactory;
 		readonly bool syntaxHighlight;
 
 		public bool IsEmpty => sb.Length == 0;
 
-		public CodeToolTipWriter(IClassificationFormatMap classificationFormatMap, IThemeClassificationTypeService themeClassificationTypeService, IClassificationTypeRegistryService classificationTypeRegistryService, bool syntaxHighlight) {
+		public CodeToolTipWriter(IClassificationFormatMap classificationFormatMap, IThemeClassificationTypeService themeClassificationTypeService, IClassificationTypeRegistryService classificationTypeRegistryService, ITextElementFactory textElementFactory, bool syntaxHighlight) {
 			this.classificationFormatMap = classificationFormatMap ?? throw new ArgumentNullException(nameof(classificationFormatMap));
 			this.themeClassificationTypeService = themeClassificationTypeService ?? throw new ArgumentNullException(nameof(themeClassificationTypeService));
 			this.classificationTypeRegistryService = classificationTypeRegistryService ?? throw new ArgumentNullException(nameof(classificationTypeRegistryService));
+			this.textElementFactory = textElementFactory ?? throw new ArgumentNullException(nameof(textElementFactory));
 			this.syntaxHighlight = syntaxHighlight;
 			result = new List<ColorAndText>();
 			sb = new StringBuilder();
@@ -54,20 +55,21 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 
 		public UIElement Create() {
 			var text = sb.ToString();
-			var propsSpans = CreateTextRunPropertiesAndSpans();
-			return TextBlockFactory.Create(text, classificationFormatMap.DefaultTextProperties, propsSpans, TextBlockFactory.Flags.DisableSetTextBlockFontFamily | TextBlockFactory.Flags.DisableFontSize);
+			return textElementFactory.Create(classificationFormatMap, text, CreateTexClassificationTags(), TextElementFlags.None);
 		}
 
-		IEnumerable<TextRunPropertiesAndSpan> CreateTextRunPropertiesAndSpans() {
+		IList<TextClassificationTag> CreateTexClassificationTags() {
 			int pos = 0;
-			foreach (var res in result) {
-				var props = GetTextFormattingRunProperties(res.Color);
-				yield return new TextRunPropertiesAndSpan(new Span(pos, res.Text.Length), props);
+			var tags = new TextClassificationTag[result.Count];
+			for (int i = 0; i < result.Count; i++) {
+				var res = result[i];
+				tags[i] = new TextClassificationTag(new Span(pos, res.Text.Length), GetTextClassificationType(res.Color));
 				pos += res.Text.Length;
 			}
+			return tags;
 		}
 
-		TextFormattingRunProperties GetTextFormattingRunProperties(object color) {
+		IClassificationType GetTextClassificationType(object color) {
 			if (!syntaxHighlight)
 				color = BoxedTextColor.Text;
 			var classificationType = ColorUtils.GetClassificationType(classificationTypeRegistryService, themeClassificationTypeService, color);
@@ -75,7 +77,7 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 				var textColor = color as TextColor? ?? TextColor.Text;
 				classificationType = themeClassificationTypeService.GetClassificationType(textColor);
 			}
-			return classificationFormatMap.GetTextProperties(classificationType);
+			return classificationType;
 		}
 
 		void Add(object color, string? text) {
