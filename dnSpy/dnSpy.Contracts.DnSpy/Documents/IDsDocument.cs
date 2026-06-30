@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using dnlib.DotNet;
 using dnlib.PE;
+using dnSpy.Contracts.Bundles;
 
 namespace dnSpy.Contracts.Documents {
 	/// <summary>
@@ -54,6 +55,16 @@ namespace dnSpy.Contracts.Documents {
 		/// Gets the PE image or null if it's not available
 		/// </summary>
 		IPEImage? PEImage { get; }
+
+		/// <summary>
+		/// Gets the single file bundle descriptor or null if it's not a single file bundle.
+		/// </summary>
+		SingleFileBundle? SingleFileBundle { get; }
+
+		/// <summary>
+		/// Gets the single file bundle entry or null if it's not inside a bundle.
+		/// </summary>
+		BundleEntry? BundleEntry { get; }
 
 		/// <summary>
 		/// Gets/sets the filename
