@@ -60,9 +60,9 @@ namespace dnSpy.Hex.Editor.HexGroups {
 			options.EndPosition = hexView.Buffer.Span.End;
 			options.BasePosition = HexPosition.Zero;
 			options.UseRelativePositions = false;
-			options.OffsetBitSize = 0;
+			options.OffsetBitSize = 32;
 			options.HexValuesDisplayFormat = HexValuesDisplayFormat.HexByte;
-			options.BytesPerLine = 0;
+			options.BytesPerLine = 16;
 			return options;
 		}
 	}
