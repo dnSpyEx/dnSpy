@@ -104,28 +104,21 @@ function Build-NetLinux {
 	Write-Host "Building .NET Linux x64 binaries"
 
 	$rid = "linux-x64"
-	$outdir = "$net_baseoutput\net10.0-linux"
-	$publishDir = "$outdir\publish"
-	$absolutePublishDir = $publishDir
-	if ($PSScriptRoot) {
-		$absolutePublishDir = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot $publishDir))
-	} else {
-		$absolutePublishDir = [System.IO.Path]::GetFullPath($publishDir)
-	}
+	$publishDir = "$PSScriptRoot\$net_baseoutput\net10.0-linux\publish"
 
 	if ($NoMsbuild) {
-		dotnet publish -v:m -c $configuration -f net10.0 -r $rid -p:SelfContained=false -p:PublishDir="$absolutePublishDir/" dnSpy\dnSpy.Console\dnSpy.Console.csproj
+		dotnet publish -v:m -c $configuration -f net10.0 -r $rid -p:SelfContained=false -p:PublishDir="$publishDir/" dnSpy\dnSpy.Console\dnSpy.Console.csproj
 		if ($LASTEXITCODE) { exit $LASTEXITCODE }
 	}
 	else {
-		msbuild -v:m -m -restore -t:Publish -p:Configuration=$configuration -p:TargetFramework=net10.0 -p:RuntimeIdentifier=$rid -p:SelfContained=false -p:PublishDir="$absolutePublishDir/" dnSpy\dnSpy.Console\dnSpy.Console.csproj
+		msbuild -v:m -m -restore -t:Publish -p:Configuration=$configuration -p:TargetFramework=net10.0 -p:RuntimeIdentifier=$rid -p:SelfContained=false -p:PublishDir="$publishDir/" dnSpy\dnSpy.Console\dnSpy.Console.csproj
 		if ($LASTEXITCODE) { exit $LASTEXITCODE }
 	}
 
 	dotnet build -v:m -c $configuration -f net10.0 Extensions\ILSpy.Decompiler\dnSpy.Decompiler.ILSpy.Core\dnSpy.Decompiler.ILSpy.Core.csproj
 	if ($LASTEXITCODE) { exit $LASTEXITCODE }
 
-	Copy-Item -Path Extensions\ILSpy.Decompiler\dnSpy.Decompiler.ILSpy.Core\bin\$configuration\net10.0\*.dll -Destination $absolutePublishDir -Force
+	Copy-Item -Path Extensions\ILSpy.Decompiler\dnSpy.Decompiler.ILSpy.Core\bin\$configuration\net10.0\*.dll -Destination $publishDir -Force
 }
 
 $buildNetFramework  = $buildtfm -eq 'all' -or $buildtfm -eq 'netframework'
