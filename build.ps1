@@ -104,7 +104,7 @@ function Build-NetLinux {
 	Write-Host "Building .NET Linux x64 binaries"
 
 	$rid = "linux-x64"
-	$outdir = "$net_baseoutput\net10.0\$rid"
+	$outdir = "$net_baseoutput\net10.0-linux"
 	$publishDir = "$outdir\publish"
 
 	if ($NoMsbuild) {
