@@ -17,6 +17,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net10.0' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Update="Properties\dnSpy.Contracts.Logic.Resources.Designer.cs">
       <AutoGen>True</AutoGen>

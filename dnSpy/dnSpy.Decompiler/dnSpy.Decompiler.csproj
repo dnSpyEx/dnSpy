@@ -18,6 +18,7 @@
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net10.0' ">
     <DefineConstants>$(DefineConstants);NO_RESX_WRITER</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' != 'net10.0' ">
