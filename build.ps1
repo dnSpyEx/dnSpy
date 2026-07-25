@@ -108,11 +108,11 @@ function Build-NetLinux {
 	$publishDir = "$outdir\publish"
 
 	if ($NoMsbuild) {
-		dotnet publish -v:m -c $configuration -f net10.0 -r $rid -p:SelfContained=false dnSpy\dnSpy.Console\dnSpy.Console.csproj
+		dotnet publish -v:m -c $configuration -f net10.0 -r $rid -p:SelfContained=false -p:PublishDir="$publishDir/" dnSpy\dnSpy.Console\dnSpy.Console.csproj
 		if ($LASTEXITCODE) { exit $LASTEXITCODE }
 	}
 	else {
-		msbuild -v:m -m -restore -t:Publish -p:Configuration=$configuration -p:TargetFramework=net10.0 -p:RuntimeIdentifier=$rid -p:SelfContained=false dnSpy\dnSpy.Console\dnSpy.Console.csproj
+		msbuild -v:m -m -restore -t:Publish -p:Configuration=$configuration -p:TargetFramework=net10.0 -p:RuntimeIdentifier=$rid -p:SelfContained=false -p:PublishDir="$publishDir/" dnSpy\dnSpy.Console\dnSpy.Console.csproj
 		if ($LASTEXITCODE) { exit $LASTEXITCODE }
 	}
 
