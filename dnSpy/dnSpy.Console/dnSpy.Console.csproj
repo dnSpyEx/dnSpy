@@ -1,10 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk">
 <!-- Target dir is the same as dnSpy.exe so we'll overwrite some files when creating
 a self-contained .NET app (System.Security.Permissions (wrong lower version), WindowsBase
 (wrong file (15KB, should be 1.1MB))).
 
-The workaround is to add WindowsDesktop above.
+The workaround is to use UseWPF/UseWindowsForms below.
 -->
+
+  <PropertyGroup>
+    <SupportsCrossPlatform>true</SupportsCrossPlatform>
+  </PropertyGroup>
 
   <Import Project="..\..\DnSpyCommon.props" />
 
@@ -22,9 +26,12 @@ The workaround is to add WindowsDesktop above.
     <OutputType>Exe</OutputType>
     <Prefer32Bit>false</Prefer32Bit>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <DisableWinExeOutputInference>true</DisableWinExeOutputInference>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' != 'net10.0' ">
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
-    <DisableWinExeOutputInference>true</DisableWinExeOutputInference>
   </PropertyGroup>
 
   <ItemGroup>
