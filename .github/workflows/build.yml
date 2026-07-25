@@ -35,8 +35,8 @@ jobs:
             package-name: net-win64
             build-dir: net10.0-windows\win-x64\publish
           - platform: net-linux
-            package-name: net-linux-x64
-            build-dir: net10.0\linux-x64\publish
+            package-name: net-linux
+            build-dir: net10.0-linux\publish
 
     steps:
       - uses: actions/checkout@v7.0.1
