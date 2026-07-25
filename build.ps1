@@ -104,8 +104,7 @@ function Build-NetLinux {
 	Write-Host "Building .NET Linux x64 binaries"
 
 	$rid = "linux-x64"
-	$outdir = "$net_baseoutput\net10.0-linux"
-	$publishDir = "$outdir\publish"
+	$publishDir = "$PSScriptRoot\$net_baseoutput\net10.0-linux\publish"
 
 	if ($NoMsbuild) {
 		dotnet publish -v:m -c $configuration -f net10.0 -r $rid -p:SelfContained=false -p:PublishDir="$publishDir/" dnSpy\dnSpy.Console\dnSpy.Console.csproj
