@@ -7,6 +7,7 @@
         - DnSpyRoslyn.props
     NOTE: Update the ABOVE files when TargetFrameworks is updated -->
     <TargetFrameworks>net48;net10.0-windows</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(SupportsCrossPlatform)' == 'true' ">net48;net10.0-windows;net10.0</TargetFrameworks>
     <IsDotNetFramework>false</IsDotNetFramework>
     <IsDotNet>false</IsDotNet>
     <IsSelfContainedDotNet>false</IsSelfContainedDotNet>
@@ -22,6 +23,7 @@
     <CopyLocalLockFileAssemblies Condition=" '$(IsDotNet)' == 'true' ">true</CopyLocalLockFileAssemblies>
     <!-- If this gets updated, also update .github/workflows/build.yml and build.ps1 -->
     <DnSpyRuntimeIdentifiers>win-x86;win-x64</DnSpyRuntimeIdentifiers>
+    <DnSpyRuntimeIdentifiers Condition=" '$(SupportsCrossPlatform)' == 'true' ">win-x86;win-x64;linux-x64</DnSpyRuntimeIdentifiers>
     <SatelliteResourceLanguages>cs;de;es;es-ES;fa;fr;hu;it;pt-BR;pt-PT;ru;tr;uk;zh-CN;vi</SatelliteResourceLanguages>
 
     <!-- Allow compiling for windows on non-windows platforms -->
