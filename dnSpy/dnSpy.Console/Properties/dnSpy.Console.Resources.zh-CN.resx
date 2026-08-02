@@ -318,4 +318,7 @@
   <data name="MissingArgument" xml:space="preserve">
     <value>缺少参数</value>
   </data>
+  <data name="CmdLineDescription_SdkProject" xml:space="preserve">
+    <value>生成 SDK 风格的项目文件</value>
+  </data>
 </root>
