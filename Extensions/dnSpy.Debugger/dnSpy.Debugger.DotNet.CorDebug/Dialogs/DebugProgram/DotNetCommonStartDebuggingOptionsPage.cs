@@ -26,6 +26,7 @@ using dnSpy.Contracts.Debugger.Dialogs;
 using dnSpy.Contracts.Debugger.DotNet.CorDebug;
 using dnSpy.Contracts.Debugger.StartDebugging.Dialog;
 using dnSpy.Contracts.MVVM;
+using dnSpy.Contracts.Settings;
 using dnSpy.Debugger.DotNet.CorDebug.Properties;
 
 namespace dnSpy.Debugger.DotNet.CorDebug.Dialogs.DebugProgram {
@@ -171,6 +172,25 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Dialogs.DebugProgram {
 		protected T InitializeDefault<T>(T options, string breakKind) where T : CorDebugStartDebuggingOptions {
 			options.BreakKind = FilterBreakKind(breakKind);
 			return options;
+		}
+
+		protected static void SerializeCorDebugOptions(ISettingsSection section, CorDebugStartDebuggingOptions options) {
+			if (options.BreakKind is not null)
+				section.Attribute(nameof(options.BreakKind), options.BreakKind);
+			if (options.Filename is not null)
+				section.Attribute(nameof(options.Filename), options.Filename);
+			if (options.CommandLine is not null)
+				section.Attribute(nameof(options.CommandLine), options.CommandLine);
+			if (options.WorkingDirectory is not null)
+				section.Attribute(nameof(options.WorkingDirectory), options.WorkingDirectory);
+			// The environment isn't serialized, it always contains all of the current process' environment variables
+		}
+
+		protected static void DeserializeCorDebugOptions(ISettingsSection section, CorDebugStartDebuggingOptions options) {
+			options.BreakKind = section.Attribute<string>(nameof(options.BreakKind)) ?? options.BreakKind;
+			options.Filename = section.Attribute<string>(nameof(options.Filename));
+			options.CommandLine = section.Attribute<string>(nameof(options.CommandLine));
+			options.WorkingDirectory = section.Attribute<string>(nameof(options.WorkingDirectory));
 		}
 
 		protected T GetOptions<T>(T options) where T : CorDebugStartDebuggingOptions {

@@ -26,6 +26,7 @@ using dnSpy.Contracts.Debugger.DotNet.Mono;
 using dnSpy.Contracts.Debugger.StartDebugging;
 using dnSpy.Contracts.Debugger.StartDebugging.Dialog;
 using dnSpy.Contracts.MVVM;
+using dnSpy.Contracts.Settings;
 
 namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 	sealed class UnityStartDebuggingOptionsPage : MonoStartDebuggingOptionsPageBase {
@@ -102,6 +103,19 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 
 			order = 0;
 			return false;
+		}
+
+		public override bool SerializeOptions(ISettingsSection section, StartDebuggingOptions options) {
+			if (options is not UnityStartDebuggingOptions usdOptions)
+				return false;
+			SerializeMonoOptions(section, usdOptions);
+			return true;
+		}
+
+		public override StartDebuggingOptions? DeserializeOptions(ISettingsSection section) {
+			var options = new UnityStartDebuggingOptions();
+			DeserializeMonoOptions(section, options);
+			return options;
 		}
 
 		protected override bool CalculateIsValidCore() => true;
