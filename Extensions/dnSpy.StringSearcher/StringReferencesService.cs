@@ -75,7 +75,7 @@ namespace dnSpy.StringSearcher {
 
 		public IInputElement? FocusedElement => UIObject.SearchTextBox;
 
-		public FrameworkElement? ZoomElement => UIObject.ListView;
+		public FrameworkElement? ZoomElement => UIObject;
 
 		public StringReference? CurrentReference => vm.SelectedStringReference;
 

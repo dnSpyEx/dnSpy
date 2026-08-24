@@ -38,28 +38,25 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <DockPanel Grid.Column="0" Margin="0 0 5 0">
-                    <Label Content="{x:Static p:dnSpy_StringSearcher_Resources.ReferencesSearch}" DockPanel.Dock="Left" />
-                    <TextBox Name="searchTextBox" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, Delay=100}" />
-                </DockPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <Expander
-                        Name="expander"
-                        VerticalContentAlignment="Center"
-                        IsExpanded="False"
-                        Header="{x:Static p:dnSpy_StringSearcher_Resources.SearchOptions}" />
-                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                    <Button
-                        Margin="0 0 0 0"
-                        Focusable="False"
-                        Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                        ToolTipService.ShowOnDisabled="True"
-                        Command="{Binding RefreshCommand}"
-                        ToolTip="{x:Static p:dnSpy_StringSearcher_Resources.ReferencesRefresh}">
-                        <img:DsImage ImageReference="{x:Static img:DsImages.Refresh}" />
-                    </Button>
-                </StackPanel>
+                <TextBox Grid.Column="0" Margin="0 0 5 0" Name="searchTextBox" VerticalAlignment="Stretch" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, Delay=100}" />
+                <Expander Grid.Column="1"
+                    Name="expander"
+                    VerticalContentAlignment="Center"
+                    IsExpanded="False"
+                    Header="{x:Static p:dnSpy_StringSearcher_Resources.SearchOptions}" />
+                <Separator Grid.Column="2" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                <Button Grid.Column="3"
+                    Margin="0 0 0 0"
+                    Focusable="False"
+                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    ToolTipService.ShowOnDisabled="True"
+                    Command="{Binding RefreshCommand}"
+                    ToolTip="{x:Static p:dnSpy_StringSearcher_Resources.ReferencesRefresh}">
+                    <img:DsImage ImageReference="{x:Static img:DsImages.Refresh}" />
+                </Button>
             </Grid>
             <WrapPanel
                 Margin="2 0 2 6"
@@ -75,6 +72,8 @@
             SelectionMode="Single"
             VirtualizingStackPanel.IsVirtualizing="True"
             VirtualizingStackPanel.VirtualizationMode="Standard"
+            mvvm:AutomationPeerMemoryLeakWorkaround.Initialize="True"
+            BorderThickness="0"
             mvvm:GridViewColumnSorter.ColumnProvider="{Binding}"
             ItemsSource="{Binding StringLiteralsView}"
             SelectedItem="{Binding SelectedStringReference, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
