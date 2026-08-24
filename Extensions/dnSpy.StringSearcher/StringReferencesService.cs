@@ -39,6 +39,7 @@ using dnSpy.Contracts.Menus;
 using dnSpy.Contracts.MVVM;
 using dnSpy.Contracts.Settings.AppearanceCategory;
 using dnSpy.Contracts.Text.Classification;
+using dnSpy.Contracts.Utilities;
 using Microsoft.VisualStudio.Text.Classification;
 
 namespace dnSpy.StringSearcher {
@@ -120,8 +121,12 @@ namespace dnSpy.StringSearcher {
 			commands.Add(new RelayCommand(_ => FollowSelectedReference(true)), ModifierKeys.Control, Key.Enter);
 			commands.Add(new RelayCommand(_ => FollowSelectedReference(true)), ModifierKeys.Shift, Key.Enter);
 
-			UIObject.ListView.MouseDoubleClick += (_, _) => {
-				FollowSelectedReference((Keyboard.Modifiers & ModifierKeys.Control) != 0);
+			UIObject.ListView.MouseDoubleClick += (_, e) => {
+				if (!UIUtilities.IsLeftDoubleClick<ListBoxItem>(UIObject.ListView, e))
+					return;
+				e.Handled = true;
+				bool newTab = Keyboard.Modifiers == ModifierKeys.Control || Keyboard.Modifiers == ModifierKeys.Shift;
+				FollowSelectedReference(newTab);
 			};
 
 			decompilerService.DecompilerChanged += (_, _) => Refresh();

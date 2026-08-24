@@ -24,7 +24,7 @@ using dnSpy.StringSearcher.Properties;
 
 namespace dnSpy.StringSearcher {
 	internal class StringReferenceKindConverter : IValueConverter {
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+		public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) {
 			if (value is not StringReferenceKind kind) {
 				throw new ArgumentOutOfRangeException(nameof(value));
 			}
@@ -37,7 +37,7 @@ namespace dnSpy.StringSearcher {
 			};
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+		public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) {
 			throw new NotSupportedException();
 		}
 	}
