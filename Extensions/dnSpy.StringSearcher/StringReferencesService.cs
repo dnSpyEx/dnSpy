@@ -79,6 +79,8 @@ namespace dnSpy.StringSearcher {
 
 		public StringReference? CurrentReference => vm.SelectedStringReference;
 
+		internal bool HasModules => selectedModules.Length > 0;
+
 		[ImportingConstructor]
 		public StringReferencesService(
 			IDecompilerService decompilerService,
@@ -152,6 +154,14 @@ namespace dnSpy.StringSearcher {
 		}
 
 		public void Analyze(ModuleDef module) => Analyze([module]);
+
+		public void AnalyzeTreeViewSelection() {
+			selectedModules = documentTabService.DocumentTreeView.TreeView.SelectedItems
+				.OfType<DocumentTreeNodeData>()
+				.SelectMany(n => n.GetModule()?.Assembly.Modules ?? [])
+				.Distinct().ToArray();
+			AnalyzeSelectedModules();
+		}
 
 		private void AnalyzeSelectedModules() {
 			var context = new StringReferenceContext(
@@ -339,16 +349,6 @@ namespace dnSpy.StringSearcher {
 					result.Add(new ILStringReference(context, operand, method, instruction.Offset));
 				}
 			}
-		}
-
-		public void EnsureSelectionNonEmpty() {
-			if (selectedModules.Length != 0)
-				return;
-
-			selectedModules = documentTabService.DocumentTreeView.TreeView.SelectedItems
-				.OfType<DocumentTreeNodeData>()
-				.SelectMany(n => n.GetModule()?.Assembly.Modules ?? [])
-				.Distinct().ToArray();
 		}
 
 		public void Refresh() => AnalyzeSelectedModules();
