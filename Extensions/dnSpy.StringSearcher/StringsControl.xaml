@@ -41,7 +41,7 @@
                 </Grid.ColumnDefinitions>
                 <DockPanel Grid.Column="0" Margin="0 0 5 0">
                     <Label Content="{x:Static p:dnSpy_StringSearcher_Resources.ReferencesSearch}" DockPanel.Dock="Left" />
-                    <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, Delay=100}" />
+                    <TextBox Name="searchTextBox" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, Delay=100}" />
                 </DockPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                     <Expander

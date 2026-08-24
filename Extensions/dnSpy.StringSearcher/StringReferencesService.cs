@@ -45,6 +45,8 @@ namespace dnSpy.StringSearcher {
 	public interface IStringReferencesService : IUIObjectProvider {
 		StringReference? CurrentReference { get; }
 
+		void Focus();
+
 		void Analyze(IEnumerable<ModuleDef> modules);
 		void Analyze(ModuleDef module);
 		void Refresh();
@@ -70,7 +72,7 @@ namespace dnSpy.StringSearcher {
 
 		object IUIObjectProvider.UIObject => UIObject;
 
-		public IInputElement? FocusedElement => null;
+		public IInputElement? FocusedElement => UIObject.SearchTextBox;
 
 		public FrameworkElement? ZoomElement => UIObject.ListView;
 
@@ -126,6 +128,11 @@ namespace dnSpy.StringSearcher {
 			documentTabService.DocumentModified += (_, _) => Refresh();
 
 			documentTabService.DocumentTreeView.DocumentService.CollectionChanged += DocumentService_CollectionChanged;
+		}
+
+		public void Focus() {
+			UIObject.SearchTextBox.SelectAll();
+			UIObject.SearchTextBox.Focus();
 		}
 
 		private void FollowSelectedReference(bool newTab) {

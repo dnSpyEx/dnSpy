@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Windows;
+using dnSpy.Contracts.Controls;
 using dnSpy.Contracts.ToolWindows;
 using dnSpy.Contracts.ToolWindows.App;
 
@@ -50,7 +51,7 @@ namespace dnSpy.StringSearcher {
 		public ToolWindowContent? GetOrCreate(Guid guid) => guid == StringReferencesToolWindowContent.THE_GUID ? DocumentTreeViewWindowContent : null;
 	}
 
-	sealed class StringReferencesToolWindowContent : ToolWindowContent {
+	sealed class StringReferencesToolWindowContent : ToolWindowContent, IFocusable {
 		public static readonly Guid THE_GUID = new("EF36BC9C-4F48-45AC-8A0B-BC2C11A3194E");
 		public const AppToolWindowLocation DEFAULT_LOCATION = AppToolWindowLocation.DefaultHorizontal;
 
@@ -64,10 +65,14 @@ namespace dnSpy.StringSearcher {
 
 		public override string Title => Properties.dnSpy_StringSearcher_Resources.StringReferencesWindowTitle;
 
+		public bool CanFocus => true;
+
 		readonly Lazy<IStringReferencesService> service;
 
 		public StringReferencesToolWindowContent(Lazy<IStringReferencesService> service) {
 			this.service = service;
 		}
+
+		public void Focus() => service.Value.Focus();
 	}
 }

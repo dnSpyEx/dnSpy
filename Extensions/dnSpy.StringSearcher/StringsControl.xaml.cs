@@ -29,5 +29,7 @@ namespace dnSpy.StringSearcher {
 		}
 
 		public ListView ListView => searchListView;
+
+		public TextBox SearchTextBox => searchTextBox;
 	}
 }
