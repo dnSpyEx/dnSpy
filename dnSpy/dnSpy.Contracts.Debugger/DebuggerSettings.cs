@@ -179,6 +179,11 @@ namespace dnSpy.Contracts.Debugger {
 		public abstract bool HideDeprecatedError { get; set; }
 
 		/// <summary>
+		/// Reuse the last launch debug settings unless first time since dnSpy launch
+		/// </summary>
+		public abstract bool DontAutoUpdateDebugLaunchSettings { get; set; }
+
+		/// <summary>
 		/// Suppress JIT optimization on module load (system modules). If false, the code will be optimized and
 		/// much more difficult to debug (it will be like when attaching to a process).
 		/// System modules are all non-program modules (eg. GAC assemblies).

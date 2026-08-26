@@ -505,6 +505,23 @@ namespace dnSpy.Debugger.Settings {
 		}
 		bool hideDeprecatedError = false;
 
+		public override bool DontAutoUpdateDebugLaunchSettings {
+			get {
+				lock (lockObj)
+					return dontAutoUpdateDebugLaunchSettings;
+			}
+			set {
+				bool modified;
+				lock (lockObj) {
+					modified = dontAutoUpdateDebugLaunchSettings != value;
+					dontAutoUpdateDebugLaunchSettings = value;
+				}
+				if (modified)
+					OnPropertyChanged(nameof(DontAutoUpdateDebugLaunchSettings));
+			}
+		}
+		bool dontAutoUpdateDebugLaunchSettings = false;
+
 		public override bool SuppressJITOptimization_SystemModules {
 			get {
 				lock (lockObj)
@@ -743,6 +760,7 @@ namespace dnSpy.Debugger.Settings {
 			other.SuppressJITOptimization_SystemModules = SuppressJITOptimization_SystemModules;
 			other.SuppressJITOptimization_ProgramModules = SuppressJITOptimization_ProgramModules;
 			other.FocusActiveProcess = FocusActiveProcess;
+			other.DontAutoUpdateDebugLaunchSettings = DontAutoUpdateDebugLaunchSettings;
 			other.FocusDebuggerWhenProcessBreaks = FocusDebuggerWhenProcessBreaks;
 			other.ShowReturnValues = ShowReturnValues;
 			other.RedirectGuiConsoleOutput = RedirectGuiConsoleOutput;
@@ -799,6 +817,7 @@ namespace dnSpy.Debugger.Settings {
 			SuppressJITOptimization_SystemModules = sect.Attribute<bool?>(nameof(SuppressJITOptimization_SystemModules)) ?? SuppressJITOptimization_SystemModules;
 			SuppressJITOptimization_ProgramModules = sect.Attribute<bool?>(nameof(SuppressJITOptimization_ProgramModules)) ?? SuppressJITOptimization_ProgramModules;
 			FocusActiveProcess = sect.Attribute<bool?>(nameof(FocusActiveProcess)) ?? FocusActiveProcess;
+			DontAutoUpdateDebugLaunchSettings = sect.Attribute<bool?>(nameof(DontAutoUpdateDebugLaunchSettings)) ?? DontAutoUpdateDebugLaunchSettings;
 			FocusDebuggerWhenProcessBreaks = sect.Attribute<bool?>(nameof(FocusDebuggerWhenProcessBreaks)) ?? FocusDebuggerWhenProcessBreaks;
 			ShowReturnValues = sect.Attribute<bool?>(nameof(ShowReturnValues)) ?? ShowReturnValues;
 			RedirectGuiConsoleOutput = sect.Attribute<bool?>(nameof(RedirectGuiConsoleOutput)) ?? RedirectGuiConsoleOutput;
@@ -844,6 +863,7 @@ namespace dnSpy.Debugger.Settings {
 			sect.Attribute(nameof(SuppressJITOptimization_SystemModules), SuppressJITOptimization_SystemModules);
 			sect.Attribute(nameof(SuppressJITOptimization_ProgramModules), SuppressJITOptimization_ProgramModules);
 			sect.Attribute(nameof(FocusActiveProcess), FocusActiveProcess);
+			sect.Attribute(nameof(DontAutoUpdateDebugLaunchSettings), DontAutoUpdateDebugLaunchSettings);
 			sect.Attribute(nameof(FocusDebuggerWhenProcessBreaks), FocusDebuggerWhenProcessBreaks);
 			sect.Attribute(nameof(ShowReturnValues), ShowReturnValues);
 			sect.Attribute(nameof(RedirectGuiConsoleOutput), RedirectGuiConsoleOutput);
