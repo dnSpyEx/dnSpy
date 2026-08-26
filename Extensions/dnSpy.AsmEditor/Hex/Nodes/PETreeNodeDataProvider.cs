@@ -92,4 +92,12 @@ namespace dnSpy.AsmEditor.Hex.Nodes {
 			: base(hexBufferService, peStructureProviderFactory, hexBufferFileServiceFactory) {
 		}
 	}
+
+	[ExportTreeNodeDataProvider(Guid = DocumentTreeViewConstants.BUNDLE_NODE_GUID)]
+	sealed class BundleFilePETreeNodeDataProvider : PETreeNodeDataProviderBase {
+		[ImportingConstructor]
+		BundleFilePETreeNodeDataProvider(Lazy<IHexBufferService> hexBufferService, Lazy<PEStructureProviderFactory> peStructureProviderFactory, Lazy<HexBufferFileServiceFactory> hexBufferFileServiceFactory)
+			: base(hexBufferService, peStructureProviderFactory, hexBufferFileServiceFactory) {
+		}
+	}
 }
