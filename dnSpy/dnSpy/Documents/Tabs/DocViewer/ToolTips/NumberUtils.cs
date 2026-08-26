@@ -23,22 +23,22 @@ using System.Text;
 
 namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 	static class NumberUtils {
-		internal static string ToString(StringBuilder sb, int @base, long value) {
-			if (value < 0)
-				return "-" + ToString(sb, @base, (ulong)(-value));
-			return ToString(sb, @base, (ulong)value);
+		internal static string ToString(StringBuilder sb, int @base, long value, int @sizeof) {
+			if (@base == 10 && value < 0)
+				return "-" + ToString(sb, @base, (ulong)(-value), @sizeof);
+			return ToString(sb, @base, unchecked((ulong)value), @sizeof);
 		}
 
-		internal static string ToString(StringBuilder sb, int @base, ulong value) {
+		internal static string ToString(StringBuilder sb, int @base, ulong value, int @sizeof) {
 			const int digits = 0;
 			const bool upper = true;
 
 			switch (@base) {
-			case 2:		return ToBinary(sb, value, digits);
-			case 8:		return ToOctal(sb, value, digits);
-			case 10:	return value.ToString();
-			case 16:	return ToHexadecimal(sb, value, digits, upper);
-			default:	throw new ArgumentOutOfRangeException(nameof(@base));
+			case 2:  return ToBinary(sb, value, digits, @sizeof << 3);
+			case 8:  return ToOctal(sb, value, digits, @sizeof << 2);
+			case 10: return value.ToString();
+			case 16: return ToHexadecimal(sb, value, digits, @sizeof << 1, upper);
+			default: throw new ArgumentOutOfRangeException(nameof(@base));
 			}
 		}
 
@@ -60,7 +60,35 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 			return sb.ToString();
 		}
 
-		static string ToHexadecimal(StringBuilder sb, ulong value, int digits, bool upper) {
+		internal static string ToFixedSizeHexadecimalArray(StringBuilder sb, ulong value, int bytesCount, bool upper) {
+			sb.Clear();
+
+			char hexHigh = upper ? (char)('A' - 10) : (char)('a' - 10);
+			while (bytesCount > 0) {
+				int ldigit = (int)(value & 0xF);
+				value >>= 4;
+				int hdigit = (int)(value & 0xF);
+				value >>= 4;
+				bytesCount--;
+
+				if (hdigit > 9)
+					sb.Append((char)(hdigit + hexHigh));
+				else
+					sb.Append((char)(hdigit + '0'));
+
+				if (ldigit > 9)
+					sb.Append((char)(ldigit + hexHigh));
+				else
+					sb.Append((char)(ldigit + '0'));
+
+				if (bytesCount != 0)
+					sb.Append(' ');
+			}
+
+			return sb.ToString();
+		}
+
+		static string ToHexadecimal(StringBuilder sb, ulong value, int digits, int maxDigits, bool upper) {
 			sb.Clear();
 
 			if (digits == 0) {
@@ -72,6 +100,9 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 					digits++;
 				}
 			}
+
+			if (digits > maxDigits)
+				digits = maxDigits;
 
 			char hexHigh = upper ? (char)('A' - 10) : (char)('a' - 10);
 			for (int i = 0; i < digits; i++) {
@@ -85,7 +116,7 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 			return sb.ToString();
 		}
 
-		static string ToOctal(StringBuilder sb, ulong value, int digits) {
+		static string ToOctal(StringBuilder sb, ulong value, int digits, int maxDigits) {
 			sb.Clear();
 
 			if (digits == 0) {
@@ -98,6 +129,9 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 				}
 			}
 
+			if (digits > maxDigits)
+				digits = maxDigits;
+
 			for (int i = 0; i < digits; i++) {
 				int digit = (int)((value >> (digits - i - 1) * 3) & 7);
 				sb.Append((char)(digit + '0'));
@@ -106,7 +140,7 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 			return sb.ToString();
 		}
 
-		static string ToBinary(StringBuilder sb, ulong value, int digits) {
+		static string ToBinary(StringBuilder sb, ulong value, int digits, int maxDigits) {
 			sb.Clear();
 
 			if (digits == 0) {
@@ -118,6 +152,9 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 					digits++;
 				}
 			}
+
+			if (digits > maxDigits)
+				digits = maxDigits;
 
 			for (int i = 0; i < digits; i++) {
 				int digit = (int)((value >> (digits - i - 1)) & 1);
