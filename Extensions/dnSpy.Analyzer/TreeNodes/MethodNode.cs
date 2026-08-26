@@ -70,6 +70,9 @@ namespace dnSpy.Analyzer.TreeNodes {
 
 			if (InterfaceMethodImplementedByNode.CanShow(analyzedMethod))
 				yield return new InterfaceMethodImplementedByNode(analyzedMethod);
+
+			if (MethodImplementsInterfaceNode.CanShow(analyzedMethod))
+				yield return new MethodImplementsInterfaceNode(analyzedMethod);
 		}
 
 		public override IMemberRef? Member => analyzedMethod;

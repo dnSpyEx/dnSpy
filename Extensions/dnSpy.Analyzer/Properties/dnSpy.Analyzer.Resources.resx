@@ -162,6 +162,9 @@
   <data name="SubtypesTreeNode" xml:space="preserve">
     <value>Subtypes</value>
   </data>
+  <data name="ImplementsTreeNode" xml:space="preserve">
+    <value>Implements</value>
+  </data>
   <data name="InstantiatedByTreeNode" xml:space="preserve">
     <value>Instantiated By</value>
   </data>
