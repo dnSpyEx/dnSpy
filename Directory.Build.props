@@ -1,2 +1,5 @@
 <Project>
+  <PropertyGroup Condition=" '$(MSBuildProjectName)' == 'dnSpy.Console' Or '$(MSBuildProjectName)' == 'dnSpy.Contracts.Logic' Or '$(MSBuildProjectName)' == 'dnSpy.Decompiler' Or '$(MSBuildProjectName)' == 'dnSpy.Decompiler.ILSpy.Core' Or '$(MSBuildProjectName)' == 'ICSharpCode.Decompiler' Or '$(MSBuildProjectName)' == 'ICSharpCode.NRefactory' Or '$(MSBuildProjectName)' == 'ICSharpCode.NRefactory.CSharp' Or '$(MSBuildProjectName)' == 'ICSharpCode.NRefactory.VB' ">
+    <SupportsCrossPlatform>true</SupportsCrossPlatform>
+  </PropertyGroup>
 </Project>
