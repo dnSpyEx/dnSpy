@@ -6435,9 +6435,9 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Margin="-5 5 0 0" Target="{Binding ElementName=tabSizeTextBox}" Content="{x:Static p:dnSpy_Resources.TextEditorTabSize}" />
             <TextBox Grid.Row="0" Grid.Column="1" Margin="5 5 0 0" Name="tabSizeTextBox" Text="{Binding TabSizeVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
-            <Label Grid.Row="1" Grid.Column="0" Margin="-5 5 0 0" Target="{Binding ElementName=indentSizeTextBox}" Content="{x:Static p:dnSpy_Resources.TextEditorIndentSize}" IsEnabled="False" />
-            <TextBox Grid.Row="1" Grid.Column="1" Margin="5 5 0 0" Name="indentSizeTextBox" Text="{Binding IndentSizeVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
-            <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsChecked="{Binding ConvertTabsToSpaces}" Content="{x:Static p:dnSpy_Resources.TextEditorConvertTabsToSpaces}" IsEnabled="False" />
+            <Label Grid.Row="1" Grid.Column="0" Margin="-5 5 0 0" Target="{Binding ElementName=indentSizeTextBox}" Content="{x:Static p:dnSpy_Resources.TextEditorIndentSize}" />
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="5 5 0 0" Name="indentSizeTextBox" Text="{Binding IndentSizeVM.StringValue, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
+            <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsChecked="{Binding ConvertTabsToSpaces}" Content="{x:Static p:dnSpy_Resources.TextEditorConvertTabsToSpaces}" />
         </Grid>
     </DataTemplate>
 
