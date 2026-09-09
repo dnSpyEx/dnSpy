@@ -1098,6 +1098,15 @@ namespace dnSpy.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy as _Plain Text.
+        /// </summary>
+        public static string CopyPlainTextCommand {
+            get {
+                return ResourceManager.GetString("CopyPlainTextCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ctrl+C.
         /// </summary>
         public static string CopyKey {
