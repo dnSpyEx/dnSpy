@@ -5555,6 +5555,15 @@ namespace dnSpy.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Include _HTML formatting when copying (uncheck for plain text paste into Markdown editors).
+        /// </summary>
+        public static string TextEditorCopyHtmlFormatting {
+            get {
+                return ResourceManager.GetString("TextEditorCopyHtmlFormatting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Indicator margin.
         /// </summary>
         public static string TextEditorGlyphMargin {

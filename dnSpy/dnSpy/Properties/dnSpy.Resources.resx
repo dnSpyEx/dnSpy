@@ -1163,6 +1163,9 @@
   <data name="TextEditorConvertTabsToSpaces" xml:space="preserve">
     <value>Convert tabs to s_paces</value>
   </data>
+  <data name="TextEditorCopyHtmlFormatting" xml:space="preserve">
+    <value>Include _HTML formatting when copying (uncheck for plain text paste into Markdown editors)</value>
+  </data>
   <data name="TextEditorLineNumbers" xml:space="preserve">
     <value>_Line numbers</value>
   </data>
