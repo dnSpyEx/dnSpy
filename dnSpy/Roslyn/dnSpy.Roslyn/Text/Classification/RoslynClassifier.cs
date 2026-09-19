@@ -134,10 +134,6 @@ namespace dnSpy.Roslyn.Text.Classification {
 		SymbolResult GetSymbolResult(TextSpan span) {
 			var node = syntaxRoot.FindNode(span, findInsideTrivia: true, getInnermostNodeForTie: true);
 
-			// Fix for: using DNS = System;
-			if (node.Parent?.Parent is Microsoft.CodeAnalysis.CSharp.Syntax.UsingDirectiveSyntax)
-				return new SymbolResult(roslynClassificationTypes.Namespace);
-
 			var symInfo = semanticModel.GetSymbolInfo(node, cancellationToken);
 			var symbol = symInfo.Symbol ?? symInfo.CandidateSymbols.FirstOrDefault() ??
 						semanticModel.GetDeclaredSymbol(node, cancellationToken);

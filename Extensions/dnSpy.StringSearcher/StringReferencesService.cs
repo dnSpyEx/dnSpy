@@ -39,11 +39,14 @@ using dnSpy.Contracts.Menus;
 using dnSpy.Contracts.MVVM;
 using dnSpy.Contracts.Settings.AppearanceCategory;
 using dnSpy.Contracts.Text.Classification;
+using dnSpy.Contracts.Utilities;
 using Microsoft.VisualStudio.Text.Classification;
 
 namespace dnSpy.StringSearcher {
 	public interface IStringReferencesService : IUIObjectProvider {
 		StringReference? CurrentReference { get; }
+
+		void Focus();
 
 		void Analyze(IEnumerable<ModuleDef> modules);
 		void Analyze(ModuleDef module);
@@ -70,11 +73,13 @@ namespace dnSpy.StringSearcher {
 
 		object IUIObjectProvider.UIObject => UIObject;
 
-		public IInputElement? FocusedElement => null;
+		public IInputElement? FocusedElement => UIObject.SearchTextBox;
 
-		public FrameworkElement? ZoomElement => UIObject.ListView;
+		public FrameworkElement? ZoomElement => UIObject;
 
 		public StringReference? CurrentReference => vm.SelectedStringReference;
+
+		internal bool HasModules => selectedModules.Length > 0;
 
 		[ImportingConstructor]
 		public StringReferencesService(
@@ -118,14 +123,23 @@ namespace dnSpy.StringSearcher {
 			commands.Add(new RelayCommand(_ => FollowSelectedReference(true)), ModifierKeys.Control, Key.Enter);
 			commands.Add(new RelayCommand(_ => FollowSelectedReference(true)), ModifierKeys.Shift, Key.Enter);
 
-			UIObject.ListView.MouseDoubleClick += (_, _) => {
-				FollowSelectedReference((Keyboard.Modifiers & ModifierKeys.Control) != 0);
+			UIObject.ListView.MouseDoubleClick += (_, e) => {
+				if (!UIUtilities.IsLeftDoubleClick<ListBoxItem>(UIObject.ListView, e))
+					return;
+				e.Handled = true;
+				bool newTab = Keyboard.Modifiers == ModifierKeys.Control || Keyboard.Modifiers == ModifierKeys.Shift;
+				FollowSelectedReference(newTab);
 			};
 
 			decompilerService.DecompilerChanged += (_, _) => Refresh();
 			documentTabService.DocumentModified += (_, _) => Refresh();
 
 			documentTabService.DocumentTreeView.DocumentService.CollectionChanged += DocumentService_CollectionChanged;
+		}
+
+		public void Focus() {
+			UIObject.SearchTextBox.SelectAll();
+			UIObject.SearchTextBox.Focus();
 		}
 
 		private void FollowSelectedReference(bool newTab) {
@@ -140,6 +154,14 @@ namespace dnSpy.StringSearcher {
 		}
 
 		public void Analyze(ModuleDef module) => Analyze([module]);
+
+		public void AnalyzeTreeViewSelection() {
+			selectedModules = documentTabService.DocumentTreeView.TreeView.SelectedItems
+				.OfType<DocumentTreeNodeData>()
+				.SelectMany(n => n.GetModule()?.Assembly.Modules ?? [])
+				.Distinct().ToArray();
+			AnalyzeSelectedModules();
+		}
 
 		private void AnalyzeSelectedModules() {
 			var context = new StringReferenceContext(
@@ -327,16 +349,6 @@ namespace dnSpy.StringSearcher {
 					result.Add(new ILStringReference(context, operand, method, instruction.Offset));
 				}
 			}
-		}
-
-		public void EnsureSelectionNonEmpty() {
-			if (selectedModules.Length != 0)
-				return;
-
-			selectedModules = documentTabService.DocumentTreeView.TreeView.SelectedItems
-				.OfType<DocumentTreeNodeData>()
-				.SelectMany(n => n.GetModule()?.Assembly.Modules ?? [])
-				.Distinct().ToArray();
 		}
 
 		public void Refresh() => AnalyzeSelectedModules();

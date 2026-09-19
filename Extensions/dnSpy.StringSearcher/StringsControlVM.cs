@@ -77,6 +77,7 @@ namespace dnSpy.StringSearcher {
 				if (field != value) {
 					field = value;
 					OnPropertyChanged();
+					StartSearchIfNotStarted();
 					ApplyFilter();
 				}
 			}
@@ -108,8 +109,15 @@ namespace dnSpy.StringSearcher {
 			case nameof(IStringReferencesSettings.SearchCaseSensitive):
 			case nameof(IStringReferencesSettings.SearchIsRegex):
 			case nameof(IStringReferencesSettings.SearchMatchFormattedString):
+				StartSearchIfNotStarted();
 				ApplyFilter();
 				break;
+			}
+		}
+
+		private void StartSearchIfNotStarted() {
+			if (!stringReferencesService.HasModules) {
+				stringReferencesService.AnalyzeTreeViewSelection();
 			}
 		}
 
@@ -158,8 +166,10 @@ namespace dnSpy.StringSearcher {
 		}
 
 		private void OnRefreshCommand(object? obj) {
-			stringReferencesService.EnsureSelectionNonEmpty();
-			stringReferencesService.Refresh();
+			if (stringReferencesService.HasModules)
+				stringReferencesService.Refresh();
+			else
+				stringReferencesService.AnalyzeTreeViewSelection();
 		}
 
 		private class StringReferenceComparer(GridViewSortDirection Direction) : Comparer<StringReference> {
