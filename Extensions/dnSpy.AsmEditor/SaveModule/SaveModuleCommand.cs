@@ -26,6 +26,7 @@ using dnSpy.AsmEditor.Commands;
 using dnSpy.AsmEditor.Hex;
 using dnSpy.AsmEditor.Properties;
 using dnSpy.AsmEditor.UndoRedo;
+using dnSpy.Contracts.App;
 using dnSpy.Contracts.Controls;
 using dnSpy.Contracts.Documents.Tabs;
 using dnSpy.Contracts.Documents.TreeView;
@@ -87,7 +88,8 @@ namespace dnSpy.AsmEditor.SaveModule {
 			this.documentSaver = documentSaver;
 		}
 
-		HashSet<object> GetDocuments(DocumentTreeNodeData[] nodes) {
+		HashSet<object> GetDocuments(DocumentTreeNodeData[] nodes, out bool hitBundle) {
+			hitBundle = false;
 			var hash = new HashSet<object>();
 
 			foreach (var node in nodes) {
@@ -99,6 +101,9 @@ namespace dnSpy.AsmEditor.SaveModule {
 				var topNode = fileNode.GetTopNode();
 				if (topNode is null || topNode.TreeNode.Parent is null)
 					continue;
+
+				if (fileNode.Document.SingleFileBundle is not null)
+					hitBundle = true;
 
 				bool added = false;
 
@@ -128,13 +133,16 @@ namespace dnSpy.AsmEditor.SaveModule {
 		}
 
 		public override bool IsVisible(AsmEditorContext context) => true;
-		public override bool IsEnabled(AsmEditorContext context) => GetDocuments(context.Nodes).Count > 0;
+		public override bool IsEnabled(AsmEditorContext context) => GetDocuments(context.Nodes, out _).Count > 0;
 
 		public override void Execute(AsmEditorContext context) {
-			var asmNodes = GetDocuments(context.Nodes);
+			var asmNodes = GetDocuments(context.Nodes, out bool bundle);
+			if (bundle)
+				MsgBox.Instance.Show("Warning: Entries inside bundles will not be updated!"); //TODO: localize
+
 			documentSaver.Value.Save(asmNodes);
 		}
 
-		public override string? GetHeader(AsmEditorContext context) => GetDocuments(context.Nodes).Count <= 1 ? dnSpy_AsmEditor_Resources.SaveModuleCommand : dnSpy_AsmEditor_Resources.SaveModulesCommand;
+		public override string? GetHeader(AsmEditorContext context) => GetDocuments(context.Nodes, out _).Count <= 1 ? dnSpy_AsmEditor_Resources.SaveModuleCommand : dnSpy_AsmEditor_Resources.SaveModulesCommand;
 	}
 }

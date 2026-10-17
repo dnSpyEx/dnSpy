@@ -19,16 +19,20 @@
 
 using System.Diagnostics;
 using dnlib.PE;
+using dnSpy.Contracts.Bundles;
+using dnSpy.Contracts.TreeView;
 
 namespace dnSpy.Contracts.Documents.TreeView {
 	/// <summary>
 	/// A PE file (but not a .NET file)
 	/// </summary>
-	public abstract class PEDocumentNode : DsDocumentNode {
+	public abstract class PEDocumentNode : DsDocumentNode, IBundleEntryNode {
 		/// <summary>
 		/// true if it's an .exe file, false if it's a .dll file
 		/// </summary>
 		public bool IsExe => (Document.PEImage!.ImageNTHeaders.FileHeader.Characteristics & Characteristics.Dll) == 0;
+
+		BundleEntry? IBundleEntryNode.BundleEntry => Document.BundleEntry;
 
 		/// <summary>
 		/// Constructor
