@@ -65,11 +65,12 @@ namespace dnSpy.Debugger.DbgUI {
 		readonly Lazy<DbgExceptionFormatterService> dbgExceptionFormatterService;
 		readonly Lazy<DbgShowNativeCodeService> dbgShowNativeCodeService;
 		readonly DebuggerSettings debuggerSettings;
+		readonly IDocumentListLoader documentListLoader;
 
 		public override bool IsDebugging => dbgManager.Value.IsDebugging;
 
 		[ImportingConstructor]
-		DebuggerImpl(UIDispatcher uiDispatcher, Lazy<IMessageBoxService> messageBoxService, Lazy<IAppWindow> appWindow, Lazy<IDocumentTabService> documentTabService, Lazy<DbgManager> dbgManager, Lazy<StartDebuggingOptionsProvider> startDebuggingOptionsProvider, Lazy<ShowAttachToProcessDialog> showAttachToProcessDialog, Lazy<TextViewBreakpointService> textViewBreakpointService, Lazy<DbgCodeBreakpointsService> dbgCodeBreakpointsService, Lazy<DbgCallStackService> dbgCallStackService, Lazy<ReferenceNavigatorService> referenceNavigatorService, Lazy<DbgTextViewCodeLocationService> dbgTextViewCodeLocationService, Lazy<DbgExceptionFormatterService> dbgExceptionFormatterService, Lazy<DbgShowNativeCodeService> dbgShowNativeCodeService, DebuggerSettings debuggerSettings) {
+		DebuggerImpl(UIDispatcher uiDispatcher, Lazy<IMessageBoxService> messageBoxService, Lazy<IAppWindow> appWindow, Lazy<IDocumentTabService> documentTabService, Lazy<DbgManager> dbgManager, Lazy<StartDebuggingOptionsProvider> startDebuggingOptionsProvider, Lazy<ShowAttachToProcessDialog> showAttachToProcessDialog, Lazy<TextViewBreakpointService> textViewBreakpointService, Lazy<DbgCodeBreakpointsService> dbgCodeBreakpointsService, Lazy<DbgCallStackService> dbgCallStackService, Lazy<ReferenceNavigatorService> referenceNavigatorService, Lazy<DbgTextViewCodeLocationService> dbgTextViewCodeLocationService, Lazy<DbgExceptionFormatterService> dbgExceptionFormatterService, Lazy<DbgShowNativeCodeService> dbgShowNativeCodeService, DebuggerSettings debuggerSettings, IDocumentListLoader documentListLoader) {
 			this.uiDispatcher = uiDispatcher;
 			this.messageBoxService = messageBoxService;
 			this.appWindow = appWindow;
@@ -85,6 +86,7 @@ namespace dnSpy.Debugger.DbgUI {
 			this.dbgExceptionFormatterService = dbgExceptionFormatterService;
 			this.dbgShowNativeCodeService = dbgShowNativeCodeService;
 			this.debuggerSettings = debuggerSettings;
+			this.documentListLoader = documentListLoader;
 			UI(() => appWindow.Value.MainWindowClosing += AppWindow_MainWindowClosing);
 		}
 
@@ -115,6 +117,9 @@ namespace dnSpy.Debugger.DbgUI {
 		public override void DebugProgram(bool pauseAtEntryPoint) {
 			if (!CanDebugProgram)
 				return;
+			// Reload assemblies before starting debugging
+			if (documentListLoader.CanReload)
+				documentListLoader.Reload();
 			var breakKind = pauseAtEntryPoint ? PredefinedBreakKinds.EntryPoint : null;
 			showingDebugProgramDlgBox = true;
 			var (options, flags) = startDebuggingOptionsProvider.Value.GetStartDebuggingOptions(breakKind);
