@@ -59,7 +59,6 @@ namespace dnSpy.AsmEditor.MethodBody {
 			}
 		}
 		bool keepOldMaxStack;
-
 		public bool InitLocals {
 			get => initLocals;
 			set {
@@ -783,6 +782,7 @@ namespace dnSpy.AsmEditor.MethodBody {
 			options.MaxStack = MaxStack.Value;
 			options.LocalVarSigTok = LocalVarSigTok.Value;
 			options.HeaderSize = HeaderSize.Value;
+			options.PdbMethod = origOptions.PdbMethod;
 			options.Locals.Clear();
 			options.Locals.AddRange(LocalsListVM.Select(a => (Local)ops[a]));
 			options.Instructions.Clear();

@@ -25,7 +25,7 @@ namespace dnSpy.AsmEditor.MethodBody {
 	sealed class InstructionOptions {
 		public Code Code;
 		public object? Operand;
-		public SequencePoint? SequencePoint;//TODO: Use this
+		public SequencePoint? SequencePoint;
 
 		public InstructionOptions() {
 		}
