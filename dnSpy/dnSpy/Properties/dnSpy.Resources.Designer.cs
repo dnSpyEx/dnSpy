@@ -1098,6 +1098,15 @@ namespace dnSpy.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy as _Plain Text.
+        /// </summary>
+        public static string CopyPlainTextCommand {
+            get {
+                return ResourceManager.GetString("CopyPlainTextCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ctrl+C.
         /// </summary>
         public static string CopyKey {
@@ -5551,6 +5560,15 @@ namespace dnSpy.Properties {
         public static string TextEditorConvertTabsToSpaces {
             get {
                 return ResourceManager.GetString("TextEditorConvertTabsToSpaces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Include _HTML formatting when copying (uncheck for plain text paste into Markdown editors).
+        /// </summary>
+        public static string TextEditorCopyHtmlFormatting {
+            get {
+                return ResourceManager.GetString("TextEditorCopyHtmlFormatting", resourceCulture);
             }
         }
         

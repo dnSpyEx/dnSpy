@@ -442,5 +442,9 @@ namespace dnSpy.Contracts.Command {
 		/// Parameter Info; Display Parameter Info based on the current language.
 		/// </summary>
 		PARAMINFO,
+		/// <summary>
+		/// Copy the selection (or the current line if there is no selection) to the clipboard as plain text only, without any formatting
+		/// </summary>
+		COPYPLAINTEXT,
 	}
 }

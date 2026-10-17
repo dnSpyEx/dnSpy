@@ -56,6 +56,8 @@ namespace dnSpy.Contracts.Text.Editor {
 		public static readonly EditorOptionKey<bool> RemoveExtraTextLineVerticalPixelsId = new EditorOptionKey<bool>(RemoveExtraTextLineVerticalPixelsName);
 		public const string BlockStructureLineKindName = "ITextView/BlockStructureLineKind";
 		public static readonly EditorOptionKey<BlockStructureLineKind> BlockStructureLineKindId = new EditorOptionKey<BlockStructureLineKind>(BlockStructureLineKindName);
+		public const string CopyHtmlFormattingName = "ITextView/CopyHtmlFormatting";
+		public static readonly EditorOptionKey<bool> CopyHtmlFormattingId = new EditorOptionKey<bool>(CopyHtmlFormattingName);
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 	}
 }
