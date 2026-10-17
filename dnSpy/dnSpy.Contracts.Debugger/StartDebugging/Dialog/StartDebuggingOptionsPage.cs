@@ -19,6 +19,7 @@
 
 using System;
 using System.ComponentModel;
+using dnSpy.Contracts.Settings;
 
 namespace dnSpy.Contracts.Debugger.StartDebugging.Dialog {
 	/// <summary>
@@ -100,6 +101,24 @@ namespace dnSpy.Contracts.Debugger.StartDebugging.Dialog {
 		/// Called when the dialog box gets closed
 		/// </summary>
 		public virtual void OnClose() { }
+
+		/// <summary>
+		/// Serializes <paramref name="options"/> to <paramref name="section"/> so they can be
+		/// restored after dnSpy is restarted. Returns false if the options couldn't be serialized,
+		/// eg. it's an unsupported options type. The default implementation returns false.
+		/// </summary>
+		/// <param name="section">Destination section</param>
+		/// <param name="options">Options created by this page, see <see cref="GetOptions"/></param>
+		/// <returns></returns>
+		public virtual bool SerializeOptions(ISettingsSection section, StartDebuggingOptions options) => false;
+
+		/// <summary>
+		/// Deserializes options that were serialized by <see cref="SerializeOptions(ISettingsSection, StartDebuggingOptions)"/>
+		/// or returns null if they couldn't be deserialized. The default implementation returns null.
+		/// </summary>
+		/// <param name="section">Section</param>
+		/// <returns></returns>
+		public virtual StartDebuggingOptions? DeserializeOptions(ISettingsSection section) => null;
 	}
 
 	/// <summary>

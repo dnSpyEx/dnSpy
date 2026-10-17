@@ -32,23 +32,31 @@ using dnSpy.Contracts.Debugger.StartDebugging;
 using dnSpy.Contracts.Debugger.StartDebugging.Dialog;
 using dnSpy.Contracts.Documents.Tabs;
 using dnSpy.Contracts.Documents.TreeView;
+using dnSpy.Contracts.Settings;
 using dnSpy.Debugger.Dialogs.DebugProgram;
 using dnSpy.Debugger.Properties;
 
 namespace dnSpy.Debugger.DbgUI {
 	[Export(typeof(StartDebuggingOptionsProvider))]
 	sealed class StartDebuggingOptionsProvider {
+		static readonly Guid SETTINGS_GUID = new Guid("1D06F2C9-BC3C-4D44-93B3-729F939F3F97");
+		const string PageGuidAttr = "PageGuid";
+		const string OptionsSectionName = "Options";
+
 		readonly IAppWindow appWindow;
 		readonly IDocumentTabService documentTabService;
+		readonly ISettingsService settingsService;
 		readonly Lazy<StartDebuggingOptionsPageProvider>[] startDebuggingOptionsPageProviders;
 		readonly Lazy<DbgProcessStarterService> dbgProcessStarterService;
 		readonly Lazy<GenericDebugEngineGuidProvider, IGenericDebugEngineGuidProviderMetadata>[] genericDebugEngineGuidProviders;
 		readonly StartDebuggingOptionsMru mru;
+		bool mruLoaded;
 
 		[ImportingConstructor]
-		StartDebuggingOptionsProvider(IAppWindow appWindow, IDocumentTabService documentTabService, Lazy<DbgProcessStarterService> dbgProcessStarterService, [ImportMany] IEnumerable<Lazy<StartDebuggingOptionsPageProvider>> startDebuggingOptionsPageProviders, [ImportMany] IEnumerable<Lazy<GenericDebugEngineGuidProvider, IGenericDebugEngineGuidProviderMetadata>> genericDebugEngineGuidProviders) {
+		StartDebuggingOptionsProvider(IAppWindow appWindow, IDocumentTabService documentTabService, ISettingsService settingsService, Lazy<DbgProcessStarterService> dbgProcessStarterService, [ImportMany] IEnumerable<Lazy<StartDebuggingOptionsPageProvider>> startDebuggingOptionsPageProviders, [ImportMany] IEnumerable<Lazy<GenericDebugEngineGuidProvider, IGenericDebugEngineGuidProviderMetadata>> genericDebugEngineGuidProviders) {
 			this.appWindow = appWindow;
 			this.documentTabService = documentTabService;
+			this.settingsService = settingsService;
 			this.dbgProcessStarterService = dbgProcessStarterService;
 			this.startDebuggingOptionsPageProviders = startDebuggingOptionsPageProviders.ToArray();
 			this.genericDebugEngineGuidProviders = genericDebugEngineGuidProviders.OrderBy(a => a.Metadata.Order).ToArray();
@@ -84,6 +92,11 @@ namespace dnSpy.Debugger.DbgUI {
 			Debug.Assert(pages.Length != 0, "No debug engines!");
 			if (pages.Length == 0)
 				return default;
+
+			if (!mruLoaded) {
+				mruLoaded = true;
+				LoadLastOptions(pages);
+			}
 
 			var oldOptions = mru.TryGetOptions(filename);
 			var lastOptions = mru.TryGetLastOptions();
@@ -130,7 +143,34 @@ namespace dnSpy.Debugger.DbgUI {
 			}
 
 			mru.Add(info.Filename!, info.Options, vm.SelectedPageGuid);
+			SaveLastOptions(pages, info.Options, vm.SelectedPageGuid);
 			return (info.Options, info.Flags);
+		}
+
+		void LoadLastOptions(StartDebuggingOptionsPage[] pages) {
+			var section = settingsService.GetOrCreateSection(SETTINGS_GUID);
+			var pageGuid = section.Attribute<Guid?>(PageGuidAttr);
+			if (pageGuid is null)
+				return;
+			var optionsSection = section.TryGetSection(OptionsSectionName);
+			if (optionsSection is null)
+				return;
+			// The page could be missing, eg. if its extension got uninstalled or disabled
+			var page = pages.FirstOrDefault(a => a.Guid == pageGuid.Value);
+			var options = page?.DeserializeOptions(optionsSection);
+			if (options is null)
+				return;
+			mru.SetLastOptions(options, pageGuid.Value);
+		}
+
+		void SaveLastOptions(StartDebuggingOptionsPage[] pages, StartDebuggingOptions options, Guid pageGuid) {
+			var page = pages.FirstOrDefault(a => a.Guid == pageGuid);
+			if (page is null)
+				return;
+			var section = settingsService.RecreateSection(SETTINGS_GUID);
+			section.Attribute(PageGuidAttr, pageGuid);
+			if (!page.SerializeOptions(section.CreateSection(OptionsSectionName), options))
+				settingsService.RemoveSection(SETTINGS_GUID);
 		}
 
 		static bool? IsCompatibleWithCurrentArchitecture(string fileName) {

@@ -23,6 +23,7 @@ using dnSpy.Contracts.Debugger;
 using dnSpy.Contracts.Debugger.DotNet.Mono;
 using dnSpy.Contracts.Debugger.StartDebugging.Dialog;
 using dnSpy.Contracts.MVVM;
+using dnSpy.Contracts.Settings;
 using dnSpy.Debugger.DotNet.Mono.Properties;
 
 namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
@@ -67,6 +68,19 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 		public override StartDebuggingOptionsInfo GetOptions() {
 			var options = GetOptions(new UnityConnectStartDebuggingOptions());
 			return new StartDebuggingOptionsInfo(options, null, StartDebuggingOptionsInfoFlags.None);
+		}
+
+		public override bool SerializeOptions(ISettingsSection section, StartDebuggingOptions options) {
+			if (options is not UnityConnectStartDebuggingOptions connectOptions)
+				return false;
+			SerializeMonoConnectOptions(section, connectOptions);
+			return true;
+		}
+
+		public override StartDebuggingOptions? DeserializeOptions(ISettingsSection section) {
+			var options = new UnityConnectStartDebuggingOptions { Port = DEFAULT_PORT };
+			DeserializeMonoConnectOptions(section, options);
+			return options;
 		}
 	}
 }

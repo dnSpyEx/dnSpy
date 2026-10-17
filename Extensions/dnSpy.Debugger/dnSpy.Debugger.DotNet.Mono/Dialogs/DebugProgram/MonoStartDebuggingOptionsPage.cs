@@ -26,6 +26,7 @@ using dnSpy.Contracts.Debugger.DotNet.Mono;
 using dnSpy.Contracts.Debugger.StartDebugging;
 using dnSpy.Contracts.Debugger.StartDebugging.Dialog;
 using dnSpy.Contracts.MVVM;
+using dnSpy.Contracts.Settings;
 
 namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 	sealed class MonoStartDebuggingOptionsPage : MonoStartDebuggingOptionsPageBase {
@@ -124,6 +125,24 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 
 			order = 0;
 			return false;
+		}
+
+		public override bool SerializeOptions(ISettingsSection section, StartDebuggingOptions options) {
+			if (options is not MonoStartDebuggingOptions msdOptions)
+				return false;
+			SerializeMonoOptions(section, msdOptions);
+			if (msdOptions.MonoExePath is not null)
+				section.Attribute(nameof(msdOptions.MonoExePath), msdOptions.MonoExePath);
+			section.Attribute(nameof(msdOptions.MonoExeOptions), msdOptions.MonoExeOptions);
+			return true;
+		}
+
+		public override StartDebuggingOptions? DeserializeOptions(ISettingsSection section) {
+			var options = new MonoStartDebuggingOptions();
+			DeserializeMonoOptions(section, options);
+			options.MonoExePath = section.Attribute<string>(nameof(options.MonoExePath));
+			options.MonoExeOptions = section.Attribute<MonoExeOptions?>(nameof(options.MonoExeOptions)) ?? options.MonoExeOptions;
+			return options;
 		}
 
 		protected override bool CalculateIsValidCore() => string.IsNullOrEmpty(Verify(nameof(MonoExePath)));
