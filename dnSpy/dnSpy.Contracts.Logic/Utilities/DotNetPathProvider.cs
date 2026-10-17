@@ -327,12 +327,15 @@ namespace dnSpy.Contracts.Utilities {
 			}
 		}
 
+#pragma warning disable CA1416
+		// Disabling warning: this method is unreachable on Linux as it is only called in Windows OS if block of GetDotNetBaseDirCandidate
 		static bool TryGetInstallLocationFromRegistry(string regPath, [NotNullWhen(true)] out string? installLocation) {
 			using (var key = Registry.LocalMachine.OpenSubKey(regPath)) {
 				installLocation = key?.GetValue("InstallLocation") as string;
 				return installLocation is not null;
 			}
 		}
+#pragma warning restore CA1416
 
 		static IEnumerable<FrameworkPath> GetDotNetPathsShared(string basePath, int bitness) {
 			if (!Directory.Exists(basePath))

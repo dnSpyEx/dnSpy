@@ -1,5 +1,5 @@
 param(
-	[ValidateSet("all","netframework","net","net-x86","net-x64")]
+	[ValidateSet("all","netframework","net","net-x86","net-x64","net-linux")]
 	[string]$buildtfm = 'all',
 	[switch]$NoMsbuild
 	)
@@ -100,10 +100,32 @@ function Build-SelfContainedNet {
 	}
 }
 
+function Build-NetLinux {
+	Write-Host "Building .NET Linux x64 binaries"
+
+	$rid = "linux-x64"
+	$publishDir = "$PSScriptRoot\$net_baseoutput\net10.0-linux"
+
+	if ($NoMsbuild) {
+		dotnet publish -v:m -c $configuration -f net10.0 -r $rid -p:SelfContained=false -p:PublishDir="$publishDir/" dnSpy\dnSpy.Console\dnSpy.Console.csproj
+		if ($LASTEXITCODE) { exit $LASTEXITCODE }
+	}
+	else {
+		msbuild -v:m -m -restore -t:Publish -p:Configuration=$configuration -p:TargetFramework=net10.0 -p:RuntimeIdentifier=$rid -p:SelfContained=false -p:PublishDir="$publishDir/" dnSpy\dnSpy.Console\dnSpy.Console.csproj
+		if ($LASTEXITCODE) { exit $LASTEXITCODE }
+	}
+
+	dotnet build -v:m -c $configuration -f net10.0 Extensions\ILSpy.Decompiler\dnSpy.Decompiler.ILSpy.Core\dnSpy.Decompiler.ILSpy.Core.csproj
+	if ($LASTEXITCODE) { exit $LASTEXITCODE }
+
+	Copy-Item -Path Extensions\ILSpy.Decompiler\dnSpy.Decompiler.ILSpy.Core\bin\$configuration\net10.0\*.dll -Destination $publishDir -Force
+}
+
 $buildNetFramework  = $buildtfm -eq 'all' -or $buildtfm -eq 'netframework'
 $buildNet           = $buildtfm -eq 'all' -or $buildtfm -eq 'net'
 $buildNetX86        = $buildtfm -eq 'all' -or $buildtfm -eq 'net-x86'
 $buildNetX64        = $buildtfm -eq 'all' -or $buildtfm -eq 'net-x64'
+$buildNetLinux      = $buildtfm -eq 'all' -or $buildtfm -eq 'net-linux'
 
 if ($buildNetX86 -or $buildNetX64 -or $buildNet) {
     Write-Host 'Building AppHostPatcher tool'
@@ -131,4 +153,8 @@ if ($buildNetX86) {
 
 if ($buildNetX64) {
 	Build-SelfContainedNet x64
+}
+
+if ($buildNetLinux) {
+	Build-NetLinux
 }
