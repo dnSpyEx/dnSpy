@@ -19,12 +19,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using dnlib.DotNet;
 using dnlib.DotNet.Emit;
 using dnlib.DotNet.Pdb;
 using dnSpy.AsmEditor.Commands;
+using dnSpy.AsmEditor.Properties;
 using dnSpy.Contracts.MVVM;
 
 namespace dnSpy.AsmEditor.MethodBody {
@@ -89,10 +91,43 @@ namespace dnSpy.AsmEditor.MethodBody {
 				if (sequencePoint != value) {
 					sequencePoint = value;
 					OnPropertyChanged(nameof(SequencePoint));
+					OnPropertyChanged(nameof(SequencePointDisplay));
+					OnPropertyChanged(nameof(SequencePointToolTip));
 				}
 			}
 		}
 		SequencePoint? sequencePoint;
+
+		public string SequencePointDisplay {
+			get => FormatSequencePoint(SequencePoint, fullPath: false);
+		}
+
+		public string SequencePointToolTip {
+			get => FormatSequencePoint(SequencePoint, fullPath: true);
+		}
+
+		const int HiddenSequencePointLine = 0xFEEFEE;
+
+		static string FormatSequencePoint(SequencePoint? sp, bool fullPath) {
+			if (sp is null)
+				return string.Empty;
+			if (sp.StartLine == HiddenSequencePointLine || sp.EndLine == HiddenSequencePointLine)
+				return dnSpy_AsmEditor_Resources.StatusHidden;
+
+			var documentUrl = sp.Document?.Url;
+			var source = string.Empty;
+			if (!string.IsNullOrEmpty(documentUrl))
+				source = fullPath ? documentUrl : Path.GetFileName(documentUrl);
+			if (!string.IsNullOrEmpty(source))
+				source += ":";
+
+			if (sp.StartLine == sp.EndLine && sp.StartColumn == sp.EndColumn)
+				return source + sp.StartLine.ToString() + "," + sp.StartColumn.ToString();
+			return source +
+				sp.StartLine.ToString() + "," + sp.StartColumn.ToString() +
+				"-" +
+				sp.EndLine.ToString() + "," + sp.EndColumn.ToString();
+		}
 
 		InstructionVM(bool dummy) {
 			InstructionOperandVM = null!;
@@ -234,6 +269,7 @@ namespace dnSpy.AsmEditor.MethodBody {
 			var instr = new InstructionVM();
 			instr.Code = Code;
 			instr.InstructionOperandVM.ImportFrom(ownerModule, InstructionOperandVM);
+			instr.SequencePoint = SequencePoint;
 			instr.Offset = offset;
 			return instr;
 		}

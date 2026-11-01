@@ -134,6 +134,13 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
+                                <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.MethodBody_Column_SequencePoint}" Width="150">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Style="{StaticResource CilLabelTextBlockStyle}" Text="{Binding SequencePointDisplay}" ToolTip="{Binding SequencePointToolTip}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                                 <GridViewColumn Header="{x:Static p:dnSpy_AsmEditor_Resources.MethodBody_Column_OpCode}" Width="75">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
