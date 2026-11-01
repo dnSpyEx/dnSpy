@@ -19,19 +19,21 @@
 
 using System.Diagnostics;
 using dnlib.DotNet;
+using dnSpy.Contracts.Bundles;
 using dnSpy.Contracts.TreeView;
 
 namespace dnSpy.Contracts.Documents.TreeView {
 	/// <summary>
 	/// A .NET module file
 	/// </summary>
-	public abstract class ModuleDocumentNode : DsDocumentNode, IMDTokenNode {
+	public abstract class ModuleDocumentNode : DsDocumentNode, IMDTokenNode, IBundleEntryNode {
 		/// <summary>
 		/// Gets the <see cref="IDsDocument"/> instance
 		/// </summary>
 		public new IDsDotNetDocument Document => (IDsDotNetDocument)base.Document;
 
 		IMDTokenProvider? IMDTokenNode.Reference => Document.ModuleDef;
+		BundleEntry? IBundleEntryNode.BundleEntry => Document.BundleEntry;
 
 		/// <summary>
 		/// Constructor
