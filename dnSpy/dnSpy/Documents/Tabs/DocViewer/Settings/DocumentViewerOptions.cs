@@ -18,11 +18,17 @@
 */
 
 using dnSpy.Contracts.Settings.Groups;
+using dnSpy.Contracts.Text.Editor;
 using dnSpy.Text.Settings;
 using Microsoft.VisualStudio.Utilities;
 
 namespace dnSpy.Documents.Tabs.DocViewer.Settings {
 	sealed class DocumentViewerOptions : CommonEditorOptions, IDocumentViewerOptions {
+		public bool CopyHtmlFormatting {
+			get => group.GetOptionValue(ContentType.TypeName, DefaultDsTextViewOptions.CopyHtmlFormattingId);
+			set => group.SetOptionValue(ContentType.TypeName, DefaultDsTextViewOptions.CopyHtmlFormattingId, value);
+		}
+
 		public DocumentViewerOptions(ITextViewOptionsGroup group, IContentType contentType)
 			: base(group, contentType) {
 		}
