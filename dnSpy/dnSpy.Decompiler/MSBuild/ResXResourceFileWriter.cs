@@ -111,6 +111,87 @@ namespace dnSpy.Decompiler.MSBuild {
 
 			writer.WriteStartElement("root");
 
+#if NO_RESX_WRITER
+			const string ResourceSchema = @"
+  <xsd:schema xmlns="""" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:msdata=""urn:schemas-microsoft-com:xml-msdata"" id=""root"">
+    <xsd:import namespace=""http://www.w3.org/XML/1998/namespace""/>
+    <xsd:element name=""root"" msdata:IsDataSet=""true"">
+      <xsd:complexType>
+        <xsd:choice maxOccurs=""unbounded"">
+          <xsd:element name=""metadata"">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name=""value"" type=""xsd:string"" minOccurs=""0""/>
+              </xsd:sequence>
+              <xsd:attribute name=""name"" use=""required"" type=""xsd:string""/>
+              <xsd:attribute name=""type"" type=""xsd:string""/>
+              <xsd:attribute name=""mimetype"" type=""xsd:string""/>
+              <xsd:attribute ref=""xml:space""/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name=""assembly"">
+            <xsd:complexType>
+              <xsd:attribute name=""alias"" type=""xsd:string""/>
+              <xsd:attribute name=""name"" type=""xsd:string""/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name=""data"">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name=""value"" type=""xsd:string"" minOccurs=""0"" msdata:Ordinal=""1""/>
+                <xsd:element name=""comment"" type=""xsd:string"" minOccurs=""0"" msdata:Ordinal=""2""/>
+              </xsd:sequence>
+              <xsd:attribute name=""name"" type=""xsd:string"" use=""required"" msdata:Ordinal=""1""/>
+              <xsd:attribute name=""type"" type=""xsd:string"" msdata:Ordinal=""3""/>
+              <xsd:attribute name=""mimetype"" type=""xsd:string"" msdata:Ordinal=""4""/>
+              <xsd:attribute ref=""xml:space""/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name=""resheader"">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name=""value"" type=""xsd:string"" minOccurs=""0"" msdata:Ordinal=""1""/>
+              </xsd:sequence>
+              <xsd:attribute name=""name"" type=""xsd:string"" use=""required""/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>";
+			var reader = new XmlTextReader(new StringReader(ResourceSchema)) {
+				WhitespaceHandling = WhitespaceHandling.None
+			};
+			writer.WriteNode(reader, true);
+
+			writer.WriteStartElement("resheader");
+			writer.WriteAttributeString("name", "resmimetype");
+			writer.WriteStartElement("value");
+			writer.WriteString("text/microsoft-resx");
+			writer.WriteEndElement();
+			writer.WriteEndElement();
+
+			writer.WriteStartElement("resheader");
+			writer.WriteAttributeString("name", "version");
+			writer.WriteStartElement("value");
+			writer.WriteString("2.0");
+			writer.WriteEndElement();
+			writer.WriteEndElement();
+
+			writer.WriteStartElement("resheader");
+			writer.WriteAttributeString("name", "reader");
+			writer.WriteStartElement("value");
+			writer.WriteString("System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+			writer.WriteEndElement();
+			writer.WriteEndElement();
+
+			writer.WriteStartElement("resheader");
+			writer.WriteAttributeString("name", "writer");
+			writer.WriteStartElement("value");
+			writer.WriteString("System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+			writer.WriteEndElement();
+			writer.WriteEndElement();
+#else
 			var reader = new XmlTextReader(new StringReader(ResXResourceWriter.ResourceSchema)) {
 				WhitespaceHandling = WhitespaceHandling.None
 			};
@@ -143,6 +224,7 @@ namespace dnSpy.Decompiler.MSBuild {
 			writer.WriteString(GetTypeName(typeof(ResXResourceWriter)));
 			writer.WriteEndElement();
 			writer.WriteEndElement();
+#endif
 		}
 
 		public void AddResourceData(ResourceElement resourceElement) {
@@ -227,7 +309,11 @@ namespace dnSpy.Decompiler.MSBuild {
 					bufWriter.Position = BufferOffset;
 					bufWriter.WriteBytes(data);
 					bufWriter.WriteByte(0x0B);
+#if NO_RESX_WRITER
+					return new ResXResourceInfo(ToBase64WrappedString(finalBuffer), null, "application/x-microsoft.net.object.binary.base64");
+#else
 					return new ResXResourceInfo(ToBase64WrappedString(finalBuffer), null, ResXResourceWriter.BinSerializedObjectMimeType);
+#endif
 				}
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -236,12 +322,20 @@ namespace dnSpy.Decompiler.MSBuild {
 			if (resourceData is BinaryResourceData binaryResourceData) {
 				switch (binaryResourceData.Format) {
 				case SerializationFormat.BinaryFormatter:
+#if NO_RESX_WRITER
+					return new ResXResourceInfo(ToBase64WrappedString(binaryResourceData.Data), binaryResourceData.TypeName, "application/x-microsoft.net.object.binary.base64");
+#else
 					return new ResXResourceInfo(ToBase64WrappedString(binaryResourceData.Data), binaryResourceData.TypeName, ResXResourceWriter.BinSerializedObjectMimeType);
+#endif
 				case SerializationFormat.TypeConverterByteArray:
 				case SerializationFormat.ActivatorStream:
 					// RESX does not have a way to represent creation of an object using Activator.CreateInstance,
 					// so we fall back to the same representation as data passed into TypeConverter.
+#if NO_RESX_WRITER
+					return new ResXResourceInfo(ToBase64WrappedString(binaryResourceData.Data), binaryResourceData.TypeName, "application/x-microsoft.net.object.bytearray.base64");
+#else
 					return new ResXResourceInfo(ToBase64WrappedString(binaryResourceData.Data), binaryResourceData.TypeName, ResXResourceWriter.ByteArraySerializedObjectMimeType);
+#endif
 				case SerializationFormat.TypeConverterString:
 					return new ResXResourceInfo(Encoding.UTF8.GetString(binaryResourceData.Data), binaryResourceData.TypeName);
 				}
@@ -290,7 +384,11 @@ namespace dnSpy.Decompiler.MSBuild {
 				var asmRef = GetAssemblyRef("System.Windows.Forms");
 				if (asmRef is not null)
 					return new TypeRefUser(module, "System.Resources", "ResXNullRef", asmRef).AssemblyQualifiedName;
+#if NO_RESX_WRITER
+				return "System.Resources.ResXNullRef, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
+#else
 				return GetTypeName(typeof(ResXDataNode).Assembly.GetType("System.Resources.ResXNullRef")!);
+#endif
 			}
 			return typeCode switch {
 				ResourceTypeCode.String => module.CorLibTypes.String.AssemblyQualifiedName,
