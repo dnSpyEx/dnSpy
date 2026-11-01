@@ -23,6 +23,7 @@ using dnSpy.Contracts.Debugger;
 using dnSpy.Contracts.Debugger.DotNet.Mono;
 using dnSpy.Contracts.Debugger.StartDebugging.Dialog;
 using dnSpy.Contracts.MVVM;
+using dnSpy.Contracts.Settings;
 
 namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 	abstract class MonoConnectStartDebuggingOptionsPageBase : StartDebuggingOptionsPage, IDataErrorInfo {
@@ -106,6 +107,24 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 			options.BreakKind = FilterBreakKind(BreakKind);
 			options.ProcessIsSuspended = ProcessIsSuspended;
 			return options;
+		}
+
+		protected static void SerializeMonoConnectOptions(ISettingsSection section, MonoConnectStartDebuggingOptionsBase options) {
+			if (options.BreakKind is not null)
+				section.Attribute(nameof(options.BreakKind), options.BreakKind);
+			if (options.Address is not null)
+				section.Attribute(nameof(options.Address), options.Address);
+			section.Attribute(nameof(options.Port), options.Port);
+			section.Attribute(nameof(options.ConnectionTimeout), options.ConnectionTimeout);
+			section.Attribute(nameof(options.ProcessIsSuspended), options.ProcessIsSuspended);
+		}
+
+		protected static void DeserializeMonoConnectOptions(ISettingsSection section, MonoConnectStartDebuggingOptionsBase options) {
+			options.BreakKind = section.Attribute<string>(nameof(options.BreakKind)) ?? options.BreakKind;
+			options.Address = section.Attribute<string>(nameof(options.Address));
+			options.Port = section.Attribute<ushort?>(nameof(options.Port)) ?? options.Port;
+			options.ConnectionTimeout = section.Attribute<TimeSpan?>(nameof(options.ConnectionTimeout)) ?? options.ConnectionTimeout;
+			options.ProcessIsSuspended = section.Attribute<bool?>(nameof(options.ProcessIsSuspended)) ?? options.ProcessIsSuspended;
 		}
 
 		string IDataErrorInfo.Error => throw new NotImplementedException();

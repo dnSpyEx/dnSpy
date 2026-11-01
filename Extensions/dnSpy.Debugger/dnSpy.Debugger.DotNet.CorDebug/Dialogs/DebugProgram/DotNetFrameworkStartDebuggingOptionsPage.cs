@@ -29,6 +29,7 @@ using dnSpy.Contracts.Debugger.DotNet.CorDebug;
 using dnSpy.Contracts.Debugger.StartDebugging;
 using dnSpy.Contracts.Debugger.StartDebugging.Dialog;
 using dnSpy.Contracts.MVVM;
+using dnSpy.Contracts.Settings;
 using dnSpy.Debugger.DotNet.CorDebug.Properties;
 using dnSpy.Debugger.DotNet.CorDebug.Utilities;
 
@@ -119,6 +120,22 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Dialogs.DebugProgram {
 
 			order = 0;
 			return false;
+		}
+
+		public override bool SerializeOptions(ISettingsSection section, StartDebuggingOptions options) {
+			if (options is not DotNetFrameworkStartDebuggingOptions dnfOptions)
+				return false;
+			SerializeCorDebugOptions(section, dnfOptions);
+			if (dnfOptions.DebuggeeVersion is not null)
+				section.Attribute(nameof(dnfOptions.DebuggeeVersion), dnfOptions.DebuggeeVersion);
+			return true;
+		}
+
+		public override StartDebuggingOptions? DeserializeOptions(ISettingsSection section) {
+			var options = new DotNetFrameworkStartDebuggingOptions();
+			DeserializeCorDebugOptions(section, options);
+			options.DebuggeeVersion = section.Attribute<string>(nameof(options.DebuggeeVersion));
+			return options;
 		}
 
 		protected override bool CalculateIsValid() => string.IsNullOrEmpty(Verify(nameof(Filename)));

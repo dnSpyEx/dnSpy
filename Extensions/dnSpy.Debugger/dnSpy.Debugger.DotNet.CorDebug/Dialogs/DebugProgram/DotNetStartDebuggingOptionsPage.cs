@@ -28,6 +28,7 @@ using dnSpy.Contracts.Debugger.DotNet.CorDebug;
 using dnSpy.Contracts.Debugger.StartDebugging;
 using dnSpy.Contracts.Debugger.StartDebugging.Dialog;
 using dnSpy.Contracts.MVVM;
+using dnSpy.Contracts.Settings;
 using dnSpy.Debugger.DotNet.CorDebug.Utilities;
 
 namespace dnSpy.Debugger.DotNet.CorDebug.Dialogs.DebugProgram {
@@ -160,6 +161,29 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Dialogs.DebugProgram {
 
 			order = 0;
 			return false;
+		}
+
+		public override bool SerializeOptions(ISettingsSection section, StartDebuggingOptions options) {
+			if (options is not DotNetStartDebuggingOptions dncOptions)
+				return false;
+			SerializeCorDebugOptions(section, dncOptions);
+			section.Attribute(nameof(dncOptions.UseHost), dncOptions.UseHost);
+			if (dncOptions.Host is not null)
+				section.Attribute(nameof(dncOptions.Host), dncOptions.Host);
+			if (dncOptions.HostArguments is not null)
+				section.Attribute(nameof(dncOptions.HostArguments), dncOptions.HostArguments);
+			section.Attribute(nameof(dncOptions.ConnectionTimeout), dncOptions.ConnectionTimeout);
+			return true;
+		}
+
+		public override StartDebuggingOptions? DeserializeOptions(ISettingsSection section) {
+			var options = new DotNetStartDebuggingOptions();
+			DeserializeCorDebugOptions(section, options);
+			options.UseHost = section.Attribute<bool?>(nameof(options.UseHost)) ?? options.UseHost;
+			options.Host = section.Attribute<string>(nameof(options.Host));
+			options.HostArguments = section.Attribute<string>(nameof(options.HostArguments));
+			options.ConnectionTimeout = section.Attribute<TimeSpan?>(nameof(options.ConnectionTimeout)) ?? options.ConnectionTimeout;
+			return options;
 		}
 
 		protected override bool CalculateIsValid() =>
