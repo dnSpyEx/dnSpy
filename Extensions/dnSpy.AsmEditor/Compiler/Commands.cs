@@ -195,6 +195,12 @@ namespace dnSpy.AsmEditor.Compiler {
 			var method = list[0].Method;
 			if (StateMachineHelpers.TryGetKickoffMethod(method, out var containingMethod))
 				method = containingMethod;
+			else if (StateMachineHelpers.TryGetAsyncMainMethod(method, out var asyncMain)) {
+				// The caret is on Main's declaration, which is also the compiler's entry point's only statement: edit Main
+				// (its caret goes to the method's name, the statement isn't in Main)
+				method = asyncMain;
+				list = null;
+			}
 			var methodNode = appService.DocumentTreeView.FindNode(method);
 			if (methodNode is null) {
 				MsgBox.Instance.Show(string.Format(dnSpy_AsmEditor_Resources.Error_CouldNotFindMethod, method));

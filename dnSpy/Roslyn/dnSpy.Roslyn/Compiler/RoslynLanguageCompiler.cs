@@ -234,9 +234,19 @@ namespace dnSpy.Roslyn.Compiler {
 			if (compilation is null)
 				throw new InvalidOperationException("Project returned a null Compilation");
 
-			var result = Compile(compilation, cancellationToken);
+			var result = Compile(compilation, cancellationToken, out var emitDiagnostics);
 			if (result.Success)
 				return result;
+
+			// The code calls APIs marked [Experimental] (the decompiled code does if the original code did): the
+			// compiler reports them as errors unless they're suppressed
+			var noExperimentalOptions = SuppressExperimentalApiErrors(compilation.Options, emitDiagnostics);
+			if (noExperimentalOptions is not null) {
+				compilation = compilation.WithOptions(noExperimentalOptions);
+				result = Compile(compilation, cancellationToken, out _);
+				if (result.Success)
+					return result;
+			}
 
 			// We allow unsafe code but the compiler tries to add extra attributes to the assembly. Sometimes
 			// the corlib doesn't have the required members and the compiler fails to compile the code.
@@ -244,7 +254,7 @@ namespace dnSpy.Roslyn.Compiler {
 			var noAttrOptions = CreateCompilationOptionsNoAttributes(compilation.Options);
 			if (noAttrOptions != compilation.Options) {
 				var compilation2 = compilation.WithOptions(noAttrOptions);
-				var result2 = Compile(compilation2, cancellationToken);
+				var result2 = Compile(compilation2, cancellationToken, out _);
 				if (result2.Success)
 					return result2;
 			}
@@ -252,13 +262,26 @@ namespace dnSpy.Roslyn.Compiler {
 			return result;
 		}
 
-		CompilationResult Compile(Compilation compilation, CancellationToken cancellationToken) {
+		/// <summary>
+		/// Options that suppress the errors about calls of APIs marked [Experimental], or null if there are none. (They're
+		/// warnings reported as errors with the ID the attribute gives them.)
+		/// </summary>
+		internal static CompilationOptions? SuppressExperimentalApiErrors(CompilationOptions options, IEnumerable<Diagnostic> diagnostics) {
+			var ids = diagnostics.Where(a => a.Severity == DiagnosticSeverity.Error && a.IsWarningAsError && a.Descriptor.CustomTags.Contains(WellKnownDiagnosticTags.CustomObsolete))
+				.Select(a => a.Id).Distinct().ToArray();
+			if (ids.Length == 0)
+				return null;
+			return options.WithSpecificDiagnosticOptions(options.SpecificDiagnosticOptions.SetItems(ids.Select(a => new KeyValuePair<string, ReportDiagnostic>(a, ReportDiagnostic.Suppress))));
+		}
+
+		CompilationResult Compile(Compilation compilation, CancellationToken cancellationToken, out ImmutableArray<Diagnostic> emitDiagnostics) {
 			var peStream = new MemoryStream();
 			MemoryStream? pdbStream = null;
 			var emitOpts = new EmitOptions(debugInformationFormat: DebugInformationFormat.PortablePdb);
 			if (emitOpts.DebugInformationFormat == DebugInformationFormat.Pdb || emitOpts.DebugInformationFormat == DebugInformationFormat.PortablePdb)
 				pdbStream = new MemoryStream();
 			var emitResult = compilation.Emit(peStream, pdbStream, options: emitOpts, cancellationToken: cancellationToken);
+			emitDiagnostics = emitResult.Diagnostics;
 			var diagnostics = emitResult.Diagnostics.ToCompilerDiagnostics(GetHelpUri).ToArray();
 			if (!emitResult.Success)
 				return new CompilationResult(diagnostics);

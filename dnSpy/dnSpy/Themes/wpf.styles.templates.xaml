@@ -1989,8 +1989,8 @@
                 Value="6,0,6,0"/>
         <Setter Property="Foreground"
                 Value="{DynamicResource HeaderDefaultText}"/>
-        <Setter Property="mvvm:GridViewColumnSorter.GridViewSortDirection"
-                Value="{Binding Column.(mvvm:GridViewColumnSorter.GridViewSortDirection), RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="mvvm:GridViewColumnSorter.BindSortDirectionToColumn"
+                Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
@@ -2602,10 +2602,12 @@
     </ControlTemplate>
     <Style x:Key="{x:Type MenuItem}"
            TargetType="{x:Type MenuItem}">
+        <!-- Not bound to the parent menu like WPF's style: dnSpy creates the menu items before they're in a menu, so the
+             binding failed. The templates don't use them, and dnSpy's menus use these values. -->
         <Setter Property="HorizontalContentAlignment"
-                Value="{Binding Path=HorizontalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                Value="Left"/>
         <Setter Property="VerticalContentAlignment"
-                Value="{Binding Path=VerticalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                Value="Center"/>
         <Setter Property="Background"
                 Value="Transparent"/>
         <Setter Property="Foreground"
@@ -3933,10 +3935,12 @@
                    TargetType="{x:Type MenuItem}">
                 <Setter Property="OverridesDefaultStyle"
                         Value="true" />
+                <!-- Not bound to the parent menu like WPF's style: dnSpy creates the menu items before they're in a menu, so the
+                     binding failed. The templates don't use them, and dnSpy's menus use these values. -->
                 <Setter Property="HorizontalContentAlignment"
-                        Value="{Binding Path=HorizontalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                        Value="Left"/>
                 <Setter Property="VerticalContentAlignment"
-                        Value="{Binding Path=VerticalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                        Value="Center"/>
                 <Setter Property="Background"
                         Value="Transparent"/>
                 <Setter Property="Foreground"
@@ -4987,7 +4991,7 @@
                                                   Focusable="False">
                                     <ContentPresenter.ContentTemplate>
                                         <DataTemplate>
-                                            <img:DsImage ImageReference="{Binding}"/>
+                                            <img:DsImage ImageReference="{Binding TargetNullValue={x:Static img:ImageReference.None}}"/>
                                         </DataTemplate>
                                     </ContentPresenter.ContentTemplate>
                                 </ContentPresenter>
@@ -5076,7 +5080,7 @@
                                                   Focusable="False">
                                 <ContentPresenter.ContentTemplate>
                                     <DataTemplate>
-                                        <img:DsImage ImageReference="{Binding}"/>
+                                        <img:DsImage ImageReference="{Binding TargetNullValue={x:Static img:ImageReference.None}}"/>
                                     </DataTemplate>
                                 </ContentPresenter.ContentTemplate>
                             </ContentPresenter>

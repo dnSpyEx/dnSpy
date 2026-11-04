@@ -88,56 +88,11 @@ namespace dnSpy.Roslyn.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Embed Visual Basic runtime.
-        /// </summary>
-        public static string CompilerSettings_EmbedVBRuntime {
-            get {
-                return ResourceManager.GetString("CompilerSettings_EmbedVBRuntime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Optimize code.
         /// </summary>
         public static string CompilerSettings_Optimize {
             get {
                 return ResourceManager.GetString("CompilerSettings_Optimize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Option compare: binary.
-        /// </summary>
-        public static string CompilerSettings_OptionCompareBinary {
-            get {
-                return ResourceManager.GetString("CompilerSettings_OptionCompareBinary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Option explicit.
-        /// </summary>
-        public static string CompilerSettings_OptionExplicit {
-            get {
-                return ResourceManager.GetString("CompilerSettings_OptionExplicit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Option infer.
-        /// </summary>
-        public static string CompilerSettings_OptionInfer {
-            get {
-                return ResourceManager.GetString("CompilerSettings_OptionInfer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Option strict.
-        /// </summary>
-        public static string CompilerSettings_OptionStrict {
-            get {
-                return ResourceManager.GetString("CompilerSettings_OptionStrict", resourceCulture);
             }
         }
         
@@ -246,15 +201,6 @@ namespace dnSpy.Roslyn.Properties {
         public static string DebuggerVarsWindow_ResultsView {
             get {
                 return ResourceManager.GetString("DebuggerVarsWindow_ResultsView", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Shared members.
-        /// </summary>
-        public static string DebuggerVarsWindow_VisualBasic_SharedMembers {
-            get {
-                return ResourceManager.GetString("DebuggerVarsWindow_VisualBasic_SharedMembers", resourceCulture);
             }
         }
         

@@ -110,10 +110,14 @@ namespace dnSpy.Decompiler.MSBuild {
 			}
 		}
 
-		protected string? GetNoWarnList() {
-			if (project.Options.Decompiler.GenericGuid == DecompilerConstants.LANGUAGE_VISUALBASIC)
-				return "41999,42016,42017,42018,42019,42020,42021,42022,42032,42036,42314";
-			return null;
+		/// <summary>
+		/// Writes the properties the decompiler's code needs (<see cref="IProjectPropertiesProvider"/>), e.g. LangVersion
+		/// </summary>
+		protected void WriteDecompilerProperties(System.Xml.XmlWriter writer) {
+			if (project.Options.Decompiler is not IProjectPropertiesProvider provider)
+				return;
+			foreach (var kv in provider.GetProjectProperties(project.Module))
+				writer.WriteElementString(kv.Key, kv.Value);
 		}
 
 		protected string GetRootNamespace() => string.IsNullOrEmpty(project.DefaultNamespace) ? GetAssemblyName() : project.DefaultNamespace;

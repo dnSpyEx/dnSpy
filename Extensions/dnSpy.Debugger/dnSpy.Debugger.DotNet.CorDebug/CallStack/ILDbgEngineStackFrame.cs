@@ -59,7 +59,7 @@ namespace dnSpy.Debugger.DotNet.CorDebug.CallStack {
 		readonly DbgEngineImpl engine;
 		readonly DnThread dnThread;
 
-		public ILDbgEngineStackFrame(DbgEngineImpl engine, DbgModule module, CorFrame corFrame, DnThread dnThread, CorFunction corFunction, Lazy<DbgDotNetNativeCodeLocationFactory> dbgDotNetNativeCodeLocationFactory, Lazy<DbgDotNetCodeLocationFactory> dbgDotNetCodeLocationFactory) {
+		public ILDbgEngineStackFrame(DbgEngineImpl engine, DbgModule module, CorFrame corFrame, DnThread dnThread, CorFunction corFunction, bool isCallerFrame, Lazy<DbgDotNetNativeCodeLocationFactory> dbgDotNetNativeCodeLocationFactory, Lazy<DbgDotNetCodeLocationFactory> dbgDotNetCodeLocationFactory) {
 			Debug.Assert(!corFrame.IsNeutered);
 			this.engine = engine ?? throw new ArgumentNullException(nameof(engine));
 			Module = module ?? throw new ArgumentNullException(nameof(module));
@@ -109,7 +109,14 @@ namespace dnSpy.Debugger.DotNet.CorDebug.CallStack {
 			Debug.Assert(nativeCode?.IsIL == false);
 			if (nativeCode?.IsIL == false) {
 				var corCode = engine.CreateDnDebuggerObjectHolder(nativeCode);
-				Location = dbgDotNetNativeCodeLocationFactory.Value.Create(module, moduleId, FunctionToken, FunctionOffset, ilOffsetMapping, corCode.Object?.Address ?? 0, corFrame.NativeFrameIP, corCode);
+				var location = dbgDotNetNativeCodeLocationFactory.Value.Create(module, moduleId, FunctionToken, FunctionOffset, ilOffsetMapping, corCode.Object?.Address ?? 0, corFrame.NativeFrameIP, corCode);
+				// A caller's IP is the return address, the instruction after the call, which can be in another statement
+				// (e.g. the method's '}' after its last call). The call's last byte is in the statement that made the call.
+				// (An approximate offset is the start of the code that has the return address, it can be before the call.)
+				if (isCallerFrame && FunctionOffset != 0 && ilOffsetMapping == DbgILOffsetMapping.Exact &&
+					location is Code.DbgDotNetNativeCodeLocationImpl locationImpl)
+					locationImpl.CallerStatementOffset = FunctionOffset - 1;
+				Location = location;
 			}
 			else
 				Location = dbgDotNetCodeLocationFactory.Value.Create(moduleId, FunctionToken, FunctionOffset, ilOffsetMapping);

@@ -20,7 +20,7 @@
 using System.Text;
 using dnlib.DotNet;
 using dnSpy.Contracts.Decompiler;
-using ICSharpCode.Decompiler.Disassembler;
+using dnSpy.Decompiler.ILSpy.Core.Disassembler;
 
 namespace dnSpy.Decompiler.ILSpy.Core.IL {
 	static class ILDecompilerUtils {

@@ -39,6 +39,24 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Code {
 
 		internal DbgBreakpointLocationFormatterImpl? Formatter { get; set; }
 
+		/// <summary>
+		/// Set if it's the location of a caller's stack frame: an IL offset in the statement that made the call (the
+		/// frame's <see cref="Offset"/> is the return address). It's used to show the frame, not to set breakpoints,
+		/// so it isn't cloned or compared.
+		/// </summary>
+		internal uint? CallerStatementOffset { get; set; }
+
+		/// <summary>
+		/// The IL offset whose statement shows this location
+		/// </summary>
+		internal uint StatementOffset => CallerStatementOffset ?? Offset;
+
+		/// <summary>
+		/// The IL offset whose statement shows <paramref name="location"/>
+		/// </summary>
+		internal static uint GetStatementOffset(DbgDotNetNativeCodeLocation location) =>
+			location is DbgDotNetNativeCodeLocationImpl impl ? impl.StatementOffset : location.Offset;
+
 		readonly DbgDotNetNativeCodeLocationFactoryImpl owner;
 
 		public DbgDotNetNativeCodeLocationImpl(DbgDotNetNativeCodeLocationFactoryImpl owner, DbgModule module, ModuleId moduleId, uint token, uint offset, DbgILOffsetMapping ilOffsetMapping, ulong nativeMethodAddress, ulong nativeMethodOffset, DnDebuggerObjectHolder<CorCode> corCode) {

@@ -19,17 +19,6 @@
     <None Include="CSharpInteractive.rsp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="VisualBasicInteractive.rsp" />
-    <Compile Remove="VisualBasic\ReplOptionsDefinitions.cs" />
-    <None Include="VisualBasic\ReplOptionsDefinitions.cs" />
-    <Compile Remove="VisualBasic\VisualBasicToolWindowContent.cs" />
-    <None Include="VisualBasic\VisualBasicToolWindowContent.cs" />
-    <Compile Remove="VisualBasic\VisualBasicReplSettingsImpl.cs" />
-    <None Include="VisualBasic\VisualBasicReplSettingsImpl.cs" />
-    <Compile Remove="VisualBasic\VisualBasicControlVM.cs" />
-    <None Include="VisualBasic\VisualBasicControlVM.cs" />
-    <Compile Remove="VisualBasic\VisualBasicContent.cs" />
-    <None Include="VisualBasic\VisualBasicContent.cs" />
   </ItemGroup>
 
   <ItemGroup>

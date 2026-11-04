@@ -41,4 +41,16 @@ namespace dnSpy.Contracts.Debugger.DotNet.Steppers.Engine {
 		/// <param name="message">Message</param>
 		public ForciblyCanceledException(string message) : base(message) { }
 	}
+
+	/// <summary>
+	/// Thrown by <see cref="DbgDotNetEngineStepper"/> when it's asked to step or continue while the engine evaluates
+	/// (see <see cref="DbgDotNetEngineStepper.IsEvaluating"/>): the stepper starts the step again when the evaluation
+	/// is done (the evaluation continued the process, so the frames have changed)
+	/// </summary>
+	public sealed class StepDuringEvaluationException : Exception {
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		public StepDuringEvaluationException() : base("The engine is evaluating") { }
+	}
 }

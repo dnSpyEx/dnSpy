@@ -332,13 +332,38 @@ namespace dnSpy.Debugger.DotNet.Steppers.Engine {
 		}
 
 		public override void Step(object? tag, DbgEngineStepKind step) {
-			if (!runtime.Dispatcher.TryBeginInvoke(() => Step_EngineThread(tag, step))) {
+			if (!runtime.Dispatcher.TryBeginInvoke(() => Step_EngineThread(tag, step, waited: false))) {
 				// process has exited
 			}
 		}
 
-		void Step_EngineThread(object? tag, DbgEngineStepKind step) {
+		int pausingRetries;
+		// 5 s
+		const int MaxPausingRetries = 100;
+
+		void Step_EngineThread(object? tag, DbgEngineStepKind step, bool waited) {
 			runtime.Dispatcher.VerifyAccess();
+
+			// Right after a break, the tool windows evaluate (e.g. the Locals window's ToString() calls). The engine
+			// can run this while an evaluation waits for its result, and the process looks paused while the engine
+			// handles a debug event: the step would start in the evaluated code. Start it when the evaluation is done.
+			if (stepper.IsEvaluating) {
+				stepper.RunAfterEvaluation(() => Step_EngineThread(tag, step, waited: true));
+				return;
+			}
+			// After an evaluation timed out, the engine breaks the process again, a little later than DbgManager
+			// considers it paused (and lets the user step)
+			if (!stepper.IsRuntimePaused && pausingRetries < MaxPausingRetries && stepper.Session is null) {
+				pausingRetries++;
+				Task.Delay(50).ContinueWith(_ => stepper.RunAfterEvaluation(() => Step_EngineThread(tag, step, waited)));
+				return;
+			}
+			pausingRetries = 0;
+			if (waited && (stepper.Session is not null || !stepper.IsRuntimePaused)) {
+				// The process was continued or stopped while the step waited
+				RaiseStepComplete(tag, null, forciblyCanceled: true);
+				return;
+			}
 
 			if (stepper.Session is not null) {
 				Debug.Fail("The previous step hasn't been canceled");
@@ -449,6 +474,9 @@ namespace dnSpy.Debugger.DotNet.Steppers.Engine {
 			}
 			catch (StepErrorException see) {
 				StepError(see.Message, tag);
+			}
+			catch (StepDuringEvaluationException) {
+				StepAgainAfterEvaluation(tag, DbgEngineStepKind.StepInto);
 			}
 			catch (Exception ex) {
 				if (stepper.IgnoreException(ex))
@@ -689,6 +717,9 @@ namespace dnSpy.Debugger.DotNet.Steppers.Engine {
 			catch (StepErrorException see) {
 				StepError(see.Message, tag);
 			}
+			catch (StepDuringEvaluationException) {
+				StepAgainAfterEvaluation(tag, DbgEngineStepKind.StepOver);
+			}
 			catch (Exception ex) {
 				if (stepper.IgnoreException(ex))
 					return;
@@ -697,6 +728,11 @@ namespace dnSpy.Debugger.DotNet.Steppers.Engine {
 		}
 
 		async Task<DbgThread> StepOverCoreAsync(DbgDotNetEngineStepperFrameInfo frame) {
+			// The compiler's entry point of an async Main (where Break at Entry Point stops): stepping over it steps into
+			// Main, to its first line, instead of running the whole program (CompilerUtils.IsBeforeAsyncMainCall)
+			if (await IsBeforeAsyncMainCallAsync(frame))
+				return await StepIntoCoreAsync(frame);
+
 			DbgDotNetEngineStepperFrameInfo? f = frame;
 			DbgThread thread;
 			for (;;) {
@@ -716,6 +752,13 @@ namespace dnSpy.Debugger.DotNet.Steppers.Engine {
 					break;
 			}
 			return thread;
+		}
+
+		async Task<bool> IsBeforeAsyncMainCallAsync(DbgDotNetEngineStepperFrameInfo frame) {
+			if (!frame.TryGetLocation(out var module, out var token, out var offset) || !CompilerUtils.MaybeAsyncMainEntryPoint(module, token))
+				return false;
+			var result = await GetStepRangesAsync(frame, returnValues: false);
+			return result.DebugInfo is not null && CompilerUtils.IsBeforeAsyncMainCall(result.DebugInfo, offset);
 		}
 
 		async Task<DbgThread> StepOverCore2Async(DbgDotNetEngineStepperFrameInfo frame) {
@@ -1008,6 +1051,9 @@ namespace dnSpy.Debugger.DotNet.Steppers.Engine {
 			catch (StepErrorException see) {
 				StepError(see.Message, tag);
 			}
+			catch (StepDuringEvaluationException) {
+				StepAgainAfterEvaluation(tag, DbgEngineStepKind.StepOut);
+			}
 			catch (Exception ex) {
 				if (stepper.IgnoreException(ex))
 					return;
@@ -1168,6 +1214,19 @@ namespace dnSpy.Debugger.DotNet.Steppers.Engine {
 				stepper.OnStepComplete();
 			stepper.Session = null;
 			RaiseStepComplete(tag, forciblyCanceledErrorMessage, forciblyCanceled: forciblyCanceledErrorMessage is not null);
+		}
+
+		/// <summary>
+		/// The engine started evaluating (e.g. for a tool window) before the step could start the process: start the
+		/// step again when the evaluation is done (it continued the process, the frames have changed)
+		/// </summary>
+		void StepAgainAfterEvaluation(object? tag, DbgEngineStepKind step) {
+			runtime.Dispatcher.VerifyAccess();
+			if (stepper.Session is null || stepper.Session.Tag != tag)
+				return;
+			CleanUp();
+			stepper.Session = null;
+			stepper.RunAfterEvaluation(() => Step_EngineThread(tag, step, waited: true));
 		}
 
 		void StepError(string errorMessage, object? tag) {

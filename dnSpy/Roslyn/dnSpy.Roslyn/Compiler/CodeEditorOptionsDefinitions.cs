@@ -26,9 +26,6 @@ namespace dnSpy.Roslyn.Compiler {
 #pragma warning disable CS0169
 		[ExportCodeEditorOptionsDefinition("C#", ContentTypes.CSharpRoslyn, AppSettingsConstants.GUID_CODE_EDITOR_CSHARP_ROSLYN)]
 		static readonly CodeEditorOptionsDefinition? csharpCodeEditorOptionsDefinition;
-
-		[ExportCodeEditorOptionsDefinition("Visual Basic", ContentTypes.VisualBasicRoslyn, AppSettingsConstants.GUID_CODE_EDITOR_VISUAL_BASIC_ROSLYN)]
-		static readonly CodeEditorOptionsDefinition? visualBasicCodeEditorOptionsDefinition;
 #pragma warning restore CS0169
 	}
 }

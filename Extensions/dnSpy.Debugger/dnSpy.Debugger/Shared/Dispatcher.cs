@@ -141,10 +141,16 @@ namespace dnSpy.Debugger.Shared {
 
 		void RunCallbacks() {
 			var prevContext = SynchronizationContext.Current;
-			SynchronizationContext.SetSynchronizationContext(new SynchronizationContextImpl(this));
 			try {
-				while (TryDequeue(out var callback))
+				while (TryDequeue(out var callback)) {
+					// A new context for each callback: the runtime runs an await continuation inline when the task is
+					// completed while the context the continuation captured is current. With one context for all the
+					// queued callbacks, a callback that completes a task (e.g. a debug event: a breakpoint hit
+					// completes the stepper's task) could run the code that awaits the task before returning (e.g.
+					// the stepper continued the process in the middle of the breakpoint's debug event).
+					SynchronizationContext.SetSynchronizationContext(new SynchronizationContextImpl(this));
 					callback();
+				}
 			}
 			finally {
 				SynchronizationContext.SetSynchronizationContext(prevContext);

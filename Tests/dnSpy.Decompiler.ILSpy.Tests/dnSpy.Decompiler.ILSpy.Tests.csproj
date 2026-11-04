@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\DnSpyCommon.props" />
+
+  <!--
+    Headless tests for the upstream decompiler adapter and the debug info it produces.
+    No WPF: runs on Windows and Linux (dotnet test).
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-windows</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+    <!-- build.ps1 publishes the whole solution self-contained; test tools aren't part of the dnSpy distribution -->
+    <IsPublishable>false</IsPublishable>
+    <IsTestProject>true</IsTestProject>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\dnSpy.snk</AssemblyOriginatorKeyFile>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <!-- dnSpy.AsmEditor and dnSpy.BamlDecompiler reference WPF projects; the code paths used here don't need WPF -->
+    <DisableTransitiveFrameworkReferences>true</DisableTransitiveFrameworkReferences>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Extensions\ILSpy.Decompiler\dnSpy.Decompiler.ILSpy.Core\dnSpy.Decompiler.ILSpy.Core.csproj" />
+    <!-- The edit code pipeline (compile and import), its internals are visible to the tests -->
+    <ProjectReference Include="..\..\Extensions\dnSpy.AsmEditor\dnSpy.AsmEditor.csproj" />
+    <!-- The stepper's decisions that depend on the debug info, its internals are visible to the tests -->
+    <ProjectReference Include="..\..\Extensions\dnSpy.Debugger\dnSpy.Debugger.DotNet\dnSpy.Debugger.DotNet.csproj" />
+    <!-- The debugger engines' dispatcher (DebuggerDispatcherTests), compiled in like the engines do -->
+    <Compile Include="..\..\Extensions\dnSpy.Debugger\dnSpy.Debugger\Shared\Dispatcher.cs" Link="Infrastructure\Dispatcher.cs" />
+    <!-- XAML of WPF assemblies (loaded by name at runtime like dnSpy.Console does) -->
+    <ProjectReference Include="..\..\Extensions\dnSpy.BamlDecompiler\dnSpy.BamlDecompiler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="$(RoslynVersion)" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <!-- Real-world sample binaries (not referenced, copied as test data) -->
+    <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftJsonVersion)" GeneratePathProperty="true" ExcludeAssets="all" />
+    <!-- netstandard 2.0's reference assembly (dnSpy's edit code compiles a netstandard 2.0 library against it) -->
+    <PackageReference Include="NETStandard.Library" Version="2.0.3" GeneratePathProperty="true" ExcludeAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(PkgNewtonsoft_Json)\lib\netstandard2.0\Newtonsoft.Json.dll" Link="Samples\netstandard2.0\Newtonsoft.Json.dll" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(PkgNETStandard_Library)\build\netstandard2.0\ref\netstandard.dll" Link="Samples\netstandard2.0\ref\netstandard.dll" CopyToOutputDirectory="PreserveNewest" />
+    <!-- The program for checking the debugger by hand: the stepping tests run it too -->
+    <None Include="..\DebuggerPlayground\Program.cs" Link="Samples\DebuggerPlayground.cs" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <!--
+    The WPF sample app of the Windows checks (App.xaml with resources and a Startup handler, a window with names,
+    handlers and an EventSetter): built (WPF builds on Linux too) and copied as test data, not referenced
+  -->
+  <ItemGroup>
+    <ProjectReference Include="..\WindowsChecks\Samples\WpfSample\WpfSample.csproj" ReferenceOutputAssembly="false" OutputItemType="WpfSampleOutput" />
+  </ItemGroup>
+  <Target Name="CopyWpfSample" AfterTargets="ResolveProjectReferences">
+    <Copy SourceFiles="@(WpfSampleOutput)" DestinationFolder="$(OutDir)Samples\WpfSample" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

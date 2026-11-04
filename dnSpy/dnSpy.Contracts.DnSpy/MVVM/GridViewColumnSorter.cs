@@ -25,6 +25,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 
 namespace dnSpy.Contracts.MVVM {
 	/// <summary>
@@ -48,6 +49,34 @@ namespace dnSpy.Contracts.MVVM {
 		public static void SetId(GridViewColumn element, int value) => element.SetValue(IdProperty, value);
 		public static int GetId(GridViewColumn element) => (int)element.GetValue(IdProperty);
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
+		/// <summary>
+		/// True to bind a <see cref="GridViewColumnHeader"/>'s <see cref="GridViewSortDirectionProperty"/> to its column's,
+		/// so its template can show the sort direction (the header style sets it)
+		/// </summary>
+		public static readonly DependencyProperty BindSortDirectionToColumnProperty = DependencyProperty.RegisterAttached(
+			"BindSortDirectionToColumn", typeof(bool), typeof(GridViewColumnSorter), new UIPropertyMetadata(false, BindSortDirectionToColumnPropertyChangedCallback));
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+		public static void SetBindSortDirectionToColumn(GridViewColumnHeader element, bool value) => element.SetValue(BindSortDirectionToColumnProperty, value);
+		public static bool GetBindSortDirectionToColumn(GridViewColumnHeader element) => (bool)element.GetValue(BindSortDirectionToColumnProperty);
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
+		// (Not a binding in the header style: WPF looks up the XML namespace prefix of an attached property in a binding
+		// path, "Column.(mvvm:GridViewColumnSorter.GridViewSortDirection)", in the XAML file of the list, not the
+		// style's, so lists in files without that prefix got binding errors)
+		static void BindSortDirectionToColumnPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+			if (d is not GridViewColumnHeader header)
+				return;
+			if ((bool)e.NewValue) {
+				var binding = new Binding {
+					Path = new PropertyPath("Column.(0)", GridViewSortDirectionProperty),
+					RelativeSource = RelativeSource.Self,
+				};
+				header.SetBinding(GridViewSortDirectionProperty, binding);
+			}
+			else
+				BindingOperations.ClearBinding(header, GridViewSortDirectionProperty);
+		}
 
 		static readonly DependencyProperty GridViewColumnSorterInstanceProperty = DependencyProperty.RegisterAttached(
 			"GridViewColumnSorterInstance", typeof(GridViewColumnSorter), typeof(GridViewColumnSorter), new UIPropertyMetadata(null));

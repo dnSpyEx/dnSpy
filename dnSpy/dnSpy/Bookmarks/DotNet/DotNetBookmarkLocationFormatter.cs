@@ -38,11 +38,7 @@ namespace dnSpy.Bookmarks.DotNet {
 
 		internal void RefreshLocation() => RaiseLocationChanged();
 
-		protected string GetHexPrefix() {
-			if (owner.MethodDecompiler.GenericGuid == DecompilerConstants.LANGUAGE_VISUALBASIC)
-				return "&H";
-			return "0x";
-		}
+		protected string GetHexPrefix() => "0x";
 
 		void WriteToken(ITextColorWriter output, uint token) =>
 			output.Write(BoxedTextColor.Number, GetHexPrefix() + token.ToString("X8"));

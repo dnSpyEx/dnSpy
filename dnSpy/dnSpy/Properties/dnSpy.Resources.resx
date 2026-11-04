@@ -813,6 +813,9 @@
   <data name="ExportToProject_SolutionFilename" xml:space="preserve">
     <value>_Solution</value>
   </data>
+  <data name="ExportToProject_SolutionFormat" xml:space="preserve">
+    <value>Solution file format: .sln, or .slnx (XML, Visual Studio 2022 17.13 and later)</value>
+  </data>
   <data name="ExportToProject_UnpackResources" xml:space="preserve">
     <value>_Unpack resources</value>
   </data>

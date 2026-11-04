@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- A .NET Standard library with a package that isn't part of .NET Standard (like ICSharpCode.Decompiler): in App's
+       output there's no System.Collections.Immutable.dll, .NET 10 has it -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
+  </ItemGroup>
+
+</Project>

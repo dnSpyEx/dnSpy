@@ -47,7 +47,7 @@ namespace dnSpy.Contracts.Text.Editor {
 		public const string ReplEditor = "dnSpy-" + nameof(ReplEditor);
 
 		/// <summary>
-		/// Roslyn REPL (any supported language, eg. C# and Visual Basic)
+		/// Roslyn REPL
 		/// </summary>
 		public const string RoslynRepl = "dnSpy-" + nameof(RoslynRepl);
 
@@ -57,17 +57,12 @@ namespace dnSpy.Contracts.Text.Editor {
 		public const string CSharpRepl = "dnSpy-" + nameof(CSharpRepl);
 
 		/// <summary>
-		/// Visual Basic REPL
-		/// </summary>
-		public const string VisualBasicRepl = "dnSpy-" + nameof(VisualBasicRepl);
-
-		/// <summary>
 		/// <see cref="ICodeEditor"/> text view role
 		/// </summary>
 		public const string CodeEditor = "dnSpy-" + nameof(CodeEditor);
 
 		/// <summary>
-		/// Roslyn code editor (any supported language, eg. C# and Visual Basic)
+		/// Roslyn code editor
 		/// </summary>
 		public const string RoslynCodeEditor = "dnSpy-" + nameof(RoslynCodeEditor);
 
@@ -75,11 +70,6 @@ namespace dnSpy.Contracts.Text.Editor {
 		/// Roslyn code editor (C#)
 		/// </summary>
 		public const string RoslynCSharpCodeEditor = "dnSpy-" + nameof(RoslynCSharpCodeEditor);
-
-		/// <summary>
-		/// Roslyn code editor (Visual Basic)
-		/// </summary>
-		public const string RoslynVisualBasicCodeEditor = "dnSpy-" + nameof(RoslynVisualBasicCodeEditor);
 
 		/// <summary>
 		/// Enables the custom line number margin, see <see cref="Editor.CustomLineNumberMargin"/>

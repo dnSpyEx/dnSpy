@@ -25,7 +25,7 @@ namespace dnSpy.Contracts.Language.Intellisense {
 	/// </summary>
 	public static class PredefinedDsCompletionSourceProviders {
 		/// <summary>
-		/// Roslyn languages (C# or Visual Basic)
+		/// Roslyn languages (C#)
 		/// </summary>
 		public const string Roslyn = "dnSpy-" + nameof(Roslyn);
 	}

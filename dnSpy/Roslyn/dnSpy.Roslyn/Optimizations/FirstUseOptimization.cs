@@ -52,7 +52,6 @@ using dnSpy.Roslyn.Text.Tagging;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Completion;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.VisualBasic;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 
@@ -74,15 +73,6 @@ sealed class C {
 	}
 }
 ";
-		static readonly string visualBasicCode = @"
-Module Module1
-	Sub Method()
-		Dim s As String = ""hello""
-		s.Equals(""sighelp"")
-		Dim local As Integer = 42
-	End Sub
-End Module
-";
 
 		public FirstUseOptimization(IThemeClassificationTypeService themeClassificationTypeService, ITextBufferFactoryService textBufferFactoryService, IRoslynDocumentationProviderFactory docFactory, IRoslynDocumentChangedService roslynDocumentChangedService) {
 			var buffer = textBufferFactoryService.CreateTextBuffer();
@@ -103,7 +93,6 @@ End Module
 				CreateMetadataReference(typeof(int).Assembly, docFactory),
 			};
 			await InitializeAsync(buffer, csharpCode, refs, LanguageNames.CSharp, tagger, new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, allowUnsafe: true), new CSharpParseOptions());
-			await InitializeAsync(buffer, visualBasicCode, refs, LanguageNames.VisualBasic, tagger, new VisualBasicCompilationOptions(OutputKind.DynamicallyLinkedLibrary), new VisualBasicParseOptions());
 			(tagger as IDisposable)?.Dispose();
 		}
 

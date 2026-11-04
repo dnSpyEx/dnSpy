@@ -1,0 +1,102 @@
+name: Decompiler regression
+# Runs on every pull request, including Dependabot's updates of ICSharpCode.Decompiler and Roslyn:
+# - tests: dnSpy's headless tests (decompile, debug info, edit and export round-trips that compile and run the
+#   code, BAML, the .NET Framework build's binding redirects)
+# - corpus: decompiles a fixed corpus with the pull request and with its target branch, fails if anything got worse
+#   and lists the types whose output changed (summary on the run's page, output.diff in the artifact)
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      base:
+        description: 'Compare the corpus output with this branch, tag or commit (optional)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: windows-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          submodules: true
+
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: 10.0.x
+          dotnet-quality: ga
+
+      - uses: microsoft/setup-msbuild@v3.0.0
+
+      # Both target frameworks: the binding redirect test checks the .NET Framework build
+      - name: Build dnSpy (Debug)
+        run: msbuild -v:m -m -restore -t:Build -p:Configuration=Debug dnSpy.sln
+
+      - name: Test
+        run: dotnet test Tests\dnSpy.Decompiler.ILSpy.Tests\dnSpy.Decompiler.ILSpy.Tests.csproj --no-build -c Debug --logger "trx;LogFileName=tests.trx" --logger "console;verbosity=normal" --results-directory TestResults
+
+      - uses: actions/upload-artifact@v7.0.2
+        if: always()
+        with:
+          name: test-results
+          path: TestResults
+          if-no-files-found: ignore
+
+  corpus:
+    name: Corpus
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          path: head
+
+      - uses: actions/checkout@v7.0.1
+        if: github.event_name == 'pull_request' || inputs.base != ''
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || inputs.base }}
+          path: base
+
+      - uses: actions/setup-dotnet@v6.0.0
+        with:
+          dotnet-version: 10.0.x
+          dotnet-quality: ga
+
+      - name: Decompile the corpus and compare
+        run: |
+          $base = if (Test-Path base) { 'base' } else { '' }
+          ./head/Tests/RegressionCorpus/Run-Corpus.ps1 -Out regression -BaseRepo $base
+
+      - uses: actions/upload-artifact@v7.0.2
+        if: always()
+        with:
+          name: decompiler-regression
+          path: |
+            regression/summary.md
+            regression/output.diff
+            regression/output-diffstat.txt
+            regression/*.log
+            regression/head/*/report.md
+            regression/head/*/results.json
+            regression/head/corpus/dump
+            regression/base/*/report.md
+            regression/base/*/results.json
+          if-no-files-found: ignore

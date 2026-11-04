@@ -52,7 +52,6 @@ namespace dnSpy.Debugger.DotNet.Evaluation.Engine {
 		readonly Dictionary<Guid, Lazy<DbgDotNetFormatter, IDbgDotNetFormatterMetadata>> formattersDict;
 
 		static readonly Guid csharpDecompilerGuid = new Guid(PredefinedDecompilerGuids.CSharp);
-		static readonly Guid visualBasicDecompilerGuid = new Guid(PredefinedDecompilerGuids.VisualBasic);
 
 		[ImportingConstructor]
 		DbgDotNetLanguageServiceImpl(Lazy<DbgMethodDebugInfoProvider> dbgMethodDebugInfoProvider, Lazy<DbgModuleReferenceProvider> dbgModuleReferenceProvider, Lazy<DbgDotNetEngineValueNodeFactoryService> dbgDotNetEngineValueNodeFactoryService, Lazy<DbgDotNetILInterpreter> dnILInterpreter, Lazy<DbgAliasProvider> dbgAliasProvider, [ImportMany] IEnumerable<Lazy<DbgDotNetExpressionCompiler, IDbgDotNetExpressionCompilerMetadata>> dbgDotNetExpressionCompilers, IDecompilerService decompilerService, IPredefinedEvaluationErrorMessagesHelper predefinedEvaluationErrorMessagesHelper, [ImportMany] IEnumerable<Lazy<DbgDotNetFormatter, IDbgDotNetFormatterMetadata>> dbgDotNetFormatters) {
@@ -102,8 +101,6 @@ namespace dnSpy.Debugger.DotNet.Evaluation.Engine {
 
 				if (decompilerGuid == csharpDecompilerGuid)
 					decompilerGuid = DecompilerConstants.LANGUAGE_CSHARP;
-				else if (decompilerGuid == visualBasicDecompilerGuid)
-					decompilerGuid = DecompilerConstants.LANGUAGE_VISUALBASIC;
 				var decompiler = decompilerService.Find(decompilerGuid);
 				Debug2.Assert(decompiler is not null);
 				if (decompiler is null)
@@ -113,8 +110,16 @@ namespace dnSpy.Debugger.DotNet.Evaluation.Engine {
 				if (valueNodeFactory is null)
 					continue;
 
+				// There can be more than one decompiler for a language (eg. two C# decompilers). Use the one the user
+				// selected so the locals have the same names as in the decompiled code.
+				var defaultDecompiler = decompiler;
+				Func<IDecompiler> getDecompiler = () => {
+					var selected = decompilerService.Decompiler;
+					return selected.GenericGuid == defaultDecompiler.GenericGuid ? selected : defaultDecompiler;
+				};
+
 				var languageDisplayName = ResourceHelper.GetString(lz.Value, lz.Metadata.LanguageDisplayName);
-				yield return new DbgEngineLanguageImpl(dbgModuleReferenceProvider.Value, lz.Metadata.LanguageName, languageDisplayName, lz.Value, dbgMethodDebugInfoProvider.Value, decompiler, formatter.Value, valueNodeFactory, dnILInterpreter.Value, dbgAliasProvider.Value, predefinedEvaluationErrorMessagesHelper);
+				yield return new DbgEngineLanguageImpl(dbgModuleReferenceProvider.Value, lz.Metadata.LanguageName, languageDisplayName, lz.Value, dbgMethodDebugInfoProvider.Value, defaultDecompiler, getDecompiler, formatter.Value, valueNodeFactory, dnILInterpreter.Value, dbgAliasProvider.Value, predefinedEvaluationErrorMessagesHelper);
 			}
 		}
 

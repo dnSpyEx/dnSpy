@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- A .NET 9 library in a .NET 10 app (like HotChocolate's next to Microsoft.Extensions 10) -->
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NewLib\NewLib.csproj" />
+  </ItemGroup>
+
+</Project>

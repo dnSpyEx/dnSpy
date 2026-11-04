@@ -28,7 +28,7 @@ using dnSpy.Decompiler.IL;
 using dnSpy.Decompiler.ILSpy.Core.Settings;
 using dnSpy.Decompiler.ILSpy.Core.Text;
 using dnSpy.Decompiler.ILSpy.Core.XmlDoc;
-using ICSharpCode.Decompiler.Disassembler;
+using dnSpy.Decompiler.ILSpy.Core.Disassembler;
 
 namespace dnSpy.Decompiler.ILSpy.Core.IL {
 	sealed class DecompilerProvider : IDecompilerProvider {

@@ -7,3 +7,6 @@ _ReSharper*/
 *_wpftmp.csproj
 launchSettings.json
 .idea/
+
+# Decompiler regression check output (Tests/RegressionCorpus/Run-Corpus.ps1)
+/artifacts/

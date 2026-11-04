@@ -15,7 +15,7 @@ tab_width = 4
 indent_size = 2
 indent_style = space
 
-[*.{proj,csproj,vbproj,props,targets,resx,vsixmanifest}]
+[*.{proj,csproj,props,targets,resx,vsixmanifest}]
 indent_size = 2
 indent_style = space
 
@@ -28,7 +28,7 @@ indent_style = space
 [*.xaml]
 indent_style = space
 
-[*.{cs,vb}]
+[*.cs]
 insert_final_newline = true
 
 dotnet_separate_import_directive_groups = false
@@ -108,6 +108,3 @@ csharp_style_throw_expression = true:suggestion
 csharp_style_var_elsewhere = true:suggestion
 csharp_style_var_for_built_in_types = false:none
 csharp_style_var_when_type_is_apparent = true:suggestion
-
-[*.vb]
-#visual_basic_preferred_modifier_order =

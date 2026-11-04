@@ -159,11 +159,6 @@ namespace dnSpy.Contracts.Debugger.DotNet.Evaluation.ExpressionCompiler {
 		/// Order of C# expression compiler
 		/// </summary>
 		public const double CSharp = 1000000;
-
-		/// <summary>
-		/// Order of Visual Basic expression compiler
-		/// </summary>
-		public const double VisualBasic = 2000000;
 	}
 
 	/// <summary>

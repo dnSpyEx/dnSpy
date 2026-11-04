@@ -243,13 +243,4 @@
   <data name="CSharp_Extension_Method" xml:space="preserve">
     <value>розширення</value>
   </data>
-  <data name="VisualBasic_Awaitable_Method" xml:space="preserve">
-    <value>Очікуваний</value>
-  </data>
-  <data name="VisualBasic_Deprecated_Member" xml:space="preserve">
-    <value>Застаріле</value>
-  </data>
-  <data name="VisualBasic_Extension_Method" xml:space="preserve">
-    <value>Розширення</value>
-  </data>
 </root>

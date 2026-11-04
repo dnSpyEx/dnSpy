@@ -67,9 +67,6 @@ namespace dnSpy.Contracts.ToolWindows.App {
 		/// <summary>Order of C# interactive window</summary>
 		public static readonly double DEFAULT_CONTENT_ORDER_BOTTOM_SCRIPTING_CSHARP = 21000;
 
-		/// <summary>Order of Visual Basic interactive window</summary>
-		public static readonly double DEFAULT_CONTENT_ORDER_BOTTOM_SCRIPTING_VISUALBASIC = 22000;
-
 		/// <summary>Order of bookmarks window</summary>
 		public static readonly double DEFAULT_CONTENT_ORDER_BOTTOM_BOOKMARKS = 23000;
 

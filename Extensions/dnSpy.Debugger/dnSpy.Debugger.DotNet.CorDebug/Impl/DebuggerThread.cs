@@ -104,5 +104,14 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Impl {
 				DebugMessageDispatcher.ExecuteAsync(callback);
 			}
 		}
+
+		/// <summary>
+		/// Calls <paramref name="callback"/> after the work in progress on this thread. Unlike <see cref="BeginInvoke(Action)"/>,
+		/// it isn't called while an evaluation waits for its result (an evaluation is called with <see cref="Invoke{T}(Func{T})"/>).
+		/// </summary>
+		public void BeginInvokeAfterCurrentWork(Action callback) {
+			if (!Dispatcher.HasShutdownStarted && !Dispatcher.HasShutdownFinished)
+				Dispatcher.BeginInvoke(callback);
+		}
 	}
 }

@@ -31,7 +31,7 @@ namespace dnSpy.Contracts.Language.Intellisense {
 		public const string DocumentViewer = "dnSpy-" + nameof(DocumentViewer);
 
 		/// <summary>
-		/// Roslyn languages (C# or Visual Basic)
+		/// Roslyn languages (C#)
 		/// </summary>
 		public const string Roslyn = "dnSpy-" + nameof(Roslyn);
 

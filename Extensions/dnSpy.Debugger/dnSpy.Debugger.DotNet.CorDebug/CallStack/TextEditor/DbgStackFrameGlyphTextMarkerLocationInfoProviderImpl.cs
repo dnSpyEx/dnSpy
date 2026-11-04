@@ -33,7 +33,7 @@ namespace dnSpy.Debugger.DotNet.CorDebug.CallStack.TextEditor {
 				switch (nativeLoc.ILOffsetMapping) {
 				case DbgILOffsetMapping.Exact:
 				case DbgILOffsetMapping.Approximate:
-					return new DotNetMethodBodyGlyphTextMarkerLocationInfo(nativeLoc.Module, nativeLoc.Token, nativeLoc.Offset);
+					return new DotNetMethodBodyGlyphTextMarkerLocationInfo(nativeLoc.Module, nativeLoc.Token, Code.DbgDotNetNativeCodeLocationImpl.GetStatementOffset(nativeLoc));
 
 				case DbgILOffsetMapping.Prolog:
 				case DbgILOffsetMapping.Epilog:

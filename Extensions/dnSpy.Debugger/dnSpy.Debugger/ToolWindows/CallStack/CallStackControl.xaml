@@ -56,14 +56,14 @@
                                     <ContentPresenter Content="{Binding BreakpointImage, Mode=OneWay}">
                                         <ContentPresenter.ContentTemplate>
                                             <DataTemplate>
-                                                <img:DsImage ImageReference="{Binding}"/>
+                                                <img:DsImage ImageReference="{Binding TargetNullValue={x:Static img:ImageReference.None}}"/>
                                             </DataTemplate>
                                         </ContentPresenter.ContentTemplate>
                                     </ContentPresenter>
                                     <ContentPresenter Content="{Binding InstructionPointerImage, Mode=OneWay}">
                                         <ContentPresenter.ContentTemplate>
                                             <DataTemplate>
-                                                <img:DsImage ImageReference="{Binding}"/>
+                                                <img:DsImage ImageReference="{Binding TargetNullValue={x:Static img:ImageReference.None}}"/>
                                             </DataTemplate>
                                         </ContentPresenter.ContentTemplate>
                                     </ContentPresenter>

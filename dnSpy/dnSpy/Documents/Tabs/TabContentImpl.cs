@@ -352,7 +352,12 @@ namespace dnSpy.Documents.Tabs {
 						ctx.Dispose();
 						asyncTabContent.OnShowAsync(showCtx, new AsyncShowResult(t, canShowAsyncOutput));
 						bool success = !t.IsFaulted && !t.IsCanceled;
-						OnShown(uiState, onShownHandler, showCtx, success ? ShowTabContentResult.ShowedContent : ShowTabContentResult.Failed);
+						// The tab was closed or shows something else: its UI context can be disposed and the UI state is
+						// the old content's, so don't restore it, and the handlers get a failed show
+						if (!canShowAsyncOutput)
+							OnShown(null, onShownHandler, showCtx, ShowTabContentResult.Failed);
+						else
+							OnShown(uiState, onShownHandler, showCtx, success ? ShowTabContentResult.ShowedContent : ShowTabContentResult.Failed);
 					}, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
 				}
 				else

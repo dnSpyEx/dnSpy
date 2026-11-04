@@ -28,7 +28,7 @@ namespace dnSpy.Contracts.Decompiler {
 		PartialType,
 
 		/// <summary>
-		/// Decompiles AssemblyInfo.{cs,vb}, data is a <see cref="DecompileAssemblyInfo"/> instance
+		/// Decompiles AssemblyInfo.cs, data is a <see cref="DecompileAssemblyInfo"/> instance
 		/// </summary>
 		AssemblyInfo,
 

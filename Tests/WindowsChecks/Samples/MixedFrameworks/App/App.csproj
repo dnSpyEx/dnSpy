@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The app: its output has OldLib.dll (.NET 9), NewLib.dll (.NET 10) and StandardLib.dll (.NET Standard 2.0) -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OldLib\OldLib.csproj" />
+    <ProjectReference Include="..\StandardLib\StandardLib.csproj" />
+  </ItemGroup>
+
+</Project>

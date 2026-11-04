@@ -126,23 +126,8 @@
   <data name="CompilerSettings_CheckOverflow" xml:space="preserve">
     <value>Aritmetik taşma/yetersizlik durumu denetle</value>
   </data>
-  <data name="CompilerSettings_EmbedVBRuntime" xml:space="preserve">
-    <value>Visual Basic çalışma zamanını göm</value>
-  </data>
   <data name="CompilerSettings_Optimize" xml:space="preserve">
     <value>Kodu iyileştir</value>
-  </data>
-  <data name="CompilerSettings_OptionCompareBinary" xml:space="preserve">
-    <value>Seçenek karşılaştırması: ikili</value>
-  </data>
-  <data name="CompilerSettings_OptionExplicit" xml:space="preserve">
-    <value>Seçenek açık</value>
-  </data>
-  <data name="CompilerSettings_OptionInfer" xml:space="preserve">
-    <value>Seçenek çıkarımı</value>
-  </data>
-  <data name="CompilerSettings_OptionStrict" xml:space="preserve">
-    <value>Seçenek katı</value>
   </data>
   <data name="CompilerSettings_PreprocessorSymbols" xml:space="preserve">
     <value>Koşullu derleme sembolleri</value>
@@ -179,9 +164,6 @@
   </data>
   <data name="DebuggerVarsWindow_ResultsView" xml:space="preserve">
     <value>Sonuçların Görünümü</value>
-  </data>
-  <data name="DebuggerVarsWindow_VisualBasic_SharedMembers" xml:space="preserve">
-    <value>Paylaşılan Üyeler</value>
   </data>
   <data name="DelegatesToolTip" xml:space="preserve">
     <value>Görevlendirmeler</value>

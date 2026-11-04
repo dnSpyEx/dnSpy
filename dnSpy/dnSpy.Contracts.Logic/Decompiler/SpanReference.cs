@@ -20,7 +20,7 @@
 namespace dnSpy.Contracts.Decompiler {
 	/// <summary>
 	/// Contains a span, a reference and a reference id. Should be used for references to eg. keywords
-	/// and is used by the Visual Basic decompiler to highlight eg. 'While', 'End While', etc.
+	/// so related keywords are highlighted together.
 	/// 
 	/// Normal clickable references should be created by calling
 	/// <see cref="IDecompilerOutput.Write(string, object, DecompilerReferenceFlags, object)"/>.

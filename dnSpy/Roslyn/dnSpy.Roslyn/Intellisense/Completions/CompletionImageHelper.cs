@@ -78,9 +78,7 @@ namespace dnSpy.Roslyn.Intellisense.Completions {
 			case CompletionKind.StructurePrivate:		return DsImages.StructurePrivate;
 			case CompletionKind.Structure:				return DsImages.StructurePublic;
 			case CompletionKind.FileCSharp:				return DsImages.CSFileNode;
-			case CompletionKind.FileVisualBasic:		return DsImages.VBFileNode;
 			case CompletionKind.ProjectCSharp:			return DsImages.CSProjectNode;
-			case CompletionKind.ProjectVisualBasic:		return DsImages.VBProjectNode;
 			case CompletionKind.EnumMember:				return DsImages.EnumerationItemPublic;
 			case CompletionKind.Assembly:				return DsImages.Assembly;
 			case CompletionKind.RangeVariable:			return DsImages.LocalVariable;

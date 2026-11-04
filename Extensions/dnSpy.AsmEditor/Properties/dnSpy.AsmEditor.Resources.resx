@@ -2261,6 +2261,9 @@ Most options will be re-initialized when this checkbox is clicked</value>
   <data name="ERR_IM_CouldNotFindEditedType" xml:space="preserve">
     <value>Couldn't find the edited type: {0}</value>
   </data>
+  <data name="ERR_IM_NewPrimaryConstructorParameterCapture" xml:space="preserve">
+    <value>The new code uses primary constructor parameter '{0}' of {1}, but the constructor doesn't store it, so it would always have its default value. Use a field or property that the constructor sets.</value>
+  </data>
   <data name="CloseOldInMemoryModules" xml:space="preserve">
     <value>Close Old In-Memory Modules</value>
   </data>

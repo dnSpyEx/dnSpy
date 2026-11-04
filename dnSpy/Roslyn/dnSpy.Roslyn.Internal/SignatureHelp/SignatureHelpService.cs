@@ -51,26 +51,6 @@ namespace dnSpy.Roslyn.Internal.SignatureHelp {
 		}
 	}
 
-	[ExportLanguageServiceFactory(typeof(SignatureHelpService), LanguageNames.VisualBasic), Shared]
-	sealed class VisualBasicSignatureHelpServiceFactory : ILanguageServiceFactory {
-		readonly Lazy<ISignatureHelpProvider, OrderableLanguageMetadata>[] signatureHelpProviders;
-
-		[ImportingConstructor]
-		public VisualBasicSignatureHelpServiceFactory([ImportMany] IEnumerable<Lazy<ISignatureHelpProvider, OrderableLanguageMetadata>> signatureHelpProviders) {
-			this.signatureHelpProviders = signatureHelpProviders.Where(a => a.Metadata.Language == LanguageNames.VisualBasic).ToArray();
-		}
-
-		public ILanguageService CreateLanguageService(HostLanguageServices languageServices) =>
-			new VisualBasicSignatureHelpService(signatureHelpProviders);
-	}
-
-	sealed class VisualBasicSignatureHelpService : SignatureHelpService {
-		public override string Language => LanguageNames.VisualBasic;
-		public VisualBasicSignatureHelpService(Lazy<ISignatureHelpProvider, OrderableLanguageMetadata>[] signatureHelpProviders)
-			: base(signatureHelpProviders) {
-		}
-	}
-
 	sealed class SignatureHelpResult {
 		public SignatureHelpItems Items { get; }
 		public SignatureHelpItem SelectedItem { get; }

@@ -31,10 +31,5 @@ namespace dnSpy.Contracts.Debugger.Evaluation {
 		/// C#
 		/// </summary>
 		public const string CSharp = "c-#-";// Not a display name so don't use "C#"
-
-		/// <summary>
-		/// Visual Basic
-		/// </summary>
-		public const string VisualBasic = "v-b-";// Not a display name so don't use "Visual Basic"
 	}
 }

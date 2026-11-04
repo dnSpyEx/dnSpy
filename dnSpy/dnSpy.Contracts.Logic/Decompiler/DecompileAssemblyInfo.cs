@@ -23,7 +23,7 @@ using dnlib.DotNet;
 
 namespace dnSpy.Contracts.Decompiler {
 	/// <summary>
-	/// Decompiles AssemblyInfo.{cs,vb}
+	/// Decompiles AssemblyInfo.cs
 	/// </summary>
 	public sealed class DecompileAssemblyInfo : DecompileTypeBase {
 		/// <summary>

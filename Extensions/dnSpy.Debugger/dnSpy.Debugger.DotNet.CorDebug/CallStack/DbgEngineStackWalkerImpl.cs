@@ -83,8 +83,11 @@ namespace dnSpy.Debugger.DotNet.CorDebug.CallStack {
 			try {
 				Debug.Assert(list.Count == 0);
 				int count = 0;
-				while (count++ < maxFrames && enumerator.MoveNext())
-					list.Add(CreateEngineStackFrame(enumerator.Current));
+				while (count++ < maxFrames && enumerator.MoveNext()) {
+					var corFrame = enumerator.Current;
+					list.Add(CreateEngineStackFrame(corFrame, isCallerFrame));
+					isCallerFrame = IsCalledFrame(corFrame);
+				}
 				return list.Count == 0 ? Array.Empty<DbgEngineStackFrame>() : list.ToArray();
 			}
 			finally {
@@ -92,7 +95,19 @@ namespace dnSpy.Debugger.DotNet.CorDebug.CallStack {
 			}
 		}
 
-		DbgEngineStackFrame CreateEngineStackFrame(CorFrame corFrame) {
+		// Set once the first frame has been seen: the IL frames after a frame that it called are stopped after the call
+		bool isCallerFrame;
+
+		/// <summary>
+		/// True if the next frame called <paramref name="corFrame"/>: its IP is the return address. Not after a func-eval
+		/// (the next frame is where the debugger stopped) or a class constructor (it can be run by any instruction).
+		/// </summary>
+		static bool IsCalledFrame(CorFrame corFrame) =>
+			!corFrame.IsInternalFrame ||
+			(corFrame.InternalFrameType != CorDebugInternalFrameType.STUBFRAME_FUNC_EVAL &&
+			corFrame.InternalFrameType != CorDebugInternalFrameType.STUBFRAME_CLASS_INIT);
+
+		DbgEngineStackFrame CreateEngineStackFrame(CorFrame corFrame, bool isCallerFrame) {
 			engine.DebuggerThread.VerifyAccess();
 			if (corFrame.IsILFrame) {
 				var func = corFrame.Function;
@@ -101,7 +116,7 @@ namespace dnSpy.Debugger.DotNet.CorDebug.CallStack {
 				var module = engine.TryGetModule(func.Module);
 				if (module is null)
 					return CreateErrorStackFrame();
-				return new ILDbgEngineStackFrame(engine, module, corFrame, dnThread, func, dbgDotNetNativeCodeLocationFactory, dbgDotNetCodeLocationFactory);
+				return new ILDbgEngineStackFrame(engine, module, corFrame, dnThread, func, isCallerFrame, dbgDotNetNativeCodeLocationFactory, dbgDotNetCodeLocationFactory);
 			}
 
 			if (corFrame.IsInternalFrame)

@@ -15,7 +15,6 @@
     <IsSelfContainedDotNet Condition=" '$(IsDotNet)' == 'true' ">true</IsSelfContainedDotNet>
     <Features>strict;nullablePublicOnly</Features>
     <LangVersion>latest</LangVersion>
-    <LangVersion Condition=" $(MSBuildProjectFile.EndsWith('.vbproj')) " >latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <AppDesignerFolderContentsVisibleOnlyInShowAllFiles>false</AppDesignerFolderContentsVisibleOnlyInShowAllFiles>
     <!-- Make sure we don't have to publish each extension to get all their refs -->
@@ -56,11 +55,20 @@
     <NewtonsoftJsonVersion>13.0.4</NewtonsoftJsonVersion>
     <OokiiDialogsWpfVersion>5.0.1</OokiiDialogsWpfVersion>
     <RoslynVersion>5.9.0</RoslynVersion>
+    <!-- Upstream ILSpy decompiler engine (https://www.nuget.org/packages/ICSharpCode.Decompiler) -->
+    <ILSpyDecompilerVersion>11.2.0.10050</ILSpyDecompilerVersion>
     <NuGetVersion>7.9.0</NuGetVersion>
     <DbgShimVersion>9.0.661903</DbgShimVersion>
     <DotNetPackageVersion>10.0.11</DotNetPackageVersion>
     <MessagePackVersion>2.5.302</MessagePackVersion>
   </PropertyGroup>
+
+  <!-- dnSpy has no Visual Basic support. Roslyn's Microsoft.CodeAnalysis package (the expression evaluator in
+       Roslyn.ExpressionCompiler references it) brings the Visual Basic compiler and workspace: don't ship them. -->
+  <ItemGroup Condition=" '$(MSBuildProjectExtension)' == '.csproj' ">
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic" Version="$(RoslynVersion)" ExcludeAssets="all" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.VisualBasic.Workspaces" Version="$(RoslynVersion)" ExcludeAssets="all" PrivateAssets="all" />
+  </ItemGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)Build\ConvertToNetstandardReferences\ConvertToNetstandardReferences.tasks" Condition=" '$(IsDotNet)' == 'true' " />
 

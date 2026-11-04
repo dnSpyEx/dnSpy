@@ -214,7 +214,7 @@ namespace dnSpy.Console.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to name of the .sln file.
+        ///   Looks up a localized string similar to name of the .sln file (a .slnx name writes the XML solution format).
         /// </summary>
         internal static string CmdLineDescription_SlnName {
             get {

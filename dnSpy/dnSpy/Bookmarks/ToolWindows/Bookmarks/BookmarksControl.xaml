@@ -144,7 +144,7 @@
                                     <ContentPresenter Grid.Column="1" Margin="5 0 0 0" Content="{Binding ImageReference, Mode=OneWay}">
                                         <ContentPresenter.ContentTemplate>
                                             <DataTemplate>
-                                                <img:DsImage ImageReference="{Binding}"/>
+                                                <img:DsImage ImageReference="{Binding TargetNullValue={x:Static img:ImageReference.None}}"/>
                                             </DataTemplate>
                                         </ContentPresenter.ContentTemplate>
                                     </ContentPresenter>

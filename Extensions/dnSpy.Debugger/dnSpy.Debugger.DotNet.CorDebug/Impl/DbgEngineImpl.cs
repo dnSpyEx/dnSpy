@@ -132,6 +132,8 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Impl {
 		internal void VerifyCorDebugThread() => debuggerThread.VerifyAccess();
 		internal T InvokeCorDebugThread<T>(Func<T> callback) => debuggerThread.Invoke(callback);
 		internal void CorDebugThread(Action callback) => debuggerThread.BeginInvoke(callback);
+		// (CorDebugThread() callbacks are also called while an evaluation waits for its result, these aren't)
+		internal void CorDebugThreadAfterCurrentWork(Action callback) => debuggerThread.BeginInvokeAfterCurrentWork(callback);
 		internal string DebuggeeVersion => dnDebugger.DebuggeeVersion;
 		internal bool IsPaused => dnDebugger.ProcessState == DebuggerProcessState.Paused;
 
@@ -144,6 +146,25 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Impl {
 				flags |= DbgEngineMessageFlags.Continue;
 			return flags;
 		}
+
+		/// <summary>
+		/// Flags of the messages for new and removed app domains, modules and threads. During an evaluation (e.g. the
+		/// Locals window's, which waits on DbgManager's thread) the engine doesn't pause for them: it would wait for
+		/// DbgManager to run it again, and DbgManager waits for the evaluation, so the evaluation timed out (any evaluation
+		/// that loaded an assembly or started a thread, e.g. Exception.ToString()). And DbgManager doesn't run the process
+		/// for them (Running): when it got to them after the evaluation, it continued the process at the user's break.
+		/// </summary>
+		internal DbgEngineMessageFlags GetObjectMessageFlags() {
+			var flags = GetMessageFlags();
+			if (dnDebugger?.IsEvaluating == true)
+				flags |= DbgEngineMessageFlags.Running;
+			return flags;
+		}
+
+		/// <summary>
+		/// See <see cref="GetObjectMessageFlags"/>
+		/// </summary>
+		bool ShouldPauseForObjectEvent => dnDebugger?.IsEvaluating != true;
 
 		void DnDebugger_DebugCallbackEvent(DnDebugger dbg, DebugCallbackEventArgs e) {
 			string? msg;
@@ -519,10 +540,10 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Impl {
 		void DnDebugger_OnAppDomainAdded(object? sender, AppDomainDebuggerEventArgs e) {
 			Debug2.Assert(objectFactory is not null);
 			if (e.Added) {
-				e.ShouldPause = true;
+				e.ShouldPause = ShouldPauseForObjectEvent;
 				var appDomain = dmdRuntime.CreateAppDomain(e.AppDomain.Id);
 				var internalAppDomain = new DbgCorDebugInternalAppDomainImpl(appDomain, e.AppDomain);
-				var engineAppDomain = objectFactory.CreateAppDomain<object>(internalAppDomain, e.AppDomain.Name, e.AppDomain.Id, GetMessageFlags(), data: null, onCreated: engineAppDomain2 => internalAppDomain.SetAppDomain(engineAppDomain2.AppDomain));
+				var engineAppDomain = objectFactory.CreateAppDomain<object>(internalAppDomain, e.AppDomain.Name, e.AppDomain.Id, GetObjectMessageFlags(), data: null, onCreated: engineAppDomain2 => internalAppDomain.SetAppDomain(engineAppDomain2.AppDomain));
 				lock (lockObj)
 					toEngineAppDomain.Add(e.AppDomain, engineAppDomain);
 			}
@@ -540,15 +561,15 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Impl {
 						foreach (var kv in toEngineModule.ToArray()) {
 							if (kv.Value.Module.AppDomain == appDomain) {
 								toEngineModule.Remove(kv.Key);
-								kv.Value.Remove(GetMessageFlags());
+								kv.Value.Remove(GetObjectMessageFlags());
 								toDynamicModuleHelper.Remove(kv.Key);
 							}
 						}
 					}
 				}
 				if (engineAppDomain is not null) {
-					e.ShouldPause = true;
-					engineAppDomain.Remove(GetMessageFlags());
+					e.ShouldPause = ShouldPauseForObjectEvent;
+					engineAppDomain.Remove(GetObjectMessageFlags());
 				}
 			}
 		}
@@ -659,7 +680,7 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Impl {
 		void DnDebugger_OnModuleAdded(object? sender, ModuleDebuggerEventArgs e) {
 			Debug2.Assert(objectFactory is not null);
 			if (e.Added) {
-				e.ShouldPause = true;
+				e.ShouldPause = ShouldPauseForObjectEvent;
 				var appDomain = TryGetEngineAppDomain(e.Module.AppDomain)?.AppDomain;
 				var moduleId = e.Module.DnModuleId.ToModuleId();
 				var moduleData = new DbgModuleData(this, e.Module, moduleId);
@@ -694,8 +715,8 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Impl {
 					}
 				}
 				if (engineModule is not null) {
-					e.ShouldPause = true;
-					engineModule.Remove(GetMessageFlags());
+					e.ShouldPause = ShouldPauseForObjectEvent;
+					engineModule.Remove(GetObjectMessageFlags());
 				}
 			}
 		}

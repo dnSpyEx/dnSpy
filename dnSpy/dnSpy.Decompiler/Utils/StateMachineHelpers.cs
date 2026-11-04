@@ -27,6 +27,7 @@ namespace dnSpy.Decompiler.Utils {
 		static readonly UTF8String IAsyncStateMachine = new UTF8String("IAsyncStateMachine");
 		static readonly UTF8String AsyncStateMachineAttribute = new UTF8String("AsyncStateMachineAttribute");
 		static readonly UTF8String IteratorStateMachineAttribute = new UTF8String("IteratorStateMachineAttribute");
+		static readonly UTF8String AsyncIteratorStateMachineAttribute = new UTF8String("AsyncIteratorStateMachineAttribute");
 		static readonly UTF8String stringSystem = new UTF8String("System");
 		static readonly UTF8String stringType = new UTF8String("Type");
 		static readonly UTF8String stringIDisposable = new UTF8String("IDisposable");
@@ -43,6 +44,24 @@ namespace dnSpy.Decompiler.Utils {
 				return tr.Name == name && tr.Namespace == @namespace;
 			if (tdr is TypeDef td)
 				return td.Name == name && td.Namespace == @namespace;
+			return false;
+		}
+
+		/// <summary>
+		/// Gets the async Main that <paramref name="method"/> runs if it's the C# compiler's entry point for an async Main,
+		/// 'static void &lt;Main&gt;(string[] args) { Main(args).GetAwaiter().GetResult(); }': it has no code of its own, and
+		/// the decompiled code shows it as Main's declaration.
+		/// </summary>
+		public static bool TryGetAsyncMainMethod(MethodDef method, [NotNullWhen(true)] out MethodDef? asyncMain) {
+			asyncMain = null;
+			if (!method.IsStatic || method.Name != "<Main>" || method.Module?.EntryPoint != method || method.Body is not CilBody body)
+				return false;
+			foreach (var instr in body.Instructions) {
+				if (instr.OpCode == OpCodes.Call && instr.Operand is MethodDef main && main.DeclaringType == method.DeclaringType && main != method) {
+					asyncMain = main;
+					return true;
+				}
+			}
 			return false;
 		}
 
@@ -92,7 +111,9 @@ namespace dnSpy.Decompiler.Utils {
 
 		static bool IsStateMachineTypeAttribute(ITypeDefOrRef tdr) =>
 			EqualsName(tdr, System_Runtime_CompilerServices, AsyncStateMachineAttribute) ||
-			EqualsName(tdr, System_Runtime_CompilerServices, IteratorStateMachineAttribute);
+			EqualsName(tdr, System_Runtime_CompilerServices, IteratorStateMachineAttribute) ||
+			// C# 8 async streams (IAsyncEnumerable<T>, IAsyncEnumerator<T>)
+			EqualsName(tdr, System_Runtime_CompilerServices, AsyncIteratorStateMachineAttribute);
 
 		static TypeDef? GetAsyncStateMachineTypeFromInstructionsCore(MethodDef method) {
 			var body = method.Body;

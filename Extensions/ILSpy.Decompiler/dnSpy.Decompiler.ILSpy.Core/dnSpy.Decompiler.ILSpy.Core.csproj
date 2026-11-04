@@ -2,8 +2,13 @@
 
   <Import Project="..\..\..\DnSpyCommon.props" />
 
+  <!--
+    dnSpy's decompiler: the unmodified upstream ILSpy engine (ICSharpCode.Decompiler NuGet) with an adapter between
+    dnSpy (dnlib) and it, and dnSpy's IL disassembler. Must not reference WPF/WinForms so it can be tested headlessly
+    on any OS.
+  -->
   <PropertyGroup>
-    <Copyright>Copyright 2011-2014 AlphaSierraPapa for the SharpDevelop Team</Copyright>
+    <Copyright>$(DnSpyAssemblyCopyright)</Copyright>
     <Version>$(DnSpyAssemblyVersion)</Version>
     <InformationalVersion>$(DnSpyAssemblyInformationalVersion)</InformationalVersion>
 
@@ -30,10 +35,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\dnSpy\dnSpy.Contracts.Logic\dnSpy.Contracts.Logic.csproj" />
     <ProjectReference Include="..\..\..\dnSpy\dnSpy.Decompiler\dnSpy.Decompiler.csproj" />
-    <ProjectReference Include="..\ICSharpCode.Decompiler\ICSharpCode.Decompiler\ICSharpCode.Decompiler.csproj" />
-    <ProjectReference Include="..\ICSharpCode.Decompiler\NRefactory.VB\ICSharpCode.NRefactory.VB\ICSharpCode.NRefactory.VB.csproj" />
-    <ProjectReference Include="..\NRefactory\ICSharpCode.NRefactory.CSharp\ICSharpCode.NRefactory.CSharp.csproj" />
-    <ProjectReference Include="..\NRefactory\ICSharpCode.NRefactory\ICSharpCode.NRefactory.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ICSharpCode.Decompiler" Version="$(ILSpyDecompilerVersion)" />
+    <PackageReference Include="System.Reflection.Metadata" Version="$(DotNetPackageVersion)" />
   </ItemGroup>
 
 </Project>

@@ -126,23 +126,8 @@
   <data name="CompilerSettings_CheckOverflow" xml:space="preserve">
     <value>Проверка на арифметические переполнения/потерю точности</value>
   </data>
-  <data name="CompilerSettings_EmbedVBRuntime" xml:space="preserve">
-    <value>Внедрить среду исполнения Visual Basic</value>
-  </data>
   <data name="CompilerSettings_Optimize" xml:space="preserve">
     <value>Оптимизация кода</value>
-  </data>
-  <data name="CompilerSettings_OptionCompareBinary" xml:space="preserve">
-    <value>Сравнение параметров: двоичное</value>
-  </data>
-  <data name="CompilerSettings_OptionExplicit" xml:space="preserve">
-    <value>Явная типизация</value>
-  </data>
-  <data name="CompilerSettings_OptionInfer" xml:space="preserve">
-    <value>Локальная типизация</value>
-  </data>
-  <data name="CompilerSettings_OptionStrict" xml:space="preserve">
-    <value>Строгая типизация</value>
   </data>
   <data name="CompilerSettings_PreprocessorSymbols" xml:space="preserve">
     <value>Символы условной компиляции</value>
@@ -179,9 +164,6 @@
   </data>
   <data name="DebuggerVarsWindow_ResultsView" xml:space="preserve">
     <value>Представление результатов</value>
-  </data>
-  <data name="DebuggerVarsWindow_VisualBasic_SharedMembers" xml:space="preserve">
-    <value>Shared члены</value>
   </data>
   <data name="DelegatesToolTip" xml:space="preserve">
     <value>Делегаты</value>

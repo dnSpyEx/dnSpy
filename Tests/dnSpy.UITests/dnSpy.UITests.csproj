@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\DnSpyCommon.props" />
+
+  <!--
+    UI tests: they start the real dnSpy (dnSpy\dnSpy\bin\<Configuration>\net10.0-windows\dnSpy.exe, build it first, or
+    set DNSPY_UITEST_EXE) and drive it with the keyboard, the mouse and UI Automation (FlaUI). The probe extension
+    (Tests\dnSpy.UITests.Probe) runs inside dnSpy and tells the tests what the UI shows.
+
+    Not part of dnSpy.sln and nothing in dnSpy depends on it. Windows only, needs an unlocked desktop, and the mouse
+    and keyboard mustn't be used while the tests run. See README.md.
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-windows</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+    <IsPublishable>false</IsPublishable>
+    <IsTestProject>true</IsTestProject>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>false</UseWindowsForms>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FlaUI.UIA3" Version="5.0.0" />
+    <PackageReference Include="dnlib" Version="$(DnlibVersion)" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <!-- Test data: a nullable-enabled netstandard 2.0 library -->
+    <PackageReference Include="Newtonsoft.Json" Version="$(NewtonsoftJsonVersion)" GeneratePathProperty="true" ExcludeAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Built with the tests, copied to Probe\ (dnSpy loads it from there) -->
+    <ProjectReference Include="..\dnSpy.UITests.Probe\dnSpy.UITests.Probe.csproj" ReferenceOutputAssembly="false" SkipGetTargetFrameworkProperties="true" SetTargetFramework="TargetFramework=net10.0-windows" />
+    <None Include="$(PkgNewtonsoft_Json)\lib\netstandard2.0\Newtonsoft.Json.dll" Link="Samples\netstandard2.0\Newtonsoft.Json.dll" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <Target Name="CopyProbe" AfterTargets="Build" Condition=" '$(TargetFramework)' != '' ">
+    <ItemGroup>
+      <ProbeFiles Include="..\dnSpy.UITests.Probe\bin\$(Configuration)\net10.0-windows\dnSpy.UITests.Probe.x.*" />
+    </ItemGroup>
+    <Error Condition=" '@(ProbeFiles)' == '' " Text="The probe extension wasn't built" />
+    <Copy SourceFiles="@(ProbeFiles)" DestinationFolder="$(OutDir)Probe" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

@@ -310,8 +310,6 @@ namespace dnSpy.Debugger.DotNet.Metadata.Impl {
 				switch (asm.GetName().Name) {
 				case "Microsoft.CodeAnalysis.CSharp":
 				case "Microsoft.CodeAnalysis.CSharp.Features":
-				case "Microsoft.CodeAnalysis.VisualBasic":
-				case "Microsoft.CodeAnalysis.VisualBasic.Features":
 					// Reflection returns dupe props so ignore these assemblies.
 					// Seems like it compares the raw property signatures but it should compare the signatures
 					// after replacing generic params with generic args.

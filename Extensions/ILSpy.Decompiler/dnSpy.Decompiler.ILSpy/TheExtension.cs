@@ -30,7 +30,7 @@ namespace dnSpy.Decompiler.ILSpy {
 
 		public ExtensionInfo ExtensionInfo => new ExtensionInfo {
 			ShortDescription = dnSpy_Decompiler_ILSpy_Resources.Plugin_ShortDescription,
-			Copyright = "Copyright 2011-2014 AlphaSierraPapa for the SharpDevelop Team",
+			Copyright = "ICSharpCode.Decompiler: Copyright (c) AlphaSierraPapa for the SharpDevelop Team and the ILSpy contributors (MIT)",
 		};
 
 		public void OnEvent(ExtensionEvent @event, object? obj) {

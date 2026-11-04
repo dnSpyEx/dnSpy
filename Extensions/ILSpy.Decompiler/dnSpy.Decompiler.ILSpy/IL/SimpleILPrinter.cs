@@ -23,7 +23,7 @@ using dnlib.DotNet;
 using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Text;
 using dnSpy.Decompiler.ILSpy.Core.IL;
-using ICSharpCode.Decompiler.Disassembler;
+using dnSpy.Decompiler.ILSpy.Core.Disassembler;
 
 namespace dnSpy.Decompiler.ILSpy.IL {
 	[Export(typeof(ISimpleILPrinter))]

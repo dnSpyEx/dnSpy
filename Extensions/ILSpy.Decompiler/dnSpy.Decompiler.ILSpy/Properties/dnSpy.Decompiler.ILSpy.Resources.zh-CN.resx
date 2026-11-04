@@ -117,21 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DecompilationOrder_Events" xml:space="preserve">
-    <value>事件</value>
-  </data>
-  <data name="DecompilationOrder_Fields" xml:space="preserve">
-    <value>字段</value>
-  </data>
-  <data name="DecompilationOrder_Methods" xml:space="preserve">
-    <value>方法</value>
-  </data>
-  <data name="DecompilationOrder_NestedTypes" xml:space="preserve">
-    <value>嵌套类</value>
-  </data>
-  <data name="DecompilationOrder_Properties" xml:space="preserve">
-    <value>属性</value>
-  </data>
   <data name="Plugin_ShortDescription" xml:space="preserve">
     <value>ILSpy 反编译器</value>
   </data>

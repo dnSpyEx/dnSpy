@@ -58,13 +58,11 @@ namespace dnSpy.Roslyn.Text {
 			// dnSpy.Roslyn.Internal exports some stuff too
 			asms.Add(typeof(SignatureHelpService).Assembly);
 			asms.Add(typeof(Internal.QuickInfo.CSharp.SemanticQuickInfoProvider).Assembly);
-			asms.Add(typeof(Microsoft.CodeAnalysis.Editor.VisualBasic.QuickInfo.SemanticQuickInfoProvider).Assembly);
 			return MefHostServices.Create(asms);
 		}
 		static readonly string[] otherAssemblies = new string[] {
 			"Microsoft.CodeAnalysis.Features, Version={0}, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
 			"Microsoft.CodeAnalysis.CSharp.Features, Version={0}, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
-			"Microsoft.CodeAnalysis.VisualBasic.Features, Version={0}, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
 		};
 	}
 }

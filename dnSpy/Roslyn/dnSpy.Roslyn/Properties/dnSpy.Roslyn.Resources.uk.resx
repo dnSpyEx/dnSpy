@@ -126,23 +126,8 @@
   <data name="CompilerSettings_CheckOverflow" xml:space="preserve">
     <value>Перевірити наявність переповнення/зникнення порядку</value>
   </data>
-  <data name="CompilerSettings_EmbedVBRuntime" xml:space="preserve">
-    <value>Вбудувати Visual Basic рантайм</value>
-  </data>
   <data name="CompilerSettings_Optimize" xml:space="preserve">
     <value>Оптимізувати код</value>
-  </data>
-  <data name="CompilerSettings_OptionCompareBinary" xml:space="preserve">
-    <value>Опція двійкового порівняння</value>
-  </data>
-  <data name="CompilerSettings_OptionExplicit" xml:space="preserve">
-    <value>Опція явна</value>
-  </data>
-  <data name="CompilerSettings_OptionInfer" xml:space="preserve">
-    <value>Опція виведена</value>
-  </data>
-  <data name="CompilerSettings_OptionStrict" xml:space="preserve">
-    <value>Опція точна</value>
   </data>
   <data name="CompilerSettings_PreprocessorSymbols" xml:space="preserve">
     <value>Умовні символи компіляції</value>
@@ -179,9 +164,6 @@
   </data>
   <data name="DebuggerVarsWindow_ResultsView" xml:space="preserve">
     <value>Представлення Результатів</value>
-  </data>
-  <data name="DebuggerVarsWindow_VisualBasic_SharedMembers" xml:space="preserve">
-    <value>Shared члени</value>
   </data>
   <data name="DelegatesToolTip" xml:space="preserve">
     <value>Делегати</value>

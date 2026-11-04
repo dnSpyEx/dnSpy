@@ -26,10 +26,5 @@ namespace dnSpy.Contracts.Debugger.DotNet.Evaluation {
 		/// C# language
 		/// </summary>
 		public const string CSharp = "7860A5A1-BF16-484D-B292-FADE130CEFAE";
-
-		/// <summary>
-		/// Visual Basic language
-		/// </summary>
-		public const string VisualBasic = "7B3A65F9-5444-4389-B1BE-4C150AFC3246";
 	}
 }

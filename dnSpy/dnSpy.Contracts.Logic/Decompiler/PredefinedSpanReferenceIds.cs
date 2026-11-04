@@ -23,8 +23,7 @@ namespace dnSpy.Contracts.Decompiler {
 	/// </summary>
 	public static class PredefinedSpanReferenceIds {
 		/// <summary>
-		/// Highlighted keyword reference, eg. related keywords are highlighted by default in Visual Basic,
-		/// eg. 'If' and 'End If'.
+		/// Highlighted keyword reference: related keywords (eg. the start and the end of a block) are highlighted together.
 		/// </summary>
 		public const string HighlightRelatedKeywords = nameof(HighlightRelatedKeywords);
 	}

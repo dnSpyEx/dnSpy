@@ -33,27 +33,11 @@ namespace dnSpy.Decompiler.ILSpy.Settings {
 		DecompilerAppSettingsModifiedListener(IDocumentTabService documentTabService) => this.documentTabService = documentTabService;
 
 		public void OnSettingsModified(IAppRefreshSettings appRefreshSettings) {
-			bool refreshIL = appRefreshSettings.Has(SettingsConstants.REDISASSEMBLE_IL_ILSPY_CODE);
-			bool refreshILAst = appRefreshSettings.Has(SettingsConstants.REDECOMPILE_ILAST_ILSPY_CODE);
-			bool refreshCSharp = appRefreshSettings.Has(SettingsConstants.REDECOMPILE_CSHARP_ILSPY_CODE);
-			bool refreshVB = appRefreshSettings.Has(SettingsConstants.REDECOMPILE_VB_ILSPY_CODE);
-			if (refreshILAst)
-				refreshCSharp = refreshVB = true;
-			if (refreshCSharp)
-				refreshVB = true;
-
-			if (refreshIL)
+			// The C# settings page refreshes "IL with C#" too (UpstreamSettingsModifiedListener)
+			if (appRefreshSettings.Has(SettingsConstants.REDISASSEMBLE_IL_ILSPY_CODE)) {
 				RefreshCode<Core.IL.ILDecompiler>();
-#if DEBUG
-			if (refreshILAst)
-				RefreshCode<Core.ILAst.ILAstDecompiler>();
-#endif
-			if (refreshCSharp)
-				RefreshCode<Core.CSharp.CSharpDecompiler>();
-			if (refreshVB)
-				RefreshCode<Core.VisualBasic.VBDecompiler>();
-			if (refreshCSharp || refreshIL)
 				RefreshCode<Core.Mixed.ILWithCSharpDecompiler>();
+			}
 		}
 
 		IEnumerable<(IDocumentTab tab, IDecompiler decompiler)> DecompilerTabs {

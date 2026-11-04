@@ -591,6 +591,10 @@ namespace dnSpy.Documents.Tabs {
 			var documentsHash = GetModifiedDocuments(document);
 			decompilationCache.Clear(documentsHash!);
 
+			// Before the tabs are refreshed: decompilers that cache the modules (eg. their images) know about the edit
+			// when the tabs decompile them again
+			DocumentModified?.Invoke(this, new DocumentModifiedEventArgs(documentsHash.ToArray()));
+
 			var tabs = new List<IDocumentTab>();
 			foreach (var tab in VisibleFirstTabs) {
 				if (MustRefresh(tab, documentsHash))
@@ -598,8 +602,6 @@ namespace dnSpy.Documents.Tabs {
 			}
 			if (tabs.Count > 0)
 				Refresh(tabs);
-
-			DocumentModified?.Invoke(this, new DocumentModifiedEventArgs(documentsHash.ToArray()));
 		}
 		public event EventHandler<DocumentModifiedEventArgs>? DocumentModified;
 

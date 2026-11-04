@@ -117,7 +117,12 @@ namespace dnSpy.Decompiler.ILSpy.Core.Settings {
 				}
 			}
 		}
-		int maxStringLength = ICSharpCode.Decompiler.DecompilerSettings.ConstMaxStringLength;
+		int maxStringLength = DefaultMaxStringLength;
+
+		/// <summary>
+		/// Default max length of strings (same as the old decompiler's)
+		/// </summary>
+		public const int DefaultMaxStringLength = 20000;
 
 		public bool HexadecimalNumbers {
 			get { return hexadecimalNumbers; }

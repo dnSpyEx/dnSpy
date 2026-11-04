@@ -92,10 +92,11 @@ namespace dnSpy.Documents.Tabs {
 			var vm = new ExportToProjectVM(new PickDirectory(), decompilerService, task, bamlDecompiler is not null);
 			task.vm = vm;
 			vm.ProjectVersion = exportToProjectSettings.ProjectVersion;
+			vm.SolutionFormat = exportToProjectSettings.SolutionFormat;
 			vm.CreateResX = true;
 			vm.DontReferenceStdLib = modules.Any(a => a.Assembly.IsCorLib());
 			vm.Decompiler = vm.AllDecompilers.First(a => a.Decompiler == decompiler);
-			vm.SolutionFilename = GetSolutionFilename(modules);
+			vm.SolutionFilename = GetSolutionFilename(modules, ExportToProjectVM.GetExtension(vm.SolutionFormat));
 			vm.FilesToExportMessage = CreateFilesToExportMessage(modules);
 
 			var win = new ExportToProjectDlg();
@@ -104,8 +105,10 @@ namespace dnSpy.Documents.Tabs {
 			win.Owner = appWindow.MainWindow;
 			using (documentTreeView.DocumentService.DisableAssemblyLoad())
 				win.ShowDialog();
-			if (vm.IsComplete)
+			if (vm.IsComplete) {
 				exportToProjectSettings.ProjectVersion = vm.ProjectVersion;
+				exportToProjectSettings.SolutionFormat = vm.SolutionFormat;
+			}
 			task.Dispose();
 		}
 
@@ -286,23 +289,23 @@ namespace dnSpy.Documents.Tabs {
 			return string.Format(dnSpy_Resources.ExportToProject_ExportNFilesMessage, modules.Length);
 		}
 
-		static string? GetSolutionFilename(IEnumerable<ModuleDef> modules) {
+		static string? GetSolutionFilename(IEnumerable<ModuleDef> modules, string extension) {
 			foreach (var e in modules.OrderBy(a => (a.Characteristics & Characteristics.Dll) == 0 ? 0 : 1)) {
-				var name = e.IsManifestModule && e.Assembly is not null ? GetSolutionName(e.Assembly.Name) : GetSolutionName(e.Name);
+				var name = e.IsManifestModule && e.Assembly is not null ? GetSolutionName(e.Assembly.Name, extension) : GetSolutionName(e.Name, extension);
 				if (!string.IsNullOrWhiteSpace(name))
 					return name;
 			}
 			// Here if eg. assembly name is empty
-			return GetSolutionName("solution");
+			return GetSolutionName("solution", extension);
 		}
 
-		static string? GetSolutionName(string name) {
+		static string? GetSolutionName(string name, string extension) {
 			if (name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase) || name.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
 				name = name.Substring(0, name.Length - 4);
 			else if (name.EndsWith(".netmodule", StringComparison.OrdinalIgnoreCase))
 				name = name.Substring(0, name.Length - 10);
 			if (!string.IsNullOrWhiteSpace(name))
-				return name + ".sln";
+				return name + extension;
 			return null;
 		}
 

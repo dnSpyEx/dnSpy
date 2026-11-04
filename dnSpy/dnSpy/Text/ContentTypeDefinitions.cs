@@ -79,11 +79,6 @@ namespace dnSpy.Text {
 		static readonly ContentTypeDefinition? CSharpContentTypeDefinition;
 
 		[Export]
-		[Name(ContentTypes.VisualBasic)]
-		[BaseDefinition(ContentTypes.Code)]
-		static readonly ContentTypeDefinition? VisualBasicContentTypeDefinition;
-
-		[Export]
 		[Name(ContentTypes.IL)]
 		[BaseDefinition(ContentTypes.Code)]
 		static readonly ContentTypeDefinition? ILContentTypeDefinition;
@@ -103,12 +98,6 @@ namespace dnSpy.Text {
 		[BaseDefinition(ContentTypes.CSharp)]
 		[BaseDefinition(ContentTypes.RoslynCode)]
 		static readonly ContentTypeDefinition? CSharpRoslynContentTypeDefinition;
-
-		[Export]
-		[Name(ContentTypes.VisualBasicRoslyn)]
-		[BaseDefinition(ContentTypes.VisualBasic)]
-		[BaseDefinition(ContentTypes.RoslynCode)]
-		static readonly ContentTypeDefinition? VisualBasicRoslynContentTypeDefinition;
 
 		[Export]
 		[Name(ContentTypes.DecompiledCode)]

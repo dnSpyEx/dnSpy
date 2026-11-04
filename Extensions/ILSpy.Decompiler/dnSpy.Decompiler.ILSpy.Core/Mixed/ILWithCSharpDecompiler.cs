@@ -9,44 +9,49 @@ using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Decompiler.XmlDoc;
 using dnSpy.Contracts.Text;
 using dnSpy.Decompiler.IL;
-using dnSpy.Decompiler.ILSpy.Core.CSharp;
 using dnSpy.Decompiler.ILSpy.Core.IL;
 using dnSpy.Decompiler.ILSpy.Core.Settings;
 using dnSpy.Decompiler.ILSpy.Core.Text;
 using dnSpy.Decompiler.ILSpy.Core.XmlDoc;
 using dnSpy.Decompiler.Utils;
-using ICSharpCode.Decompiler.Disassembler;
+using dnSpy.Decompiler.ILSpy.Core.Disassembler;
 
 namespace dnSpy.Decompiler.ILSpy.Core.Mixed {
+	/// <summary>
+	/// dnSpy.Console's "IL with C#". (dnSpy creates it in its extension, with the C# decompiler that has the user's
+	/// settings.)
+	/// </summary>
 	sealed class DecompilerProvider : IDecompilerProvider {
-		readonly DecompilerSettingsService decompilerSettingsService;
-
 		// Keep the default ctor. It's used by dnSpy.Console.exe
-		public DecompilerProvider()
-			: this(DecompilerSettingsService.__Instance_DONT_USE) {
-		}
-
-		public DecompilerProvider(DecompilerSettingsService decompilerSettingsService) {
-			Debug2.Assert(decompilerSettingsService is not null);
-			this.decompilerSettingsService = decompilerSettingsService ?? throw new ArgumentNullException(nameof(decompilerSettingsService));
-		}
+		public DecompilerProvider() { }
 
 		public IEnumerable<IDecompiler> Create() {
-			yield return new ILWithCSharpDecompiler(decompilerSettingsService.ILDecompilerSettings, decompilerSettingsService.CSharpVBDecompilerSettings);
+			var csharp = new UpstreamCSharpLanguage(new Settings.UpstreamDecompilerSettings());
+			yield return ILWithCSharpDecompiler.Create(DecompilerSettingsService.__Instance_DONT_USE.ILDecompilerSettings, csharp);
 		}
 	}
 
 	sealed class ILWithCSharpDecompiler : DecompilerBase {
 		public override DecompilerSettingsBase Settings => ilLangSettings;
 		readonly ILDecompilerSettings ilLangSettings;
-		readonly CSharpVBDecompilerSettings csharpLangSettings;
-		readonly Func<BuilderCache> createBuilderCache;
+		/// <summary>
+		/// The C# decompiler that writes the C# code
+		/// </summary>
+		readonly IDecompiler csharpDecompiler;
 
-		public ILWithCSharpDecompiler(ILDecompilerSettings ilLangSettings, CSharpVBDecompilerSettings csharpLangSettings) {
+		ILWithCSharpDecompiler(ILDecompilerSettings ilLangSettings, IDecompiler csharpDecompiler) {
 			this.ilLangSettings = ilLangSettings;
-			this.csharpLangSettings = csharpLangSettings;
-			createBuilderCache = () => new BuilderCache(this.csharpLangSettings.Settings.SettingsVersion);
+			this.csharpDecompiler = csharpDecompiler;
 		}
+
+		/// <summary>
+		/// Creates the "IL with C#" decompiler. The C# decompiler must add the debug info of the methods it decompiles
+		/// (<see cref="PredefinedCustomDataIds.DebugInfo"/>) to the output.
+		/// </summary>
+		/// <param name="ilLangSettings">IL settings</param>
+		/// <param name="csharpDecompiler">C# decompiler</param>
+		public static IDecompiler Create(ILDecompilerSettings ilLangSettings, IDecompiler csharpDecompiler) =>
+			new ILWithCSharpDecompiler(ilLangSettings, csharpDecompiler ?? throw new ArgumentNullException(nameof(csharpDecompiler)));
 
 		public override double OrderUI => DecompilerConstants.IL_WITH_CSHARP_ILSPY_ORDERUI;
 		public override string ContentTypeString => ContentTypesInternal.ILWithCSharpILSpy;
@@ -81,43 +86,26 @@ namespace dnSpy.Decompiler.ILSpy.Core.Mixed {
 
 			MethodDebugInfo debugInfo;
 			if (StateMachineHelpers.TryGetKickoffMethod(method, out var containingMethod)) {
-				var info = TryDecompileCode(containingMethod, ctx, output, false);
+				var info = TryDecompileCode(containingMethod, ctx, output);
 				if (info.stateMachineDebugInfo is null || info.stateMachineDebugInfo.Method != method) {
 					// The decompiler can't decompile the iterator / async method, try again,
 					// but only decompile the MoveNext method
-					info = TryDecompileCode(method, ctx, output, true);
+					info = TryDecompileCode(method, ctx, output);
 				}
 				debugInfo = info.stateMachineDebugInfo ?? info.debugInfo;
 			}
 			else
-				debugInfo = TryDecompileCode(method, ctx, output, true).debugInfo;
+				debugInfo = TryDecompileCode(method, ctx, output).debugInfo;
 
 			if (debugInfo is null)
 				return default;
 			return new SourceStatementProvider(output.ToString(), debugInfo);
 		}
 
-		(MethodDebugInfo debugInfo, MethodDebugInfo? stateMachineDebugInfo) TryDecompileCode(MethodDef method, DecompilationContext ctx, DecompilerOutputImpl output, bool disableStateMachineDecompilation) {
+		(MethodDebugInfo debugInfo, MethodDebugInfo? stateMachineDebugInfo) TryDecompileCode(MethodDef method, DecompilationContext ctx, DecompilerOutputImpl output) {
 			output.Initialize(method);
-			var settings = csharpLangSettings.Settings.Clone();
-			settings.UsingDeclarations = false;
-			if (disableStateMachineDecompilation) {
-				settings.AsyncAwait = false;
-				settings.YieldReturn = false;
-			}
-			var state = new BuilderState(ctx, ctx.GetOrCreate(createBuilderCache), MetadataTextColorProvider);
-			try {
-				state.AstBuilder.Context.CurrentModule = method.DeclaringType?.Module;
-				state.AstBuilder.Context.CurrentType = method.DeclaringType;
-				state.AstBuilder.Context.CancellationToken = ctx.CancellationToken;
-				state.AstBuilder.Context.Settings = settings;
-				state.AstBuilder.AddMethod(method);
-				state.AstBuilder.RunTransformations();
-				state.AstBuilder.GenerateCode(output);
-			}
-			finally {
-				state.Dispose();
-			}
+			// A compiler-generated method (e.g. the MoveNext method of an async method or iterator) is decompiled as is
+			csharpDecompiler.Decompile(method, output, ctx);
 			return output.TryGetMethodDebugInfo();
 		}
 

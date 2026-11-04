@@ -1,0 +1,24 @@
+<Window x:Class="WpfSample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WpfSample"
+        Title="WPF sample" Width="420" Height="300" Loaded="Window_Loaded">
+    <Window.Resources>
+        <Style x:Key="ItemStyle" TargetType="ListBoxItem">
+            <EventSetter Event="MouseDoubleClick" Handler="Item_MouseDoubleClick" />
+            <Setter Property="Padding" Value="4" />
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <StackPanel x:Name="toolbar" DockPanel.Dock="Top" Orientation="Horizontal" Button.Click="Toolbar_Click">
+            <Button x:Name="okButton" Content="OK" Click="OkButton_Click" Margin="2" />
+            <Button x:Name="cancelButton" Content="Cancel" Margin="2" />
+            <TextBox x:Name="nameBox" Width="120" TextChanged="NameBox_TextChanged" Margin="2" />
+            <local:Badge x:Name="badge" Margin="2" />
+        </StackPanel>
+        <ListBox x:Name="items" ItemContainerStyle="{StaticResource ItemStyle}" SelectionChanged="Items_SelectionChanged">
+            <ListBoxItem Content="First" />
+            <ListBoxItem Content="Second" />
+        </ListBox>
+    </DockPanel>
+</Window>

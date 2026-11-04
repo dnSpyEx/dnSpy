@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <!--
+    Test-only dnSpy extension for the UI tests (Tests/dnSpy.UITests). It isn't part of dnSpy.sln and dnSpy never
+    loads it on its own: the tests start dnSpy with its extension-directory option pointing at this project's output. It
+    answers the tests over a named pipe (the pipe name is in the DNSPY_UITEST_PIPE environment variable) with what the
+    UI shows: the active tab's text and caret, the Edit Code dialog's diagnostics, the debugger's frames and values.
+  -->
+  <Import Project="..\..\DnSpyCommon.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net10.0-windows</TargetFrameworks>
+    <AssemblyName>dnSpy.UITests.Probe.x</AssemblyName>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <!-- dnSpy already has all of these: only the probe itself goes in the output -->
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\dnSpy\dnSpy.Contracts.DnSpy\dnSpy.Contracts.DnSpy.csproj" Private="false" />
+    <ProjectReference Include="..\..\dnSpy\dnSpy.Contracts.Logic\dnSpy.Contracts.Logic.csproj" Private="false" />
+    <ProjectReference Include="..\..\dnSpy\dnSpy.Contracts.Debugger\dnSpy.Contracts.Debugger.csproj" Private="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Text.UI.Wpf" Version="$(MSVSTextVersion)" ExcludeAssets="runtime" PrivateAssets="all" />
+    <PackageReference Include="dnlib" Version="$(DnlibVersion)" ExcludeAssets="runtime" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

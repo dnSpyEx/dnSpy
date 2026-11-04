@@ -64,10 +64,47 @@ namespace dnSpy.Documents.Tabs.Dialogs {
 					solutionFilename = value;
 					OnPropertyChanged(nameof(SolutionFilename));
 					HasErrorUpdated();
+					// A name typed with the other extension selects that format
+					var format = GetSolutionFormat(value);
+					if (format is not null)
+						SolutionFormat = format.Value;
 				}
 			}
 		}
 		string? solutionFilename;
+
+		public SolutionFormat SolutionFormat {
+			get => (SolutionFormat)SolutionFormatVM.SelectedItem!;
+			set => SolutionFormatVM.SelectedItem = value;
+		}
+
+		public EnumListVM SolutionFormatVM { get; }
+
+		public static string GetExtension(SolutionFormat format) => format == SolutionFormat.Slnx ? ".slnx" : ".sln";
+
+		// (Not Path.GetExtension(), which throws on .NET Framework if the name has an invalid character)
+		static SolutionFormat? GetSolutionFormat(string? filename) {
+			if (filename is null)
+				return null;
+			if (filename.EndsWith(".slnx", StringComparison.OrdinalIgnoreCase))
+				return SolutionFormat.Slnx;
+			if (filename.EndsWith(".sln", StringComparison.OrdinalIgnoreCase))
+				return SolutionFormat.Sln;
+			return null;
+		}
+
+		// The selected format changes the file name's extension (name.sln <-> name.slnx)
+		void OnSolutionFormatChanged() {
+			OnPropertyChanged(nameof(SolutionFormat));
+			var name = SolutionFilename;
+			if (name is null || string.IsNullOrWhiteSpace(name))
+				return;
+			var current = GetSolutionFormat(name);
+			if (current == SolutionFormat)
+				return;
+			var baseName = current is null ? name : name.Substring(0, name.Length - GetExtension(current.Value).Length);
+			SolutionFilename = baseName + GetExtension(SolutionFormat);
+		}
 
 		public bool CreateSolution {
 			get => createSolution;
@@ -262,6 +299,7 @@ namespace dnSpy.Documents.Tabs.Dialogs {
 			decompileXaml = canDecompileBaml;
 			createSolution = true;
 			ProjectVersionVM.SelectedItem = ProjectVersion.VS2010;
+			SolutionFormatVM = new EnumListVM(new[] { new EnumVM(SolutionFormat.Sln, ".sln"), new EnumVM(SolutionFormat.Slnx, ".slnx") }, (a, b) => OnSolutionFormatChanged());
 			allDecompilers = new ObservableCollection<DecompilerVM>(decompilerService.AllDecompilers.Where(a => a.ProjectFileExtension is not null).Select(a => new DecompilerVM(a)));
 			decompiler = allDecompilers.First();
 			isIndeterminate = false;

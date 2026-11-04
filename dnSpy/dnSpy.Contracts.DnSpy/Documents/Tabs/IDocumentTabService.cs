@@ -95,7 +95,7 @@ namespace dnSpy.Contracts.Documents.Tabs {
 		void RefreshModifiedDocument(IDsDocument document);
 
 		/// <summary>
-		/// Raised when <see cref="RefreshModifiedDocument(IDsDocument)"/> gets called
+		/// Raised when <see cref="RefreshModifiedDocument(IDsDocument)"/> gets called, before the tabs are refreshed
 		/// </summary>
 		event EventHandler<DocumentModifiedEventArgs>? DocumentModified;
 

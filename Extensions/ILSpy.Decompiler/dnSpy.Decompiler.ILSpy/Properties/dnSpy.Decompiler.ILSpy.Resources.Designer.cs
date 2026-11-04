@@ -61,51 +61,6 @@ namespace dnSpy.Decompiler.ILSpy.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Events.
-        /// </summary>
-        public static string DecompilationOrder_Events {
-            get {
-                return ResourceManager.GetString("DecompilationOrder_Events", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fields.
-        /// </summary>
-        public static string DecompilationOrder_Fields {
-            get {
-                return ResourceManager.GetString("DecompilationOrder_Fields", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Methods.
-        /// </summary>
-        public static string DecompilationOrder_Methods {
-            get {
-                return ResourceManager.GetString("DecompilationOrder_Methods", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Nested Types.
-        /// </summary>
-        public static string DecompilationOrder_NestedTypes {
-            get {
-                return ResourceManager.GetString("DecompilationOrder_NestedTypes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Properties.
-        /// </summary>
-        public static string DecompilationOrder_Properties {
-            get {
-                return ResourceManager.GetString("DecompilationOrder_Properties", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to ILSpy decompiler.
         /// </summary>
         public static string Plugin_ShortDescription {

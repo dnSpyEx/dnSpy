@@ -64,7 +64,6 @@
     <ProjectReference Include="..\Roslyn\dnSpy.Roslyn\dnSpy.Roslyn.csproj" />
     <ProjectReference Include="..\dnSpy.Decompiler\dnSpy.Decompiler.csproj" />
     <ProjectReference Include="..\..\Libraries\ICSharpCode.TreeView\ICSharpCode.TreeView.csproj" />
-    <ProjectReference Include="..\Roslyn\dnSpy.Roslyn.VisualBasic.EditorFeatures\dnSpy.Roslyn.VisualBasic.EditorFeatures.vbproj" />
   </ItemGroup>
 
   <ItemGroup>

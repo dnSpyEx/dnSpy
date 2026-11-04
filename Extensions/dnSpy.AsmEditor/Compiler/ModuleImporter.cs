@@ -70,6 +70,7 @@ namespace dnSpy.AsmEditor.Compiler {
 		const string IM0008 = nameof(IM0008);
 		const string IM0009 = nameof(IM0009);
 		const string IM0010 = nameof(IM0010);
+		const string IM0011 = nameof(IM0011);
 
 		public CompilerDiagnostic[] Diagnostics => diagnostics.ToArray();
 		public NewImportedType[] NewNonNestedTypes => newNonNestedImportedTypes.ToArray();
@@ -249,6 +250,7 @@ namespace dnSpy.AsmEditor.Compiler {
 			InitializeTypesMethods(oldTypeToNewType.Values.OfType<NewImportedType>());
 			InitializeTypesMethods(oldTypeToNewType.Values.OfType<MergedImportedType>());
 
+			FixNullableMetadata();
 			UpdateEditedMethods();
 			foreach (var kv in editedFieldsToFix) {
 				var importedType = (MergedImportedType)oldTypeToNewType[kv.Key.DeclaringType];
@@ -322,10 +324,6 @@ namespace dnSpy.AsmEditor.Compiler {
 			bool merge = false;
 			bool hasTargetType = OriginalTypes.TryGetValue(sourceType, out targetType);
 
-			// VB embeds the used core types. Merge all of them
-			if (HasVBEmbeddedAttribute(sourceType))
-				merge |= hasTargetType && HasVBEmbeddedAttribute(targetType!);
-
 			// C# embeds some attributes if the target framework doesn't have them (Eg. IsByRefLikeAttribute, IsReadOnlyAttribute)
 			if (HasCodeAnalysisEmbeddedAttribute(sourceType))
 				merge |= hasTargetType && HasCodeAnalysisEmbeddedAttribute(targetType!);
@@ -338,12 +336,6 @@ namespace dnSpy.AsmEditor.Compiler {
 				nonNestedMergedImportedTypes.Add(MergeEditedTypes(sourceType, targetType!));
 			else
 				newNonNestedImportedTypes.Add(CreateNewImportedType(sourceType, targetModule.Types));
-		}
-
-		static bool HasVBEmbeddedAttribute(TypeDef type) {
-			var ca = type.CustomAttributes.Find("Microsoft.VisualBasic.Embedded");
-			// The attribute should also be embedded, so make sure the ctor is a MethodDef
-			return ca?.Constructor is MethodDef;
 		}
 
 		static bool HasCodeAnalysisEmbeddedAttribute(TypeDef type) {
@@ -375,12 +367,15 @@ namespace dnSpy.AsmEditor.Compiler {
 				ImportCustomAttributes(attributes, sourceModule);
 				// The compiler adds [UnverifiableCode] causing a duplicate attribute
 				RemoveDuplicates(attributes, "System.Security.UnverifiableCodeAttribute");
+				KeepCompilerReservedAttributes(attributes, targetModule);
 				NewModuleCustomAttributes = attributes.ToArray();
 				var asm = sourceModule.Assembly;
 				if (asm is not null) {
 					NewAssemblyVersion = asm.Version;
 					attributes.Clear();
 					ImportCustomAttributes(attributes, asm);
+					if (targetModule.Assembly is AssemblyDef targetAssembly)
+						KeepCompilerReservedAttributes(attributes, targetAssembly);
 					NewAssemblyCustomAttributes = attributes.ToArray();
 				}
 			}
@@ -467,6 +462,7 @@ namespace dnSpy.AsmEditor.Compiler {
 			var newType = FindSourceType(targetType);
 			if (newType.DeclaringType is not null)
 				throw new ArgumentException("Type must not be nested");
+			CheckNewPrimaryConstructorCaptures(newType, targetType);
 			RenamePropEventAccessors(newType, targetType);
 
 			if (!newType.IsGlobalModuleType)
@@ -664,12 +660,16 @@ namespace dnSpy.AsmEditor.Compiler {
 			if (targetMethod.Module != targetModule)
 				throw new InvalidOperationException();
 			SetSourceModule(LoadModule(rawGeneratedModule, debugFile));
+			editsOnlyMembers = true;
 
 			var newMethod = FindSourceMethod(targetMethod);
 			var newMethodNonNestedDeclType = newMethod.DeclaringType;
 			while (newMethodNonNestedDeclType.DeclaringType is not null)
 				newMethodNonNestedDeclType = newMethodNonNestedDeclType.DeclaringType;
 			RenamePropEventAccessors(newMethod.DeclaringType, targetMethod.DeclaringType);
+			// (An edited constructor stores what the compiled type captures)
+			if (!targetMethod.IsInstanceConstructor)
+				CheckNewPrimaryConstructorCaptures(newMethod.DeclaringType, targetMethod.DeclaringType);
 
 			AddEditedMethod(newMethod, targetMethod);
 			if (!newMethodNonNestedDeclType.IsGlobalModuleType)
@@ -1683,6 +1683,64 @@ namespace dnSpy.AsmEditor.Compiler {
 			if (isValueType)
 				return new ValueTypeSig(Import(type));
 			return new ClassSig(Import(type));
+		}
+
+		/// <summary>
+		/// Attributes the C# compiler adds for language features and doesn't allow in source code (a decompiler
+		/// can't show them as code that compiles). The compiler only adds them when the compiled code needs them.
+		/// </summary>
+		static readonly HashSet<string> compilerReservedAttributes = new HashSet<string>(StringComparer.Ordinal) {
+			"System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute",
+			"System.Runtime.CompilerServices.DynamicAttribute",
+			"System.Runtime.CompilerServices.ExtensionAttribute",
+			"System.Runtime.CompilerServices.ExtensionMarkerAttribute",
+			"System.Runtime.CompilerServices.IsByRefLikeAttribute",
+			"System.Runtime.CompilerServices.IsReadOnlyAttribute",
+			"System.Runtime.CompilerServices.IsUnmanagedAttribute",
+			"System.Runtime.CompilerServices.NativeIntegerAttribute",
+			"System.Runtime.CompilerServices.NullableAttribute",
+			"System.Runtime.CompilerServices.NullableContextAttribute",
+			"System.Runtime.CompilerServices.NullablePublicOnlyAttribute",
+			"System.Runtime.CompilerServices.ParamCollectionAttribute",
+			"System.Runtime.CompilerServices.RefSafetyRulesAttribute",
+			"System.Runtime.CompilerServices.RequiredMemberAttribute",
+			"System.Runtime.CompilerServices.RequiresLocationAttribute",
+			"System.Runtime.CompilerServices.ScopedRefAttribute",
+			"System.Runtime.CompilerServices.TupleElementNamesAttribute",
+		};
+
+		/// <summary>
+		/// The assembly/module attributes that can't be in the edited code (e.g. [module: RefSafetyRules(11)],
+		/// [assembly: Extension]) are the original ones: the compiler added the compiled module's for the code it
+		/// compiled, the module's code is the original code
+		/// </summary>
+		static void KeepCompilerReservedAttributes(List<CustomAttribute> attributes, IHasCustomAttribute original) {
+			attributes.RemoveAll(a => compilerReservedAttributes.Contains(a.TypeFullName));
+			foreach (var ca in original.CustomAttributes) {
+				if (compilerReservedAttributes.Contains(ca.TypeFullName))
+					attributes.Add(ca);
+			}
+		}
+
+		/// <summary>
+		/// New code that uses a C# 12 primary constructor parameter that the type doesn't store in a field: the
+		/// compiler adds the field ('&lt;name&gt;P') and sets it in the constructor, but the constructor isn't imported, so
+		/// the parameter would always have its default value
+		/// </summary>
+		void CheckNewPrimaryConstructorCaptures(TypeDef newType, TypeDef targetType) {
+			foreach (var field in newType.Fields) {
+				var name = UTF8String.ToSystemStringOrEmpty(field.Name);
+				if (name.Length < 4 || !name.StartsWith("<", StringComparison.Ordinal) || !name.EndsWith(">P", StringComparison.Ordinal) ||
+					!field.CustomAttributes.IsDefined("System.Runtime.CompilerServices.CompilerGeneratedAttribute"))
+					continue;
+				if (targetType.FindField(field.Name) is null)
+					AddError(IM0011, string.Format(dnSpy_AsmEditor_Resources.ERR_IM_NewPrimaryConstructorParameterCapture, name.Substring(1, name.Length - 3), targetType));
+			}
+			foreach (var nested in newType.NestedTypes) {
+				var targetNested = targetType.NestedTypes.FirstOrDefault(a => a.Name == nested.Name);
+				if (targetNested is not null)
+					CheckNewPrimaryConstructorCaptures(nested, targetNested);
+			}
 		}
 
 		void ImportCustomAttributes(IHasCustomAttribute target, IHasCustomAttribute source) =>

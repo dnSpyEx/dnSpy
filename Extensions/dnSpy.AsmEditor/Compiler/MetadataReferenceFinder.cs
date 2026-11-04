@@ -34,6 +34,8 @@ namespace dnSpy.AsmEditor.Compiler {
 		readonly HashSet<IAssembly> checkedContractsAssemblies;
 		readonly DotNetPathProvider dotNetPathProvider;
 		readonly TargetFrameworkInfo targetFrameworkInfo;
+		// The target is a reference's newer .NET (GetCompileTarget)
+		readonly bool targetFromReference;
 		readonly Dictionary<IAssembly, AssemblyDef> referenceAssemblies;
 
 		public MetadataReferenceFinder(ModuleDef module, CancellationToken cancellationToken) {
@@ -42,8 +44,70 @@ namespace dnSpy.AsmEditor.Compiler {
 			assemblies = new Dictionary<IAssembly, AssemblyDef>(new AssemblyNameComparer(AssemblyNameComparerFlags.All & ~AssemblyNameComparerFlags.Version));
 			checkedContractsAssemblies = new HashSet<IAssembly>(AssemblyNameComparer.CompareAll);
 			dotNetPathProvider = new DotNetPathProvider();
-			targetFrameworkInfo = TargetFrameworkInfo.Create(module);
+			(targetFrameworkInfo, targetFromReference) = GetCompileTarget(module, dotNetPathProvider);
 			referenceAssemblies = new Dictionary<IAssembly, AssemblyDef>(AssemblyNameComparer.CompareAll);
+		}
+
+		/// <summary>
+		/// The framework whose reference assemblies the code compiles against: the module's, or the newest .NET of its
+		/// references. A .NET 9 (or .NET Standard) library of a .NET 10 app has .NET 10 references (e.g.
+		/// Microsoft.Extensions 10 instead of the 9 it was built with) that use System.Runtime 10, which don't compile
+		/// against .NET 9's (CS1705). The app runs it on .NET 10, so that's what it can be compiled against.
+		/// A .NET Standard library can also use packages that aren't part of .NET Standard (e.g.
+		/// System.Collections.Immutable, System.Reflection.Metadata) that are part of .NET. If the package's .NET
+		/// Standard build isn't next to it, the code is compiled against .NET: the one they're resolved from, else the
+		/// newest one. (With .NET Standard's reference assemblies they were missing (CS0234) or .NET's runtime assemblies
+		/// (two core libraries, netstandard and System.Private.CoreLib: CS0518, CS0433).)
+		/// </summary>
+		static (TargetFrameworkInfo info, bool fromReference) GetCompileTarget(ModuleDef module, DotNetPathProvider dotNetPathProvider) {
+			var info = TargetFrameworkInfo.Create(module);
+			if (info.Framework != ".NETCoreApp" && info.Framework != ".NETStandard")
+				return (info, false);
+			var best = info;
+			bool fromReference = false;
+			Version? bestVersion = info.Framework == ".NETCoreApp" && Version.TryParse(info.Version, out var v) ? v : null;
+			Version.TryParse(info.Version, out var netStandardVersion);
+			var netStandardMoniker = info.GetTargetFrameworkMoniker();
+			int bitness = module.GetPointerSize(IntPtr.Size) * 8;
+			foreach (var asmRef in module.GetAssemblyRefs()) {
+				TargetFrameworkInfo refInfo;
+				// The framework's assemblies are replaced with the reference assemblies of the chosen framework, except
+				// the ones .NET Standard doesn't have
+				if (IsPublicKeyToken(contractsPublicKeyTokens, asmRef.PublicKeyOrToken?.Token)) {
+					if (info.Framework != ".NETStandard" || netStandardVersion is null || netStandardMoniker is null || asmRef.Name == "netstandard" ||
+						FindNetStandardReference(dotNetPathProvider, netStandardVersion, netStandardMoniker, asmRef.Name + ".dll", bitness) is not null)
+						continue;
+					// The package's .NET Standard build: compiled against .NET Standard like the original (with .NET's
+					// reference assemblies the code could use APIs that .NET Framework doesn't have)
+					if (FindNetStandardPackage(asmRef, netStandardMoniker) is not null)
+						continue;
+					var package = module.Context.AssemblyResolver.Resolve(asmRef, module)?.ManifestModule;
+					var packageInfo = package is null ? (TargetFrameworkInfo?)null : TargetFrameworkInfo.Create(package);
+					// Its .NET Standard build (next to the library): as before
+					if (packageInfo?.Framework == ".NETStandard")
+						continue;
+					if (packageInfo?.Framework == ".NETCoreApp")
+						refInfo = packageInfo.Value;
+					else if (dotNetPathProvider.TryGetLatestNetStandardCompatibleVersion(netStandardVersion, out var latest) && latest is not null)
+						refInfo = TargetFrameworkInfo.CreateDotNet(latest);
+					else
+						continue;
+				}
+				else {
+					var resolved = module.Context.AssemblyResolver.Resolve(asmRef, module);
+					if (resolved?.ManifestModule is not ModuleDef refModule)
+						continue;
+					refInfo = TargetFrameworkInfo.Create(refModule);
+				}
+				if (refInfo.Framework != ".NETCoreApp" || !Version.TryParse(refInfo.Version, out var refVersion))
+					continue;
+				if (bestVersion is null || refVersion > bestVersion) {
+					best = refInfo;
+					bestVersion = refVersion;
+					fromReference = true;
+				}
+			}
+			return (best, fromReference);
 		}
 
 		public IEnumerable<ModuleDef> Find(IEnumerable<string> extraAssemblyReferences) {
@@ -167,11 +231,125 @@ namespace dnSpy.AsmEditor.Compiler {
 
 		static readonly Version ver2_0_0_0 = new Version(2, 0, 0, 0);
 
+		/// <summary>
+		/// The .NET Standard build of a package that isn't part of .NET Standard (e.g. System.Collections.Immutable) in the
+		/// NuGet package folders: the lowest version that has the assembly version, or null. (netstandard2.1: also its
+		/// netstandard2.0 build.)
+		/// </summary>
+		static string? FindNetStandardPackage(IAssembly asmRef, string moniker) {
+			var monikers = moniker == "netstandard2.1" ? new[] { moniker, "netstandard2.0" } : new[] { moniker };
+			var fileName = asmRef.Name + ".dll";
+			foreach (var source in NuGetPackageLocator.GetPossibleNuGetPackageLocations(asmRef.Name.String.ToLowerInvariant(), null)) {
+				string? best = null;
+				Version? bestVersion = null;
+				foreach (var versionPath in source) {
+					foreach (var m in monikers) {
+						var file = Path.Combine(versionPath, "lib", m, fileName);
+						if (!File.Exists(file))
+							continue;
+						Version? version;
+						try {
+							using var package = ModuleDefMD.Load(file);
+							version = package.Assembly?.Version;
+						}
+						catch (BadImageFormatException) {
+							continue;
+						}
+						catch (IOException) {
+							continue;
+						}
+						if (version is null || version < asmRef.Version || (bestVersion is not null && version >= bestVersion))
+							break;
+						best = file;
+						bestVersion = version;
+						break;
+					}
+				}
+				if (best is not null)
+					return best;
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// Is a Microsoft.NETCore.App X.Y.* (the version's major and minor) installed?
+		/// </summary>
+		bool IsRuntimeInstalled(Version version, int bitness) {
+			foreach (var path in dotNetPathProvider.TryGetSharedDotNetPaths(version, bitness) ?? Array.Empty<string>()) {
+				if (Version.TryParse(Path.GetFileName(path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)).Split('-')[0], out var installed) &&
+					installed.Major == version.Major && installed.Minor == version.Minor)
+					return true;
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// The 'ref\netX.Y' directory of a reference pack, if it has one
+		/// </summary>
+		static string? GetOnlyReferenceDirectory(string packPath) {
+			try {
+				var dirs = Directory.GetDirectories(Path.Combine(packPath, "ref"), "net*");
+				return dirs.Length == 1 ? dirs[0] : null;
+			}
+			catch (IOException) {
+				return null;
+			}
+			catch (UnauthorizedAccessException) {
+				return null;
+			}
+		}
+
+		/// <summary>
+		/// .NET Standard's reference assembly (netstandard2.1: the SDK's, else the NETStandard.Library package's), or null
+		/// if it's not part of .NET Standard
+		/// </summary>
+		static string? FindNetStandardReference(DotNetPathProvider dotNetPathProvider, Version ver, string moniker, string fileName, int bitness) {
+			if (ver > ver2_0_0_0) {
+				foreach (string path in dotNetPathProvider.TryGetNetStandardReferencePaths(ver, bitness) ?? Array.Empty<string>()) {
+					var newFileName = Path.Combine(path, "ref", moniker, fileName);
+					if (File.Exists(newFileName))
+						return newFileName;
+				}
+				return null;
+			}
+
+			foreach (var source in NuGetPackageLocator.GetPossibleNuGetPackageLocations("netstandard.library", null)) {
+				string? targetPath = null;
+				Version? maxCompatibleVersion = null;
+				foreach (string versionPath in source) {
+					var versionText = Path.GetFileName(versionPath);
+					if (!Version.TryParse(versionText, out var packageVer))
+						continue;
+
+					if (packageVer.Major != ver.Major || packageVer.Minor != ver.Minor)
+						continue;
+
+					if (maxCompatibleVersion is not null && packageVer <= maxCompatibleVersion)
+						continue;
+
+					var newPath = Path.Combine(versionPath, "build", moniker, "ref", fileName);
+					if (!File.Exists(newPath))
+						continue;
+
+					maxCompatibleVersion = packageVer;
+					targetPath = newPath;
+				}
+
+				if (targetPath is not null)
+					return targetPath;
+			}
+			return null;
+		}
+
 		AssemblyDef? Resolve(ModuleDef module, IAssembly asmRef) {
 			if (referenceAssemblies.TryGetValue(asmRef, out var refAsm))
 				return refAsm;
 			var resolved = module.Context.AssemblyResolver.Resolve(asmRef, module);
-			if (resolved is null)
+			// A package of a .NET Standard library that's part of .NET (GetCompileTarget) isn't always found (e.g. in the
+			// GAC): it's in the .NET it's compiled against
+			// (Or in a NuGet package folder: FindNetStandardPackage)
+			bool fromTarget = resolved is null && ((targetFromReference && targetFrameworkInfo.Framework == ".NETCoreApp") || targetFrameworkInfo.Framework == ".NETStandard");
+			if (resolved is null && !fromTarget)
 				return null;
 			if (!dotNetPathProvider.HasDotNet || targetFrameworkInfo.IsDotNetFramework)
 				return resolved;
@@ -184,43 +362,15 @@ namespace dnSpy.AsmEditor.Compiler {
 			if (moniker is null)
 				return resolved;
 
-			var fileName = Path.GetFileName(resolved.ManifestModule.Location);
+			var fileName = resolved is null ? asmRef.Name + ".dll" : Path.GetFileName(resolved.ManifestModule.Location);
 
 			string[]? referencePaths;
 			switch (targetFrameworkInfo.Framework) {
 			case ".NETStandard":
-				if (ver > ver2_0_0_0) {
-					referencePaths = dotNetPathProvider.TryGetNetStandardReferencePaths(ver, module.GetPointerSize(IntPtr.Size) * 8);
-					break;
-				}
-
-				string? targetPath = null;
-				foreach (var source in NuGetPackageLocator.GetPossibleNuGetPackageLocations("netstandard.library", null)) {
-					targetPath = null;
-					Version? maxCompatibleVersion = null;
-					foreach (string versionPath in source) {
-						var versionText = Path.GetFileName(versionPath);
-						if (!Version.TryParse(versionText, out var packageVer))
-							continue;
-
-						if (packageVer.Major != ver.Major || packageVer.Minor != ver.Minor)
-							continue;
-
-						if (maxCompatibleVersion is not null && packageVer <= maxCompatibleVersion)
-							continue;
-
-						var newPath = Path.Combine(versionPath, "build", moniker, "ref", fileName);
-						if (!File.Exists(newPath))
-							continue;
-
-						maxCompatibleVersion = packageVer;
-						targetPath = newPath;
-					}
-
-					if (targetPath is not null)
-						break;
-				}
-
+				var targetPath = FindNetStandardReference(dotNetPathProvider, ver, moniker, fileName, module.GetPointerSize(IntPtr.Size) * 8) ??
+					// Not part of .NET Standard, e.g. System.Collections.Immutable: its package's .NET Standard build (the
+					// runtime assembly of the GAC or of .NET has another core library: CS0518, CS0433)
+					(asmRef.Name != "netstandard" ? FindNetStandardPackage(asmRef, moniker) : null);
 				if (targetPath is null)
 					return resolved;
 
@@ -235,16 +385,34 @@ namespace dnSpy.AsmEditor.Compiler {
 				return resolved;
 			}
 
-			if (referencePaths is null)
-				return resolved;
-
-			foreach (string path in referencePaths) {
+			foreach (string path in referencePaths ?? Array.Empty<string>()) {
 				var newFileName = Path.Combine(path, "ref", moniker, fileName);
+				// Neither the version's reference pack nor its runtime is installed (e.g. .NET 5): it rolls forward to a newer
+				// .NET, so the reference assemblies of that pack, all of them. (The resolver's runtime assemblies were a mix:
+				// .NET 6's System.Runtime.CompilerServices.Unsafe with Unsafe and .NET 10's System.Private.CoreLib with
+				// Unsafe, CS0433.) With its runtime, the runtime's assemblies are used as before: a newer pack has APIs the
+				// version doesn't have.
+				if (targetFrameworkInfo.Framework == ".NETCoreApp" && !Directory.Exists(Path.Combine(path, "ref", moniker)) &&
+					!IsRuntimeInstalled(ver, module.GetPointerSize(IntPtr.Size) * 8) && GetOnlyReferenceDirectory(path) is string otherDir)
+					newFileName = Path.Combine(otherDir, fileName);
 				if (!File.Exists(newFileName))
 					continue;
 				var newModule = ModuleDefMD.Load(newFileName, module.Context);
 				(newModule.Metadata.PEImage as IInternalPEImage)?.UnsafeDisableMemoryMappedIO();
 				return referenceAssemblies[asmRef] = newModule.Assembly;
+			}
+
+			// No reference assemblies (no SDK): the resolved one (if any) is the module's framework's, use the newer
+			// .NET's runtime assembly instead
+			if (targetFromReference && targetFrameworkInfo.Framework == ".NETCoreApp") {
+				foreach (string path in dotNetPathProvider.TryGetSharedDotNetPaths(ver, module.GetPointerSize(IntPtr.Size) * 8) ?? Array.Empty<string>()) {
+					var newFileName = Path.Combine(path, fileName);
+					if (!File.Exists(newFileName))
+						continue;
+					var newModule = ModuleDefMD.Load(newFileName, module.Context);
+					(newModule.Metadata.PEImage as IInternalPEImage)?.UnsafeDisableMemoryMappedIO();
+					return referenceAssemblies[asmRef] = newModule.Assembly;
+				}
 			}
 
 			return resolved;

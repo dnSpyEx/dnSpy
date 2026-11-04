@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Built for .NET 9 and .NET 10 like a NuGet package: OldLib compiles against the .NET 9 one, App's output gets the .NET 10 one -->
+  <PropertyGroup>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+</Project>

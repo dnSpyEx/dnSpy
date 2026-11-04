@@ -36,11 +36,6 @@ namespace dnSpy.Roslyn.Intellisense.SignatureHelp {
 		[Name(ContentTypes.CSharpRoslyn + SignatureHelpConstants.ExtendedSignatureHelpContentTypeSuffix)]
 		[BaseDefinition(ContentTypes.SignatureHelp)]
 		static readonly ContentTypeDefinition? CSharpRoslynContentTypeDefinition;
-
-		[Export]
-		[Name(ContentTypes.VisualBasicRoslyn + SignatureHelpConstants.ExtendedSignatureHelpContentTypeSuffix)]
-		[BaseDefinition(ContentTypes.SignatureHelp)]
-		static readonly ContentTypeDefinition? VisualBasicRoslynContentTypeDefinition;
 #pragma warning restore CS0169
 	}
 
@@ -63,16 +58,6 @@ namespace dnSpy.Roslyn.Intellisense.SignatureHelp {
 	sealed class CSharpSignatureHelpTaggerProviderEx : SignatureHelpTaggerProviderEx {
 		[ImportingConstructor]
 		CSharpSignatureHelpTaggerProviderEx(IThemeClassificationTypeService themeClassificationTypeService)
-			: base(themeClassificationTypeService) {
-		}
-	}
-
-	[Export(typeof(ITaggerProvider))]
-	[TagType(typeof(IClassificationTag))]
-	[ContentType(ContentTypes.VisualBasicRoslyn + SignatureHelpConstants.ExtendedSignatureHelpContentTypeSuffix)]
-	sealed class VisualBasicSignatureHelpTaggerProviderEx : SignatureHelpTaggerProviderEx {
-		[ImportingConstructor]
-		VisualBasicSignatureHelpTaggerProviderEx(IThemeClassificationTypeService themeClassificationTypeService)
 			: base(themeClassificationTypeService) {
 		}
 	}

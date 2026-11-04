@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\DnSpyCommon.props" />
+
+  <!--
+    Decompiles a corpus of assemblies (framework, packages, obfuscated samples) with dnSpy's C# decompiler ("dnspy")
+    or the bare upstream decompiler ("upstream") and reports failures, crashes, hangs, bridge decisions and debug info
+    errors. Each assembly runs in a child process so a stack overflow (which can't be caught) is recorded instead of
+    ending the run. Tests/RegressionCorpus/Run-Corpus.ps1 uses it to compare two commits.
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net10.0-windows</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\dnSpy.snk</AssemblyOriginatorKeyFile>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <IsPackable>false</IsPackable>
+    <!-- build.ps1 publishes the whole solution self-contained; test tools aren't part of the dnSpy distribution -->
+    <IsPublishable>false</IsPublishable>
+    <!-- dnSpy's contracts reference WPF, the decompiler doesn't need it: runs on Linux too (CI's regression check) -->
+    <DisableTransitiveFrameworkReferences>true</DisableTransitiveFrameworkReferences>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\dnSpy.Decompiler.ILSpy.Tests\Infrastructure\DebugInfoValidator.cs" Link="Shared\DebugInfoValidator.cs" />
+    <Compile Include="..\dnSpy.Decompiler.ILSpy.Tests\Infrastructure\PdbGroundTruth.cs" Link="Shared\PdbGroundTruth.cs" />
+    <Compile Include="..\dnSpy.Decompiler.ILSpy.Tests\Infrastructure\CapturingDecompilerOutput.cs" Link="Shared\CapturingDecompilerOutput.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Extensions\ILSpy.Decompiler\dnSpy.Decompiler.ILSpy.Core\dnSpy.Decompiler.ILSpy.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -126,23 +126,8 @@
   <data name="CompilerSettings_CheckOverflow" xml:space="preserve">
     <value>Auf arithmetischen Überlauf/Unterlauf prüfen</value>
   </data>
-  <data name="CompilerSettings_EmbedVBRuntime" xml:space="preserve">
-    <value>Visual Basic Laufzeitumgebung einbetten</value>
-  </data>
   <data name="CompilerSettings_Optimize" xml:space="preserve">
     <value>Code optimieren</value>
-  </data>
-  <data name="CompilerSettings_OptionCompareBinary" xml:space="preserve">
-    <value>Option Compare: Binär</value>
-  </data>
-  <data name="CompilerSettings_OptionExplicit" xml:space="preserve">
-    <value>Option Explicit</value>
-  </data>
-  <data name="CompilerSettings_OptionInfer" xml:space="preserve">
-    <value>Option Infer</value>
-  </data>
-  <data name="CompilerSettings_OptionStrict" xml:space="preserve">
-    <value>Option Strict</value>
   </data>
   <data name="CompilerSettings_PreprocessorSymbols" xml:space="preserve">
     <value>Benutzerdefinierte Kompilierungskonstanten</value>
@@ -179,9 +164,6 @@
   </data>
   <data name="DebuggerVarsWindow_ResultsView" xml:space="preserve">
     <value>Ergebnisansicht</value>
-  </data>
-  <data name="DebuggerVarsWindow_VisualBasic_SharedMembers" xml:space="preserve">
-    <value>Geteilter Member</value>
   </data>
   <data name="DelegatesToolTip" xml:space="preserve">
     <value>Delegaten</value>

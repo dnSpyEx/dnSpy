@@ -259,7 +259,7 @@
     <value>recursive search for .NET files to decompile</value>
   </data>
   <data name="CmdLineDescription_SlnName" xml:space="preserve">
-    <value>name of the .sln file</value>
+    <value>name of the .sln file (a .slnx name writes the XML solution format)</value>
   </data>
   <data name="CmdLineDescription_Type1" xml:space="preserve">
     <value>decompile the type with the specified name to stdout. Either Namespace.Name or Name, case insensitive</value>

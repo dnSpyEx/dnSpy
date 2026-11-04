@@ -19,12 +19,23 @@ namespace dnSpy.BamlDecompiler {
 		static HandlerMap() {
 			handlers = new Dictionary<BamlRecordType, IHandler>();
 
-			foreach (var type in typeof(IHandler).Assembly.GetTypes()) {
-				if (typeof(IHandler).IsAssignableFrom(type) &&
+			foreach (var type in GetTypes()) {
+				if (type is not null && typeof(IHandler).IsAssignableFrom(type) &&
 				    !type.IsInterface && !type.IsAbstract) {
 					var handler = (IHandler)Activator.CreateInstance(type);
 					handlers.Add(handler.Type, handler);
 				}
+			}
+		}
+
+		// The handlers don't need WPF, but some other types of this assembly do (e.g. the settings page): they can't be
+		// loaded where WPF isn't available (dnSpy.Console, tests on Linux)
+		static Type[] GetTypes() {
+			try {
+				return typeof(IHandler).Assembly.GetTypes();
+			}
+			catch (System.Reflection.ReflectionTypeLoadException ex) {
+				return ex.Types;
 			}
 		}
 

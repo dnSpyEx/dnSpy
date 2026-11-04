@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    A small program to check dnSpy's debugger on decompiled code by hand (see README.md). Not part of dnSpy.sln:
+    build it on its own (dotnet build -c Release), open the .dll in dnSpy and debug it with "C#".
+  -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <!-- No PDB: dnSpy must use the decompiler's debug info -->
+    <DebugType>none</DebugType>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>

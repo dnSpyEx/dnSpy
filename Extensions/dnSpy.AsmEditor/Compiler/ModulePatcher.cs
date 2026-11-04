@@ -18,6 +18,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using dnlib.DotNet;
 using dnSpy.AsmEditor.Compiler.MDEditor;
 using dnSpy.Contracts.ETW;
@@ -29,13 +30,21 @@ namespace dnSpy.AsmEditor.Compiler {
 		readonly IAssembly tempAssembly;
 		readonly ModuleDef editedModule;
 		readonly TypeDef? nonNestedEditedType;
+		readonly Func<AssemblyRef, Version?>? getResolvedVersion;
+		readonly Func<ModuleDef, List<TypeDef>>? getClashingTypes;
 
-		public ModulePatcher(RawModuleBytes moduleData, bool isFileLayout, IAssembly tempAssembly, ModuleDef editedModule, TypeDef? nonNestedEditedType) {
+		/// <param name="getResolvedVersion">Version of the assembly that the compiler gets for a reference, or null</param>
+		/// <param name="getClashingTypes">Public types of a module that clash with the edited module's own or friend types
+		/// (see <see cref="CompilerVisibleTypes.GetClashingTypes"/>), or null</param>
+		public ModulePatcher(RawModuleBytes moduleData, bool isFileLayout, IAssembly tempAssembly, ModuleDef editedModule, TypeDef? nonNestedEditedType,
+			Func<AssemblyRef, Version?>? getResolvedVersion = null, Func<ModuleDef, List<TypeDef>>? getClashingTypes = null) {
 			this.moduleData = moduleData;
 			this.isFileLayout = isFileLayout;
 			this.tempAssembly = tempAssembly;
 			this.editedModule = editedModule;
 			this.nonNestedEditedType = nonNestedEditedType;
+			this.getResolvedVersion = getResolvedVersion;
+			this.getClashingTypes = getClashingTypes;
 		}
 
 		public unsafe bool Patch(ModuleDef module, out RawModuleBytes newModuleData) {
@@ -49,7 +58,10 @@ namespace dnSpy.AsmEditor.Compiler {
 				MDPatcherUtils.ReferencesModule(module, nonNestedEditedType?.Module) &&
 				!module.Assembly.IsCorLib();
 			bool addIVT = module == editedModule || MDPatcherUtils.HasModuleInternalAccess(module, editedModule);
-			if (fixTypeDefRefs || addIVT) {
+			// (The edited code sees all internal types of the modules it has internal access to)
+			var clashingTypes = addIVT ? null : getClashingTypes?.Invoke(module);
+			bool hideTypes = clashingTypes is not null && clashingTypes.Count != 0;
+			if (fixTypeDefRefs || addIVT || hideTypes) {
 				DnSpyEventSource.Log.EditCodePatchModuleStart(module.Location);
 				using (var md = MDPatcherUtils.TryCreateMetadata(moduleData, isFileLayout)) {
 					if (md is null)
@@ -60,7 +72,14 @@ namespace dnSpy.AsmEditor.Compiler {
 						options |= MDEditorPatcherOptions.UpdateTypeReferences;
 					if (addIVT)
 						options |= MDEditorPatcherOptions.AllowInternalAccess;
-					var patcher = new MDEditorPatcher(moduleData, mdEditor, tempAssembly, nonNestedEditedType, options);
+					if (module == editedModule)
+						options |= MDEditorPatcherOptions.MakeCompilerEmbeddedTypesVisible;
+					if (hideTypes)
+						options |= MDEditorPatcherOptions.HideTypes;
+					// (Only modules that are rewritten anyway: the edited module and the ones that reference its type)
+					if (getResolvedVersion is not null)
+						options |= MDEditorPatcherOptions.UpdateAssemblyRefVersions;
+					var patcher = new MDEditorPatcher(moduleData, mdEditor, tempAssembly, nonNestedEditedType, options, getResolvedVersion, clashingTypes);
 					patcher.Patch(module);
 					if (mdEditor.MustRewriteMetadata()) {
 						var stream = new MDWriterMemoryStream();

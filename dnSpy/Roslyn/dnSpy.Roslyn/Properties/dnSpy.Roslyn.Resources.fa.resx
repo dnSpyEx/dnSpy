@@ -126,23 +126,8 @@
   <data name="CompilerSettings_CheckOverflow" xml:space="preserve">
     <value>بررسی overflow/underflow محاسباتی</value>
   </data>
-  <data name="CompilerSettings_EmbedVBRuntime" xml:space="preserve">
-    <value>رانتایم جاسازی شده ویژوال بیسیک</value>
-  </data>
   <data name="CompilerSettings_Optimize" xml:space="preserve">
     <value>بهینه سازی کد</value>
-  </data>
-  <data name="CompilerSettings_OptionCompareBinary" xml:space="preserve">
-    <value>آپشن مقایسه: باینری</value>
-  </data>
-  <data name="CompilerSettings_OptionExplicit" xml:space="preserve">
-    <value>آپشن صریح</value>
-  </data>
-  <data name="CompilerSettings_OptionInfer" xml:space="preserve">
-    <value>آپشن نتیجه گیری</value>
-  </data>
-  <data name="CompilerSettings_OptionStrict" xml:space="preserve">
-    <value>آپشن سخت گیرانه</value>
   </data>
   <data name="CompilerSettings_PreprocessorSymbols" xml:space="preserve">
     <value>نشانه های کامپایل شرطی</value>
@@ -179,9 +164,6 @@
   </data>
   <data name="DebuggerVarsWindow_ResultsView" xml:space="preserve">
     <value>مشاهده نتایج</value>
-  </data>
-  <data name="DebuggerVarsWindow_VisualBasic_SharedMembers" xml:space="preserve">
-    <value>اعضای مشترک شده</value>
   </data>
   <data name="DelegatesToolTip" xml:space="preserve">
     <value>دلگیت ها</value>

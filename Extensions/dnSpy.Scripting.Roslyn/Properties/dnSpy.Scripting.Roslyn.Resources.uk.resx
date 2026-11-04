@@ -255,12 +255,6 @@
   <data name="ShortCutKeyCtrlL" xml:space="preserve">
     <value>CTRL + L</value>
   </data>
-  <data name="Window_VisualBasic" xml:space="preserve">
-    <value>Visual Basic Interactive</value>
-  </data>
-  <data name="ShortCutKeyCtrlAltI" xml:space="preserve">
-    <value>Ctrl+Alt+I</value>
-  </data>
   <data name="CopyCodeCommand" xml:space="preserve">
     <value>Скопіювати Код</value>
   </data>
@@ -302,8 +296,5 @@
   </data>
   <data name="CSharpScriptFiles" xml:space="preserve">
     <value>Файли скриптів C#</value>
-  </data>
-  <data name="VisualBasicScriptFiles" xml:space="preserve">
-    <value>Файли скриптів Visual Basic</value>
   </data>
 </root>

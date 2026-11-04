@@ -126,23 +126,8 @@
   <data name="CompilerSettings_CheckOverflow" xml:space="preserve">
     <value>检查算术溢出/下溢</value>
   </data>
-  <data name="CompilerSettings_EmbedVBRuntime" xml:space="preserve">
-    <value>始终嵌入 Visual Basic 运行时</value>
-  </data>
   <data name="CompilerSettings_Optimize" xml:space="preserve">
     <value>优化代码</value>
-  </data>
-  <data name="CompilerSettings_OptionCompareBinary" xml:space="preserve">
-    <value>Option Compare Binary (以二进制方式进行字符比较)</value>
-  </data>
-  <data name="CompilerSettings_OptionExplicit" xml:space="preserve">
-    <value>Option Explicit (强制显式声明变量)</value>
-  </data>
-  <data name="CompilerSettings_OptionInfer" xml:space="preserve">
-    <value>Option Infer (允许编译器推断数据类型)</value>
-  </data>
-  <data name="CompilerSettings_OptionStrict" xml:space="preserve">
-    <value>Option Strict (保证数值变量精度)</value>
   </data>
   <data name="CompilerSettings_PreprocessorSymbols" xml:space="preserve">
     <value>条件编译符号</value>
@@ -179,9 +164,6 @@
   </data>
   <data name="DebuggerVarsWindow_ResultsView" xml:space="preserve">
     <value>结果视图</value>
-  </data>
-  <data name="DebuggerVarsWindow_VisualBasic_SharedMembers" xml:space="preserve">
-    <value>共享的成员</value>
   </data>
   <data name="DelegatesToolTip" xml:space="preserve">
     <value>委托</value>

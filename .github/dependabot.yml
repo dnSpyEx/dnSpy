@@ -5,3 +5,17 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+
+  # The decompiler (ICSharpCode.Decompiler; its version is ILSpyDecompilerVersion in DnSpyCommon.props). Each pull
+  # request runs .github/workflows/decompiler-regression.yml: the tests, and the corpus check that lists the types
+  # whose decompiled output changed.
+  # Not Roslyn: each Roslyn version needs the matching source of Roslyn's expression evaluator
+  # (dnSpy/Roslyn/Roslyn.ExpressionCompiler, dnSpy's fork of it), and dnSpyEx updates both together. Take Roslyn
+  # updates by merging dnSpyEx.
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-name: "ICSharpCode.Decompiler"
+    open-pull-requests-limit: 5

@@ -65,6 +65,19 @@ namespace dnSpy.Contracts.Debugger.DotNet.Steppers.Engine {
 		public abstract bool IsRuntimePaused { get; }
 
 		/// <summary>
+		/// true if the engine is evaluating (calling a method in the debugged process, e.g. for the Locals window). The
+		/// process can look paused then (while the engine handles a debug event), but a step must wait until the
+		/// evaluation is done (see <see cref="RunAfterEvaluation(Action)"/>), else it steps in the evaluated code.
+		/// </summary>
+		public virtual bool IsEvaluating => false;
+
+		/// <summary>
+		/// Calls <paramref name="callback"/> on the engine thread after the work in progress there (an evaluation)
+		/// </summary>
+		/// <param name="callback">Called on the engine thread</param>
+		public virtual void RunAfterEvaluation(Action callback) => callback();
+
+		/// <summary>
 		/// Gets the countinue counter. It's incremented each time the process is continued.
 		/// </summary>
 		public abstract uint ContinueCounter { get; }

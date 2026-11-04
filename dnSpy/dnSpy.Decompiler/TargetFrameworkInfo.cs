@@ -60,6 +60,12 @@ namespace dnSpy.Decompiler {
 			FromAttribute = fromAttribute;
 		}
 
+		/// <summary>
+		/// .NET (Core) <paramref name="version"/> (major.minor)
+		/// </summary>
+		public static TargetFrameworkInfo CreateDotNet(Version version) =>
+			new TargetFrameworkInfo(".NETCoreApp", version.Major + "." + version.Minor, null, false);
+
 		public static TargetFrameworkInfo Create(ModuleDef module) {
 			var asm = module.Assembly;
 			if (asm is not null && module.IsManifestModule) {

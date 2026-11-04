@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using dndbg.COM.CorDebug;
 using dndbg.Engine;
 using dnSpy.Contracts.Debugger;
 using dnSpy.Contracts.Debugger.DotNet.Code;
@@ -239,6 +240,8 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Steppers {
 		public override SessionBase CreateSession(object? tag) => new SessionImpl(tag);
 
 		public override bool IsRuntimePaused => dnDebugger.ProcessState == DebuggerProcessState.Paused;
+		public override bool IsEvaluating => dnDebugger.IsEvaluating;
+		public override void RunAfterEvaluation(Action callback) => engine.CorDebugThreadAfterCurrentWork(callback);
 		public override uint ContinueCounter => dnDebugger.ContinueCounter;
 
 		public override DbgDotNetEngineStepperFrameInfo? TryGetFrameInfo(DbgThread thread) {
@@ -248,10 +251,25 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Steppers {
 			return new DbgDotNetEngineStepperFrameInfoImpl(engine, thread, frame);
 		}
 
-		public override void Continue() => engine.Continue_CorDebug();
+		public override void Continue() {
+			ThrowIfEvaluating();
+			engine.Continue_CorDebug();
+		}
+
+		/// <summary>
+		/// The stepper's own evaluations are done when it steps or continues, so this is another one (a tool window's)
+		/// that's running the engine's queue while it waits: stepping now would step in the evaluated code
+		/// </summary>
+		void ThrowIfEvaluating() {
+			if (dnDebugger.IsEvaluating)
+				throw new StepDuringEvaluationException();
+		}
 
 		public override Task<DbgThread> StepOutAsync(DbgDotNetEngineStepperFrameInfo frame) {
 			engine.VerifyCorDebugThread();
+			ThrowIfEvaluating();
+			if (HasAbandonedEvaluation(frame.Thread))
+				return AfterAbandonedEvaluationAsync(frame.Thread, StepOutAsync);
 			Debug2.Assert(session is not null);
 			var frameImpl = (DbgDotNetEngineStepperFrameInfoImpl)frame;
 			Debug.Assert(dnDebugger.ProcessState == DebuggerProcessState.Paused);
@@ -277,6 +295,9 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Steppers {
 
 		public override Task<DbgThread> StepIntoAsync(DbgDotNetEngineStepperFrameInfo frame, DbgCodeRange[] ranges) {
 			engine.VerifyCorDebugThread();
+			ThrowIfEvaluating();
+			if (HasAbandonedEvaluation(frame.Thread))
+				return AfterAbandonedEvaluationAsync(frame.Thread, f => StepIntoAsync(f, ranges));
 			Debug2.Assert(session is not null);
 			var frameImpl = (DbgDotNetEngineStepperFrameInfoImpl)frame;
 			Debug.Assert(dnDebugger.ProcessState == DebuggerProcessState.Paused);
@@ -303,6 +324,9 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Steppers {
 
 		public override Task<DbgThread> StepOverAsync(DbgDotNetEngineStepperFrameInfo frame, DbgCodeRange[] ranges) {
 			engine.VerifyCorDebugThread();
+			ThrowIfEvaluating();
+			if (HasAbandonedEvaluation(frame.Thread))
+				return AfterAbandonedEvaluationAsync(frame.Thread, f => StepOverAsync(f, ranges));
 			Debug2.Assert(session is not null);
 			var frameImpl = (DbgDotNetEngineStepperFrameInfoImpl)frame;
 			Debug.Assert(dnDebugger.ProcessState == DebuggerProcessState.Paused);
@@ -421,14 +445,54 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Steppers {
 			return result;
 		}
 
+		/// <summary>
+		/// A function evaluation that timed out and couldn't be aborted (code that waits or never returns) is still on
+		/// the thread, above the frame where the process stopped
+		/// </summary>
+		bool HasAbandonedEvaluation(DbgThread thread) {
+			foreach (var frame in engine.GetThread(thread).AllFrames) {
+				if (frame.IsInternalFrame && frame.InternalFrameType == CorDebugInternalFrameType.STUBFRAME_FUNC_EVAL)
+					return true;
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// Lets the abandoned evaluation finish (the process runs) and stops when it's done, back in the frame where the
+		/// process stopped, then steps from there. Stepping from the
+		/// evaluation's code stopped in it, and a stepper on the frame below it didn't survive the evaluation's end.
+		/// </summary>
+		async Task<DbgThread> AfterAbandonedEvaluationAsync(DbgThread thread, Func<DbgDotNetEngineStepperFrameInfo, Task<DbgThread>> step) {
+			var corThread = engine.GetThread(thread).CorThread;
+			var tcs = new TaskCompletionSource<bool>();
+			void OnDebugCallback(DnDebugger dbg, DebugCallbackEventArgs e) {
+				if (e is not EvalDebugCallbackEventArgs ee || ee.CorThread?.Equals(corThread) != true)
+					return;
+				dnDebugger.DebugCallbackEvent -= OnDebugCallback;
+				e.AddPauseReason(DebuggerPauseReason.Other);
+				tcs.TrySetResult(true);
+			}
+			dnDebugger.DebugCallbackEvent += OnDebugCallback;
+			engine.Continue_CorDebug();
+			await tcs.Task;
+			var frame = TryGetFrameInfo(thread) ?? throw new StepErrorException("No frame after the timed out evaluation");
+			return await step(frame);
+		}
+
 		CorFrame? GetILFrame(DbgThread thread) {
 			engine.VerifyCorDebugThread();
 			var dnThread = engine.GetThread(thread);
+			// A function evaluation that timed out and couldn't be aborted stays on the thread, above the frame where the
+			// process stopped (see HasAbandonedEvaluation). The step is from that frame: from the evaluation's code, it
+			// stopped in it, under [Function Evaluation].
+			CorFrame? ilFrame = null;
 			foreach (var frame in dnThread.AllFrames) {
-				if (frame.IsILFrame)
-					return frame;
+				if (frame.IsInternalFrame && frame.InternalFrameType == CorDebugInternalFrameType.STUBFRAME_FUNC_EVAL)
+					ilFrame = null;
+				else if (ilFrame is null && frame.IsILFrame)
+					ilFrame = frame;
 			}
-			return null;
+			return ilFrame;
 		}
 
 		public override DbgDotNetStepperBreakpoint CreateBreakpoint(DbgThread? thread, DbgModule module, uint token, uint offset) {

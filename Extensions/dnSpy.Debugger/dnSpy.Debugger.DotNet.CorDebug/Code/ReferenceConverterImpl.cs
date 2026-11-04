@@ -29,7 +29,7 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Code {
 				switch (nativeLoc.ILOffsetMapping) {
 				case DbgILOffsetMapping.Exact:
 				case DbgILOffsetMapping.Approximate:
-					reference = new DotNetMethodBodyReference(nativeLoc.Module, nativeLoc.Token, nativeLoc.Offset);
+					reference = new DotNetMethodBodyReference(nativeLoc.Module, nativeLoc.Token, nativeLoc.StatementOffset);
 					break;
 
 				case DbgILOffsetMapping.Prolog:

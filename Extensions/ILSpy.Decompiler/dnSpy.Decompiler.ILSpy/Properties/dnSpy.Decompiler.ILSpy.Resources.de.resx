@@ -117,21 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DecompilationOrder_Events" xml:space="preserve">
-    <value>Ereignisse</value>
-  </data>
-  <data name="DecompilationOrder_Fields" xml:space="preserve">
-    <value>Felder</value>
-  </data>
-  <data name="DecompilationOrder_Methods" xml:space="preserve">
-    <value>Methoden</value>
-  </data>
-  <data name="DecompilationOrder_NestedTypes" xml:space="preserve">
-    <value>Geschachtelte Typen</value>
-  </data>
-  <data name="DecompilationOrder_Properties" xml:space="preserve">
-    <value>Eigenschaften</value>
-  </data>
   <data name="Plugin_ShortDescription" xml:space="preserve">
     <value>ILSpy-Dekompilierer</value>
   </data>

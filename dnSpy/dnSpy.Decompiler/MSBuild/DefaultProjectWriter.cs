@@ -89,17 +89,16 @@ namespace dnSpy.Decompiler.MSBuild {
 					var text = string.Join(";", project.ProjectTypeGuids.Select(a => a.ToString("B").ToUpperInvariant()).ToArray());
 					writer.WriteElementString("ProjectTypeGuids", text);
 				}
-				//TODO: VB includes a "MyType"
 				if (project.ApplicationManifest is not null)
 					writer.WriteElementString("ApplicationManifest", GetRelativePath(project.ApplicationManifest.Filename));
 				if (project.ApplicationIcon is not null)
 					writer.WriteElementString("ApplicationIcon", GetRelativePath(project.ApplicationIcon.Filename));
 				if (project.StartupObject is not null)
 					writer.WriteElementString("StartupObject", project.StartupObject);
+				WriteDecompilerProperties(writer);
 				writer.WriteEndElement();
 
 				// Debug property group
-				var noWarnList = GetNoWarnList();
 				writer.WriteStartElement("PropertyGroup");
 				writer.WriteAttributeString("Condition", $" '$(Configuration)|$(Platform)' == 'Debug|{project.Platform}' ");
 				writer.WriteElementString("PlatformTarget", project.Platform);
@@ -114,8 +113,6 @@ namespace dnSpy.Decompiler.MSBuild {
 					writer.WriteElementString("NoStdLib", "true");
 				if (project.AllowUnsafeBlocks)
 					writer.WriteElementString("AllowUnsafeBlocks", "true");
-				if (noWarnList is not null)
-					writer.WriteElementString("NoWarn", noWarnList);
 				writer.WriteEndElement();
 
 				// Release property group
@@ -132,8 +129,6 @@ namespace dnSpy.Decompiler.MSBuild {
 					writer.WriteElementString("NoStdLib", "true");
 				if (project.AllowUnsafeBlocks)
 					writer.WriteElementString("AllowUnsafeBlocks", "true");
-				if (noWarnList is not null)
-					writer.WriteElementString("NoWarn", noWarnList);
 				writer.WriteEndElement();
 
 				// GAC references
@@ -252,24 +247,17 @@ namespace dnSpy.Decompiler.MSBuild {
 			case ProjectVersion.VS2017: return "15.0";
 			case ProjectVersion.VS2019: return "15.0";
 			case ProjectVersion.VS2022: return "15.0";
+			case ProjectVersion.VS2026: return "15.0";
 			default: throw new InvalidOperationException();
 			}
 		}
 
 		string? GetAppDesignerFolder() {
-			if (project.Options.Decompiler.GenericGuid == DecompilerConstants.LANGUAGE_VISUALBASIC)
-				return null;
 			if (projectVersion >= ProjectVersion.VS2017)
 				return null;
 			return project.PropertiesFolder;
 		}
 
-		string GetLanguageTargets() {
-			if (project.Options.Decompiler.GenericGuid == DecompilerConstants.LANGUAGE_CSHARP)
-				return @"$(MSBuildToolsPath)\Microsoft.CSharp.targets";
-			if (project.Options.Decompiler.GenericGuid == DecompilerConstants.LANGUAGE_VISUALBASIC)
-				return @"$(MSBuildToolsPath)\Microsoft.VisualBasic.targets";
-			return @"$(MSBuildToolsPath)\Microsoft.CSharp.targets";
-		}
+		static string GetLanguageTargets() => @"$(MSBuildToolsPath)\Microsoft.CSharp.targets";
 	}
 }

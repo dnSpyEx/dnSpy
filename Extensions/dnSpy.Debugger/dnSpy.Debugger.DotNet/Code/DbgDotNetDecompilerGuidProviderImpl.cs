@@ -28,7 +28,6 @@ namespace dnSpy.Debugger.DotNet.Code {
 		public override Guid? GetDecompilerGuid(DbgLanguage language) {
 			switch (language.Name) {
 			case PredefinedDbgLanguageNames.CSharp:			return DecompilerConstants.LANGUAGE_CSHARP;
-			case PredefinedDbgLanguageNames.VisualBasic:	return DecompilerConstants.LANGUAGE_VISUALBASIC;
 			default:										return null;
 			}
 		}

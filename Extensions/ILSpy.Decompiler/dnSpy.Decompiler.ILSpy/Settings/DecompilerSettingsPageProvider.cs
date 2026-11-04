@@ -20,22 +20,16 @@
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using dnSpy.Contracts.Settings.Dialog;
-using ICSharpCode.Decompiler;
 
 namespace dnSpy.Decompiler.ILSpy.Settings {
 	[Export(typeof(IAppSettingsPageProvider))]
 	sealed class DecompilerSettingsPageProvider : IAppSettingsPageProvider {
-		readonly DecompilerSettings decompilerSettings;
 		readonly ILSettingsImpl ilSettings;
 
 		[ImportingConstructor]
-		DecompilerSettingsPageProvider(DecompilerSettingsImpl decompilerSettings, ILSettingsImpl ilSettings) {
-			this.decompilerSettings = decompilerSettings;
-			this.ilSettings = ilSettings;
-		}
+		DecompilerSettingsPageProvider(ILSettingsImpl ilSettings) => this.ilSettings = ilSettings;
 
 		public IEnumerable<AppSettingsPage> Create() {
-			yield return new CSharpDecompilerSettingsPage(decompilerSettings);
 			yield return new ILDecompilerSettingsPage(ilSettings);
 		}
 	}

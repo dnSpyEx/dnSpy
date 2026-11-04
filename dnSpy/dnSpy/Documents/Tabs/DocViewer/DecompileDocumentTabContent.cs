@@ -220,7 +220,14 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 			decompileContext.AsyncShowContext = ctx;
 			Debug2.Assert(decompileContext.DecompileNodeContext is not null);
 			decompileContext.DecompileNodeContext.DecompilationContext.CancellationToken = ctx.CancellationToken;
-			decompileDocumentTabContentFactory.DocumentTreeNodeDecompiler.Decompile(decompileContext.DecompileNodeContext, nodes);
+			try {
+				decompileDocumentTabContentFactory.DocumentTreeNodeDecompiler.Decompile(decompileContext.DecompileNodeContext, nodes);
+			}
+			catch (OperationCanceledException) when (ctx.CancellationToken.IsCancellationRequested) {
+				// The tab shows something else or was refreshed. A canceled task, like the exception gave, but the exception
+				// doesn't leave dnSpy's code (a debugger stops on it).
+				return Task.FromCanceled(ctx.CancellationToken);
+			}
 			return Task.CompletedTask;
 		}
 

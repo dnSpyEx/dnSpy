@@ -279,32 +279,4 @@ namespace dnSpy.Contracts.Decompiler {
 
 		CSharpMetadataTextColorProvider() { }
 	}
-
-	/// <summary>
-	/// Visual Basic <see cref="TextColor"/> provider
-	/// </summary>
-	public sealed class VisualBasicMetadataTextColorProvider : MetadataTextColorProvider {
-		/// <summary>
-		/// Gets the instance
-		/// </summary>
-		public static readonly VisualBasicMetadataTextColorProvider Instance = new VisualBasicMetadataTextColorProvider();
-
-		VisualBasicMetadataTextColorProvider() { }
-
-		/// <summary>
-		/// Gets a type color
-		/// </summary>
-		/// <param name="type">Type</param>
-		/// <returns></returns>
-		public override object GetColor(TypeDef? type) {
-			if (IsModule(type))
-				return BoxedTextColor.Module;
-			return base.GetColor(type);
-		}
-
-		static bool IsModule(TypeDef? type) =>
-			type is not null && type.DeclaringType is null && type.IsSealed && type.IsDefined(stringMicrosoftVisualBasicCompilerServices, stringStandardModuleAttribute);
-		static readonly UTF8String stringMicrosoftVisualBasicCompilerServices = new UTF8String("Microsoft.VisualBasic.CompilerServices");
-		static readonly UTF8String stringStandardModuleAttribute = new UTF8String("StandardModuleAttribute");
-	}
 }

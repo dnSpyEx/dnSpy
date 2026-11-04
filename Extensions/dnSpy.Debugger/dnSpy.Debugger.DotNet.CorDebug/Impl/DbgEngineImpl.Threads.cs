@@ -231,8 +231,8 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Impl {
 				var props = GetThreadProperties_CorDebug(e.Thread, null, isCreateThread: true, forceReadName: false, isMainThread: isMainThread);
 				var threadData = new DbgThreadData(e.Thread, isMainThread) { Last = props };
 				var state = DnThreadUtils.GetState(props.UserState);
-				e.ShouldPause = true;
-				var engineThread = objectFactory.CreateThread(props.AppDomain, props.Kind, props.Id, props.ManagedId, props.Name, props.SuspendedCount, state, GetMessageFlags(), data: threadData);
+				e.ShouldPause = ShouldPauseForObjectEvent;
+				var engineThread = objectFactory.CreateThread(props.AppDomain, props.Kind, props.Id, props.ManagedId, props.Name, props.SuspendedCount, state, GetObjectMessageFlags(), data: threadData);
 				lock (lockObj)
 					toEngineThread.Add(e.Thread, engineThread);
 			}
@@ -243,8 +243,8 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Impl {
 						toEngineThread.Remove(e.Thread);
 				}
 				if (engineThread is not null) {
-					e.ShouldPause = true;
-					engineThread.Remove(GetMessageFlags());
+					e.ShouldPause = ShouldPauseForObjectEvent;
+					engineThread.Remove(GetObjectMessageFlags());
 				}
 			}
 		}

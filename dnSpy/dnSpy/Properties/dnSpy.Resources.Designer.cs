@@ -2045,6 +2045,15 @@ namespace dnSpy.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Solution file format: .sln, or .slnx (XML, Visual Studio 2022 17.13 and later).
+        /// </summary>
+        public static string ExportToProject_SolutionFormat {
+            get {
+                return ResourceManager.GetString("ExportToProject_SolutionFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export to Project.
         /// </summary>
         public static string ExportToProject_Title {

@@ -2185,6 +2185,15 @@ namespace dnSpy.AsmEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The new code uses primary constructor parameter &apos;{0}&apos; of {1}, but the constructor doesn&apos;t store it, so it would always have its default value. Use a field or property that the constructor sets..
+        /// </summary>
+        public static string ERR_IM_NewPrimaryConstructorParameterCapture {
+            get {
+                return ResourceManager.GetString("ERR_IM_NewPrimaryConstructorParameterCapture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Renaming of virtual events isn&apos;t supported: {0}.
         /// </summary>
         public static string ERR_IM_RenamingVirtualEventsIsNotSupported {

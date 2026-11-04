@@ -77,9 +77,7 @@ namespace dnSpy.Roslyn.Intellisense.Completions.Classification {
 			case CompletionKind.StructurePrivate:		return TextColor.ValueType;
 			case CompletionKind.Structure:				return TextColor.ValueType;
 			case CompletionKind.FileCSharp:				return TextColor.Text;
-			case CompletionKind.FileVisualBasic:		return TextColor.Text;
 			case CompletionKind.ProjectCSharp:			return TextColor.Text;
-			case CompletionKind.ProjectVisualBasic:		return TextColor.Text;
 			case CompletionKind.EnumMember:				return TextColor.EnumField;
 			case CompletionKind.Assembly:				return TextColor.Assembly;
 			case CompletionKind.RangeVariable:			return TextColor.Parameter;

@@ -255,12 +255,6 @@
   <data name="ShortCutKeyCtrlL" xml:space="preserve">
     <value>CTRL + L</value>
   </data>
-  <data name="Window_VisualBasic" xml:space="preserve">
-    <value>Visual Basic interativo</value>
-  </data>
-  <data name="ShortCutKeyCtrlAltI" xml:space="preserve">
-    <value>CTRL + Alt + I</value>
-  </data>
   <data name="CopyCodeCommand" xml:space="preserve">
     <value>Copiar Código</value>
   </data>
@@ -302,8 +296,5 @@
   </data>
   <data name="CSharpScriptFiles" xml:space="preserve">
     <value>Ficheiros de Script c#</value>
-  </data>
-  <data name="VisualBasicScriptFiles" xml:space="preserve">
-    <value>Ficheiros de Script Visual Basic</value>
   </data>
 </root>

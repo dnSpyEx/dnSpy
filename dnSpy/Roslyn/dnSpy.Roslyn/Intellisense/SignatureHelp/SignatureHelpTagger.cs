@@ -54,16 +54,6 @@ namespace dnSpy.Roslyn.Intellisense.SignatureHelp {
 		}
 	}
 
-	[Export(typeof(ITaggerProvider))]
-	[TagType(typeof(IClassificationTag))]
-	[ContentType(ContentTypes.VisualBasicRoslyn + SignatureHelpConstants.SignatureHelpContentTypeSuffix)]
-	sealed class VisualBasicSignatureHelpTaggerProvider : SignatureHelpTaggerProvider {
-		[ImportingConstructor]
-		VisualBasicSignatureHelpTaggerProvider(IThemeClassificationTypeService themeClassificationTypeService)
-			: base(themeClassificationTypeService) {
-		}
-	}
-
 	sealed class SignatureHelpTagger : ITagger<IClassificationTag> {
 		public event EventHandler<SnapshotSpanEventArgs>? TagsChanged { add { } remove { } }
 

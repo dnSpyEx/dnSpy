@@ -65,7 +65,14 @@
                     <Button Grid.Row="0" Grid.Column="2" Margin="5 5 0 0" Style="{StaticResource EllipsisButton}" Command="{Binding PickDestDirCommand}"  />
 
                     <Label Grid.Row="1" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=solutionTextBox}" Content="{x:Static p:dnSpy_Resources.ExportToProject_SolutionFilename}" />
-                    <TextBox Grid.Row="1" Grid.Column="1" Margin="5 5 0 0" Name="solutionTextBox" Text="{Binding SolutionFilename, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CreateSolution}" />
+                    <Grid Grid.Row="1" Grid.Column="1" Margin="5 5 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Name="solutionTextBox" Text="{Binding SolutionFilename, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CreateSolution}" />
+                        <ComboBox Grid.Column="1" Margin="5 0 0 0" Name="solutionFormatComboBox" MinWidth="60" DisplayMemberPath="Name" ItemsSource="{Binding SolutionFormatVM.Items}" SelectedIndex="{Binding SolutionFormatVM.SelectedIndex}" IsEnabled="{Binding CreateSolution}" VerticalContentAlignment="Center" ToolTip="{x:Static p:dnSpy_Resources.ExportToProject_SolutionFormat}" AutomationProperties.Name="{x:Static p:dnSpy_Resources.ExportToProject_SolutionFormat}" />
+                    </Grid>
                     <CheckBox Grid.Row="1" Grid.Column="2" Margin="5 5 0 0" IsChecked="{Binding CreateSolution}" VerticalAlignment="Center" HorizontalAlignment="Left" />
 
                     <Label Grid.Row="2" Grid.Column="0" Margin="0 5 0 0" Target="{Binding ElementName=versionComboBox}" Content="{x:Static p:dnSpy_Resources.ExportToProject_ProjectVersion}" />

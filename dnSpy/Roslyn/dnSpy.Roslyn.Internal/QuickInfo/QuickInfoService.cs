@@ -50,26 +50,6 @@ namespace dnSpy.Roslyn.Internal.QuickInfo {
 		}
 	}
 
-	[ExportLanguageServiceFactory(typeof(QuickInfoService), LanguageNames.VisualBasic), Shared]
-	sealed class VisualBasicQuickInfoServiceFactory : ILanguageServiceFactory {
-		readonly Lazy<IQuickInfoProvider, OrderableLanguageMetadata>[] quickInfoProviders;
-
-		[ImportingConstructor]
-		public VisualBasicQuickInfoServiceFactory([ImportMany] IEnumerable<Lazy<IQuickInfoProvider, OrderableLanguageMetadata>> quickInfoProviders) {
-			this.quickInfoProviders = quickInfoProviders.Where(a => a.Metadata.Language == LanguageNames.VisualBasic).ToArray();
-		}
-
-		public ILanguageService CreateLanguageService(HostLanguageServices languageServices) =>
-			new VisualBasicQuickInfoService(quickInfoProviders);
-	}
-
-	sealed class VisualBasicQuickInfoService : QuickInfoService {
-		public override string Language => LanguageNames.VisualBasic;
-		public VisualBasicQuickInfoService(Lazy<IQuickInfoProvider, OrderableLanguageMetadata>[] quickInfoProviders)
-			: base(quickInfoProviders) {
-		}
-	}
-
 	abstract partial class QuickInfoService : ILanguageService {
 		readonly IQuickInfoProvider[] quickInfoProviders;
 

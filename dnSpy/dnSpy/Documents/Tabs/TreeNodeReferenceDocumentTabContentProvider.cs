@@ -27,7 +27,6 @@ using dnSpy.Contracts.Documents.Tabs.DocViewer;
 using dnSpy.Contracts.Documents.TreeView;
 using dnSpy.Decompiler.Utils;
 using dnSpy.Documents.Tabs.DocViewer;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace dnSpy.Documents.Tabs {
 	[ExportReferenceDocumentTabContentProvider(Order = TabConstants.ORDER_CONTENTPROVIDER_TEXTREF)]
@@ -178,6 +177,12 @@ namespace dnSpy.Documents.Tabs {
 			Debug.Assert(IsSupportedReference(@ref));
 			var uiCtx = content.DocumentTab?.UIContext as IDocumentViewer;
 			if (uiCtx is null)
+				return;
+
+			// A method that isn't in the code but that the decompiler maps to it (eg. the compiler's entry point of an
+			// async Main, mapped to Main's declaration): go there
+			if (@ref is MethodDef method && uiCtx.ReferenceCollection.FirstOrNull(a => a.Data.IsDefinition && a.Data.Reference == method) is null &&
+				GoToReferenceCore(content, method, 0, center))
 				return;
 
 			var options = MoveCaretOptions.Select | MoveCaretOptions.Focus;

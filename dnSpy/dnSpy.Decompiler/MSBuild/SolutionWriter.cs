@@ -63,11 +63,16 @@ namespace dnSpy.Decompiler.MSBuild {
 		}
 
 		public void Write() {
-			if (Path.GetExtension(filename) == ".slnx")
+			if (IsXmlSolution(filename))
 				WriteXmlSolution();
 			else
 				WriteVisualStudioSolution();
 		}
+
+		/// <summary>
+		/// The XML solution format (.slnx) that Visual Studio 2022 17.13+ and the .NET SDK 9.0.200+ read
+		/// </summary>
+		public static bool IsXmlSolution(string filename) => Path.GetExtension(filename).Equals(".slnx", StringComparison.OrdinalIgnoreCase);
 
 		private void WriteVisualStudioSolution() {
 			Directory.CreateDirectory(Path.GetDirectoryName(filename)!);
@@ -143,6 +148,14 @@ namespace dnSpy.Decompiler.MSBuild {
 					writer.Write("MinimumVisualStudioVersion = 10.0.40219.1" + crlf);
 					break;
 
+				case ProjectVersion.VS2026:
+					writer.Write("Microsoft Visual Studio Solution File, Format Version 12.00" + crlf);
+					writer.Write("# Visual Studio Version 18" + crlf);
+					// 18.0 (November 2025)
+					writer.Write("VisualStudioVersion = 18.0.11205.157" + crlf);
+					writer.Write("MinimumVisualStudioVersion = 10.0.40219.1" + crlf);
+					break;
+
 				default:
 					throw new InvalidOperationException();
 				}
@@ -193,27 +206,27 @@ namespace dnSpy.Decompiler.MSBuild {
 			using (var writer = XmlWriter.Create(filename, settings)) {
 				writer.WriteStartElement("Solution");
 
+				// Like the .NET SDK's conversion of the .sln that WriteVisualStudioSolution() writes ('dotnet sln migrate'):
+				// the solution's platforms, and each project's own platform if it isn't Any CPU
 				if (platforms.Count != 1 || platforms[0] != "Any CPU") {
 					writer.WriteStartElement("Configurations");
-
 					foreach (var p in platforms) {
-						if (p == "Mixed Platforms")
-							continue;
 						writer.WriteStartElement("Platform");
 						writer.WriteAttributeString("Name", p);
 						writer.WriteEndElement();
 					}
-
 					writer.WriteEndElement();
 				}
 
 				foreach (var p in projects) {
 					writer.WriteStartElement("Project");
-
-					var relativePath = Path.Combine(Path.GetFileName(Path.GetDirectoryName(p.Filename)!),
-						Path.GetFileName(p.Filename));
-
-					writer.WriteAttributeString("Path", relativePath);
+					// Relative to the solution, with '/' like Visual Studio
+					writer.WriteAttributeString("Path", Path.GetFileName(Path.GetDirectoryName(p.Filename)!) + "/" + Path.GetFileName(p.Filename));
+					if (p.Platform is not null && p.Platform != "AnyCPU") {
+						writer.WriteStartElement("Platform");
+						writer.WriteAttributeString("Project", p.Platform);
+						writer.WriteEndElement();
+					}
 					writer.WriteEndElement();
 				}
 

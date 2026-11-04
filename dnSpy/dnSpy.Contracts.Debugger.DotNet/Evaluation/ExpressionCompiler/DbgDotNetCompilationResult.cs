@@ -107,7 +107,7 @@ namespace dnSpy.Contracts.Debugger.DotNet.Evaluation.ExpressionCompiler {
 		public string MethodName;
 
 		/// <summary>
-		/// Gets the expression that was compiled. This is eg. a C# or Visual Basic expression.
+		/// Gets the expression that was compiled. This is eg. a C# expression.
 		/// </summary>
 		public string Expression;
 

@@ -29,5 +29,6 @@ namespace dnSpy.Decompiler.MSBuild {
 		VS2017,
 		VS2019,
 		VS2022,
+		VS2026,
 	}
 }

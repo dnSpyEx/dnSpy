@@ -25,8 +25,17 @@ using dnSpy.Contracts.Settings;
 using dnSpy.Decompiler.MSBuild;
 
 namespace dnSpy.Documents.Tabs.Dialogs {
+	/// <summary>
+	/// The solution file's format (<see cref="SolutionWriter"/> picks it from the extension)
+	/// </summary>
+	enum SolutionFormat {
+		Sln,
+		Slnx,
+	}
+
 	interface IExportToProjectSettings : INotifyPropertyChanged {
 		ProjectVersion ProjectVersion { get; set; }
+		SolutionFormat SolutionFormat { get; set; }
 	}
 
 	class ExportToProjectSettings : ViewModelBase, IExportToProjectSettings {
@@ -40,6 +49,17 @@ namespace dnSpy.Documents.Tabs.Dialogs {
 			}
 		}
 		ProjectVersion projectVersion = ProjectVersion.VS2010;
+
+		public SolutionFormat SolutionFormat {
+			get => solutionFormat;
+			set {
+				if (solutionFormat != value) {
+					solutionFormat = value;
+					OnPropertyChanged(nameof(SolutionFormat));
+				}
+			}
+		}
+		SolutionFormat solutionFormat = SolutionFormat.Sln;
 	}
 
 	[Export(typeof(IExportToProjectSettings))]
@@ -54,12 +74,14 @@ namespace dnSpy.Documents.Tabs.Dialogs {
 
 			var sect = settingsService.GetOrCreateSection(SETTINGS_GUID);
 			ProjectVersion = sect.Attribute<ProjectVersion?>(nameof(ProjectVersion)) ?? ProjectVersion;
+			SolutionFormat = sect.Attribute<SolutionFormat?>(nameof(SolutionFormat)) ?? SolutionFormat;
 			PropertyChanged += ExportToProjectSettingsImpl_PropertyChanged;
 		}
 
 		void ExportToProjectSettingsImpl_PropertyChanged(object? sender, PropertyChangedEventArgs e) {
 			var sect = settingsService.RecreateSection(SETTINGS_GUID);
 			sect.Attribute(nameof(ProjectVersion), ProjectVersion);
+			sect.Attribute(nameof(SolutionFormat), SolutionFormat);
 		}
 	}
 }

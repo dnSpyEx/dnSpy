@@ -38,10 +38,6 @@ namespace dnSpy.Contracts.Text {
 				return ContentTypes.CSharp;
 			if (comparer.Equals(extension, ".csx") || comparer.Equals(extension, "csx"))
 				return ContentTypes.CSharp;
-			if (comparer.Equals(extension, ".vb") || comparer.Equals(extension, "vb"))
-				return ContentTypes.VisualBasic;
-			if (comparer.Equals(extension, ".vbx") || comparer.Equals(extension, "vbx"))
-				return ContentTypes.VisualBasic;
 			if (comparer.Equals(extension, ".il") || comparer.Equals(extension, "il"))
 				return ContentTypes.IL;
 

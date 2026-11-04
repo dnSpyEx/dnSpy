@@ -87,6 +87,7 @@ namespace dnSpy.Decompiler.MSBuild {
 				var moniker = targetFrameworkInfo.GetTargetFrameworkMoniker();
 				if (moniker is null)
 					throw new NotSupportedException("This assembly cannot be decompiled to a SDK style project.");
+				moniker += GetTargetPlatformSuffix(project.Module, targetFrameworkInfo, possibleProjectTypes);
 
 				writer.WriteElementString("TargetFramework", moniker);
 
@@ -100,10 +101,6 @@ namespace dnSpy.Decompiler.MSBuild {
 				else if (project.Module.Is32BitPreferred)
 					writer.WriteElementString("Prefer32Bit", "True");
 
-				var noWarnList = GetNoWarnList();
-				if (noWarnList is not null)
-					writer.WriteElementString("NoWarn", noWarnList);
-
 				writer.WriteEndElement();
 
 				writer.WriteStartElement("PropertyGroup");
@@ -112,6 +109,7 @@ namespace dnSpy.Decompiler.MSBuild {
 				if (project.AllowUnsafeBlocks)
 					writer.WriteElementString("AllowUnsafeBlocks", "True");
 				writer.WriteElementString("EnableDefaultItems", "False");
+				WriteDecompilerProperties(writer);
 				writer.WriteEndElement();
 
 				writer.WriteStartElement("PropertyGroup");
@@ -259,6 +257,23 @@ namespace dnSpy.Decompiler.MSBuild {
 		static readonly UTF8String PresentationCoreString = new UTF8String("PresentationCore");
 		static readonly UTF8String WindowsBaseString = new UTF8String("WindowsBase");
 		static readonly UTF8String SystemWindowsFormsString = new UTF8String("System.Windows.Forms");
+
+		/// <summary>
+		/// .NET 5+: the platform of the target framework, "-windows7.0" from [assembly: TargetPlatform("Windows7.0")]
+		/// ("net10.0-windows7.0"). WPF and Windows Forms projects need a Windows platform (NETSDK1136), also when the
+		/// attribute is missing.
+		/// </summary>
+		static string GetTargetPlatformSuffix(ModuleDef module, TargetFrameworkInfo info, IReadOnlyCollection<ProjectType> projectTypes) {
+			if (info.Framework != ".NETCoreApp" || !Version.TryParse(info.Version, out var version) || version.Major < 5)
+				return string.Empty;
+			var attr = module.Assembly?.CustomAttributes.Find("System.Runtime.Versioning.TargetPlatformAttribute");
+			if (attr is not null && attr.ConstructorArguments.Count == 1 && attr.ConstructorArguments[0].Value is UTF8String platform &&
+				System.Text.RegularExpressions.Regex.IsMatch(platform.String, @"^[A-Za-z]+[0-9.]*$"))
+				return "-" + platform.String.ToLowerInvariant();
+			if (projectTypes.Contains(ProjectType.Wpf) || projectTypes.Contains(ProjectType.WinForms))
+				return "-windows";
+			return string.Empty;
+		}
 
 		IReadOnlyCollection<ProjectType> GetPossibleProjectTypes() {
 			var hashSet = new HashSet<ProjectType>();

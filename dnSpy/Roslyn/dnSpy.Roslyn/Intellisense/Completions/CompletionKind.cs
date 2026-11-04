@@ -77,9 +77,7 @@ namespace dnSpy.Roslyn.Intellisense.Completions {
 		StructurePrivate,
 		Structure,
 		FileCSharp,
-		FileVisualBasic,
 		ProjectCSharp,
-		ProjectVisualBasic,
 		EnumMember,
 		Assembly,
 		RangeVariable,
@@ -248,7 +246,6 @@ namespace dnSpy.Roslyn.Intellisense.Completions {
 				case WellKnownTags.File:
 					switch (GetLanguage(tags)) {
 					case Language.CSharp:			return CompletionKind.FileCSharp;
-					case Language.VisualBasic:		return CompletionKind.FileVisualBasic;
 					case Language.None:
 					default:
 						return CompletionKind.Unknown;
@@ -257,7 +254,6 @@ namespace dnSpy.Roslyn.Intellisense.Completions {
 				case WellKnownTags.Project:
 					switch (GetLanguage(tags)) {
 					case Language.CSharp:			return CompletionKind.ProjectCSharp;
-					case Language.VisualBasic:		return CompletionKind.ProjectVisualBasic;
 					case Language.None:
 					default:
 						return CompletionKind.Unknown;
@@ -299,8 +295,6 @@ namespace dnSpy.Roslyn.Intellisense.Completions {
 		static Language GetLanguage(ImmutableArray<string> tags) {
 			if (tags.Contains(LanguageNames.CSharp))
 				return Language.CSharp;
-			if (tags.Contains(LanguageNames.VisualBasic))
-				return Language.VisualBasic;
 			return Language.None;
 		}
 
@@ -315,7 +309,6 @@ namespace dnSpy.Roslyn.Intellisense.Completions {
 		enum Language {
 			None,
 			CSharp,
-			VisualBasic,
 		}
 	}
 }
