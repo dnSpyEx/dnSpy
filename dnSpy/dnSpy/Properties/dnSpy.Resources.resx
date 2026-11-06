@@ -591,6 +591,9 @@
   <data name="DisplaySettings_HighlightReferences" xml:space="preserve">
     <value>Highlight references</value>
   </data>
+  <data name="DisplaySettings_RestoreAssemblies" xml:space="preserve">
+    <value>Restore assemblies on startup</value>
+  </data>
   <data name="DisplaySettings_RestoreTabs" xml:space="preserve">
     <value>Restore tabs at startup</value>
   </data>

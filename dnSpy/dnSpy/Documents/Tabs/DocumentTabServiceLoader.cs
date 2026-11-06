@@ -43,11 +43,12 @@ namespace dnSpy.Documents.Tabs {
 
 		public IEnumerable<object?> Load(ISettingsService settingsService, IAppCommandLineArgs args) {
 			var section = settingsService.GetOrCreateSection(SETTINGS_GUID);
+			bool loadFiles = args.LoadFiles && documentTabService.Settings.RestoreAssemblies;
 
-			foreach (var o in documentListLoader.Load(section.GetOrCreateSection(DOCUMENT_LISTS_SECTION), args.LoadFiles))
+			foreach (var o in documentListLoader.Load(section.GetOrCreateSection(DOCUMENT_LISTS_SECTION), loadFiles))
 				yield return o;
 
-			if (args.LoadFiles) {
+			if (loadFiles) {
 				var tgws = new List<SerializedTabGroupWindow>();
 				var tgwsHash = new HashSet<string>(StringComparer.Ordinal);
 				foreach (var tgwSection in section.SectionsWithName(TABGROUPWINDOW_SECTION)) {

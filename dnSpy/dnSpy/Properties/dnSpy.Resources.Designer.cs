@@ -1692,6 +1692,15 @@ namespace dnSpy.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restore assemblies on startup.
+        /// </summary>
+        public static string DisplaySettings_RestoreAssemblies {
+            get {
+                return ResourceManager.GetString("DisplaySettings_RestoreAssemblies", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Restore tabs at startup.
         /// </summary>
         public static string DisplaySettings_RestoreTabs {
