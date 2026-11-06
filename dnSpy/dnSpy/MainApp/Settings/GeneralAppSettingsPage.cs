@@ -127,6 +127,17 @@ namespace dnSpy.MainApp.Settings {
 		}
 		bool decompileFullType;
 
+		public bool RestoreAssemblies {
+			get => restoreAssemblies;
+			set {
+				if (restoreAssemblies != value) {
+					restoreAssemblies = value;
+					OnPropertyChanged(nameof(RestoreAssemblies));
+				}
+			}
+		}
+		bool restoreAssemblies;
+
 		public bool RestoreTabs {
 			get => restoreTabs;
 			set {
@@ -179,6 +190,7 @@ namespace dnSpy.MainApp.Settings {
 			WindowsExplorerIntegration = windowsExplorerIntegrationService.WindowsExplorerIntegration;
 			AllowMoreThanOneInstance = appSettings.AllowMoreThanOneInstance;
 			DecompileFullType = documentTabServiceSettings.DecompileFullType;
+			RestoreAssemblies = documentTabServiceSettings.RestoreAssemblies;
 			RestoreTabs = documentTabServiceSettings.RestoreTabs;
 			UseMemoryMappedIO = documentServiceSettings.UseMemoryMappedIO;
 			CheckForUpdateOnStartup = updateService.CheckForUpdatesOnStartup;
@@ -193,6 +205,7 @@ namespace dnSpy.MainApp.Settings {
 			windowsExplorerIntegrationService.WindowsExplorerIntegration = WindowsExplorerIntegration;
 			appSettings.AllowMoreThanOneInstance = AllowMoreThanOneInstance;
 			documentTabServiceSettings.DecompileFullType = DecompileFullType;
+			documentTabServiceSettings.RestoreAssemblies = RestoreAssemblies;
 			documentTabServiceSettings.RestoreTabs = RestoreTabs;
 
 			if (documentServiceSettings.UseMemoryMappedIO != UseMemoryMappedIO) {

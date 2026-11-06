@@ -6113,6 +6113,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -6123,11 +6124,12 @@
             <CheckBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsChecked="{Binding WindowsExplorerIntegration}" Content="{x:Static p:dnSpy_Resources.IntegrateWithWindowsExplorer}" />
             <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsChecked="{Binding AllowMoreThanOneInstance}" Content="{x:Static p:dnSpy_Resources.AllowMoreThanOneInstance}" />
             <CheckBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsChecked="{Binding DecompileFullType}" Content="{x:Static p:dnSpy_Resources.DisplaySettings_DecompileType}" />
-            <CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsChecked="{Binding RestoreTabs}" Content="{x:Static p:dnSpy_Resources.DisplaySettings_RestoreTabs}" />
-            <CheckBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsChecked="{Binding UseMemoryMappedIO}" Content="{x:Static p:dnSpy_Resources.Options_Misc_UseMmapdIO}" />
-            <CheckBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsChecked="{Binding CheckForUpdateOnStartup}" Content="{x:Static p:dnSpy_Resources.Options_Misc_CheckForUpdatesOnStartup}" />
-            <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Resources.Options_Misc_Button_EnableAllWarnings}" Command="{Binding ClearAllWarningsCommand}" />
-            <Button Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Resources.Options_Misc_Button_ResetIgnoredUpdates}" Command="{Binding ResetIgnoredUpdatesCommand}" />
+            <CheckBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsChecked="{Binding RestoreAssemblies}" Content="{x:Static p:dnSpy_Resources.DisplaySettings_RestoreAssemblies}" />
+            <CheckBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsChecked="{Binding RestoreTabs}" IsEnabled="{Binding RestoreAssemblies}" Content="{x:Static p:dnSpy_Resources.DisplaySettings_RestoreTabs}" />
+            <CheckBox Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsChecked="{Binding UseMemoryMappedIO}" Content="{x:Static p:dnSpy_Resources.Options_Misc_UseMmapdIO}" />
+            <CheckBox Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsChecked="{Binding CheckForUpdateOnStartup}" Content="{x:Static p:dnSpy_Resources.Options_Misc_CheckForUpdatesOnStartup}" />
+            <Button Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Resources.Options_Misc_Button_EnableAllWarnings}" Command="{Binding ClearAllWarningsCommand}" />
+            <Button Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" Content="{x:Static p:dnSpy_Resources.Options_Misc_Button_ResetIgnoredUpdates}" Command="{Binding ResetIgnoredUpdatesCommand}" />
         </Grid>
     </DataTemplate>
 
