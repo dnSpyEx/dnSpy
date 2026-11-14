@@ -54,8 +54,8 @@ namespace dnSpy.Decompiler.MSBuild {
 				}
 			}
 
-			var connMeth = FindConnectMethod();
-			if (connMeth is not null) {
+			var connMethods = FindConnectMethods();
+			foreach (var connMeth in connMethods) {
 				yield return connMeth;
 				foreach (var f in DotNetUtils.GetFields(connMeth))
 					yield return f;
@@ -78,12 +78,13 @@ namespace dnSpy.Decompiler.MSBuild {
 			return null;
 		}
 
-		MethodDef? FindConnectMethod() {
+		List<MethodDef> FindConnectMethods() {
+			var list = new List<MethodDef>();
 			foreach (var md in Type.Methods) {
 				if (IsConnect(md))
-					return md;
+					list.Add(md);
 			}
-			return null;
+			return list;
 		}
 
 		static bool IsConnect(MethodDef md) {
@@ -103,7 +104,7 @@ namespace dnSpy.Decompiler.MSBuild {
 			foreach (var o in md.Overrides) {
 				if (o.MethodDeclaration is null || o.MethodDeclaration.DeclaringType is null)
 					continue;
-				if (o.MethodDeclaration.DeclaringType.FullName != "System.Windows.Markup.IComponentConnector")
+				if (o.MethodDeclaration.DeclaringType.FullName is not ("System.Windows.Markup.IComponentConnector" or "System.Windows.Markup.IStyleConnector"))
 					continue;
 				if (o.MethodDeclaration.Name != "Connect")
 					continue;
