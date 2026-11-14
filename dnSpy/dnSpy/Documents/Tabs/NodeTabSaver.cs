@@ -31,6 +31,7 @@ using dnSpy.Contracts.MVVM;
 using dnSpy.Contracts.Text;
 using dnSpy.Decompiler;
 using dnSpy.Documents.Tabs.DocViewer;
+using dnSpy.Documents.Tabs.DocViewer.Settings;
 using dnSpy.Properties;
 
 namespace dnSpy.Documents.Tabs {
@@ -39,15 +40,17 @@ namespace dnSpy.Documents.Tabs {
 		readonly IDocumentTreeNodeDecompiler documentTreeNodeDecompiler;
 		readonly IMessageBoxService messageBoxService;
 		readonly IPickSaveFilename pickSaveFilename;
+		readonly IDocumentViewerOptionsService documentViewerOptionsService;
 
 		[ImportingConstructor]
-		NodeTabSaverProvider(IDocumentTreeNodeDecompiler documentTreeNodeDecompiler, IMessageBoxService messageBoxService, IPickSaveFilename pickSaveFilename) {
+		NodeTabSaverProvider(IDocumentTreeNodeDecompiler documentTreeNodeDecompiler, IMessageBoxService messageBoxService, IPickSaveFilename pickSaveFilename, IDocumentViewerOptionsService documentViewerOptionsService) {
 			this.documentTreeNodeDecompiler = documentTreeNodeDecompiler;
 			this.messageBoxService = messageBoxService;
 			this.pickSaveFilename = pickSaveFilename;
+			this.documentViewerOptionsService = documentViewerOptionsService;
 		}
 
-		public ITabSaver? Create(IDocumentTab tab) => NodeTabSaver.TryCreate(documentTreeNodeDecompiler, tab, messageBoxService, pickSaveFilename);
+		public ITabSaver? Create(IDocumentTab tab) => NodeTabSaver.TryCreate(documentTreeNodeDecompiler, tab, messageBoxService, pickSaveFilename, documentViewerOptionsService.Default.CreateIndenter());
 	}
 
 	sealed class NodeTabSaver : ITabSaver {
@@ -58,8 +61,9 @@ namespace dnSpy.Documents.Tabs {
 		readonly DocumentTreeNodeData[] nodes;
 		readonly IDocumentViewer documentViewer;
 		readonly IPickSaveFilename pickSaveFilename;
+		readonly Indenter indenter;
 
-		public static NodeTabSaver? TryCreate(IDocumentTreeNodeDecompiler documentTreeNodeDecompiler, IDocumentTab tab, IMessageBoxService messageBoxService, IPickSaveFilename pickSaveFilename) {
+		public static NodeTabSaver? TryCreate(IDocumentTreeNodeDecompiler documentTreeNodeDecompiler, IDocumentTab tab, IMessageBoxService messageBoxService, IPickSaveFilename pickSaveFilename, Indenter indenter) {
 			if (tab.IsAsyncExecInProgress)
 				return null;
 			if (tab.UIContext is not IDocumentViewer documentViewer)
@@ -70,10 +74,10 @@ namespace dnSpy.Documents.Tabs {
 			var nodes = tab.Content.Nodes.ToArray();
 			if (nodes.Length == 0)
 				return null;
-			return new NodeTabSaver(messageBoxService, tab, documentTreeNodeDecompiler, decompiler, documentViewer, pickSaveFilename, nodes);
+			return new NodeTabSaver(messageBoxService, tab, documentTreeNodeDecompiler, decompiler, documentViewer, pickSaveFilename, nodes, indenter);
 		}
 
-		NodeTabSaver(IMessageBoxService messageBoxService, IDocumentTab tab, IDocumentTreeNodeDecompiler documentTreeNodeDecompiler, IDecompiler decompiler, IDocumentViewer documentViewer, IPickSaveFilename pickSaveFilename, DocumentTreeNodeData[] nodes) {
+		NodeTabSaver(IMessageBoxService messageBoxService, IDocumentTab tab, IDocumentTreeNodeDecompiler documentTreeNodeDecompiler, IDecompiler decompiler, IDocumentViewer documentViewer, IPickSaveFilename pickSaveFilename, DocumentTreeNodeData[] nodes, Indenter indenter) {
 			this.messageBoxService = messageBoxService;
 			this.tab = tab;
 			this.documentTreeNodeDecompiler = documentTreeNodeDecompiler;
@@ -81,6 +85,7 @@ namespace dnSpy.Documents.Tabs {
 			this.documentViewer = documentViewer;
 			this.nodes = nodes;
 			this.pickSaveFilename = pickSaveFilename;
+			this.indenter = indenter;
 		}
 
 		public bool CanSave => !tab.IsAsyncExecInProgress;
@@ -97,7 +102,7 @@ namespace dnSpy.Documents.Tabs {
 			try {
 				var decompilationContext = new DecompilationContext();
 				decompileContext.Writer = new StreamWriter(filename);
-				var output = new TextWriterDecompilerOutput(decompileContext.Writer);
+				var output = new TextWriterDecompilerOutput(decompileContext.Writer, indenter);
 				var dispatcher = Dispatcher.CurrentDispatcher;
 				decompileContext.DecompileNodeContext = new DecompileNodeContext(decompilationContext, decompiler, output, NullDocumentWriterService.Instance, dispatcher);
 				return decompileContext;

@@ -74,16 +74,16 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 		}
 		string? cachedText;
 
-		internal static DocumentViewerOutput Create() => new DocumentViewerOutput();
+		internal static DocumentViewerOutput Create(Indenter indenter) => new DocumentViewerOutput(indenter);
 
-		DocumentViewerOutput() {
+		DocumentViewerOutput(Indenter indenter) {
 			state = State.GeneratingContent;
 			cachedTextColorsCollection = new CachedTextColorsCollection();
 			stringBuilder = new StringBuilder();
 			referenceBuilder = SpanDataCollectionBuilder<ReferenceInfo>.CreateBuilder();
 			canBeCached = true;
 			customDataDict = new Dictionary<string, object>(StringComparer.Ordinal);
-			indenter = new Indenter(4, 4, true);
+			this.indenter = indenter ?? throw new ArgumentNullException(nameof(indenter));
 		}
 
 		void VerifyGeneratingOrPostProcessing() {

@@ -26,6 +26,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
+using dnSpy.Contracts.Text.Editor.OptionsExtensionMethods;
 using dnSpy.Contracts.Text.Formatting;
 using dnSpy.Controls;
 using dnSpy.Text.Editor;
@@ -300,6 +301,7 @@ namespace dnSpy.Text.Operations {
 		public bool CutSelection() => CutOrCopySelection(true);
 		bool CutOrCopySelection(bool cut) {
 			string? htmlText;
+			bool copyHtml = Options.IsCopyHtmlFormattingEnabled();
 			if (Selection.IsEmpty) {
 				var line = Caret.ContainingTextViewLine;
 				bool cutEmptyLines = Options.GetOptionValue(DefaultTextViewOptions.CutOrCopyBlankLineIfNoSelectionId);
@@ -307,7 +309,7 @@ namespace dnSpy.Text.Operations {
 				string lineText = lineExtentSpan.GetText();
 				if (!cutEmptyLines && string.IsNullOrWhiteSpace(lineText))
 					return true;
-				htmlText = TryCreateHtmlText(lineExtentSpan);
+				htmlText = copyHtml ? TryCreateHtmlText(lineExtentSpan) : null;
 				if (cut)
 					TextBuffer.Delete(lineExtentSpan);
 				return CopyToClipboard(lineText, htmlText, isFullLineData: true, isBoxData: false);
@@ -315,7 +317,7 @@ namespace dnSpy.Text.Operations {
 			var text = SelectedText;
 			bool isBox = Selection.Mode == TextSelectionMode.Box;
 			var spans = Selection.SelectedSpans;
-			htmlText = TryCreateHtmlText(spans);
+			htmlText = copyHtml ? TryCreateHtmlText(spans) : null;
 			if (cut) {
 				Selection.Clear();
 				using (var ed = TextBuffer.CreateEdit()) {
