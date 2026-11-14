@@ -35,8 +35,8 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 		}
 		IDnlibTypePicker? dnlibTypePicker;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
-		public ICommand PickMethodCommand => new RelayCommand(a => PickMethod());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
+		public ICommand PickMethodCommand => field ??= new RelayCommand(a => PickMethod());
 
 		public IMethodDefOrRef? Method {
 			get => method;

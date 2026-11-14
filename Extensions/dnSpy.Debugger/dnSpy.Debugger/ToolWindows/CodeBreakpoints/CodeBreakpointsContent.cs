@@ -66,15 +66,15 @@ namespace dnSpy.Debugger.ToolWindows.CodeBreakpoints {
 			public string ResetSearchSettingsToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Debugger_Resources.Breakpoints_ResetSearchSettings_ToolTip, null);
 			public string SearchHelpToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Debugger_Resources.SearchHelp_ToolTip, null);
 
-			public ICommand RemoveCodeBreakpointsCommand => new RelayCommand(a => Operations.RemoveCodeBreakpoints(), a => Operations.CanRemoveCodeBreakpoints);
-			public ICommand RemoveMatchingBreakpointsCommand => new RelayCommand(a => Operations.RemoveMatchingCodeBreakpoints(), a => Operations.CanRemoveMatchingCodeBreakpoints);
-			public ICommand ToggleMatchingBreakpointsCommand => new RelayCommand(a => Operations.ToggleMatchingBreakpoints(), a => Operations.CanToggleMatchingBreakpoints);
-			public ICommand ExportMatchingBreakpointsCommand => new RelayCommand(a => Operations.ExportMatchingBreakpoints(), a => Operations.CanExportMatchingBreakpoints);
-			public ICommand ResetSearchSettingsCommand => new RelayCommand(a => Operations.ResetSearchSettings(), a => Operations.CanResetSearchSettings);
-			public ICommand ImportBreakpointsCommand => new RelayCommand(a => Operations.ImportBreakpoints(), a => Operations.CanImportBreakpoints);
-			public ICommand GoToSourceCodeCommand => new RelayCommand(a => Operations.GoToSourceCode(false), a => Operations.CanGoToSourceCode);
-			public ICommand GoToDisassemblyCommand => new RelayCommand(a => Operations.GoToDisassembly(), a => Operations.CanGoToDisassembly);
-			public ICommand SearchHelpCommand => new RelayCommand(a => SearchHelp());
+			public ICommand RemoveCodeBreakpointsCommand => field ??= new RelayCommand(a => Operations.RemoveCodeBreakpoints(), a => Operations.CanRemoveCodeBreakpoints);
+			public ICommand RemoveMatchingBreakpointsCommand => field ??= new RelayCommand(a => Operations.RemoveMatchingCodeBreakpoints(), a => Operations.CanRemoveMatchingCodeBreakpoints);
+			public ICommand ToggleMatchingBreakpointsCommand => field ??= new RelayCommand(a => Operations.ToggleMatchingBreakpoints(), a => Operations.CanToggleMatchingBreakpoints);
+			public ICommand ExportMatchingBreakpointsCommand => field ??= new RelayCommand(a => Operations.ExportMatchingBreakpoints(), a => Operations.CanExportMatchingBreakpoints);
+			public ICommand ResetSearchSettingsCommand => field ??= new RelayCommand(a => Operations.ResetSearchSettings(), a => Operations.CanResetSearchSettings);
+			public ICommand ImportBreakpointsCommand => field ??= new RelayCommand(a => Operations.ImportBreakpoints(), a => Operations.CanImportBreakpoints);
+			public ICommand GoToSourceCodeCommand => field ??= new RelayCommand(a => Operations.GoToSourceCode(false), a => Operations.CanGoToSourceCode);
+			public ICommand GoToDisassemblyCommand => field ??= new RelayCommand(a => Operations.GoToDisassembly(), a => Operations.CanGoToDisassembly);
+			public ICommand SearchHelpCommand => field ??= new RelayCommand(a => SearchHelp());
 
 			readonly IMessageBoxService messageBoxService;
 			readonly DependencyObject control;

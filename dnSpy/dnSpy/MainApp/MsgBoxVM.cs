@@ -24,10 +24,10 @@ using dnSpy.Contracts.MVVM;
 
 namespace dnSpy.MainApp {
 	sealed class MsgBoxVM : ViewModelBase {
-		public ICommand OKCommand => new RelayCommand(a => listener(MsgBoxButton.OK));
-		public ICommand YesCommand => new RelayCommand(a => listener(MsgBoxButton.Yes));
-		public ICommand NoCommand => new RelayCommand(a => listener(MsgBoxButton.No));
-		public ICommand CancelCommand => new RelayCommand(a => listener(MsgBoxButton.Cancel));
+		public ICommand OKCommand => field ??= new RelayCommand(a => listener(MsgBoxButton.OK));
+		public ICommand YesCommand => field ??= new RelayCommand(a => listener(MsgBoxButton.Yes));
+		public ICommand NoCommand => field ??= new RelayCommand(a => listener(MsgBoxButton.No));
+		public ICommand CancelCommand => field ??= new RelayCommand(a => listener(MsgBoxButton.Cancel));
 		public string Message { get; }
 
 		public bool DontShowAgain {

@@ -51,8 +51,8 @@ namespace dnSpy.AsmEditor.Assembly {
 		}
 		IOpenPublicKeyFile? openPublicKeyFile;
 
-		public ICommand OpenPublicKeyFileCommand => new RelayCommand(a => OnOpenPublicKeyFile());
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand OpenPublicKeyFileCommand => field ??= new RelayCommand(a => OnOpenPublicKeyFile());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 
 		public bool CanShowClrVersion {
 			get => canShowClrVersion;

@@ -127,21 +127,21 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 			}
 		}
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
-		public ICommand ClearTypeSigCommand => new RelayCommand(a => TypeSig = null, a => IsEnabled && TypeSig is not null);
-		public ICommand RemoveLastTypeSigCommand => new RelayCommand(a => RemoveLastTypeSig(), a => IsEnabled && TypeSig is not null);
-		public ICommand AddTypeDefOrRefCommand => new RelayCommand(a => AddTypeDefOrRef(), a => AddTypeDefOrRefCanExecute());
-		public ICommand AddGenericVarCommand => new RelayCommand(a => AddGenericVar(), a => AddGenericVarCanExecute());
-		public ICommand AddGenericMVarCommand => new RelayCommand(a => AddGenericMVar(), a => AddGenericMVarCanExecute());
-		public ICommand AddFnPtrSigCommand => new RelayCommand(a => AddFnPtrSig(), a => AddFnPtrSigCanExecute());
-		public ICommand AddGenericInstSigCommand => new RelayCommand(a => AddGenericInstSig(), a => AddGenericInstSigCanExecute());
-		public ICommand AddPtrSigCommand => new RelayCommand(a => AddPtrSig(), a => AddPtrSigCanExecute());
-		public ICommand AddByRefSigCommand => new RelayCommand(a => AddByRefSig(), a => AddByRefSigCanExecute());
-		public ICommand AddSZArraySigCommand => new RelayCommand(a => AddSZArraySig(), a => AddSZArraySigCanExecute());
-		public ICommand AddArraySigCommand => new RelayCommand(a => AddArraySig(), a => AddArraySigCanExecute());
-		public ICommand AddCModReqdSigCommand => new RelayCommand(a => AddCModReqdSig(), a => AddCModReqdSigCanExecute());
-		public ICommand AddCModOptSigCommand => new RelayCommand(a => AddCModOptSig(), a => AddCModOptSigCanExecute());
-		public ICommand AddPinnedSigCommand => new RelayCommand(a => AddPinnedSig(), a => AddPinnedSigCanExecute());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
+		public ICommand ClearTypeSigCommand => field ??= new RelayCommand(a => TypeSig = null, a => IsEnabled && TypeSig is not null);
+		public ICommand RemoveLastTypeSigCommand => field ??= new RelayCommand(a => RemoveLastTypeSig(), a => IsEnabled && TypeSig is not null);
+		public ICommand AddTypeDefOrRefCommand => field ??= new RelayCommand(a => AddTypeDefOrRef(), a => AddTypeDefOrRefCanExecute());
+		public ICommand AddGenericVarCommand => field ??= new RelayCommand(a => AddGenericVar(), a => AddGenericVarCanExecute());
+		public ICommand AddGenericMVarCommand => field ??= new RelayCommand(a => AddGenericMVar(), a => AddGenericMVarCanExecute());
+		public ICommand AddFnPtrSigCommand => field ??= new RelayCommand(a => AddFnPtrSig(), a => AddFnPtrSigCanExecute());
+		public ICommand AddGenericInstSigCommand => field ??= new RelayCommand(a => AddGenericInstSig(), a => AddGenericInstSigCanExecute());
+		public ICommand AddPtrSigCommand => field ??= new RelayCommand(a => AddPtrSig(), a => AddPtrSigCanExecute());
+		public ICommand AddByRefSigCommand => field ??= new RelayCommand(a => AddByRefSig(), a => AddByRefSigCanExecute());
+		public ICommand AddSZArraySigCommand => field ??= new RelayCommand(a => AddSZArraySig(), a => AddSZArraySigCanExecute());
+		public ICommand AddArraySigCommand => field ??= new RelayCommand(a => AddArraySig(), a => AddArraySigCanExecute());
+		public ICommand AddCModReqdSigCommand => field ??= new RelayCommand(a => AddCModReqdSig(), a => AddCModReqdSigCanExecute());
+		public ICommand AddCModOptSigCommand => field ??= new RelayCommand(a => AddCModOptSig(), a => AddCModOptSigCanExecute());
+		public ICommand AddPinnedSigCommand => field ??= new RelayCommand(a => AddPinnedSig(), a => AddPinnedSigCanExecute());
 		public ObservableCollection<DecompilerVM> AllLanguages => allDecompilers;
 		readonly ObservableCollection<DecompilerVM> allDecompilers;
 

@@ -26,7 +26,7 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 		readonly MethodOverrideOptions origOptions;
 		MethodOverride methodOverride;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 		public string FullName => methodOverride.MethodDeclaration.ToString()!;
 
 		public IMethodDefOrRef MethodBody {

@@ -73,22 +73,22 @@ namespace dnSpy.Bookmarks.ToolWindows.Bookmarks {
 			public string ResetSearchSettingsToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Resources.Bookmarks_ResetSearchSettings_ToolTip, null);
 			public string SearchHelpToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Resources.SearchHelp_ToolTip, null);
 
-			public ICommand ToggleCreateBookmarkCommand => new RelayCommand(a => Operations.ToggleCreateBookmark(), a => Operations.CanToggleCreateBookmark);
-			public ICommand GoToPreviousBookmarkCommand => new RelayCommand(a => Operations.SelectPreviousBookmark(), a => Operations.CanSelectPreviousBookmark);
-			public ICommand GoToNextBookmarkCommand => new RelayCommand(a => Operations.SelectNextBookmark(), a => Operations.CanSelectNextBookmark);
-			public ICommand GoToPreviousBookmarkSameLabelCommand => new RelayCommand(a => Operations.SelectPreviousBookmarkWithSameLabel(), a => Operations.CanSelectPreviousBookmarkWithSameLabel);
-			public ICommand GoToNextBookmarkSameLabelCommand => new RelayCommand(a => Operations.SelectNextBookmarkWithSameLabel(), a => Operations.CanSelectNextBookmarkWithSameLabel);
-			public ICommand GoToPreviousBookmarkInFileCommand => new RelayCommand(a => Operations.SelectPreviousBookmarkInDocument(), a => Operations.CanSelectPreviousBookmarkInDocument);
-			public ICommand GoToNextBookmarkInFileCommand => new RelayCommand(a => Operations.SelectNextBookmarkInDocument(), a => Operations.CanSelectNextBookmarkInDocument);
+			public ICommand ToggleCreateBookmarkCommand => field ??= new RelayCommand(a => Operations.ToggleCreateBookmark(), a => Operations.CanToggleCreateBookmark);
+			public ICommand GoToPreviousBookmarkCommand => field ??= new RelayCommand(a => Operations.SelectPreviousBookmark(), a => Operations.CanSelectPreviousBookmark);
+			public ICommand GoToNextBookmarkCommand => field ??= new RelayCommand(a => Operations.SelectNextBookmark(), a => Operations.CanSelectNextBookmark);
+			public ICommand GoToPreviousBookmarkSameLabelCommand => field ??= new RelayCommand(a => Operations.SelectPreviousBookmarkWithSameLabel(), a => Operations.CanSelectPreviousBookmarkWithSameLabel);
+			public ICommand GoToNextBookmarkSameLabelCommand => field ??= new RelayCommand(a => Operations.SelectNextBookmarkWithSameLabel(), a => Operations.CanSelectNextBookmarkWithSameLabel);
+			public ICommand GoToPreviousBookmarkInFileCommand => field ??= new RelayCommand(a => Operations.SelectPreviousBookmarkInDocument(), a => Operations.CanSelectPreviousBookmarkInDocument);
+			public ICommand GoToNextBookmarkInFileCommand => field ??= new RelayCommand(a => Operations.SelectNextBookmarkInDocument(), a => Operations.CanSelectNextBookmarkInDocument);
 
-			public ICommand RemoveBookmarksCommand => new RelayCommand(a => Operations.RemoveBookmarks(), a => Operations.CanRemoveBookmarks);
-			public ICommand RemoveMatchingBookmarksCommand => new RelayCommand(a => Operations.RemoveMatchingBookmarks(), a => Operations.CanRemoveMatchingBookmarks);
-			public ICommand ToggleMatchingBookmarksCommand => new RelayCommand(a => Operations.ToggleMatchingBookmarks(), a => Operations.CanToggleMatchingBookmarks);
-			public ICommand ExportMatchingBookmarksCommand => new RelayCommand(a => Operations.ExportMatchingBookmarks(), a => Operations.CanExportMatchingBookmarks);
-			public ICommand ResetSearchSettingsCommand => new RelayCommand(a => Operations.ResetSearchSettings(), a => Operations.CanResetSearchSettings);
-			public ICommand ImportBookmarksCommand => new RelayCommand(a => Operations.ImportBookmarks(), a => Operations.CanImportBookmarks);
-			public ICommand GoToLocationCommand => new RelayCommand(a => Operations.GoToLocation(false), a => Operations.CanGoToLocation);
-			public ICommand SearchHelpCommand => new RelayCommand(a => SearchHelp());
+			public ICommand RemoveBookmarksCommand => field ??= new RelayCommand(a => Operations.RemoveBookmarks(), a => Operations.CanRemoveBookmarks);
+			public ICommand RemoveMatchingBookmarksCommand => field ??= new RelayCommand(a => Operations.RemoveMatchingBookmarks(), a => Operations.CanRemoveMatchingBookmarks);
+			public ICommand ToggleMatchingBookmarksCommand => field ??= new RelayCommand(a => Operations.ToggleMatchingBookmarks(), a => Operations.CanToggleMatchingBookmarks);
+			public ICommand ExportMatchingBookmarksCommand => field ??= new RelayCommand(a => Operations.ExportMatchingBookmarks(), a => Operations.CanExportMatchingBookmarks);
+			public ICommand ResetSearchSettingsCommand => field ??= new RelayCommand(a => Operations.ResetSearchSettings(), a => Operations.CanResetSearchSettings);
+			public ICommand ImportBookmarksCommand => field ??= new RelayCommand(a => Operations.ImportBookmarks(), a => Operations.CanImportBookmarks);
+			public ICommand GoToLocationCommand => field ??= new RelayCommand(a => Operations.GoToLocation(false), a => Operations.CanGoToLocation);
+			public ICommand SearchHelpCommand => field ??= new RelayCommand(a => SearchHelp());
 
 			readonly IMessageBoxService messageBoxService;
 			readonly DependencyObject control;

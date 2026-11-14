@@ -60,9 +60,9 @@ namespace dnSpy.BackgroundImage.Dialog {
 		public override string Title => dnSpy_Resources.BackgroundImageOptDlgTab;
 		public override object? UIObject => this;
 
-		public ICommand ResetCommand => new RelayCommand(a => ResetSettings(), a => CanResetSettings);
-		public ICommand PickFilenamesCommand => new RelayCommand(a => PickFilenames(), a => CanPickFilenames);
-		public ICommand PickDirectoryCommand => new RelayCommand(a => PickDirectory(), a => CanPickDirectory);
+		public ICommand ResetCommand => field ??= new RelayCommand(a => ResetSettings(), a => CanResetSettings);
+		public ICommand PickFilenamesCommand => field ??= new RelayCommand(a => PickFilenames(), a => CanPickFilenames);
+		public ICommand PickDirectoryCommand => field ??= new RelayCommand(a => PickDirectory(), a => CanPickDirectory);
 
 		public Settings CurrentItem {
 			get => currentItem;

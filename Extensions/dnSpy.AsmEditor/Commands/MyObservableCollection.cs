@@ -48,9 +48,9 @@ namespace dnSpy.AsmEditor.Commands {
 		}
 		int selectedIndex;
 
-		public ICommand RemoveSelectedCommand => new RelayCommand(a => RemoveSelected(), a => RemoveSelectedCanExecute());
-		public ICommand MoveSelectedUpCommand => new RelayCommand(a => MoveSelectedUp(), a => MoveSelectedUpCanExecute());
-		public ICommand MoveSelectedDownCommand => new RelayCommand(a => MoveSelectedDown(), a => MoveSelectedDownCanExecute());
+		public ICommand RemoveSelectedCommand => field ??= new RelayCommand(a => RemoveSelected(), a => RemoveSelectedCanExecute());
+		public ICommand MoveSelectedUpCommand => field ??= new RelayCommand(a => MoveSelectedUp(), a => MoveSelectedUpCanExecute());
+		public ICommand MoveSelectedDownCommand => field ??= new RelayCommand(a => MoveSelectedDown(), a => MoveSelectedDownCanExecute());
 
 		void RemoveSelected() {
 			if (!RemoveSelectedCanExecute())

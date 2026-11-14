@@ -48,8 +48,8 @@ namespace dnSpy.Language.Intellisense {
 		public event EventHandler? PresentationSpanChanged;
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public ICommand SelectPreviousSignatureCommand => new RelayCommand(a => IncrementSelectedSignature(-1));
-		public ICommand SelectNextSignatureCommand => new RelayCommand(a => IncrementSelectedSignature(1));
+		public ICommand SelectPreviousSignatureCommand => field ??= new RelayCommand(a => IncrementSelectedSignature(-1));
+		public ICommand SelectNextSignatureCommand => field ??= new RelayCommand(a => IncrementSelectedSignature(1));
 		public bool HasMoreThanOneSignature => session.Signatures.Count > 1;
 		public object? SignatureCountObject => CreateSignatureCountObject();
 		public bool HasSignatureDocumentationObject => !string.IsNullOrEmpty(currentSignature?.Documentation);

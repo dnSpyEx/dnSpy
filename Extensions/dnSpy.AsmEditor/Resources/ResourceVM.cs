@@ -43,8 +43,8 @@ namespace dnSpy.AsmEditor.Resources {
 		}
 		IDnlibTypePicker? dnlibTypePicker;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
-		public ICommand PickAssemblyCommand => new RelayCommand(a => PickAssembly(), a => IsAssemblyLinked);
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
+		public ICommand PickAssemblyCommand => field ??= new RelayCommand(a => PickAssembly(), a => IsAssemblyLinked);
 
 		ResourceType Type {
 			get => type;

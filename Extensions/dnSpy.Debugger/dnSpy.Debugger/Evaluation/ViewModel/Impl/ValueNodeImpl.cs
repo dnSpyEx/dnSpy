@@ -52,7 +52,7 @@ namespace dnSpy.Debugger.Evaluation.ViewModel.Impl {
 		public event PropertyChangedEventHandler? PropertyChanged;
 		public override ImageReference Icon => Context.ValueNodeImageReferenceService.GetImageReference(RawNode.ImageName);
 
-		public override ICommand RefreshExpressionCommand => new RelayCommand(a => RefreshExpression(), a => CanRefreshExpression);
+		public override ICommand RefreshExpressionCommand => field ??= new RelayCommand(a => RefreshExpression(), a => CanRefreshExpression);
 		public override string RefreshExpressionToolTip => dnSpy_Debugger_Resources.RefreshExpressionButtonToolTip;
 
 		public override FormatterObject<ValueNode> NameObject => new FormatterObject<ValueNode>(this, Context.NameColumnName);

@@ -61,13 +61,13 @@ namespace dnSpy.AsmEditor.Compiler {
 		public ModuleImporter? Result { get; set; }
 		public event EventHandler? CodeCompiled;
 		public bool HasDecompiled { get; private set; }
-		public ICommand CompileCommand => new RelayCommand(a => CompileCode(), a => CanCompile);
-		public ICommand AddAssemblyReferenceCommand => new RelayCommand(a => AddAssemblyReference(), a => CanAddAssemblyReference);
-		public ICommand AddGacReferenceCommand => new RelayCommand(a => AddGacReference(), a => CanAddGacReference);
-		public ICommand AddDocumentsCommand => new RelayCommand(a => AddDocuments(), a => CanAddDocuments);
+		public ICommand CompileCommand => field ??= new RelayCommand(a => CompileCode(), a => CanCompile);
+		public ICommand AddAssemblyReferenceCommand => field ??= new RelayCommand(a => AddAssemblyReference(), a => CanAddAssemblyReference);
+		public ICommand AddGacReferenceCommand => field ??= new RelayCommand(a => AddGacReference(), a => CanAddGacReference);
+		public ICommand AddDocumentsCommand => field ??= new RelayCommand(a => AddDocuments(), a => CanAddDocuments);
 		public ImageReference AddDocumentsImage { get; }
-		public ICommand GoToNextDiagnosticCommand => new RelayCommand(a => GoToNextDiagnostic(), a => CanGoToNextDiagnostic);
-		public ICommand GoToPreviousDiagnosticCommand => new RelayCommand(a => GoToPreviousDiagnostic(), a => CanGoToPreviousDiagnostic);
+		public ICommand GoToNextDiagnosticCommand => field ??= new RelayCommand(a => GoToNextDiagnostic(), a => CanGoToNextDiagnostic);
+		public ICommand GoToPreviousDiagnosticCommand => field ??= new RelayCommand(a => GoToPreviousDiagnostic(), a => CanGoToPreviousDiagnostic);
 
 		public string AddAssemblyReferenceToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_AsmEditor_Resources.AddAssemblyReferenceToolTip, dnSpy_AsmEditor_Resources.ShortCutKeyCtrlO);
 		public string AddGacReferenceToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_AsmEditor_Resources.AddGacReferenceToolTip, dnSpy_AsmEditor_Resources.ShortCutKeyCtrlShiftO);

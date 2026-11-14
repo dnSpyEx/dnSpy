@@ -29,12 +29,12 @@ namespace dnSpy.Hex.Commands {
 		public HexPositionVM StartVM { get; }
 		public HexPositionVM EndVM { get; }
 
-		public ICommand SelectPositionAbsoluteCommand => new RelayCommand(a => PositionKind = PositionKind.Absolute);
-		public ICommand SelectPositionFileCommand => new RelayCommand(a => PositionKind = PositionKind.File);
-		public ICommand SelectPositionRVACommand => new RelayCommand(a => PositionKind = PositionKind.RVA);
-		public ICommand SelectPositionCurrentCommand => new RelayCommand(a => PositionKind = PositionKind.CurrentPosition);
-		public ICommand SelectPositionCommand => new RelayCommand(a => PositionLengthKind = SelectPositionLengthKind.Position);
-		public ICommand SelectLengthCommand => new RelayCommand(a => PositionLengthKind = SelectPositionLengthKind.Length);
+		public ICommand SelectPositionAbsoluteCommand => field ??= new RelayCommand(a => PositionKind = PositionKind.Absolute);
+		public ICommand SelectPositionFileCommand => field ??= new RelayCommand(a => PositionKind = PositionKind.File);
+		public ICommand SelectPositionRVACommand => field ??= new RelayCommand(a => PositionKind = PositionKind.RVA);
+		public ICommand SelectPositionCurrentCommand => field ??= new RelayCommand(a => PositionKind = PositionKind.CurrentPosition);
+		public ICommand SelectPositionCommand => field ??= new RelayCommand(a => PositionLengthKind = SelectPositionLengthKind.Position);
+		public ICommand SelectLengthCommand => field ??= new RelayCommand(a => PositionLengthKind = SelectPositionLengthKind.Length);
 
 		public ObservableCollection<PositionVM> PositionsCollection { get; }
 		public ObservableCollection<PositionLengthVM> PositionLengthCollection { get; }

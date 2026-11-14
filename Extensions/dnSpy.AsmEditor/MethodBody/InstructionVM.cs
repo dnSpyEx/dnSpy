@@ -50,7 +50,7 @@ namespace dnSpy.AsmEditor.MethodBody {
 			codeList = list.Select(a => a.Code).ToArray();
 		}
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 
 		public int Index {
 			get => index;

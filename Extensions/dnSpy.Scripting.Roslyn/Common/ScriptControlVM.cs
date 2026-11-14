@@ -73,11 +73,11 @@ namespace dnSpy.Scripting.Roslyn.Common {
 		public string SaveToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Scripting_Roslyn_Resources.Repl_Save_ToolTip, dnSpy_Scripting_Roslyn_Resources.ShortCutKeyCtrlS);
 		public string WordWrapToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Scripting_Roslyn_Resources.Repl_WordWrap_ToolTip, dnSpy_Scripting_Roslyn_Resources.ShortCutKeyCtrlECtrlW);
 
-		public ICommand ResetCommand => new RelayCommand(a => Reset(), a => CanReset);
-		public ICommand ClearCommand => new RelayCommand(a => ReplEditor.ClearScreen(), a => ReplEditor.CanClearScreen);
-		public ICommand SaveCommand => new RelayCommand(a => SaveText(), a => CanSaveText);
-		public ICommand HistoryPreviousCommand => new RelayCommand(a => ReplEditor.SelectPreviousCommand(), a => ReplEditor.CanSelectPreviousCommand);
-		public ICommand HistoryNextCommand => new RelayCommand(a => ReplEditor.SelectNextCommand(), a => ReplEditor.CanSelectNextCommand);
+		public ICommand ResetCommand => field ??= new RelayCommand(a => Reset(), a => CanReset);
+		public ICommand ClearCommand => field ??= new RelayCommand(a => ReplEditor.ClearScreen(), a => ReplEditor.CanClearScreen);
+		public ICommand SaveCommand => field ??= new RelayCommand(a => SaveText(), a => CanSaveText);
+		public ICommand HistoryPreviousCommand => field ??= new RelayCommand(a => ReplEditor.SelectPreviousCommand(), a => ReplEditor.CanSelectPreviousCommand);
+		public ICommand HistoryNextCommand => field ??= new RelayCommand(a => ReplEditor.SelectNextCommand(), a => ReplEditor.CanSelectNextCommand);
 		public bool CanReset => hasInitialized && (execState is null || !execState.IsInitializing);
 
 		public bool CanSaveText => ReplEditor.CanSaveText;

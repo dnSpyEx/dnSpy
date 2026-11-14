@@ -379,7 +379,7 @@ namespace dnSpy.Contracts.Controls {
 		/// <summary>
 		/// Show system menu command
 		/// </summary>
-		public static ICommand ShowSystemMenuCommand => new RelayCommand(a => ShowSystemMenu(a), a => true);
+		public static ICommand ShowSystemMenuCommand => field ??= new RelayCommand(a => ShowSystemMenu(a), a => true);
 
 		/// <summary>
 		/// Raised when full screen state has changed
