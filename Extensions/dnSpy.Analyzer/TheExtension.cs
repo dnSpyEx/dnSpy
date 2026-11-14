@@ -28,7 +28,7 @@ namespace dnSpy.Analyzer {
 			get { yield break; }
 		}
 
-		public ExtensionInfo ExtensionInfo => new ExtensionInfo {
+		public ExtensionInfo ExtensionInfo => field ??= new ExtensionInfo {
 			ShortDescription = dnSpy_Analyzer_Resources.Plugin_ShortDescription,
 		};
 

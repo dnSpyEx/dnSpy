@@ -31,7 +31,7 @@ namespace dnSpy.BamlDecompiler {
 			get { yield return "BamlSettings.xaml"; }
 		}
 
-		public ExtensionInfo ExtensionInfo => new ExtensionInfo {
+		public ExtensionInfo ExtensionInfo => field ??= new ExtensionInfo {
 			ShortDescription = dnSpy_BamlDecompiler_Resources.Plugin_ShortDescription,
 		};
 

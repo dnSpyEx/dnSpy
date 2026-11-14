@@ -28,7 +28,7 @@ namespace dnSpy.Debugger.DotNet.CorDebug {
 			get { yield return "Themes/wpf.styles.templates.xaml"; }
 		}
 
-		public ExtensionInfo ExtensionInfo => new ExtensionInfo {
+		public ExtensionInfo ExtensionInfo => field ??= new ExtensionInfo {
 			ShortDescription = string.Format(dnSpy_Debugger_DotNet_CorDebug_Resources.Plugin_ShortDescription, ".NET Framework, .NET"),
 		};
 

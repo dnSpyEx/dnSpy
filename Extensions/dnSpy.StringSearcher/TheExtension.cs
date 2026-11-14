@@ -27,7 +27,7 @@ namespace dnSpy.StringSearcher {
 			get { yield break; }
 		}
 
-		public ExtensionInfo ExtensionInfo => new ExtensionInfo {
+		public ExtensionInfo ExtensionInfo => field ??= new ExtensionInfo {
 			ShortDescription = Properties.dnSpy_StringSearcher_Resources.PluginShortDescription,
 		};
 

@@ -12,7 +12,7 @@ namespace Example2.Extension {
 			}
 		}
 
-		public ExtensionInfo ExtensionInfo => new ExtensionInfo {
+		public ExtensionInfo ExtensionInfo => field ??= new ExtensionInfo {
 			ShortDescription = "Example2 extension",
 		};
 

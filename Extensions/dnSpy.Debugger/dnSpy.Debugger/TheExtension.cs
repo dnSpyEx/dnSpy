@@ -28,7 +28,7 @@ namespace dnSpy.Debugger {
 			get { yield return "Themes/wpf.styles.templates.xaml"; }
 		}
 
-		public ExtensionInfo ExtensionInfo => new ExtensionInfo {
+		public ExtensionInfo ExtensionInfo => field ??= new ExtensionInfo {
 			ShortDescription = dnSpy_Debugger_Resources.Plugin_ShortDescription,
 		};
 
