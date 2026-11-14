@@ -60,7 +60,9 @@ namespace dnSpy.Roslyn.Compiler.CSharp {
 		protected override string TextViewRole => PredefinedDsTextViewRoles.RoslynCSharpCodeEditor;
 		protected override string ContentType => ContentTypes.CSharpRoslyn;
 		protected override string LanguageName => LanguageNames.CSharp;
+#pragma warning disable WFO2000
 		protected override ParseOptions ParseOptions => new CSharpParseOptions(languageVersion: LanguageVersion.Latest, preprocessorSymbols: GetPreprocessorSymbols());
+#pragma warning restore WFO2000
 		public override string FileExtension => ".cs";
 		protected override string AppearanceCategory => AppearanceCategoryConstants.TextEditor;
 		protected override bool SupportsNetModule => true;

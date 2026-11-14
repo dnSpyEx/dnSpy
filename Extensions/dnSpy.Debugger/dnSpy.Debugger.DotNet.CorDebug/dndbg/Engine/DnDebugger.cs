@@ -148,6 +148,7 @@ namespace dndbg.Engine {
 			get { DebugVerifyThread(); return nativeCodeBreakpointList.GetBreakpoints(); }
 		}
 
+#pragma warning disable WFO2000
 		public DebuggerState Current {
 			get {
 				DebugVerifyThread();
@@ -156,6 +157,7 @@ namespace dndbg.Engine {
 				return debuggerStates[debuggerStates.Count - 1];
 			}
 		}
+#pragma warning restore WFO2000
 
 		public DebuggerState[] DebuggerStates {
 			get { DebugVerifyThread(); return debuggerStates.ToArray(); }

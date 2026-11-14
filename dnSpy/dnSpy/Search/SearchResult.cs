@@ -37,6 +37,7 @@ namespace dnSpy.Search {
 		IMDTokenProvider? IMDTokenNode.Reference => Reference2;
 		IMDTokenProvider? Reference2 => Object as IMDTokenProvider;
 
+#pragma warning disable WFO2000
 		public object? Reference {
 			get {
 				if (Object is string ns)
@@ -46,6 +47,7 @@ namespace dnSpy.Search {
 				return Reference2;
 			}
 		}
+#pragma warning restore WFO2000
 
 #pragma warning disable CS8618 // Non-nullable field is uninitialized.
 		public SearchResultContext Context { get; set; }
