@@ -5505,7 +5505,7 @@
         <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
     </Style>
     <Style x:Key="DialogBorderStyle" TargetType="{x:Type Border}">
-        <Setter Property="BorderBrush" Value="{DynamicResource TabItemSelectedBackground}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TabItem.Selected.Background}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Background" Value="{DynamicResource SystemColorsControl}"/>
     </Style>
