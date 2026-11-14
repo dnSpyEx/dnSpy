@@ -63,7 +63,7 @@ namespace dnSpy.Decompiler.MSBuild {
 		}
 
 		public void Write() {
-			if (Path.GetExtension(filename) == ".slnx")
+			if (string.Equals(Path.GetExtension(filename), ".slnx", StringComparison.OrdinalIgnoreCase))
 				WriteXmlSolution();
 			else
 				WriteVisualStudioSolution();
