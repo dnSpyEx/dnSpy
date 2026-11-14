@@ -81,6 +81,9 @@ namespace dnSpy.Contracts.App {
 		/// <summary>Attach to this process, unless it's 0</summary>
 		int DebugAttachPid { get; }
 
+		/// <summary>If attaching on startup break right away</summary>
+		bool DebugBreakOnAttach { get; }
+
 		/// <summary>Event handle duplicated into the postmortem debugger process</summary>
 		uint DebugEvent { get; }
 
