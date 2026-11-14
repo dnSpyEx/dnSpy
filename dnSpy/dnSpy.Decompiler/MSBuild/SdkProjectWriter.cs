@@ -88,6 +88,22 @@ namespace dnSpy.Decompiler.MSBuild {
 				if (moniker is null)
 					throw new NotSupportedException("This assembly cannot be decompiled to a SDK style project.");
 
+				bool isNetCoreApp = targetFrameworkInfo.Framework == ".NETCoreApp";
+
+				Version? netCoreVersion;
+				if (isNetCoreApp && Version.TryParse(targetFrameworkInfo.Version, out var version))
+					netCoreVersion = version;
+				else
+					netCoreVersion = null;
+
+				if (isNetCoreApp && netCoreVersion is not null && netCoreVersion.Major >= 5) {
+					var targetPlatform = GetTargetPlatformAttributeString(project.Module);
+					if (targetPlatform is not null)
+						moniker += "-" + targetPlatform.ToLowerInvariant();
+					else if (projectType is ProjectType.WinForms or ProjectType.Wpf)
+						moniker += "-windows";
+				}
+
 				writer.WriteElementString("TargetFramework", moniker);
 
 				if (possibleProjectTypes.Contains(ProjectType.Wpf))
@@ -147,8 +163,6 @@ namespace dnSpy.Decompiler.MSBuild {
 					writer.WriteEndElement();
 				}
 
-				bool isNetCoreApp = targetFrameworkInfo.Framework == ".NETCoreApp";
-				var netCoreVersion = isNetCoreApp ? Version.Parse(targetFrameworkInfo.Version) : null;
 				int bitness = project.Module.GetPointerSize(IntPtr.Size) * 8;
 
 				var targetPacks = new HashSet<string>();
@@ -293,6 +307,35 @@ namespace dnSpy.Decompiler.MSBuild {
 			}
 
 			return ProjectType.Default;
+		}
+
+		static string? GetTargetPlatformAttributeString(ModuleDef module) {
+			var attr = module.Assembly?.CustomAttributes.Find("System.Runtime.Versioning.TargetPlatformAttribute");
+			if (attr is null || attr.ConstructorArguments.Count != 1)
+				return null;
+			var arg = attr.ConstructorArguments[0];
+			string targetPlatform = arg.Value as UTF8String ?? arg.Value as string;
+			if (targetPlatform is null || !IsValidPlatform(targetPlatform))
+				return null;
+			return targetPlatform;
+		}
+
+		static bool IsValidPlatform(string platform) {
+			int i = 0;
+
+			while (i < platform.Length && (platform[i] >= 'A' && platform[i] <= 'Z' || platform[i] >= 'a' && platform[i] <= 'z'))
+				i++;
+
+			if (i == 0)
+				return false;
+
+			for (; i < platform.Length; i++) {
+				char c = platform[i];
+				if ((c < '0' || c > '9') && c != '.')
+					return false;
+			}
+
+			return true;
 		}
 	}
 }
