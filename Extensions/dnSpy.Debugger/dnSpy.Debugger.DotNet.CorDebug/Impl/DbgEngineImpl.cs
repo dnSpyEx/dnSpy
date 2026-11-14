@@ -54,7 +54,7 @@ using dnSpy.Debugger.DotNet.Metadata;
 namespace dnSpy.Debugger.DotNet.CorDebug.Impl {
 	abstract partial class DbgEngineImpl : DbgEngine, IClrDacDebugger {
 		public override DbgStartKind StartKind { get; }
-		public override string[] DebugTags => new[] { PredefinedDebugTags.DotNetDebugger };
+		public override string[] DebugTags => field ??= [PredefinedDebugTags.DotNetDebugger];
 		public override event EventHandler<DbgEngineMessage>? Message;
 		public event EventHandler? ClrDacRunning;
 		public event EventHandler? ClrDacPaused;

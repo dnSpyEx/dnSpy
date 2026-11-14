@@ -53,7 +53,7 @@ namespace dnSpy.Debugger.DotNet.Mono.Impl {
 
 		public override DbgStartKind StartKind => wasAttach ? DbgStartKind.Attach : DbgStartKind.Start;
 		public override DbgEngineRuntimeInfo RuntimeInfo => runtimeInfo;
-		public override string[] DebugTags => new[] { PredefinedDebugTags.DotNetDebugger };
+		public override string[] DebugTags => field ??= [PredefinedDebugTags.DotNetDebugger];
 		public override string[] Debugging { get; }
 		public override event EventHandler<DbgEngineMessage>? Message;
 
