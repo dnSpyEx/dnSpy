@@ -2030,6 +2030,9 @@ Most options will be re-initialized when this checkbox is clicked</value>
   <data name="MethodBody_Column_OpCode" xml:space="preserve">
     <value>OpCode</value>
   </data>
+  <data name="MethodBody_Column_SequencePoint" xml:space="preserve">
+    <value>Sequence Point</value>
+  </data>
   <data name="Column_Metadata_RID" xml:space="preserve">
     <value>RID</value>
   </data>
