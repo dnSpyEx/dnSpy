@@ -70,7 +70,7 @@ namespace dnSpy.Debugger.ToolWindows.CallStack {
 			}
 		}
 
-		public object NameObject => new FormatterObject<StackFrameVM>(this, PredefinedTextClassifierTags.CallStackWindowName);
+		public object NameObject => field ??= new FormatterObject<StackFrameVM>(this, PredefinedTextClassifierTags.CallStackWindowName);
 
 		public int Index {
 			get => index;
