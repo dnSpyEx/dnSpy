@@ -99,8 +99,10 @@ namespace dnSpy.MainApp {
 
 	[ExportToolBarButton(OwnerGuid = ToolBarConstants.APP_TB_GUID, Icon = DsImagesAttribute.AutoSizeOptimize, Header = "res:FullScreenToolBarCommand", IsToggleButton = true, Group = ToolBarConstants.GROUP_APP_TB_MAIN_FULLSCREEN, Order = 0)]
 	sealed class FullScreenToolbarCommand : ToolBarButtonBase, IToolBarToggleButton {
-		[Import]
-		AppWindow? appWindow = null;
+		readonly AppWindow? appWindow;
+
+		[ImportingConstructor]
+		public FullScreenToolbarCommand(AppWindow? appWindow) => this.appWindow = appWindow;
 
 		public Binding GetBinding(IToolBarItemContext context) {
 			Debug2.Assert(appWindow is not null && appWindow.MainWindow is not null);

@@ -22,20 +22,24 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using dnSpy.Contracts.Text.Editor;
+using Microsoft.VisualStudio.Composition;
 using Microsoft.VisualStudio.Utilities;
 
 namespace dnSpy.Text.MEF {
 
 	// All interfaces must be public or MEF will complain
 
-	public interface ITextViewRoleMetadata {
+	[MetadataView]
+	public partial interface ITextViewRoleMetadata {
 		IEnumerable<string> TextViewRoles { get; }
 	}
 
-	public interface IContentTypeAndTextViewRoleMetadata : IContentTypeMetadata, ITextViewRoleMetadata {
+	[MetadataView]
+	public partial interface IContentTypeAndTextViewRoleMetadata : IContentTypeMetadata, ITextViewRoleMetadata {
 	}
 
-	public interface IEditorFormatMetadata {
+	[MetadataView]
+	public partial interface IEditorFormatMetadata {
 		string Name { get; }
 
 		[DefaultValue(false)]
@@ -45,11 +49,13 @@ namespace dnSpy.Text.MEF {
 		int Priority { get; }
 	}
 
-	public interface IClassificationFormatMetadata : IEditorFormatMetadata, IOrderable {
+	[MetadataView]
+	public partial interface IClassificationFormatMetadata : IEditorFormatMetadata, IOrderable {
 		IEnumerable<string> ClassificationTypeNames { get; }
 	}
 
-	public interface IAdornmentLayersMetadata : IOrderable {
+	[MetadataView]
+	public partial interface IAdornmentLayersMetadata : IOrderable {
 		[DefaultValue(false)]
 		bool IsOverlayLayer { get; }
 
@@ -57,29 +63,34 @@ namespace dnSpy.Text.MEF {
 		LayerKind LayerKind { get; }
 	}
 
-	public interface IOrderableContentTypeAndTextViewRoleMetadata : IContentTypeAndTextViewRoleMetadata, IOrderable {
+	[MetadataView]
+	public partial interface IOrderableContentTypeAndTextViewRoleMetadata : IContentTypeAndTextViewRoleMetadata, IOrderable {
 	}
 
 	public interface ITaggerMetadata : IContentTypeMetadata {
 		IEnumerable<Type> TagTypes { get; }
 	}
 
-	public interface INamedTaggerMetadata : ITaggerMetadata, INamedContentTypeMetadata {
+	[MetadataView]
+	public partial interface INamedTaggerMetadata : ITaggerMetadata, INamedContentTypeMetadata {
 	}
 
-	public interface IViewTaggerMetadata : INamedTaggerMetadata {
+	[MetadataView]
+	public partial interface IViewTaggerMetadata : INamedTaggerMetadata {
 		[DefaultValue(null)]
 		IEnumerable<string> TextViewRoles { get; }
 	}
 
-	public interface IClassificationTypeDefinitionMetadata {
+	[MetadataView]
+	public partial interface IClassificationTypeDefinitionMetadata {
 		[DefaultValue(null)]
 		IEnumerable<string> BaseDefinition { get; }
 
 		string Name { get; }
 	}
 
-	public interface IContentTypeDefinitionMetadata {
+	[MetadataView]
+	public partial interface IContentTypeDefinitionMetadata {
 		[DefaultValue(null)]
 		IEnumerable<string> BaseDefinition { get; }
 
@@ -89,7 +100,8 @@ namespace dnSpy.Text.MEF {
 		string MimeType { get; }
 	}
 
-	public interface IWpfTextViewMarginMetadata : IOrderableContentTypeAndTextViewRoleMetadata {
+	[MetadataView]
+	public partial interface IWpfTextViewMarginMetadata : IOrderableContentTypeAndTextViewRoleMetadata {
 		string MarginContainer { get; }
 
 		[DefaultValue(1.0)]
@@ -105,12 +117,14 @@ namespace dnSpy.Text.MEF {
 		IEnumerable<string> Replaces { get; }
 	}
 
-	public interface IDeferrableContentTypeAndTextViewRoleMetadata : IContentTypeAndTextViewRoleMetadata {
+	[MetadataView]
+	public partial interface IDeferrableContentTypeAndTextViewRoleMetadata : IContentTypeAndTextViewRoleMetadata {
 		[DefaultValue(null)]
 		string OptionName { get; }
 	}
 
-	public interface IOrderableContentTypeMetadata : IContentTypeMetadata, IOrderable {
+	[MetadataView]
+	public partial interface IOrderableContentTypeMetadata : IContentTypeMetadata, IOrderable {
 	}
 
 	public interface IGlyphMarginMetadata {
@@ -118,18 +132,22 @@ namespace dnSpy.Text.MEF {
 		IEnumerable<string> GlyphMargins { get; }
 	}
 
-	public interface IGlyphMouseProcessorProviderMetadata : IGlyphMarginMetadata, IOrderableContentTypeMetadata {
+	[MetadataView]
+	public partial interface IGlyphMouseProcessorProviderMetadata : IGlyphMarginMetadata, IOrderableContentTypeMetadata {
 	}
 
-	public interface IGlyphMetadata : ITaggerMetadata, IOrderable {
+	[MetadataView]
+	public partial interface IGlyphMetadata : ITaggerMetadata, IOrderable {
 	}
 
-	public interface IGlyphTextMarkerMouseProcessorProviderMetadata : IOrderable {
+	[MetadataView]
+	public partial interface IGlyphTextMarkerMouseProcessorProviderMetadata : IOrderable {
 		[DefaultValue(null)]
 		IEnumerable<string> TextViewRoles { get; }
 	}
 
-	public interface IMarginContextMenuHandlerProviderMetadata {
+	[MetadataView]
+	public partial interface IMarginContextMenuHandlerProviderMetadata {
 		[DefaultValue(null)]
 		IEnumerable<string> TextViewRoles { get; }
 

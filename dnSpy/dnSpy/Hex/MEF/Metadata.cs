@@ -22,13 +22,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using dnSpy.Contracts.Hex.Editor;
+using Microsoft.VisualStudio.Composition;
 using VSUTIL = Microsoft.VisualStudio.Utilities;
 
 namespace dnSpy.Hex.MEF {
 
 	// All interfaces must be public or MEF will complain
 
-	public interface ITextViewRoleMetadata {
+	[MetadataView]
+	public partial interface ITextViewRoleMetadata {
 		IEnumerable<string> TextViewRoles { get; }
 	}
 
@@ -40,7 +42,8 @@ namespace dnSpy.Hex.MEF {
 		IEnumerable<string> Replaces { get; }
 	}
 
-	public interface IAdornmentLayersMetadata : VSUTIL.IOrderable {
+	[MetadataView]
+	public partial interface IAdornmentLayersMetadata : VSUTIL.IOrderable {
 		[DefaultValue(false)]
 		bool IsOverlayLayer { get; }
 
@@ -48,22 +51,26 @@ namespace dnSpy.Hex.MEF {
 		HexLayerKind LayerKind { get; }
 	}
 
-	public interface IOrderableTextViewRoleMetadata : ITextViewRoleMetadata, VSUTIL.IOrderable {
+	[MetadataView]
+	public partial interface IOrderableTextViewRoleMetadata : ITextViewRoleMetadata, VSUTIL.IOrderable {
 	}
 
 	public interface ITaggerMetadata {
 		IEnumerable<Type> TagTypes { get; }
 	}
 
-	public interface INamedTaggerMetadata : ITaggerMetadata, INameAndReplacesMetadata {
+	[MetadataView]
+	public partial interface INamedTaggerMetadata : ITaggerMetadata, INameAndReplacesMetadata {
 	}
 
-	public interface IViewTaggerMetadata : INamedTaggerMetadata {
+	[MetadataView]
+	public partial interface IViewTaggerMetadata : INamedTaggerMetadata {
 		[DefaultValue(null)]
 		IEnumerable<string> TextViewRoles { get; }
 	}
 
-	public interface IWpfHexViewMarginMetadata : IOrderableTextViewRoleMetadata {
+	[MetadataView]
+	public partial interface IWpfHexViewMarginMetadata : IOrderableTextViewRoleMetadata {
 		string MarginContainer { get; }
 
 		[DefaultValue(1.0)]
@@ -79,7 +86,8 @@ namespace dnSpy.Hex.MEF {
 		IEnumerable<string> Replaces { get; }
 	}
 
-	public interface IDeferrableTextViewRoleMetadata : ITextViewRoleMetadata {
+	[MetadataView]
+	public partial interface IDeferrableTextViewRoleMetadata : ITextViewRoleMetadata {
 		[DefaultValue(null)]
 		string OptionName { get; }
 	}
@@ -89,13 +97,16 @@ namespace dnSpy.Hex.MEF {
 		IEnumerable<string> GlyphMargins { get; }
 	}
 
-	public interface IGlyphMouseProcessorProviderMetadata : IGlyphMarginMetadata, VSUTIL.IOrderable {
+	[MetadataView]
+	public partial interface IGlyphMouseProcessorProviderMetadata : IGlyphMarginMetadata, VSUTIL.IOrderable {
 	}
 
-	public interface IGlyphMetadata : ITaggerMetadata, VSUTIL.IOrderable {
+	[MetadataView]
+	public partial interface IGlyphMetadata : ITaggerMetadata, VSUTIL.IOrderable {
 	}
 
-	public interface IMarginContextMenuHandlerProviderMetadata {
+	[MetadataView]
+	public partial interface IMarginContextMenuHandlerProviderMetadata {
 		[DefaultValue(null)]
 		IEnumerable<string> TextViewRoles { get; }
 
