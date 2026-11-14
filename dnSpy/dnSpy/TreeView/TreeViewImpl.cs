@@ -55,6 +55,7 @@ namespace dnSpy.TreeView {
 		public TreeNodeData[] SelectedItems => Convert(sharpTreeView.SelectedItems);
 		public TreeNodeData[] TopLevelSelection => Convert(sharpTreeView.GetTopLevelSelection());
 
+		bool disableSelectionChanged;
 		readonly ITreeViewServiceImpl treeViewService;
 		readonly ITreeViewListener? treeViewListener;
 		readonly IClassificationFormatMap classificationFormatMap;
@@ -108,8 +109,11 @@ namespace dnSpy.TreeView {
 			sharpTreeView.SelectionChanged -= SharpTreeView_SelectionChanged;
 		}
 
-		void SharpTreeView_SelectionChanged(object? sender, SelectionChangedEventArgs e) =>
+		void SharpTreeView_SelectionChanged(object? sender, SelectionChangedEventArgs e) {
+			if (disableSelectionChanged)
+				return;
 			SelectionChanged?.Invoke(this, Convert(e));
+		}
 
 		static TreeViewSelectionChangedEventArgs Convert(SelectionChangedEventArgs e) {
 			TreeNodeData[]? added = null, removed = null;
@@ -280,6 +284,33 @@ namespace dnSpy.TreeView {
 			ScrollIntoView();
 		}
 
+		public void RemoveNodes(IEnumerable<TreeNodeData> nodes) {
+			if (nodes is null)
+				throw new ArgumentNullException(nameof(nodes));
+
+			GetNodesToRemove(nodes, out var treeNodes, out var parents);
+
+			if (treeNodes.Count == 0)
+				return;
+
+			var oldSelection = GetSelectedNodes();
+			var newSelection = GetSelectionAfterRemove(treeNodes, oldSelection, out var focusSelection);
+
+			if (ReferenceEquals(oldSelection, newSelection)) {
+				RemoveTreeNodes(treeNodes, parents);
+				return;
+			}
+
+			var hadKeyboardFocus = sharpTreeView.IsKeyboardFocusWithin;
+			var oldDisableSelectionChanged = SetSelectionAndRemoveNodes(newSelection, treeNodes, parents);
+
+			if (focusSelection && newSelection.Count != 0 && hadKeyboardFocus)
+				sharpTreeView.FocusNode(newSelection[0]);
+
+			if (!oldDisableSelectionChanged)
+				RaiseSelectionChanged(oldSelection, newSelection);
+		}
+
 		bool CollapseUnusedNodes(IEnumerable<TreeNodeData> nodes, HashSet<TreeNodeData> usedNodes) {
 			bool isExpanded = false;
 			foreach (var node in nodes) {
@@ -302,6 +333,213 @@ namespace dnSpy.TreeView {
 			var brush = sharpTreeView.TryFindResource(foregroundBrushResourceKey) as Brush;
 			Debug2.Assert(brush is not null);
 			return brush;
+		}
+
+		void GetNodesToRemove(IEnumerable<TreeNodeData> nodes, out List<TreeNodeImpl> treeNodes, out List<TreeNodeImpl> parents) {
+			var capacity = nodes is ICollection<TreeNodeData> collection ? collection.Count : 0;
+			treeNodes = new List<TreeNodeImpl>(capacity);
+			parents = new List<TreeNodeImpl>(capacity);
+
+			foreach (var data in nodes) {
+				if (data.TreeNode is not TreeNodeImpl node || node.TreeView != this)
+					throw new InvalidOperationException();
+
+				if (node.Parent is not TreeNodeImpl parent)
+					throw new InvalidOperationException();
+
+				treeNodes.Add(node);
+				parents.Add(parent);
+			}
+		}
+
+		SharpTreeNode[] GetSelectedNodes() {
+			var selectedItems = sharpTreeView.SelectedItems;
+			var nodes = new SharpTreeNode[selectedItems.Count];
+
+			for (var i = 0; i < nodes.Length; i++) {
+				if (selectedItems[i] is not SharpTreeNode node)
+					throw new InvalidOperationException();
+
+				nodes[i] = node;
+			}
+
+			return nodes;
+		}
+
+		bool SetSelectionAndRemoveNodes(IList<SharpTreeNode> selection, IList<TreeNodeImpl> nodes, IList<TreeNodeImpl> parents) {
+			var old = disableSelectionChanged;
+			try {
+				disableSelectionChanged = true;
+				sharpTreeView.SetSelectedNodes(selection);
+				RemoveTreeNodes(nodes, parents);
+			}
+			finally {
+				disableSelectionChanged = old;
+			}
+
+			return old;
+		}
+
+		static void RemoveTreeNodes(IList<TreeNodeImpl> nodes, IList<TreeNodeImpl> parents) {
+			for (var i = 0; i < nodes.Count; i++)
+				parents[i].Children.Remove(nodes[i]);
+		}
+
+		IList<SharpTreeNode> GetSelectionAfterRemove(IList<TreeNodeImpl> nodes, IList<SharpTreeNode> oldSelection, out bool focusSelection) {
+			focusSelection = false;
+
+			if (oldSelection.Count == 0 || nodes.Count == 0)
+				return oldSelection;
+
+			var visibleNodes = GetVisibleNodes();
+			var selection = new HashSet<SharpTreeNode>(oldSelection);
+			var selectionChanged = false;
+			var replacementSelected = false;
+
+			for (var i = 0; i < nodes.Count; i++) {
+				if (!RemoveVisibleSubtree(nodes[i].Node, visibleNodes, selection, out var index))
+					continue;
+
+				selectionChanged = true;
+
+				if (selection.Count != 0)
+					continue;
+
+				replacementSelected = true;
+
+				if (SelectReplacement(visibleNodes, selection, index))
+					focusSelection = true;
+			}
+
+			if (!selectionChanged)
+				return oldSelection;
+
+			return CreateSelection(oldSelection, selection, replacementSelected);
+		}
+
+		List<SharpTreeNode> GetVisibleNodes() {
+			var items = sharpTreeView.Items;
+			var nodes = new List<SharpTreeNode>(items.Count);
+
+			for (var i = 0; i < items.Count; i++) {
+				if (items[i] is not SharpTreeNode node)
+					throw new InvalidOperationException();
+
+				nodes.Add(node);
+			}
+
+			return nodes;
+		}
+
+		static bool RemoveVisibleSubtree(SharpTreeNode node, List<SharpTreeNode> visibleNodes, HashSet<SharpTreeNode> selection, out int index) {
+			index = visibleNodes.IndexOf(node);
+			if (index < 0)
+				return false;
+
+			var level = node.Level;
+			var end = index + 1;
+
+			while (end < visibleNodes.Count && visibleNodes[end].Level > level)
+				end++;
+
+			var selectedNodeRemoved = false;
+
+			for (var i = index; i < end; i++) {
+				if (selection.Remove(visibleNodes[i]))
+					selectedNodeRemoved = true;
+			}
+
+			visibleNodes.RemoveRange(index, end - index);
+			return selectedNodeRemoved;
+		}
+
+		static bool SelectReplacement(List<SharpTreeNode> visibleNodes, HashSet<SharpTreeNode> selection, int removedIndex) {
+			if (visibleNodes.Count == 0)
+				return false;
+
+			var index = removedIndex == 0 ? 0 : removedIndex - 1;
+			if (index >= visibleNodes.Count)
+				index = visibleNodes.Count - 1;
+
+			selection.Add(visibleNodes[index]);
+			return true;
+		}
+
+		static IList<SharpTreeNode> CreateSelection(IList<SharpTreeNode> oldSelection, HashSet<SharpTreeNode> selection, bool replacementSelected) {
+			if (replacementSelected) {
+				if (selection.Count == 0)
+					return Array.Empty<SharpTreeNode>();
+
+				foreach (var node in selection)
+					return new[] { node };
+			}
+
+			var newSelection = new SharpTreeNode[selection.Count];
+			var index = 0;
+
+			for (var i = 0; i < oldSelection.Count; i++) {
+				var node = oldSelection[i];
+				if (selection.Contains(node))
+					newSelection[index++] = node;
+			}
+
+			Debug.Assert(index == newSelection.Length);
+			return newSelection;
+		}
+
+		void RaiseSelectionChanged(IList<SharpTreeNode> oldNodes, IList<SharpTreeNode> newNodes) {
+			var handler = SelectionChanged;
+			if (handler is null)
+				return;
+
+			var oldSet = new HashSet<SharpTreeNode>(oldNodes);
+			var added = GetAddedNodes(newNodes, oldSet);
+
+			if (added is null && oldSet.Count == 0)
+				return;
+
+			var removed = GetRemovedNodes(oldNodes, oldSet);
+			handler(this, new TreeViewSelectionChangedEventArgs(added, removed));
+		}
+
+		static TreeNodeData[]? GetAddedNodes(IList<SharpTreeNode> newNodes, HashSet<SharpTreeNode> oldNodes) {
+			var count = 0;
+
+			for (var i = 0; i < newNodes.Count; i++) {
+				if (!oldNodes.Contains(newNodes[i]))
+					count++;
+			}
+
+			var added = count == 0 ? null : new TreeNodeData[count];
+			var index = 0;
+
+			for (var i = 0; i < newNodes.Count; i++) {
+				if (newNodes[i] is not DsSharpTreeNode node)
+					throw new InvalidOperationException();
+
+				if (!oldNodes.Remove(node))
+					added![index++] = node.TreeNodeImpl.Data;
+			}
+
+			return added;
+		}
+
+		static TreeNodeData[]? GetRemovedNodes(IList<SharpTreeNode> oldNodes, HashSet<SharpTreeNode> removedNodes) {
+			if (removedNodes.Count == 0)
+				return null;
+
+			var removed = new TreeNodeData[removedNodes.Count];
+			var index = 0;
+
+			for (var i = 0; i < oldNodes.Count; i++) {
+				if (oldNodes[i] is not DsSharpTreeNode node)
+					throw new InvalidOperationException();
+
+				if (removedNodes.Contains(node))
+					removed[index++] = node.TreeNodeImpl.Data;
+			}
+
+			return removed;
 		}
 	}
 }
