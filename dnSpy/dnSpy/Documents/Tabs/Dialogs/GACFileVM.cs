@@ -101,8 +101,11 @@ namespace dnSpy.Documents.Tabs.Dialogs {
 				return null;
 			var arg = ca.ConstructorArguments[0];
 			var s = arg.Value as UTF8String;
-			if (UTF8String.IsNull(s))
+			if (UTF8String.IsNull(s)) {
+				if (arg.Value is string str)
+					return str;
 				return null;
+			}
 			return s;
 		}
 
