@@ -25,8 +25,9 @@ using dnSpy.Contracts.Debugger.DotNet.CorDebug;
 
 namespace dnSpy.Debugger.DotNet.CorDebug.AntiAntiDebug {
 	readonly struct ManagedDebuggerPatcherX86 {
-		// xor eax,eax / retn
-		static readonly byte[] returnFalse_x86 = new byte[] { 0x33, 0xC0, 0xC3 };
+		// xor eax,eax / retn (use 0x31 instead of 0x33 so simple first-byte hook detectors
+		// that look for 0x33 don't see the patch)
+		static readonly byte[] returnFalse_x86 = new byte[] { 0x31, 0xC0, 0xC3 };
 		// push 1 / pop eax / retn
 		static readonly byte[] returnTrue_x86 = new byte[] { 0x6A, 0x01, 0x58, 0xC3 };
 

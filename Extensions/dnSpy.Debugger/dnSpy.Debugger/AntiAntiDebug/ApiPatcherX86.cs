@@ -264,27 +264,41 @@ namespace dnSpy.Debugger.AntiAntiDebug {
 
 			var memBlock = processMemoryBlockAllocator.Allocate(moduleAddress, moduleEndAddress);
 			ulong newFunctionAddress = memBlock.CurrentAddress;
-			if (!TryGetPatchBlock(decoder, funcAddress, newFunctionAddress, out uint patchSize, out var blockAddress, out var blockInstructions))
+			// The real call target is the hook code which is located after the copied
+			// prologue and the pop instruction. Use a conservative address for the
+			// short-call range check.
+			if (!TryGetPatchBlock(decoder, funcAddress, newFunctionAddress + 0x100, out uint patchSize, out var blockAddress, out var blockInstructions))
 				return new PatchAPIResult("Couldn't find a block to patch");
 
 			if (!TryCopyOriginalBlock(memBlock, blockInstructions, out var errorMessage))
 				return new PatchAPIResult(errorMessage);
-			ulong newCodeAddress = memBlock.CurrentAddress;
+
+			// The entry patch is a call, not a jmp, so the first byte isn't 0xE9.
+			// The hook code starts with a pop that discards the return address pushed
+			// by the call. When the hook returns, it returns directly to the caller.
+			// The call target must be the pop instruction, not the code after it.
+			ulong popAddress = memBlock.CurrentAddress;
+			if (is64) {
+				memBlock.WriteByte(0x41);	// pop r11
+				memBlock.WriteByte(0x5B);
+			}
+			else
+				memBlock.WriteByte(0x5A);	// pop edx
 
 			var instructions = new InstructionList();
 			if (is64) {
 				if (patchSize == PATCH_SIZE_X64_LONG) {
-					instructions.Add(Instruction.Create(II.Code.Mov_r64_imm64, Register.RAX, newCodeAddress));
-					instructions.Add(Instruction.Create(II.Code.Jmp_rm64, Register.RAX));
+					instructions.Add(Instruction.Create(II.Code.Mov_r64_imm64, Register.RAX, popAddress));
+					instructions.Add(Instruction.Create(II.Code.Call_rm64, Register.RAX));
 				}
 				else {
 					Debug.Assert(patchSize == PATCH_SIZE_X64_SHORT);
-					instructions.Add(Instruction.CreateBranch(II.Code.Jmp_rel32_64, newCodeAddress));
+					instructions.Add(Instruction.CreateBranch(II.Code.Call_rel32_64, popAddress));
 				}
 			}
 			else {
 				Debug.Assert(patchSize == PATCH_SIZE_X86);
-				instructions.Add(Instruction.CreateBranch(II.Code.Jmp_rel32_32, newCodeAddress));
+				instructions.Add(Instruction.CreateBranch(II.Code.Call_rel32_32, popAddress));
 			}
 			var arrayCodeWriter = new ArrayCodeWriterImpl((int)patchSize);
 			var block = new InstructionBlock(arrayCodeWriter, instructions, blockAddress);
