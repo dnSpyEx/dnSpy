@@ -199,6 +199,23 @@ namespace dnSpy.Debugger.Settings {
 		}
 		bool antiCheckRemoteDebuggerPresent = true;
 
+		public override bool AntiNtQueryInformationProcess {
+			get {
+				lock (lockObj)
+					return antiNtQueryInformationProcess;
+			}
+			set {
+				bool modified;
+				lock (lockObj) {
+					modified = antiNtQueryInformationProcess != value;
+					antiNtQueryInformationProcess = value;
+				}
+				if (modified)
+					OnPropertyChanged(nameof(AntiNtQueryInformationProcess));
+			}
+		}
+		bool antiNtQueryInformationProcess = true;
+
 		public override bool AntiNtRaiseHardError {
 			get {
 				lock (lockObj)
@@ -722,6 +739,7 @@ namespace dnSpy.Debugger.Settings {
 			other.PreventManagedDebuggerDetection = PreventManagedDebuggerDetection;
 			other.AntiIsDebuggerPresent = AntiIsDebuggerPresent;
 			other.AntiCheckRemoteDebuggerPresent = AntiCheckRemoteDebuggerPresent;
+			other.AntiNtQueryInformationProcess = AntiNtQueryInformationProcess;
 			other.AntiNtRaiseHardError = AntiNtRaiseHardError;
 			other.AntiCloseHandle = AntiCloseHandle;
 			other.IgnoreBreakInstructions = IgnoreBreakInstructions;
@@ -778,6 +796,7 @@ namespace dnSpy.Debugger.Settings {
 			PreventManagedDebuggerDetection = sect.Attribute<bool?>(nameof(PreventManagedDebuggerDetection)) ?? PreventManagedDebuggerDetection;
 			AntiIsDebuggerPresent = sect.Attribute<bool?>(nameof(AntiIsDebuggerPresent)) ?? AntiIsDebuggerPresent;
 			AntiCheckRemoteDebuggerPresent = sect.Attribute<bool?>(nameof(AntiCheckRemoteDebuggerPresent)) ?? AntiCheckRemoteDebuggerPresent;
+			AntiNtQueryInformationProcess = sect.Attribute<bool?>(nameof(AntiNtQueryInformationProcess)) ?? AntiNtQueryInformationProcess;
 			AntiNtRaiseHardError = sect.Attribute<bool?>(nameof(AntiNtRaiseHardError)) ?? AntiNtRaiseHardError;
 			AntiCloseHandle = sect.Attribute<bool?>(nameof(AntiCloseHandle)) ?? AntiCloseHandle;
 			IgnoreBreakInstructions = sect.Attribute<bool?>(nameof(IgnoreBreakInstructions)) ?? IgnoreBreakInstructions;
@@ -823,6 +842,7 @@ namespace dnSpy.Debugger.Settings {
 			sect.Attribute(nameof(PreventManagedDebuggerDetection), PreventManagedDebuggerDetection);
 			sect.Attribute(nameof(AntiIsDebuggerPresent), AntiIsDebuggerPresent);
 			sect.Attribute(nameof(AntiCheckRemoteDebuggerPresent), AntiCheckRemoteDebuggerPresent);
+			sect.Attribute(nameof(AntiNtQueryInformationProcess), AntiNtQueryInformationProcess);
 			sect.Attribute(nameof(AntiNtRaiseHardError), AntiNtRaiseHardError);
 			sect.Attribute(nameof(AntiCloseHandle), AntiCloseHandle);
 			sect.Attribute(nameof(IgnoreBreakInstructions), IgnoreBreakInstructions);
