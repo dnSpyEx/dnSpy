@@ -78,8 +78,8 @@ namespace dnSpy.MainApp.Settings {
 		readonly MessageBoxService messageBoxService;
 		readonly IUpdateService updateService;
 
-		public ICommand ClearAllWarningsCommand => new RelayCommand(a => messageBoxService.EnableAllWarnings(), a => messageBoxService.CanEnableAllWarnings);
-		public ICommand ResetIgnoredUpdatesCommand => new RelayCommand(a => updateService.ResetIgnoredUpdates(), a => updateService.CanResetIgnoredUpdates);
+		public ICommand ClearAllWarningsCommand => field ??= new RelayCommand(a => messageBoxService.EnableAllWarnings(), a => messageBoxService.CanEnableAllWarnings);
+		public ICommand ResetIgnoredUpdatesCommand => field ??= new RelayCommand(a => updateService.ResetIgnoredUpdates(), a => updateService.CanResetIgnoredUpdates);
 
 		public ObservableCollection<ThemeVM> ThemesVM { get; }
 

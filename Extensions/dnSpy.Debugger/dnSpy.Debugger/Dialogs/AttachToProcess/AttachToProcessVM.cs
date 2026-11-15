@@ -46,12 +46,12 @@ namespace dnSpy.Debugger.Dialogs.AttachToProcess {
 		public GridViewColumnDescs Descs { get; }
 
 		public string SearchToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Debugger_Resources.AttachToProcess_Search_ToolTip, dnSpy_Debugger_Resources.ShortCutKeyCtrlF);
-		public ICommand SearchHelpCommand => new RelayCommand(a => searchHelp());
+		public ICommand SearchHelpCommand => field ??= new RelayCommand(a => searchHelp());
 
-		public ICommand RefreshCommand => new RelayCommand(a => Refresh(), a => CanRefresh);
+		public ICommand RefreshCommand => field ??= new RelayCommand(a => Refresh(), a => CanRefresh);
 		public string SearchHelpToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Debugger_Resources.SearchHelp_ToolTip, null);
 
-		public ICommand InfoLinkCommand => new RelayCommand(a => ShowInfoLinkPage());
+		public ICommand InfoLinkCommand => field ??= new RelayCommand(a => ShowInfoLinkPage());
 		public bool HasInfoLink => InfoLinkToolTip is not null && infoLink is not null;
 		public string? InfoLinkToolTip { get; }
 		readonly string? infoLink;
@@ -267,7 +267,7 @@ namespace dnSpy.Debugger.Dialogs.AttachToProcess {
 			uiDispatcher.VerifyAccess();
 			SortList(filterText);
 		}
- 
+
 		void SortList(string filterText) {
 			uiDispatcher.VerifyAccess();
 			var newList = new List<ProgramVM>(GetFilteredItems(filterText));

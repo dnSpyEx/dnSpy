@@ -38,8 +38,8 @@ namespace dnSpy.AsmEditor.MethodBody {
 		}
 		ITypeSigCreator? typeSigCreator;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
-		public ICommand EditCatchTypeCommand => new RelayCommand(a => EditCatchType());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
+		public ICommand EditCatchTypeCommand => field ??= new RelayCommand(a => EditCatchType());
 
 		public int Index {
 			get => index;

@@ -775,6 +775,7 @@ namespace dnSpy.Text.Editor {
 			}
 		}
 
+#pragma warning disable WFO2000
 		ReplSubBuffer ActiveSubBuffer {
 			get {
 				int startOffset = subBuffers.Count == 0 ? 0 : subBuffers[subBuffers.Count - 1].Span.End;
@@ -782,6 +783,7 @@ namespace dnSpy.Text.Editor {
 				return new ReplSubBuffer(IsCommandMode ? ReplBufferKind.Code : ReplBufferKind.Output, startOffset, endOffset);
 			}
 		}
+#pragma warning restore WFO2000
 
 		public void Dispose() {
 			if (!wpfTextViewHost.IsClosed)

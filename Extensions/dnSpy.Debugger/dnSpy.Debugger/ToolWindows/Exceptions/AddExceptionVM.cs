@@ -79,7 +79,7 @@ namespace dnSpy.Debugger.ToolWindows.Exceptions {
 			}
 		}
 
-		public ICommand SaveCommand => new RelayCommand(a => Save(), a => CanSave);
+		public ICommand SaveCommand => field ??= new RelayCommand(a => Save(), a => CanSave);
 
 		public bool IsVisible {
 			get => isVisible;

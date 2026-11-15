@@ -43,7 +43,7 @@ namespace dnSpy.AsmEditor.SaveModule {
 		}
 		IPickSaveFilename? pickSaveFilename;
 
-		public ICommand PickNetExecutableFileNameCommand => new RelayCommand(a => OnPickNetExecutableFileName());
+		public ICommand PickNetExecutableFileNameCommand => field ??= new RelayCommand(a => OnPickNetExecutableFileName());
 
 		void OnPickNetExecutableFileName() {
 			if (pickSaveFilename is null)

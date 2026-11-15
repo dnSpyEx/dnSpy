@@ -67,16 +67,16 @@ namespace dnSpy.Debugger.ToolWindows.Processes {
 			public string ResetSearchSettingsToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Debugger_Resources.Processes_ResetSearchSettings_ToolTip, null);
 			public string SearchHelpToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Debugger_Resources.SearchHelp_ToolTip, null);
 
-			public ICommand ContinueProcessCommand => new RelayCommand(a => Operations.ContinueProcess(), a => Operations.CanContinueProcess);
-			public ICommand BreakProcessCommand => new RelayCommand(a => Operations.BreakProcess(), a => Operations.CanBreakProcess);
-			public ICommand StepIntoProcessCommand => new RelayCommand(a => Operations.StepIntoProcess(), a => Operations.CanStepIntoProcess);
-			public ICommand StepOverProcessCommand => new RelayCommand(a => Operations.StepOverProcess(), a => Operations.CanStepOverProcess);
-			public ICommand StepOutProcessCommand => new RelayCommand(a => Operations.StepOutProcess(), a => Operations.CanStepOutProcess);
-			public ICommand DetachCommand => new RelayCommand(a => Operations.DetachProcess(), a => Operations.CanDetachProcess);
-			public ICommand TerminateCommand => new RelayCommand(a => Operations.TerminateProcess(), a => Operations.CanTerminateProcess);
-			public ICommand AttachToProcessCommand => new RelayCommand(a => Operations.AttachToProcess(), a => Operations.CanAttachToProcess);
-			public ICommand ResetSearchSettingsCommand => new RelayCommand(a => Operations.ResetSearchSettings(), a => Operations.CanResetSearchSettings);
-			public ICommand SearchHelpCommand => new RelayCommand(a => SearchHelp());
+			public ICommand ContinueProcessCommand => field ??= new RelayCommand(a => Operations.ContinueProcess(), a => Operations.CanContinueProcess);
+			public ICommand BreakProcessCommand => field ??= new RelayCommand(a => Operations.BreakProcess(), a => Operations.CanBreakProcess);
+			public ICommand StepIntoProcessCommand => field ??= new RelayCommand(a => Operations.StepIntoProcess(), a => Operations.CanStepIntoProcess);
+			public ICommand StepOverProcessCommand => field ??= new RelayCommand(a => Operations.StepOverProcess(), a => Operations.CanStepOverProcess);
+			public ICommand StepOutProcessCommand => field ??= new RelayCommand(a => Operations.StepOutProcess(), a => Operations.CanStepOutProcess);
+			public ICommand DetachCommand => field ??= new RelayCommand(a => Operations.DetachProcess(), a => Operations.CanDetachProcess);
+			public ICommand TerminateCommand => field ??= new RelayCommand(a => Operations.TerminateProcess(), a => Operations.CanTerminateProcess);
+			public ICommand AttachToProcessCommand => field ??= new RelayCommand(a => Operations.AttachToProcess(), a => Operations.CanAttachToProcess);
+			public ICommand ResetSearchSettingsCommand => field ??= new RelayCommand(a => Operations.ResetSearchSettings(), a => Operations.CanResetSearchSettings);
+			public ICommand SearchHelpCommand => field ??= new RelayCommand(a => SearchHelp());
 
 			readonly IMessageBoxService messageBoxService;
 			readonly DependencyObject control;

@@ -33,7 +33,7 @@ namespace dnSpy.AsmEditor.Resources {
 		}
 		IDnlibTypePicker? dnlibTypePicker;
 
-		public ICommand PickTypeCommand => new RelayCommand(a => PickType());
+		public ICommand PickTypeCommand => field ??= new RelayCommand(a => PickType());
 
 		public string TypeFullName {
 			get => typeFullName;

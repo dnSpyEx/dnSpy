@@ -27,9 +27,9 @@ namespace dnSpy.AsmEditor.MethodBody {
 	sealed class SwitchOperandVM : ViewModelBase {
 		readonly IList<InstructionVM>? origInstructions;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
-		public ICommand AddInstructionCommand => new RelayCommand(a => AddInstruction(), a => AddInstructionCanExecute());
-		public ICommand AppendInstructionCommand => new RelayCommand(a => AppendInstruction(), a => AppendInstructionCanExecute());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
+		public ICommand AddInstructionCommand => field ??= new RelayCommand(a => AddInstruction(), a => AddInstructionCanExecute());
+		public ICommand AppendInstructionCommand => field ??= new RelayCommand(a => AppendInstruction(), a => AppendInstructionCanExecute());
 
 		public int SelectedIndex {
 			get => selectedIndex;

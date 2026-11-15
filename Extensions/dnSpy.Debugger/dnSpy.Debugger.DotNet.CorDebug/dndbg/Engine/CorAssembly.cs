@@ -26,6 +26,7 @@ using dndbg.COM.MetaData;
 using dnlib.DotNet;
 using dnlib.DotNet.MD;
 
+#pragma warning disable WFO2000
 namespace dndbg.Engine {
 	sealed class CorAssembly : COMObject<ICorDebugAssembly>, IEquatable<CorAssembly?> {
 		public IEnumerable<CorModule> Modules {

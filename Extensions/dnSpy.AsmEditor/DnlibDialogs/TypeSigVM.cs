@@ -36,7 +36,7 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 		}
 		ITypeSigCreator? typeSigCreator;
 
-		public ICommand PickTypeCommand => new RelayCommand(a => PickType());
+		public ICommand PickTypeCommand => field ??= new RelayCommand(a => PickType());
 
 		protected TypeVMBase(T value, Action<DataFieldVM> onUpdated, TypeSigCreatorOptions? options)
 			: base(onUpdated) {
@@ -108,9 +108,9 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 		}
 		ITypeSigCreator? typeSigCreator;
 
-		public ICommand AddTypeCommand => new RelayCommand(a => AddType());
-		public ICommand RemoveTypeCommand => new RelayCommand(a => RemoveType(), a => RemoveTypeCanExecute());
-		public ICommand ClearTypesCommand => new RelayCommand(a => ClearTypes(), a => ClearTypesCanExecute());
+		public ICommand AddTypeCommand => field ??= new RelayCommand(a => AddType());
+		public ICommand RemoveTypeCommand => field ??= new RelayCommand(a => RemoveType(), a => RemoveTypeCanExecute());
+		public ICommand ClearTypesCommand => field ??= new RelayCommand(a => ClearTypes(), a => ClearTypesCanExecute());
 
 		protected TypeListDataFieldVMBase(IList<T> value, Action<DataFieldVM> onUpdated, TypeSigCreatorOptions? options)
 			: base(onUpdated) {

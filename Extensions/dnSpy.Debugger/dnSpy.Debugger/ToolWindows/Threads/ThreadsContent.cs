@@ -61,10 +61,10 @@ namespace dnSpy.Debugger.ToolWindows.Threads {
 			public string ResetSearchSettingsToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Debugger_Resources.Threads_ResetSearchSettings_ToolTip, null);
 			public string SearchHelpToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Debugger_Resources.SearchHelp_ToolTip, null);
 
-			public ICommand FreezeThreadsCommand => new RelayCommand(a => Operations.FreezeThread(), a => Operations.CanFreezeThread);
-			public ICommand ThawThreadsCommand => new RelayCommand(a => Operations.ThawThread(), a => Operations.CanThawThread);
-			public ICommand ResetSearchSettingsCommand => new RelayCommand(a => Operations.ResetSearchSettings(), a => Operations.CanResetSearchSettings);
-			public ICommand SearchHelpCommand => new RelayCommand(a => SearchHelp());
+			public ICommand FreezeThreadsCommand => field ??= new RelayCommand(a => Operations.FreezeThread(), a => Operations.CanFreezeThread);
+			public ICommand ThawThreadsCommand => field ??= new RelayCommand(a => Operations.ThawThread(), a => Operations.CanThawThread);
+			public ICommand ResetSearchSettingsCommand => field ??= new RelayCommand(a => Operations.ResetSearchSettings(), a => Operations.CanResetSearchSettings);
+			public ICommand SearchHelpCommand => field ??= new RelayCommand(a => SearchHelp());
 
 			readonly IMessageBoxService messageBoxService;
 			readonly DependencyObject control;

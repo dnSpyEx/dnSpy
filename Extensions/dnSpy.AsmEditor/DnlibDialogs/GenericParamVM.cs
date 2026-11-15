@@ -35,7 +35,7 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 	sealed class GenericParamVM : ViewModelBase {
 		readonly GenericParamOptions origOptions;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 
 		public string FullName {
 			get {

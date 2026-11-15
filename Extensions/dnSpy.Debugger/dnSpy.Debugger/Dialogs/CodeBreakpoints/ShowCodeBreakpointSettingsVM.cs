@@ -29,8 +29,8 @@ using dnSpy.Debugger.UI;
 
 namespace dnSpy.Debugger.Dialogs.CodeBreakpoints {
 	sealed class ShowCodeBreakpointSettingsVM : ViewModelBase, IDisposable {
-		public ICommand TracepointMessageHelpCommand => new RelayCommand(a => ShowTracepointMessageHelp());
-		public ICommand FilterExpressionHelpCommand => new RelayCommand(a => ShowFilterExpressionHelp());
+		public ICommand TracepointMessageHelpCommand => field ??= new RelayCommand(a => ShowTracepointMessageHelp());
+		public ICommand FilterExpressionHelpCommand => field ??= new RelayCommand(a => ShowFilterExpressionHelp());
 
 		public bool EnableConditionalExpression {
 			get => enableConditionalExpression;

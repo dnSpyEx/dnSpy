@@ -49,13 +49,13 @@ namespace dnSpy.Debugger.ToolWindows.CodeBreakpoints {
 
 		public ICodeBreakpointContext Context { get; }
 		public DbgCodeBreakpoint CodeBreakpoint { get; }
-		public object NameObject => new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowName);
-		public object LabelsObject => new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowLabels);
-		public object ConditionObject => new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowCondition);
-		public object HitCountObject => new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowHitCount);
-		public object FilterObject => new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowFilter);
-		public object WhenHitObject => new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowWhenHit);
-		public object ModuleObject => new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowModule);
+		public object NameObject => field ??= new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowName);
+		public object LabelsObject => field ??= new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowLabels);
+		public object ConditionObject => field ??= new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowCondition);
+		public object HitCountObject => field ??= new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowHitCount);
+		public object FilterObject => field ??= new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowFilter);
+		public object WhenHitObject => field ??= new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowWhenHit);
+		public object ModuleObject => field ??= new FormatterObject<CodeBreakpointVM>(this, PredefinedTextClassifierTags.CodeBreakpointsWindowModule);
 		internal int Order { get; }
 
 		public IEditableValue LabelsEditableValue { get; }

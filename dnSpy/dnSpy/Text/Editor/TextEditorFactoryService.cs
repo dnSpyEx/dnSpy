@@ -66,9 +66,9 @@ namespace dnSpy.Text.Editor {
 		readonly Lazy<ITextViewUndoManagerProvider> textViewUndoManagerProvider;
 		ProviderSelector<ITextViewModelProvider, IContentTypeAndTextViewRoleMetadata>? providerSelector;
 
-		public ITextViewRoleSet AllPredefinedRoles => new TextViewRoleSet(allPredefinedRolesList);
-		public ITextViewRoleSet DefaultRoles => new TextViewRoleSet(defaultRolesList);
-		public ITextViewRoleSet NoRoles => new TextViewRoleSet(Array.Empty<string>());
+		public ITextViewRoleSet AllPredefinedRoles => field ??= new TextViewRoleSet(allPredefinedRolesList);
+		public ITextViewRoleSet DefaultRoles => field ??= new TextViewRoleSet(defaultRolesList);
+		public ITextViewRoleSet NoRoles => field ??= new TextViewRoleSet(Array.Empty<string>());
 		static readonly string[] allPredefinedRolesList = new string[] {
 			PredefinedTextViewRoles.Analyzable,
 			PredefinedTextViewRoles.Debuggable,

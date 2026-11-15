@@ -116,7 +116,9 @@ namespace dnSpy.Contracts.Documents {
 		public override DsDocumentInfo? SerializedDocument => DsDocumentInfo.CreateDocument(Filename);
 
 		/// <inheritdoc/>
+#pragma warning disable WFO2000
 		public override IDsDocumentNameKey Key => new FilenameKey(Filename);
+#pragma warning restore WFO2000
 
 		/// <summary>
 		/// Constructor

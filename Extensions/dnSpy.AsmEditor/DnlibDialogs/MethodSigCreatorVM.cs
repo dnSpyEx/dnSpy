@@ -43,7 +43,7 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 		}
 		ITypeSigCreator? typeSigCreator;
 
-		public ICommand AddReturnTypeCommand => new RelayCommand(a => AddReturnType());
+		public ICommand AddReturnTypeCommand => field ??= new RelayCommand(a => AddReturnType());
 
 		public PropertySig? PropertySig {
 			get => CreateSig(new PropertySig());

@@ -45,7 +45,7 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 		}
 		IOpenAssembly? openAssembly;
 
-		public ICommand OpenCommand => new RelayCommand(a => OpenNewAssembly(), a => CanOpenAssembly);
+		public ICommand OpenCommand => field ??= new RelayCommand(a => OpenNewAssembly(), a => CanOpenAssembly);
 
 		public bool CanOpenAssembly {
 			get => true;

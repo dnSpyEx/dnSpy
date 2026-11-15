@@ -38,13 +38,13 @@ namespace dnSpy.AsmEditor.Event {
 		}
 		IDnlibTypePicker? dnlibTypePicker;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
-		public ICommand PickAddMethodCommand => new RelayCommand(a => PickAddMethod());
-		public ICommand PickInvokeMethodCommand => new RelayCommand(a => PickInvokeMethod());
-		public ICommand PickRemoveMethodCommand => new RelayCommand(a => PickRemoveMethod());
-		public ICommand ClearAddMethodCommand => new RelayCommand(a => AddMethod = null, a => AddMethod is not null);
-		public ICommand ClearInvokeMethodCommand => new RelayCommand(a => InvokeMethod = null, a => InvokeMethod is not null);
-		public ICommand ClearRemoveMethodCommand => new RelayCommand(a => RemoveMethod = null, a => RemoveMethod is not null);
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
+		public ICommand PickAddMethodCommand => field ??= new RelayCommand(a => PickAddMethod());
+		public ICommand PickInvokeMethodCommand => field ??= new RelayCommand(a => PickInvokeMethod());
+		public ICommand PickRemoveMethodCommand => field ??= new RelayCommand(a => PickRemoveMethod());
+		public ICommand ClearAddMethodCommand => field ??= new RelayCommand(a => AddMethod = null, a => AddMethod is not null);
+		public ICommand ClearInvokeMethodCommand => field ??= new RelayCommand(a => InvokeMethod = null, a => InvokeMethod is not null);
+		public ICommand ClearRemoveMethodCommand => field ??= new RelayCommand(a => RemoveMethod = null, a => RemoveMethod is not null);
 
 		public EventAttributes Attributes {
 			get => attributes;

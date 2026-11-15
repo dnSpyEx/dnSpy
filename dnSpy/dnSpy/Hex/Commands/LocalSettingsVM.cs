@@ -28,8 +28,8 @@ namespace dnSpy.Hex.Commands {
 		readonly LocalGroupOptions origOptions;
 		readonly LocalGroupOptions defaultOptions;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
-		public ICommand ResetToDefaultCommand => new RelayCommand(a => ResetToDefault(), a => ResetToDefaultCanExecute());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
+		public ICommand ResetToDefaultCommand => field ??= new RelayCommand(a => ResetToDefault(), a => ResetToDefaultCanExecute());
 
 		public bool ShowOffsetColumn {
 			get => showOffset;

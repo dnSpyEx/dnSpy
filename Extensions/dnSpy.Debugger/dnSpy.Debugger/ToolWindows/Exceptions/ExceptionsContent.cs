@@ -67,13 +67,13 @@ namespace dnSpy.Debugger.ToolWindows.Exceptions {
 			public string SearchToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Debugger_Resources.Exceptions_Search_ToolTip, dnSpy_Debugger_Resources.ShortCutKeyCtrlF);
 			public string SearchHelpToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Debugger_Resources.SearchHelp_ToolTip, null);
 
-			public ICommand AddExceptionCommand => new RelayCommand(a => Operations.AddException(), a => Operations.CanAddException);
-			public ICommand RemoveExceptionsCommand => new RelayCommand(a => Operations.RemoveExceptions(), a => Operations.CanRemoveExceptions);
-			public ICommand ToggleMatchingExceptionsCommand => new RelayCommand(a => Operations.ToggleMatchingExceptions(), a => Operations.CanToggleMatchingExceptions);
-			public ICommand EditConditionsCommand => new RelayCommand(a => Operations.EditConditions(), a => Operations.CanEditConditions);
-			public ICommand RestoreSettingsCommand => new RelayCommand(a => Operations.RestoreSettings(), a => Operations.CanRestoreSettings);
-			public ICommand ResetSearchSettingsCommand => new RelayCommand(a => Operations.ResetSearchSettings(), a => Operations.CanResetSearchSettings);
-			public ICommand SearchHelpCommand => new RelayCommand(a => SearchHelp());
+			public ICommand AddExceptionCommand => field ??= new RelayCommand(a => Operations.AddException(), a => Operations.CanAddException);
+			public ICommand RemoveExceptionsCommand => field ??= new RelayCommand(a => Operations.RemoveExceptions(), a => Operations.CanRemoveExceptions);
+			public ICommand ToggleMatchingExceptionsCommand => field ??= new RelayCommand(a => Operations.ToggleMatchingExceptions(), a => Operations.CanToggleMatchingExceptions);
+			public ICommand EditConditionsCommand => field ??= new RelayCommand(a => Operations.EditConditions(), a => Operations.CanEditConditions);
+			public ICommand RestoreSettingsCommand => field ??= new RelayCommand(a => Operations.RestoreSettings(), a => Operations.CanRestoreSettings);
+			public ICommand ResetSearchSettingsCommand => field ??= new RelayCommand(a => Operations.ResetSearchSettings(), a => Operations.CanResetSearchSettings);
+			public ICommand SearchHelpCommand => field ??= new RelayCommand(a => SearchHelp());
 
 			readonly IMessageBoxService messageBoxService;
 			readonly DependencyObject control;

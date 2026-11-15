@@ -60,7 +60,9 @@ namespace dnSpy.Roslyn.Compiler.VisualBasic {
 		protected override string TextViewRole => PredefinedDsTextViewRoles.RoslynVisualBasicCodeEditor;
 		protected override string ContentType => ContentTypes.VisualBasicRoslyn;
 		protected override string LanguageName => LanguageNames.VisualBasic;
+#pragma warning disable WFO2000
 		protected override ParseOptions ParseOptions => new VisualBasicParseOptions(languageVersion: LanguageVersion.Latest, preprocessorSymbols: GetPreprocessorSymbols());
+#pragma warning restore WFO2000
 		public override string FileExtension => ".vb";
 		protected override string AppearanceCategory => AppearanceCategoryConstants.TextEditor;
 		// The VB compiler doesn't support netmodule + embed runtime

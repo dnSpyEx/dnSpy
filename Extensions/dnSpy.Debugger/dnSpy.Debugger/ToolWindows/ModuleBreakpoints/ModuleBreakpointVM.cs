@@ -66,10 +66,10 @@ namespace dnSpy.Debugger.ToolWindows.ModuleBreakpoints {
 
 		public IModuleBreakpointContext Context { get; }
 		public DbgModuleBreakpoint ModuleBreakpoint { get; }
-		public object ModuleNameObject => new FormatterObject<ModuleBreakpointVM>(this, PredefinedTextClassifierTags.ModuleBreakpointsWindowModuleName);
-		public object OrderObject => new FormatterObject<ModuleBreakpointVM>(this, PredefinedTextClassifierTags.ModuleBreakpointsWindowOrder);
-		public object ProcessNameObject => new FormatterObject<ModuleBreakpointVM>(this, PredefinedTextClassifierTags.ModuleBreakpointsWindowProcessName);
-		public object AppDomainNameObject => new FormatterObject<ModuleBreakpointVM>(this, PredefinedTextClassifierTags.ModuleBreakpointsWindowModuleAppDomainName);
+		public object ModuleNameObject => field ??= new FormatterObject<ModuleBreakpointVM>(this, PredefinedTextClassifierTags.ModuleBreakpointsWindowModuleName);
+		public object OrderObject => field ??= new FormatterObject<ModuleBreakpointVM>(this, PredefinedTextClassifierTags.ModuleBreakpointsWindowOrder);
+		public object ProcessNameObject => field ??= new FormatterObject<ModuleBreakpointVM>(this, PredefinedTextClassifierTags.ModuleBreakpointsWindowProcessName);
+		public object AppDomainNameObject => field ??= new FormatterObject<ModuleBreakpointVM>(this, PredefinedTextClassifierTags.ModuleBreakpointsWindowModuleAppDomainName);
 		internal int Order { get; }
 
 		public IEditableValue ModuleNameEditableValue { get; }

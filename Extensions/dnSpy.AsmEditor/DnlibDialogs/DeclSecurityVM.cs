@@ -51,7 +51,7 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 	}
 
 	sealed class DeclSecurityVM : ViewModelBase {
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 		public string FullName => SecurityActionEnumList.SelectedItem!.ToString()!;
 
 		public string? V1XMLString {

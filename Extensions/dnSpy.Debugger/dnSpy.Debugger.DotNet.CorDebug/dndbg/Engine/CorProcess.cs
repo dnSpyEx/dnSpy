@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using dndbg.COM.CorDebug;
 
+#pragma warning disable WFO2000
 namespace dndbg.Engine {
 	sealed class CorProcess : COMObject<ICorDebugProcess>, IEquatable<CorProcess?> {
 		public uint HelperThreadId {

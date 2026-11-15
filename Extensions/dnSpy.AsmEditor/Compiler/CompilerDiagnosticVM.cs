@@ -36,7 +36,7 @@ namespace dnSpy.AsmEditor.Compiler {
 		public string File => GetFilename(Diagnostic.Filename);
 		public string? FullPath => Diagnostic.Filename;
 		public string Line => Diagnostic.LineLocationSpan is null ? string.Empty : (Diagnostic.LineLocationSpan.Value.StartLinePosition.Line + 1).ToString();
-		public ICommand ShowHelpCommand => new RelayCommand(a => ShowHelp());
+		public ICommand ShowHelpCommand => field ??= new RelayCommand(a => ShowHelp());
 		public LineLocationSpan? LineLocationSpan => Diagnostic.LineLocationSpan;
 
 		public CompilerDiagnosticVM(CompilerDiagnostic diag, ImageReference imageReference) {

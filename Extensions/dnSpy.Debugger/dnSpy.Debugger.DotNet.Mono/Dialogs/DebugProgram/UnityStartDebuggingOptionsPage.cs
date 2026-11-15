@@ -34,7 +34,7 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 		// Shouldn't be localized
 		public override string DisplayName => "Unity";
 
-		public ICommand DebuggingUnityGamesCommand => new RelayCommand(a => DebuggingUnityGamesHelper.OpenDebuggingUnityGames());
+		public ICommand DebuggingUnityGamesCommand => field ??= new RelayCommand(a => DebuggingUnityGamesHelper.OpenDebuggingUnityGames());
 		public string DebuggingUnityGamesText => DebuggingUnityGamesHelper.DebuggingUnityGamesText;
 
 		public UnityStartDebuggingOptionsPage(IPickFilename pickFilename, IPickDirectory pickDirectory, IDbgEnvironmentEditorService environmentEditorService)

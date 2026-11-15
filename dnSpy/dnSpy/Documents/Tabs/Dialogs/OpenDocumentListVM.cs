@@ -34,8 +34,8 @@ using Microsoft.VisualStudio.Text.Classification;
 
 namespace dnSpy.Documents.Tabs.Dialogs {
 	sealed class OpenDocumentListVM : ViewModelBase, IDisposable {
-		public ICommand RemoveCommand => new RelayCommand(a => Remove(), a => CanRemove);
-		public ICommand CreateListCommand => new RelayCommand(a => CreateList(), a => CanCreateList);
+		public ICommand RemoveCommand => field ??= new RelayCommand(a => Remove(), a => CanRemove);
+		public ICommand CreateListCommand => field ??= new RelayCommand(a => CreateList(), a => CanCreateList);
 		public ObservableCollection<DocumentListVM> Collection => documentListColl;
 		public ICollectionView CollectionView => collectionView;
 		public bool SyntaxHighlight { get; }

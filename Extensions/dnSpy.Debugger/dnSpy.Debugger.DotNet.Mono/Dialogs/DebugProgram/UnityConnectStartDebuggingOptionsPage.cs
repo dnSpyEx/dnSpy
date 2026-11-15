@@ -35,7 +35,7 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 		// Default port used by the patched mono.dll
 		const ushort DEFAULT_PORT = 55555;
 
-		public ICommand DebuggingUnityGamesCommand => new RelayCommand(a => DebuggingUnityGamesHelper.OpenDebuggingUnityGames());
+		public ICommand DebuggingUnityGamesCommand => field ??= new RelayCommand(a => DebuggingUnityGamesHelper.OpenDebuggingUnityGames());
 		public string DebuggingUnityGamesText => DebuggingUnityGamesHelper.DebuggingUnityGamesText;
 
 		public override void InitializePreviousOptions(StartDebuggingOptions options) {

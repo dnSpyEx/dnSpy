@@ -61,8 +61,8 @@ namespace dnSpy.AsmEditor.Resources {
 			set => UserTypeVM.DnlibTypePicker = value;
 		}
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
-		public ICommand PickRawBytesCommand => new RelayCommand(a => PickRawBytes(), a => IsRawBytes);
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
+		public ICommand PickRawBytesCommand => field ??= new RelayCommand(a => PickRawBytes(), a => IsRawBytes);
 
 		public bool CanChangeType {
 			get => canChangeType;
