@@ -1,0 +1,66 @@
+<Solution>
+  <Folder Name="/Build/">
+    <Project Path="Build/AppHostPatcher/AppHostPatcher.csproj" />
+    <Project Path="Build/ConvertToNetstandardReferences/ConvertToNetstandardReferences.csproj" />
+    <Project Path="Build/MakeEverythingPublic/MakeEverythingPublic.csproj" />
+  </Folder>
+  <Folder Name="/dnSpy/">
+    <Project Path="dnSpy/dnSpy-x86/dnSpy-x86.csproj" />
+    <Project Path="dnSpy/dnSpy.Console/dnSpy.Console.csproj" />
+    <Project Path="dnSpy/dnSpy.Contracts.Debugger.DotNet.CorDebug/dnSpy.Contracts.Debugger.DotNet.CorDebug.csproj" />
+    <Project Path="dnSpy/dnSpy.Contracts.Debugger.DotNet.Mono/dnSpy.Contracts.Debugger.DotNet.Mono.csproj" />
+    <Project Path="dnSpy/dnSpy.Contracts.Debugger.DotNet/dnSpy.Contracts.Debugger.DotNet.csproj" />
+    <Project Path="dnSpy/dnSpy.Contracts.Debugger/dnSpy.Contracts.Debugger.csproj" />
+    <Project Path="dnSpy/dnSpy.Contracts.DnSpy/dnSpy.Contracts.DnSpy.csproj" />
+    <Project Path="dnSpy/dnSpy.Contracts.Logic/dnSpy.Contracts.Logic.csproj" />
+    <Project Path="dnSpy/dnSpy.Decompiler/dnSpy.Decompiler.csproj" />
+    <Project Path="dnSpy/dnSpy.Images/dnSpy.Images.csproj" />
+    <Project Path="dnSpy/dnSpy/dnSpy.csproj" />
+  </Folder>
+  <Folder Name="/dnSpy/Roslyn/">
+    <Project Path="dnSpy/Roslyn/dnSpy.Roslyn.CSharp.EditorFeatures/dnSpy.Roslyn.CSharp.EditorFeatures.csproj" />
+    <Project Path="dnSpy/Roslyn/dnSpy.Roslyn.CSharp.Internal/dnSpy.Roslyn.CSharp.Internal.csproj" />
+    <Project Path="dnSpy/Roslyn/dnSpy.Roslyn.EditorFeatures/dnSpy.Roslyn.EditorFeatures.csproj" />
+    <Project Path="dnSpy/Roslyn/dnSpy.Roslyn.Internal/dnSpy.Roslyn.Internal.csproj" />
+    <Project Path="dnSpy/Roslyn/dnSpy.Roslyn.VisualBasic.EditorFeatures/dnSpy.Roslyn.VisualBasic.EditorFeatures.vbproj" />
+    <Project Path="dnSpy/Roslyn/dnSpy.Roslyn.VisualBasic.Internal/dnSpy.Roslyn.VisualBasic.Internal.vbproj" />
+    <Project Path="dnSpy/Roslyn/dnSpy.Roslyn/dnSpy.Roslyn.csproj" />
+  </Folder>
+  <Folder Name="/dnSpy/Roslyn/ExpressionCompiler/">
+    <Project Path="dnSpy/Roslyn/Roslyn.ExpressionCompiler/Core/ExpressionCompiler/ExpressionCompiler.csproj" />
+    <Project Path="dnSpy/Roslyn/Roslyn.ExpressionCompiler/CSharp/CSharpExpressionCompiler/CSharpExpressionCompiler.csproj" />
+    <Project Path="dnSpy/Roslyn/Roslyn.ExpressionCompiler/VisualBasic/BasicExpressionCompiler/BasicExpressionCompiler.vbproj" />
+  </Folder>
+  <Folder Name="/Extensions/">
+    <Project Path="Extensions/dnSpy.Analyzer/dnSpy.Analyzer.csproj" />
+    <Project Path="Extensions/dnSpy.AsmEditor/dnSpy.AsmEditor.csproj" />
+    <Project Path="Extensions/dnSpy.BamlDecompiler/dnSpy.BamlDecompiler.csproj" />
+    <Project Path="Extensions/dnSpy.Scripting.Roslyn/dnSpy.Scripting.Roslyn.csproj" />
+    <Project Path="Extensions/dnSpy.StringSearcher/dnSpy.StringSearcher.csproj" />
+  </Folder>
+  <Folder Name="/Extensions/dnSpy.Debugger/">
+    <Project Path="Extensions/dnSpy.Debugger/AppHostInfoGenerator/AppHostInfoGenerator.csproj" />
+    <Project Path="Extensions/dnSpy.Debugger/dnSpy.Debugger.DotNet.CorDebug/dnSpy.Debugger.DotNet.CorDebug.csproj" />
+    <Project Path="Extensions/dnSpy.Debugger/dnSpy.Debugger.DotNet.Interpreter/dnSpy.Debugger.DotNet.Interpreter.csproj" />
+    <Project Path="Extensions/dnSpy.Debugger/dnSpy.Debugger.DotNet.Metadata/dnSpy.Debugger.DotNet.Metadata.csproj" />
+    <Project Path="Extensions/dnSpy.Debugger/dnSpy.Debugger.DotNet.Mono/dnSpy.Debugger.DotNet.Mono.csproj" />
+    <Project Path="Extensions/dnSpy.Debugger/dnSpy.Debugger.DotNet/dnSpy.Debugger.DotNet.csproj" />
+    <Project Path="Extensions/dnSpy.Debugger/dnSpy.Debugger/dnSpy.Debugger.csproj" />
+    <Project Path="Extensions/dnSpy.Debugger/Mono.Debugger.Soft/Mono.Debugger.Soft.csproj" />
+  </Folder>
+  <Folder Name="/Extensions/Examples/">
+    <Project Path="Extensions/Examples/Example1.Extension/Example1.Extension.csproj" />
+    <Project Path="Extensions/Examples/Example2.Extension/Example2.Extension.csproj" />
+  </Folder>
+  <Folder Name="/Extensions/ILSpy.Decompiler/">
+    <Project Path="Extensions/ILSpy.Decompiler/dnSpy.Decompiler.ILSpy.Core/dnSpy.Decompiler.ILSpy.Core.csproj" />
+    <Project Path="Extensions/ILSpy.Decompiler/dnSpy.Decompiler.ILSpy/dnSpy.Decompiler.ILSpy.csproj" />
+    <Project Path="Extensions/ILSpy.Decompiler/ICSharpCode.Decompiler/ICSharpCode.Decompiler/ICSharpCode.Decompiler.csproj" />
+    <Project Path="Extensions/ILSpy.Decompiler/ICSharpCode.Decompiler/NRefactory.VB/ICSharpCode.NRefactory.VB/ICSharpCode.NRefactory.VB.csproj" />
+    <Project Path="Extensions/ILSpy.Decompiler/NRefactory/ICSharpCode.NRefactory.CSharp/ICSharpCode.NRefactory.CSharp.csproj" />
+    <Project Path="Extensions/ILSpy.Decompiler/NRefactory/ICSharpCode.NRefactory/ICSharpCode.NRefactory.csproj" />
+  </Folder>
+  <Folder Name="/Libraries/">
+    <Project Path="Libraries/ICSharpCode.TreeView/ICSharpCode.TreeView.csproj" />
+  </Folder>
+</Solution>
