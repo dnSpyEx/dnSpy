@@ -31,6 +31,10 @@ namespace dnSpy.MainApp {
 	public static class StartUpClass {
 		[STAThread]
 		public static void Main() {
+			var args = new AppCommandLineArgs();
+			if (StartupBitnessCheck.TryRelaunch(args))
+				return;
+
 			DnSpyEventSource.Log.StartupStart();
 			var sw = Stopwatch.StartNew();
 
@@ -52,7 +56,7 @@ namespace dnSpy.MainApp {
 			if (!readSettings)
 				readSettings = AskReadSettings();
 
-			new App(readSettings, sw).Run();
+			new App(readSettings, sw, args).Run();
 		}
 
 		[MethodImpl(MethodImplOptions.NoInlining)]
