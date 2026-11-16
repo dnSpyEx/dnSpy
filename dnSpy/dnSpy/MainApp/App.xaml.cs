@@ -313,9 +313,10 @@ namespace dnSpy.MainApp {
 
 		Assembly[] LoadExtensionAssemblies() {
 			var dir = AppDirectories.BinDirectory;
-			var unsortedFiles = GetExtensionFiles(dir);
+			var unsortedFiles = ExtensionFiles.GetExtensionFiles(dir);
 			if (!string.IsNullOrEmpty(args.ExtraExtensionDirectory))
-				unsortedFiles = unsortedFiles.Concat(GetExtensionFiles(args.ExtraExtensionDirectory));
+				unsortedFiles = unsortedFiles.Concat(ExtensionFiles.GetExtensionFiles(args.ExtraExtensionDirectory));
+			var disabledExtensions = ExtensionFiles.LoadDisabled();
 
 			// Load the modules in a predictable order or multicore-JIT could stop recording. See
 			// "Understanding Background JIT compilation -> What can go wrong with background JIT compilation"
@@ -330,6 +331,10 @@ namespace dnSpy.MainApp {
 				try {
 					if (!File.Exists(file))
 						continue;
+					if (disabledExtensions.Contains(Path.GetFileName(file))) {
+						Debug.WriteLine($"Extension is disabled ({file})");
+						continue;
+					}
 					if (!CanLoadExtension(file))
 						continue;
 					var asm = Assembly.LoadFrom(file);
@@ -345,40 +350,6 @@ namespace dnSpy.MainApp {
 				}
 			}
 			return asms.ToArray();
-		}
-
-		IEnumerable<string> GetExtensionFiles(string baseDir) {
-			const string EXTENSION_SEARCH_PATTERN = "*.x.dll";
-			const string EXTENSIONS_SUBDIR = "Extensions";
-			foreach (var f in GetFiles(baseDir, EXTENSION_SEARCH_PATTERN))
-				yield return f;
-			var extensionsSubDir = Path.Combine(baseDir, EXTENSIONS_SUBDIR);
-			if (Directory.Exists(extensionsSubDir)) {
-				foreach (var f in GetFiles(extensionsSubDir, EXTENSION_SEARCH_PATTERN))
-					yield return f;
-				foreach (var d in GetDirectories(extensionsSubDir)) {
-					foreach (var f in GetFiles(d, EXTENSION_SEARCH_PATTERN))
-						yield return f;
-				}
-			}
-		}
-
-		static string[] GetFiles(string dir, string searchPattern) {
-			try {
-				return Directory.GetFiles(dir, searchPattern);
-			}
-			catch {
-				return Array.Empty<string>();
-			}
-		}
-
-		static string[] GetDirectories(string dir) {
-			try {
-				return Directory.GetDirectories(dir);
-			}
-			catch {
-				return Array.Empty<string>();
-			}
 		}
 
 		bool CanLoadExtension(string file) {
