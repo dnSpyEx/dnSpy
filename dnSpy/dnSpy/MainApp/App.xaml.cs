@@ -94,11 +94,11 @@ namespace dnSpy.MainApp {
 
 		Task<ExportProvider> initializeMEFTask;
 		Stopwatch? startupStopwatch;
-		public App(bool readSettings, Stopwatch startupStopwatch) {
+		public App(bool readSettings, Stopwatch startupStopwatch, IAppCommandLineArgs args) {
 			WineFixes.Initialize();
 
 			resourceManagerTokenCacheImpl = new ResourceManagerTokenCacheImpl();
-			args = new AppCommandLineArgs();
+			this.args = args;
 
 			// PERF: Init MEF on a BG thread. Results in slightly faster startup, eg. InitializeComponent() becomes a 'free' call on this UI thread
 			initializeMEFTask = Task.Run(() => InitializeMEF(readSettings, useCache: readSettings));
@@ -423,6 +423,34 @@ namespace dnSpy.MainApp {
 		static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 		[DllImport("user32", CharSet = CharSet.Auto)]
 		static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, ref COPYDATASTRUCT lParam);
+		[DllImport("user32")]
+		static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
+		[DllImport("kernel32", SetLastError = true)]
+		static extern IntPtr OpenProcess(uint desiredAccess, [MarshalAs(UnmanagedType.Bool)] bool inheritHandle, uint processId);
+		[DllImport("kernel32", SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		static extern bool CloseHandle(IntPtr handle);
+		[DllImport("kernel32", SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		static extern bool IsWow64Process(IntPtr process, [MarshalAs(UnmanagedType.Bool)] out bool wow64Process);
+		const uint PROCESS_QUERY_LIMITED_INFORMATION = 0x1000;
+		const uint PROCESS_QUERY_INFORMATION = 0x0400;
+
+		static bool IsProcess32Bit(uint processId) {
+			var process = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, false, processId);
+			if (process == IntPtr.Zero)
+				process = OpenProcess(PROCESS_QUERY_INFORMATION, false, processId);
+			if (process == IntPtr.Zero)
+				return !Environment.Is64BitProcess;
+			try {
+				if (!IsWow64Process(process, out bool wow64Process))
+					return !Environment.Is64BitProcess;
+				return !Environment.Is64BitOperatingSystem || wow64Process;
+			}
+			finally {
+				CloseHandle(process);
+			}
+		}
 		[StructLayout(LayoutKind.Sequential)]
 		struct COPYDATASTRUCT {
 			public IntPtr dwData;
@@ -439,6 +467,12 @@ namespace dnSpy.MainApp {
 			var sb = new StringBuilder(256);
 			GetWindowText(hWnd, sb, sb.Capacity);
 			if (sb.ToString().StartsWith(Constants.DnSpy + " ", StringComparison.Ordinal)) {
+				GetWindowThreadProcessId(hWnd, out uint processId);
+				// Don't hand the files to an instance of the other bitness, it may not be
+				// able to load them.
+				if (processId != 0 && IsProcess32Bit(processId) != !Environment.Is64BitProcess)
+					return true;
+
 				var args = Environment.GetCommandLineArgs();
 				args[0] = COPYDATASTRUCT_HEADER;
 				var msg = string.Join(Environment.NewLine, args);
