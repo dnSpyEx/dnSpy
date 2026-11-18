@@ -53,11 +53,10 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 			return null;
 		}
 
-		static readonly (int @base, int groupSize)[] numberBases = new (int, int)[] {
-			(2, 4),
-			(8, 4),
-			(10, 3),
-			(16, 4),
+		static readonly (int @base, int groupSize, string groupSeparator)[] numberBases = new (int, int, string)[] {
+			(2,  4, " "),
+			(10, 3, "_"),
+			(16, 0, string.Empty),
 		};
 		object Create(IDocumentViewerToolTipProviderContext context, Func<StringBuilder, int, string> toBase) {
 			var provider = context.Create();
@@ -74,26 +73,26 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 				provider.Output.Write(BoxedTextColor.Text, " ");
 				var numStr = toBase(sb, info.@base);
 				if (info.groupSize != 0)
-					numStr = NumberUtils.AddDigitSeparators(sb, numStr, info.groupSize, "_");
+					numStr = NumberUtils.AddDigitSeparators(sb, numStr, info.groupSize, info.groupSeparator);
 				provider.Output.Write(BoxedTextColor.Number, numStr);
 			}
 
 			return provider.Create();
 		}
 
-		object CreateSByte(IDocumentViewerToolTipProviderContext context, sbyte value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value));
-		object CreateByte(IDocumentViewerToolTipProviderContext context, byte value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value));
-		object CreateInt16(IDocumentViewerToolTipProviderContext context, short value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value));
-		object CreateUInt16(IDocumentViewerToolTipProviderContext context, ushort value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value));
-		object CreateInt32(IDocumentViewerToolTipProviderContext context, int value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value));
-		object CreateUInt32(IDocumentViewerToolTipProviderContext context, uint value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value));
-		object CreateInt64(IDocumentViewerToolTipProviderContext context, long value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value));
-		object CreateUInt64(IDocumentViewerToolTipProviderContext context, ulong value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value));
+		object CreateSByte(IDocumentViewerToolTipProviderContext context, sbyte value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value, sizeof(sbyte)));
+		object CreateByte(IDocumentViewerToolTipProviderContext context, byte value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value, sizeof(byte)));
+		object CreateInt16(IDocumentViewerToolTipProviderContext context, short value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value, sizeof(short)));
+		object CreateUInt16(IDocumentViewerToolTipProviderContext context, ushort value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value, sizeof(ushort)));
+		object CreateInt32(IDocumentViewerToolTipProviderContext context, int value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value, sizeof(int)));
+		object CreateUInt32(IDocumentViewerToolTipProviderContext context, uint value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value, sizeof(uint)));
+		object CreateInt64(IDocumentViewerToolTipProviderContext context, long value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value, sizeof(long)));
+		object CreateUInt64(IDocumentViewerToolTipProviderContext context, ulong value) => Create(context, (sb, n) => NumberUtils.ToString(sb, n, value, sizeof(ulong)));
 
-		object CreateFloat(IDocumentViewerToolTipProviderContext context, string valueStr, string serializedFormatStr, string serializedValueStr, Func<string> getRawValue) {
+		object CreateFloat(IDocumentViewerToolTipProviderContext context, string valueStr, string serializedFormatStr, string serializedValueStr, Func<StringBuilder, string> getRawValue) {
 			var provider = context.Create();
 			provider.Image = DsImages.ConstantPublic;
-
+				
 			var sb = new StringBuilder();
 
 			provider.Output.Write(BoxedTextColor.Number, valueStr);
@@ -104,8 +103,7 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 			provider.Output.Write(BoxedTextColor.Number, serializedValueStr);
 			provider.Output.WriteLine();
 
-			var rawValueStr = getRawValue();
-			rawValueStr = "0x" + NumberUtils.AddDigitSeparators(sb, rawValueStr, 4, "_");
+			var rawValueStr = getRawValue(sb);
 			provider.Output.Write(BoxedTextColor.Text, dnSpy_Resources.RawValue);
 			provider.Output.Write(BoxedTextColor.Text, " ");
 			provider.Output.Write(BoxedTextColor.Number, rawValueStr);
@@ -115,16 +113,18 @@ namespace dnSpy.Documents.Tabs.DocViewer.ToolTips {
 
 		object CreateSingle(IDocumentViewerToolTipProviderContext context, float value) {
 			const string format = "G9";
+			const bool upper = true;
 			uint rawValue = BitConverter.ToUInt32(BitConverter.GetBytes(value), 0);
 			return CreateFloat(context, value.ToString(), format, value.ToString(format),
-				() => rawValue.ToString("X8"));
+				sb => NumberUtils.ToFixedSizeHexadecimalArray(sb, rawValue, 4, upper));
 		}
 
 		object CreateDouble(IDocumentViewerToolTipProviderContext context, double value) {
 			const string format = "G17";
+			const bool upper = true;
 			ulong rawValue = BitConverter.ToUInt64(BitConverter.GetBytes(value), 0);
 			return CreateFloat(context, value.ToString(), format, value.ToString(format),
-				() => rawValue.ToString("X16"));
+				sb => NumberUtils.ToFixedSizeHexadecimalArray(sb, rawValue, 8, upper));
 		}
 	}
 }
