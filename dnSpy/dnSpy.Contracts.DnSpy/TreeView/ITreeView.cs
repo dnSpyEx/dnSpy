@@ -118,5 +118,11 @@ namespace dnSpy.Contracts.TreeView {
 		/// Collapses all unselected nodes
 		/// </summary>
 		void CollapseUnusedNodes();
+
+		/// <summary>
+		/// Removes nodes from the treeview
+		/// </summary>
+		/// <param name="nodes">Nodes</param>
+		void RemoveNodes(IEnumerable<TreeNodeData> nodes);
 	}
 }

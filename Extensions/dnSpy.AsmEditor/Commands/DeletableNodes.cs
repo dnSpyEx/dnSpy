@@ -51,13 +51,13 @@ namespace dnSpy.AsmEditor.Commands {
 				throw new ArgumentException("Nodes have already been deleted");
 
 			parents = new DocumentTreeNodeData[nodes.Length];
-			for (int i = 0; i < nodes.Length; i++) {
-				var node = nodes[i];
-				var parent = (DocumentTreeNodeData)node.TreeNode.Parent!.Data;
-				parents[i] = parent;
+			for (int i = 0; i < nodes.Length; i++)
+				parents[i] = (DocumentTreeNodeData)nodes[i].TreeNode.Parent!.Data;
 
-				parent.TreeNode.Children.Remove(node.TreeNode);
-			}
+			if (nodes.Length == 1)
+				parents[0].TreeNode.Children.Remove(nodes[0].TreeNode);
+			else if (nodes.Length > 1)
+				nodes[0].TreeNode.TreeView.RemoveNodes(nodes);
 		}
 
 		/// <summary>
