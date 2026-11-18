@@ -41,6 +41,10 @@ namespace dnSpy.AsmEditor.Compiler {
 			: base(cmdId) {
 		}
 
+		protected CodeEditorCommandTargetMenuItemBase(TextEditorIds cmdId)
+			: base(cmdId) {
+		}
+
 		protected CodeEditorCommandTargetMenuItemBase(EditCodeIds cmdId)
 			: base(EditCodeCommandConstants.EditCodeGroup, (int)cmdId) {
 		}
@@ -78,6 +82,13 @@ namespace dnSpy.AsmEditor.Compiler {
 	sealed class CopyContextMenuEntry : CodeEditorCommandTargetMenuItemBase {
 		CopyContextMenuEntry()
 			: base(StandardIds.Copy) {
+		}
+	}
+
+	[ExportMenuItem(Header = "res:CopyPlainTextCommand", InputGestureText = "res:ShortCutKeyCtrlShiftC", Group = MenuConstants.GROUP_CTX_CODEEDITOR_COPY, Order = 15)]
+	sealed class CopyPlainTextContextMenuEntry : CodeEditorCommandTargetMenuItemBase {
+		CopyPlainTextContextMenuEntry()
+			: base(TextEditorIds.COPYPLAINTEXT) {
 		}
 	}
 

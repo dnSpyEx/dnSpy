@@ -41,6 +41,7 @@ namespace dnSpy.Documents.Tabs.DocViewer.Settings {
 				yield return new OptionDefinition<int>(contentType, DefaultOptions.TabSizeOptionId, 4);
 				yield return new OptionDefinition<int>(contentType, DefaultOptions.IndentSizeOptionId, 4);
 				yield return new OptionDefinition<bool>(contentType, DefaultOptions.ConvertTabsToSpacesOptionId, false);
+				yield return new OptionDefinition<bool>(contentType, DefaultDsTextViewOptions.CopyHtmlFormattingId, true);
 				yield return new OptionDefinition<bool>(contentType, DefaultDsTextViewOptions.ReferenceHighlightingId, true);
 				yield return new OptionDefinition<bool>(contentType, DefaultDsTextViewOptions.HighlightRelatedKeywordsId, true);
 				yield return new OptionDefinition<bool>(contentType, DefaultDsTextViewOptions.BraceMatchingId, true);

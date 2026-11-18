@@ -21,5 +21,6 @@ using dnSpy.Text.Settings;
 
 namespace dnSpy.Documents.Tabs.DocViewer.Settings {
 	interface IDocumentViewerOptions : ICommonEditorOptions {
+		bool CopyHtmlFormatting { get; set; }
 	}
 }

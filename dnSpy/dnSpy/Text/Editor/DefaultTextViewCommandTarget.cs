@@ -22,6 +22,7 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using dnSpy.Contracts.Command;
 using dnSpy.Contracts.Text.Editor.OptionsExtensionMethods;
+using dnSpy.Text.Operations;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Editor.OptionsExtensionMethods;
 using Microsoft.VisualStudio.Text.Operations;
@@ -166,6 +167,7 @@ namespace dnSpy.Text.Editor {
 				case TextEditorIds.SCROLLRIGHT:
 				case TextEditorIds.SCROLLTOP:
 				case TextEditorIds.SCROLLUP:
+				case TextEditorIds.COPYPLAINTEXT:
 				case TextEditorIds.SELECTALL:
 				case TextEditorIds.SELECTCURRENTWORD:
 				case TextEditorIds.SELSWAPANCHOR:
@@ -278,6 +280,7 @@ namespace dnSpy.Text.Editor {
 				case TextEditorIds.SCROLLRIGHT:
 				case TextEditorIds.SCROLLTOP:
 				case TextEditorIds.SCROLLUP:
+				case TextEditorIds.COPYPLAINTEXT:
 				case TextEditorIds.SELECTALL:
 				case TextEditorIds.SELECTCURRENTWORD:
 				case TextEditorIds.SELLOWCASE:
@@ -620,6 +623,10 @@ namespace dnSpy.Text.Editor {
 
 				case TextEditorIds.SCROLLUP:
 					EditorOperations.ScrollUpAndMoveCaretIfNecessary();
+					return CommandTargetStatus.Handled;
+
+				case TextEditorIds.COPYPLAINTEXT:
+					PlainTextClipboard.CopySelection(textView);
 					return CommandTargetStatus.Handled;
 
 				case TextEditorIds.SELECTALL:

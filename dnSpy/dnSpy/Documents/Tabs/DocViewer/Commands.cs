@@ -116,10 +116,28 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 			: base(cmdId) {
 		}
 
+		protected DocumentViewerCommandTargetMenuItemBase(TextEditorIds cmdId)
+			: base(cmdId) {
+		}
+
 		protected override ICommandTarget? GetCommandTarget(IMenuItemContext context) {
 			if (context.CreatorObject.Guid != new Guid(MenuConstants.GUIDOBJ_DOCUMENTVIEWERCONTROL_GUID))
 				return null;
 			return context.Find<IDocumentViewer>()?.TextView.CommandTarget;
+		}
+	}
+
+	[ExportMenuItem(Header = "res:CopyPlainTextCommand", InputGestureText = "res:ShortCutKeyCtrlShiftC", Group = MenuConstants.GROUP_CTX_DOCVIEWER_EDITOR, Order = 1)]
+	sealed class CopyPlainTextContextMenuEntry : DocumentViewerCommandTargetMenuItemBase {
+		CopyPlainTextContextMenuEntry()
+			: base(TextEditorIds.COPYPLAINTEXT) {
+		}
+
+		public override bool IsVisible(IMenuItemContext context) {
+			if (context.CreatorObject.Guid != new Guid(MenuConstants.GUIDOBJ_DOCUMENTVIEWERCONTROL_GUID))
+				return false;
+			var uiContext = context.Find<IDocumentViewer>();
+			return uiContext is not null && !uiContext.Selection.IsEmpty;
 		}
 	}
 

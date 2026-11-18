@@ -72,6 +72,12 @@ namespace dnSpy.Text.Editor {
 	}
 
 	[Export(typeof(EditorOptionDefinition))]
+	sealed class CopyHtmlFormattingEditorOptionDefinition : ViewOptionDefinition<bool> {
+		public override EditorOptionKey<bool> Key => DefaultDsTextViewOptions.CopyHtmlFormattingId;
+		public override bool Default => true;
+	}
+
+	[Export(typeof(EditorOptionDefinition))]
 	sealed class BraceMatchingEditorOptionDefinition : ViewOptionDefinition<bool> {
 		public override EditorOptionKey<bool> Key => DefaultDsTextViewOptions.BraceMatchingId;
 		public override bool Default => true;

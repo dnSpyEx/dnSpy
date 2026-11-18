@@ -216,6 +216,9 @@
   <data name="CopyCommand" xml:space="preserve">
     <value>Cop_y</value>
   </data>
+  <data name="CopyPlainTextCommand" xml:space="preserve">
+    <value>Copy as _Plain Text</value>
+  </data>
   <data name="CopyILBytesCommand" xml:space="preserve">
     <value>Copy IL Bytes</value>
   </data>

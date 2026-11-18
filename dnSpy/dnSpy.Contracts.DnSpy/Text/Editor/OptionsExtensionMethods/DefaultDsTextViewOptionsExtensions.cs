@@ -114,6 +114,17 @@ namespace dnSpy.Contracts.Text.Editor.OptionsExtensionMethods {
 		}
 
 		/// <summary>
+		/// Returns true if HTML formatting should be added to the clipboard when copying text
+		/// </summary>
+		/// <param name="options">Options</param>
+		/// <returns></returns>
+		public static bool IsCopyHtmlFormattingEnabled(this IEditorOptions options) {
+			if (options is null)
+				throw new ArgumentNullException(nameof(options));
+			return options.GetOptionValue(DefaultDsTextViewOptions.CopyHtmlFormattingId);
+		}
+
+		/// <summary>
 		/// Returns true if braces should be highlighted
 		/// </summary>
 		/// <param name="options">Options</param>

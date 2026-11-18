@@ -28,8 +28,28 @@ namespace dnSpy.Documents.Tabs.DocViewer.Settings {
 		public override Guid Guid => new Guid("6F00676C-2AB2-434E-9A44-D1D329D5CA4B");
 		public override double Order => AppSettingsConstants.ORDER_DOCUMENT_VIEWER_DEFAULT_ADVANCED;
 
+		public bool CopyHtmlFormatting {
+			get => copyHtmlFormatting;
+			set {
+				if (copyHtmlFormatting != value) {
+					copyHtmlFormatting = value;
+					OnPropertyChanged(nameof(CopyHtmlFormatting));
+				}
+			}
+		}
+		bool copyHtmlFormatting;
+
+		readonly IDocumentViewerOptions options;
+
 		public AdvancedAppSettingsPage(IDocumentViewerOptions options)
 			: base(options) {
+			this.options = options;
+			CopyHtmlFormatting = options.CopyHtmlFormatting;
+		}
+
+		public override void OnApply() {
+			base.OnApply();
+			options.CopyHtmlFormatting = CopyHtmlFormatting;
 		}
 
 		public override string[]? GetSearchStrings() => BlockStructureLineKindVM.Items.Select(a => a.Name).ToArray();

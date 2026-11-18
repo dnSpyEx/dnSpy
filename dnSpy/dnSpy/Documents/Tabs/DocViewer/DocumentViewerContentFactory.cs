@@ -23,6 +23,8 @@ using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
 using dnSpy.Contracts.Documents.Tabs.DocViewer;
+using dnSpy.Contracts.Text;
+using dnSpy.Documents.Tabs.DocViewer.Settings;
 using Microsoft.VisualStudio.Utilities;
 
 namespace dnSpy.Documents.Tabs.DocViewer {
@@ -50,16 +52,18 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 
 	[Export(typeof(IDocumentViewerContentFactoryProvider))]
 	sealed class DocumentViewerContentFactoryProvider : IDocumentViewerContentFactoryProvider {
+		readonly Lazy<IDocumentViewerOptionsService> documentViewerOptionsService;
 		readonly Lazy<IDocumentViewerPostProcessor, IDocumentViewerPostProcessorMetadata>[] documentViewerPostProcessors;
 		readonly Lazy<IDocumentViewerCustomDataProvider, IDocumentViewerCustomDataProviderMetadata>[] documentViewerCustomDataProviders;
 
 		[ImportingConstructor]
-		DocumentViewerContentFactoryProvider([ImportMany] IEnumerable<Lazy<IDocumentViewerPostProcessor, IDocumentViewerPostProcessorMetadata>> documentViewerPostProcessors, [ImportMany] IEnumerable<Lazy<IDocumentViewerCustomDataProvider, IDocumentViewerCustomDataProviderMetadata>> documentViewerCustomDataProviders) {
+		DocumentViewerContentFactoryProvider(Lazy<IDocumentViewerOptionsService> documentViewerOptionsService, [ImportMany] IEnumerable<Lazy<IDocumentViewerPostProcessor, IDocumentViewerPostProcessorMetadata>> documentViewerPostProcessors, [ImportMany] IEnumerable<Lazy<IDocumentViewerCustomDataProvider, IDocumentViewerCustomDataProviderMetadata>> documentViewerCustomDataProviders) {
+			this.documentViewerOptionsService = documentViewerOptionsService;
 			this.documentViewerPostProcessors = documentViewerPostProcessors.OrderBy(a => a.Metadata.Order).ToArray();
 			this.documentViewerCustomDataProviders = documentViewerCustomDataProviders.OrderBy(a => a.Metadata.Order).ToArray();
 		}
 
-		public IDocumentViewerContentFactory Create() => new DocumentViewerContentFactory(documentViewerPostProcessors, documentViewerCustomDataProviders);
+		public IDocumentViewerContentFactory Create() => new DocumentViewerContentFactory(documentViewerOptionsService.Value.Default.CreateIndenter(), documentViewerPostProcessors, documentViewerCustomDataProviders);
 	}
 
 	sealed class DocumentViewerContentFactory : IDocumentViewerContentFactory {
@@ -75,10 +79,12 @@ namespace dnSpy.Documents.Tabs.DocViewer {
 		readonly Lazy<IDocumentViewerCustomDataProvider, IDocumentViewerCustomDataProviderMetadata>[] documentViewerCustomDataProviders;
 		DocumentViewerOutput? documentViewerOutput;
 
-		public DocumentViewerContentFactory(Lazy<IDocumentViewerPostProcessor, IDocumentViewerPostProcessorMetadata>[] documentViewerPostProcessors, Lazy<IDocumentViewerCustomDataProvider, IDocumentViewerCustomDataProviderMetadata>[] documentViewerCustomDataProviders) {
+		public DocumentViewerContentFactory(Indenter indenter, Lazy<IDocumentViewerPostProcessor, IDocumentViewerPostProcessorMetadata>[] documentViewerPostProcessors, Lazy<IDocumentViewerCustomDataProvider, IDocumentViewerCustomDataProviderMetadata>[] documentViewerCustomDataProviders) {
+			if (indenter is null)
+				throw new ArgumentNullException(nameof(indenter));
 			this.documentViewerPostProcessors = documentViewerPostProcessors ?? throw new ArgumentNullException(nameof(documentViewerPostProcessors));
 			this.documentViewerCustomDataProviders = documentViewerCustomDataProviders ?? throw new ArgumentNullException(nameof(documentViewerCustomDataProviders));
-			documentViewerOutput = DocumentViewerOutput.Create();
+			documentViewerOutput = DocumentViewerOutput.Create(indenter);
 		}
 
 		sealed class DocumentViewerCustomDataContext : IDocumentViewerCustomDataContext, IDisposable {

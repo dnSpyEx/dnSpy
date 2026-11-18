@@ -727,6 +727,15 @@ namespace dnSpy.AsmEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy as _Plain Text.
+        /// </summary>
+        public static string CopyPlainTextCommand {
+            get {
+                return ResourceManager.GetString("CopyPlainTextCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy File Offset.
         /// </summary>
         public static string CopyFileOffsetCommand {
