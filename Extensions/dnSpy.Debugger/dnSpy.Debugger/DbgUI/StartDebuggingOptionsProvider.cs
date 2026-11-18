@@ -43,10 +43,12 @@ namespace dnSpy.Debugger.DbgUI {
 		readonly Lazy<StartDebuggingOptionsPageProvider>[] startDebuggingOptionsPageProviders;
 		readonly Lazy<DbgProcessStarterService> dbgProcessStarterService;
 		readonly Lazy<GenericDebugEngineGuidProvider, IGenericDebugEngineGuidProviderMetadata>[] genericDebugEngineGuidProviders;
+		readonly Lazy<Settings.DebuggerSettingsImpl> debuggerSettingsImpl;
 		readonly StartDebuggingOptionsMru mru;
 
 		[ImportingConstructor]
-		StartDebuggingOptionsProvider(IAppWindow appWindow, IDocumentTabService documentTabService, Lazy<DbgProcessStarterService> dbgProcessStarterService, [ImportMany] IEnumerable<Lazy<StartDebuggingOptionsPageProvider>> startDebuggingOptionsPageProviders, [ImportMany] IEnumerable<Lazy<GenericDebugEngineGuidProvider, IGenericDebugEngineGuidProviderMetadata>> genericDebugEngineGuidProviders) {
+		StartDebuggingOptionsProvider(IAppWindow appWindow, IDocumentTabService documentTabService, Lazy<DbgProcessStarterService> dbgProcessStarterService, [ImportMany] IEnumerable<Lazy<StartDebuggingOptionsPageProvider>> startDebuggingOptionsPageProviders, [ImportMany] IEnumerable<Lazy<GenericDebugEngineGuidProvider, IGenericDebugEngineGuidProviderMetadata>> genericDebugEngineGuidProviders, Lazy<Settings.DebuggerSettingsImpl> debuggerSettingsImpl) {
+			this.debuggerSettingsImpl = debuggerSettingsImpl;
 			this.appWindow = appWindow;
 			this.documentTabService = documentTabService;
 			this.dbgProcessStarterService = dbgProcessStarterService;
@@ -87,6 +89,9 @@ namespace dnSpy.Debugger.DbgUI {
 
 			var oldOptions = mru.TryGetOptions(filename);
 			var lastOptions = mru.TryGetLastOptions();
+			if (oldOptions == null && lastOptions.HasValue && lastOptions!.Value.options != null && debuggerSettingsImpl.Value.DontAutoUpdateDebugLaunchSettings)
+				oldOptions = lastOptions.Value;
+
 			foreach (var page in pages) {
 				if (oldOptions?.pageGuid == page.Guid)
 					page.InitializePreviousOptions(WithBreakKind(oldOptions!.Value.options, defaultBreakKind));
