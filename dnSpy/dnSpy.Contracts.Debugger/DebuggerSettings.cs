@@ -89,6 +89,11 @@ namespace dnSpy.Contracts.Debugger {
 		public abstract bool AntiCheckRemoteDebuggerPresent { get; set; }
 
 		/// <summary>
+		/// true to patch NtQueryInformationProcess() so it can't be used to detect native debuggers
+		/// </summary>
+		public abstract bool AntiNtQueryInformationProcess { get; set; }
+
+		/// <summary>
 		/// true to patch NtRaiseHardError() so it can't be used to trigger kernel faults.
 		/// </summary>
 		public abstract bool AntiNtRaiseHardError { get; set; }
