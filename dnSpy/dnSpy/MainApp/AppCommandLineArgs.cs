@@ -46,6 +46,7 @@ namespace dnSpy.MainApp {
 		public string HideToolWindow { get; }
 		public bool ShowStartupTime { get; }
 		public int DebugAttachPid { get; }
+		public bool DebugBreakOnAttach { get; }
 		public uint DebugEvent { get; }
 		public ulong JitDebugInfo { get; }
 		public string DebugAttachProcess { get; }
@@ -76,6 +77,7 @@ namespace dnSpy.MainApp {
 			HideToolWindow = string.Empty;
 			ShowStartupTime = false;
 			DebugAttachPid = 0;
+			DebugBreakOnAttach = false;
 			DebugAttachProcess = string.Empty;
 			ExtraExtensionDirectory = string.Empty;
 
@@ -176,6 +178,10 @@ namespace dnSpy.MainApp {
 						if (TryParseUInt32(next, out uint pid))
 							DebugAttachPid = (int)pid;
 						i++;
+						break;
+
+					case "--break":
+						DebugBreakOnAttach = true;
 						break;
 
 					case "-e":
