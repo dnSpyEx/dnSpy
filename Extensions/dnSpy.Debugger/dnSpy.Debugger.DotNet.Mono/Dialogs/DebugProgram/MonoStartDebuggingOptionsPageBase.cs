@@ -26,6 +26,7 @@ using dnSpy.Contracts.Debugger.Dialogs;
 using dnSpy.Contracts.Debugger.DotNet.Mono;
 using dnSpy.Contracts.Debugger.StartDebugging.Dialog;
 using dnSpy.Contracts.MVVM;
+using dnSpy.Contracts.Settings;
 using dnSpy.Debugger.DotNet.Mono.Properties;
 
 namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
@@ -192,6 +193,29 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 			options.ConnectionPort = ConnectionPort.Value;
 			options.ConnectionTimeout = TimeSpan.FromSeconds(ConnectionTimeout.Value);
 			options.BreakKind = FilterBreakKind(BreakKind);
+		}
+
+		protected static void SerializeMonoOptions(ISettingsSection section, MonoStartDebuggingOptionsBase options) {
+			if (options.BreakKind is not null)
+				section.Attribute(nameof(options.BreakKind), options.BreakKind);
+			if (options.Filename is not null)
+				section.Attribute(nameof(options.Filename), options.Filename);
+			if (options.CommandLine is not null)
+				section.Attribute(nameof(options.CommandLine), options.CommandLine);
+			if (options.WorkingDirectory is not null)
+				section.Attribute(nameof(options.WorkingDirectory), options.WorkingDirectory);
+			section.Attribute(nameof(options.ConnectionPort), options.ConnectionPort);
+			section.Attribute(nameof(options.ConnectionTimeout), options.ConnectionTimeout);
+			// The environment isn't serialized, it always contains all of the current process' environment variables
+		}
+
+		protected static void DeserializeMonoOptions(ISettingsSection section, MonoStartDebuggingOptionsBase options) {
+			options.BreakKind = section.Attribute<string>(nameof(options.BreakKind)) ?? options.BreakKind;
+			options.Filename = section.Attribute<string>(nameof(options.Filename));
+			options.CommandLine = section.Attribute<string>(nameof(options.CommandLine));
+			options.WorkingDirectory = section.Attribute<string>(nameof(options.WorkingDirectory));
+			options.ConnectionPort = section.Attribute<ushort?>(nameof(options.ConnectionPort)) ?? options.ConnectionPort;
+			options.ConnectionTimeout = section.Attribute<TimeSpan?>(nameof(options.ConnectionTimeout)) ?? options.ConnectionTimeout;
 		}
 
 		string IDataErrorInfo.Error => throw new NotImplementedException();
