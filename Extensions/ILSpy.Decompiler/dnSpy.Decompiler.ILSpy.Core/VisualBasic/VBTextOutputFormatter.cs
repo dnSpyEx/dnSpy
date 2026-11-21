@@ -23,9 +23,17 @@ using System.Linq;
 using dnlib.DotNet;
 using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Text;
-using ICSharpCode.Decompiler;
+using ICSharpCode.Decompiler.Legacy.ILAst;
+using ICSharpCode.Decompiler.Legacy;
+using ICSharpCode.Decompiler.Legacy.VB.Ast;
+using ICSharpCode.Decompiler.Legacy.VB.Ast.Expressions;
+using ICSharpCode.Decompiler.Legacy.VB.Ast.General;
+using ICSharpCode.Decompiler.Legacy.VB.Ast.GlobalScope;
+using ICSharpCode.Decompiler.Legacy.VB.Ast.Statements;
+using ICSharpCode.Decompiler.Legacy.VB.Ast.TypeMembers;
+using ICSharpCode.Decompiler.Legacy.VB.Ast.TypeName;
+using ICSharpCode.Decompiler.Legacy.VB.OutputVisitor;
 
-/*
 namespace dnSpy.Decompiler.ILSpy.Core.VisualBasic {
 	sealed class VBTextOutputFormatter : IOutputFormatter {
 		readonly IDecompilerOutput output;
@@ -258,7 +266,7 @@ namespace dnSpy.Decompiler.ILSpy.Core.VisualBasic {
 		public void Unindent() => output.DecreaseIndent();
 		public void NewLine() => output.WriteLine();
 
-		public void WriteComment(bool isDocumentation, string content, CSharp2.CommentReference[] refs) {
+		public void WriteComment(bool isDocumentation, string content, ICSharpCode.Decompiler.CSharp.CommentReference[] refs) {
 			if (isDocumentation) {
 				Debug2.Assert(refs is null);
 				output.Write("'''", BoxedTextColor.XmlDocCommentDelimiter);
@@ -272,7 +280,7 @@ namespace dnSpy.Decompiler.ILSpy.Core.VisualBasic {
 			}
 		}
 
-		void Write(string content, CSharp2.CommentReference[] refs)
+		void Write(string content, ICSharpCode.Decompiler.CSharp.CommentReference[] refs)
 		{
 			if (refs is null) {
 				output.Write(content, BoxedTextColor.Comment);
@@ -369,4 +377,3 @@ namespace dnSpy.Decompiler.ILSpy.Core.VisualBasic {
 		public void AddLineSeparator(int position) => output.AddLineSeparator(position);
 	}
 }
-*/

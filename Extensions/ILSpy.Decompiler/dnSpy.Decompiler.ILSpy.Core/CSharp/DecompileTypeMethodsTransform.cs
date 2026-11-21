@@ -26,7 +26,7 @@ using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.CSharp.Transforms;
 
 namespace dnSpy.Decompiler.ILSpy.Core.CSharp {
-	sealed class DecompileTypeMethodsTransform : IAstTransform {
+	sealed class DecompileTypeMethodsTransform : IAstTransform, ICSharpCode.Decompiler.Legacy.Ast.Transforms.IAstTransform {
 		readonly HashSet<IMemberDef> defsToShow;
 		readonly HashSet<TypeDef> partialTypes;
 		readonly bool showDefinitions;
@@ -86,7 +86,9 @@ namespace dnSpy.Decompiler.ILSpy.Core.CSharp {
 			}
 		}
 
-		public void Run(AstNode compilationUnit, TransformContext context) {
+		public void Run(AstNode compilationUnit, TransformContext context) => Run(compilationUnit);
+
+		public void Run(AstNode compilationUnit) {
 			foreach (var en in compilationUnit.Descendants.OfType<EntityDeclaration>()) {
 				var def = en.Annotation<IMemberDef>();
 				Debug2.Assert(def is not null);

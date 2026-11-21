@@ -21,16 +21,16 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using dnSpy.Contracts.Decompiler;
 using dnSpy.Decompiler.ILSpy.Core.Settings;
-//using dnSpy.Decompiler.ILSpy.Core.VisualBasic;
+using dnSpy.Decompiler.ILSpy.Core.VisualBasic;
 
 namespace dnSpy.Decompiler.ILSpy.VisualBasic {
-	// [Export(typeof(IDecompilerCreator))]
-	// sealed class MyDecompilerCreator : IDecompilerCreator {
-	// 	readonly DecompilerSettingsService decompilerSettingsService;
-	//
-	// 	[ImportingConstructor]
-	// 	MyDecompilerCreator(DecompilerSettingsService decompilerSettingsService) => this.decompilerSettingsService = decompilerSettingsService;
-	//
-	// 	public IEnumerable<IDecompiler> Create() => new DecompilerProvider(decompilerSettingsService).Create();
-	// }
+	[Export(typeof(IDecompilerCreator))]
+	sealed class MyDecompilerCreator : IDecompilerCreator {
+		readonly DecompilerSettingsService decompilerSettingsService;
+
+		[ImportingConstructor]
+		MyDecompilerCreator(DecompilerSettingsService decompilerSettingsService) => this.decompilerSettingsService = decompilerSettingsService;
+
+		public IEnumerable<IDecompiler> Create() => new DecompilerProvider(decompilerSettingsService).Create();
+	}
 }

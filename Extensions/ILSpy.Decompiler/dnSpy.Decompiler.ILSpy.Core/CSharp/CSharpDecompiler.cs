@@ -36,28 +36,6 @@ using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.CSharp.Transforms;
 
 namespace dnSpy.Decompiler.ILSpy.Core.CSharp {
-	sealed class DecompilerProvider : IDecompilerProvider {
-		readonly DecompilerSettingsService decompilerSettingsService;
-
-		// Keep the default ctor. It's used by dnSpy.Console.exe
-		public DecompilerProvider()
-			: this(DecompilerSettingsService.__Instance_DONT_USE) {
-		}
-
-		public DecompilerProvider(DecompilerSettingsService decompilerSettingsService) {
-			Debug2.Assert(decompilerSettingsService is not null);
-			this.decompilerSettingsService = decompilerSettingsService ?? throw new ArgumentNullException(nameof(decompilerSettingsService));
-		}
-
-		public IEnumerable<IDecompiler> Create() {
-			yield return new CSharpDecompiler(decompilerSettingsService.CSharpVBDecompilerSettings, DecompilerConstants.CSHARP_ILSPY_ORDERUI);
-//#if DEBUG
-			foreach (var l in CSharpDecompiler.GetDebugDecompilers(decompilerSettingsService.CSharpVBDecompilerSettings))
-				yield return l;
-//#endif
-		}
-	}
-
 	/// <summary>
 	/// Decompiler logic for C#.
 	/// </summary>
@@ -77,7 +55,7 @@ namespace dnSpy.Decompiler.ILSpy.Core.CSharp {
 			OrderUI = orderUI;
 		}
 
-//#if DEBUG
+#if DEBUG
 		internal static IEnumerable<CSharpDecompiler> GetDebugDecompilers(CSharpVBDecompilerSettings langSettings) {
 			string lastTransformName = "no transforms";
 			double orderUI = DecompilerConstants.CSHARP_ILSPY_DEBUG_ORDERUI;
@@ -98,7 +76,7 @@ namespace dnSpy.Decompiler.ILSpy.Core.CSharp {
 				showAllMembers = true
 			};
 		}
-//#endif
+#endif
 
 		public override string ContentTypeString => ContentTypesInternal.CSharpILSpy;
 		public override string GenericNameUI => DecompilerConstants.GENERIC_NAMEUI_CSHARP;
@@ -508,7 +486,7 @@ namespace dnSpy.Decompiler.ILSpy.Core.CSharp {
 		internal static DecompilerSettings CreateDecompilerSettings(DecompilerSettings settings, bool useUsingDeclarations) {
 			var newOne = settings.Clone();
 			newOne.UsingDeclarations = useUsingDeclarations;
-			//newOne.FullyQualifyAllTypes = !useUsingDeclarations;
+			newOne.FullyQualifyAllTypes = !useUsingDeclarations;
 			newOne.UseImplicitMethodGroupConversion = useUsingDeclarations;
 			newOne.ForceShowAllMembers = false;
 			return newOne;

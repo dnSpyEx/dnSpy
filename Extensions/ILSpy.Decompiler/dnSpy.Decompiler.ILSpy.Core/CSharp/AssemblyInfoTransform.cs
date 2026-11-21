@@ -25,8 +25,10 @@ using ICSharpCode.Decompiler.CSharp.Syntax;
 using ICSharpCode.Decompiler.CSharp.Transforms;
 
 namespace dnSpy.Decompiler.ILSpy.Core.CSharp {
-	sealed class AssemblyInfoTransform : IAstTransform {
-		public void Run(AstNode compilationUnit, TransformContext context) {
+	sealed class AssemblyInfoTransform : IAstTransform, ICSharpCode.Decompiler.Legacy.Ast.Transforms.IAstTransform {
+		public void Run(AstNode compilationUnit, TransformContext context) => Run(compilationUnit);
+
+		public void Run(AstNode compilationUnit) {
 			foreach (var attrSect in compilationUnit.Descendants.OfType<AttributeSection>()) {
 				var attr = attrSect.Descendants.OfType<Attribute>().FirstOrDefault();
 				Debug2.Assert(attr is not null);

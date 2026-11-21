@@ -27,7 +27,10 @@ namespace dnSpy.Contracts.Decompiler {
 		/// <summary>Order of C# language (ILSpy)</summary>
 		public static readonly double CSHARP_ILSPY_ORDERUI = 0;
 
-		/// <summary>Order of Visual Basic language (ILSpy)</summary>
+		/// <summary>Order of C# language (ILSpy Legacy)</summary>
+		public static readonly double CSHARP_ILSPY_LEGACY_ORDERUI = 10;
+
+		/// <summary>Order of Visual Basic language (ILSpy Legacy)</summary>
 		public static readonly double VISUALBASIC_ILSPY_ORDERUI = 100;
 
 		/// <summary>Order of IL language (ILSpy)</summary>
@@ -38,6 +41,9 @@ namespace dnSpy.Contracts.Decompiler {
 
 		/// <summary>Order of C# debug languages (ILSpy)</summary>
 		public static readonly double CSHARP_ILSPY_DEBUG_ORDERUI = 10000;
+
+		/// <summary>Order of C# debug languages (ILSpy Legacy)</summary>
+		public static readonly double CSHARP_ILSPY_LEGACY_DEBUG_ORDERUI = 11000;
 
 		/// <summary>Order of ILAst debug languages (ILSpy)</summary>
 		public static readonly double ILAST_ILSPY_DEBUG_ORDERUI = 20000;
@@ -58,13 +64,16 @@ namespace dnSpy.Contracts.Decompiler {
 		public static readonly Guid LANGUAGE_CSHARP = new Guid("F5A318D4-4B2A-48D2-AE33-F4D2B1EFF4B0");
 
 		/// <summary>C# language (ILSpy)</summary>
-		public static readonly Guid LANGUAGE_CSHARP_ILSPY = new Guid("4162DADA-67C3-4DE4-A5F3-6552C8353ECE");
+		public static readonly Guid LANGUAGE_CSHARP_ILSPY = new Guid("7EA66C2E-D9D5-457A-9AA1-F6138F3E3E93");
+
+		/// <summary>C# language (ILSpy Legacy)</summary>
+		public static readonly Guid LANGUAGE_CSHARP_ILSPY_LEGACY = new Guid("4162DADA-67C3-4DE4-A5F3-6552C8353ECE");
 
 		/// <summary>Visual Basic language</summary>
 		public static readonly Guid LANGUAGE_VISUALBASIC = new Guid("B6849618-8239-4FBB-8DFF-D45EB023C193");
 
-		/// <summary>Visual Basic language (ILSpy)</summary>
-		public static readonly Guid LANGUAGE_VISUALBASIC_ILSPY = new Guid("BBA40092-76B2-4184-8E81-0F1E3ED14E72");
+		/// <summary>Visual Basic language (ILSpy Legacy)</summary>
+		public static readonly Guid LANGUAGE_VISUALBASIC_ILSPY_LEGACY = new Guid("BBA40092-76B2-4184-8E81-0F1E3ED14E72");
 
 		/// <summary>Name of IL language returned by <see cref="IDecompiler.GenericNameUI"/></summary>
 		public static readonly string GENERIC_NAMEUI_IL = "IL";

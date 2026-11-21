@@ -23,13 +23,15 @@ using System.Text;
 using dnlib.DotNet;
 using dnSpy.Contracts.Decompiler;
 using dnSpy.Contracts.Text;
-using dnSpy.Decompiler.ILSpy.Core.CSharp;
+using dnSpy.Decompiler.ILSpy.Core.CSharp.Legacy;
 using dnSpy.Decompiler.ILSpy.Core.Settings;
 using dnSpy.Decompiler.ILSpy.Core.Text;
 using dnSpy.Decompiler.VisualBasic;
 using ICSharpCode.Decompiler;
+using ICSharpCode.Decompiler.Legacy.Ast;
+using ICSharpCode.Decompiler.Legacy.VB.OutputVisitor;
+using ICSharpCode.Decompiler.Legacy.VB.Visitors;
 
-/*
 namespace dnSpy.Decompiler.ILSpy.Core.VisualBasic {
 	sealed class DecompilerProvider : IDecompilerProvider {
 		readonly DecompilerSettingsService decompilerSettingsService;
@@ -53,7 +55,7 @@ namespace dnSpy.Decompiler.ILSpy.Core.VisualBasic {
 	/// Decompiler logic for VB.
 	/// </summary>
 	sealed class VBDecompiler : DecompilerBase {
-		readonly Predicate<IAstTransform>? transformAbortCondition = null;
+		readonly Predicate<ICSharpCode.Decompiler.Legacy.Ast.Transforms.IAstTransform>? transformAbortCondition = null;
 		readonly bool showAllMembers = false;
 		readonly Func<BuilderCache> createBuilderCache;
 
@@ -70,9 +72,9 @@ namespace dnSpy.Decompiler.ILSpy.Core.VisualBasic {
 
 		public override string ContentTypeString => ContentTypesInternal.VisualBasicILSpy;
 		public override string GenericNameUI => DecompilerConstants.GENERIC_NAMEUI_VISUALBASIC;
-		public override string UniqueNameUI => "Visual Basic";
+		public override string UniqueNameUI => "Visual Basic (Legacy)";
 		public override Guid GenericGuid => DecompilerConstants.LANGUAGE_VISUALBASIC;
-		public override Guid UniqueGuid => DecompilerConstants.LANGUAGE_VISUALBASIC_ILSPY;
+		public override Guid UniqueGuid => DecompilerConstants.LANGUAGE_VISUALBASIC_ILSPY_LEGACY;
 		public override string FileExtension => ".vb";
 		public override string? ProjectFileExtension => ".vbproj";
 
@@ -182,24 +184,24 @@ namespace dnSpy.Decompiler.ILSpy.Core.VisualBasic {
 			}
 		}
 
-		public override bool ShowMember(IMemberRef member) => CSharpDecompiler.ShowMember(member, showAllMembers, GetDecompilerSettings());
+		public override bool ShowMember(IMemberRef member) => LegacyCSharpDecompiler.ShowMember(member, showAllMembers, GetDecompilerSettings());
 
 		VBFormattingOptions CreateVBFormattingOptions(DecompilerSettings settings) =>
 			new VBFormattingOptions() {
-				NumberFormatter = ICSharpCode.NRefactory.NumberFormatter.GetVBInstance(hex: settings.HexadecimalNumbers, upper: true),
+				NumberFormatter = ICSharpCode.Decompiler.NumberFormatter.GetVBInstance(hex: settings.HexadecimalNumbers, upper: true),
 			};
 
-		void RunTransformsAndGenerateCode(ref BuilderState state, IDecompilerOutput output, DecompilationContext ctx, IAstTransform? additionalTransform = null) {
+		void RunTransformsAndGenerateCode(ref BuilderState state, IDecompilerOutput output, DecompilationContext ctx, ICSharpCode.Decompiler.Legacy.Ast.Transforms.IAstTransform? additionalTransform = null) {
 			var astBuilder = state.AstBuilder;
 			astBuilder.RunTransformations(transformAbortCondition);
 			if (additionalTransform is not null) {
 				additionalTransform.Run(astBuilder.SyntaxTree);
 			}
 			var settings = GetDecompilerSettings();
-			CSharpDecompiler.AddXmlDocumentation(ref state, settings, astBuilder);
+			LegacyCSharpDecompiler.AddXmlDocumentation(ref state, settings, astBuilder);
 			var csharpUnit = astBuilder.SyntaxTree;
-			csharpUnit.AcceptVisitor(new ICSharpCode.NRefactory.CSharp.InsertParenthesesVisitor() { InsertParenthesesForReadability = settings.InsertParenthesesForReadability });
-			GenericGrammarAmbiguityVisitor.ResolveAmbiguities(csharpUnit);
+			csharpUnit.AcceptVisitor(new ICSharpCode.Decompiler.CSharp.OutputVisitor.InsertParenthesesVisitor() { InsertParenthesesForReadability = settings.InsertParenthesesForReadability });
+			ICSharpCode.Decompiler.CSharp.OutputVisitor.GenericGrammarAmbiguityVisitor.ResolveAmbiguities(csharpUnit);
 			var unit = csharpUnit.AcceptVisitor(new CSharpToVBConverterVisitor(state.AstBuilder.Context.CurrentModule, new ILSpyEnvironmentProvider(state.State.XmlDoc_StringBuilder)), null);
 			var outputFormatter = new VBTextOutputFormatter(output, astBuilder.Context);
 			var formattingPolicy = CreateVBFormattingOptions(settings);
@@ -250,13 +252,13 @@ namespace dnSpy.Decompiler.ILSpy.Core.VisualBasic {
 			if (type.TryGetByRefSig() is not null) {
 				output.Write("ByRef", BoxedTextColor.Keyword);
 				output.Write(" ", BoxedTextColor.Text);
-				if (astType is ComposedType composedType && composedType.HasRefSpecifier)
+				if (astType is ICSharpCode.Decompiler.CSharp.Syntax.ComposedType composedType && composedType.HasRefSpecifier)
 					composedType.HasRefSpecifier = false;
 			}
 
 			var vbAstType = astType.AcceptVisitor(converter, null);
 			var settings = GetDecompilerSettings();
-			var ctx = new DecompilerContext(settings.SettingsVersion, type.Module, MetadataTextColorProvider);
+			var ctx = new ICSharpCode.Decompiler.Legacy.DecompilerContext(settings.SettingsVersion, type.Module, MetadataTextColorProvider);
 			vbAstType.AcceptVisitor(new OutputVisitor(new VBTextOutputFormatter(output, ctx), CreateVBFormattingOptions(settings)), null);
 		}
 
@@ -286,10 +288,10 @@ namespace dnSpy.Decompiler.ILSpy.Core.VisualBasic {
 		}
 
 		void DecompilePartial(DecompilePartialType info) {
-			var state = CreateAstBuilder(info.Context, CSharpDecompiler.CreateDecompilerSettings(GetDecompilerSettings(), info.UseUsingDeclarations), currentType: info.Type);
+			var state = CreateAstBuilder(info.Context, LegacyCSharpDecompiler.CreateDecompilerSettings(GetDecompilerSettings(), info.UseUsingDeclarations), currentType: info.Type);
 			try {
 				state.AstBuilder.AddType(info.Type);
-				RunTransformsAndGenerateCode(ref state, info.Output, info.Context, new DecompilePartialTransform(info.Type, info.Definitions, info.ShowDefinitions, info.AddPartialKeyword, info.InterfacesToRemove));
+				RunTransformsAndGenerateCode(ref state, info.Output, info.Context, new CSharp.DecompilePartialTransform(info.Type, info.Definitions, info.ShowDefinitions, info.AddPartialKeyword, info.InterfacesToRemove));
 			}
 			finally {
 				state.Dispose();
@@ -300,7 +302,7 @@ namespace dnSpy.Decompiler.ILSpy.Core.VisualBasic {
 			var state = CreateAstBuilder(info.Context, GetDecompilerSettings(), currentModule: info.Module);
 			try {
 				state.AstBuilder.AddAssembly(info.Module, true, info.Module.IsManifestModule, true);
-				RunTransformsAndGenerateCode(ref state, info.Output, info.Context, info.KeepAllAttributes ? null : new AssemblyInfoTransform());
+				RunTransformsAndGenerateCode(ref state, info.Output, info.Context, info.KeepAllAttributes ? null : new CSharp.AssemblyInfoTransform());
 			}
 			finally {
 				state.Dispose();
@@ -308,11 +310,11 @@ namespace dnSpy.Decompiler.ILSpy.Core.VisualBasic {
 		}
 
 		void DecompileTypeMethods(DecompileTypeMethods info) {
-			var state = CreateAstBuilder(info.Context, CSharpDecompiler.CreateDecompilerSettings_DecompileTypeMethods(GetDecompilerSettings(), !info.DecompileHidden, info.ShowAll), currentType: info.Type);
+			var state = CreateAstBuilder(info.Context, LegacyCSharpDecompiler.CreateDecompilerSettings_DecompileTypeMethods(GetDecompilerSettings(), !info.DecompileHidden, info.ShowAll), currentType: info.Type);
 			try {
-				state.AstBuilder.GetDecompiledBodyKind = (builder, method) => CSharpDecompiler.GetDecompiledBodyKind(info, builder, method);
+				state.AstBuilder.GetDecompiledBodyKind = (builder, method) => LegacyCSharpDecompiler.GetDecompiledBodyKind(info, builder, method);
 				state.AstBuilder.AddType(info.Type);
-				RunTransformsAndGenerateCode(ref state, info.Output, info.Context, new DecompileTypeMethodsTransform(info.Types, info.Methods, !info.DecompileHidden, info.ShowAll));
+				RunTransformsAndGenerateCode(ref state, info.Output, info.Context, new CSharp.DecompileTypeMethodsTransform(info.Types, info.Methods, !info.DecompileHidden, info.ShowAll));
 			}
 			finally {
 				state.Dispose();
@@ -329,4 +331,3 @@ namespace dnSpy.Decompiler.ILSpy.Core.VisualBasic {
 			new VisualBasicFormatter(output, flags, null).Write(member);
 	}
 }
-*/
