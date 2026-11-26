@@ -73,8 +73,14 @@ namespace dnSpy.Bookmarks.DotNet {
 
 			if (!isInMemory && !isDynamic) {
 				var s = section.Attribute<string>("TokenString");
-				if (!string.IsNullOrEmpty(s) && s != GetTokenAsString(moduleId, token.Value))
-					return null;
+				if (!string.IsNullOrEmpty(s)) {
+					// Only drop the bookmark if we can resolve the token now and it refers to
+					// something else. If the assembly isn't loaded (yet) GetTokenAsString()
+					// returns null and the bookmark must be kept, else the user loses it.
+					var current = GetTokenAsString(moduleId, token.Value);
+					if (current is not null && current != s)
+						return null;
+				}
 			}
 
 			return DeserializeCore(section, moduleId, token.Value);
@@ -83,7 +89,9 @@ namespace dnSpy.Bookmarks.DotNet {
 		protected abstract BookmarkLocation? DeserializeCore(ISettingsSection section, ModuleId module, uint token);
 
 		string? GetTokenAsString(ModuleId moduleId, uint token) {
-			var module = dbgMetadataService.Value.TryGetMetadata(moduleId, DbgLoadModuleOptions.AutoLoaded);
+			// Don't auto-load the module. Restoring bookmarks at startup must not add the
+			// referenced assemblies to the document tree.
+			var module = dbgMetadataService.Value.TryGetMetadata(moduleId, DbgLoadModuleOptions.None);
 			return (module?.ResolveToken(token) as IMemberDef)?.ToString();
 		}
 	}

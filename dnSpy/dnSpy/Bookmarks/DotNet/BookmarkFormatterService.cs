@@ -61,7 +61,9 @@ namespace dnSpy.Bookmarks.DotNet {
 			new DotNetTokenBookmarkLocationFormatterImpl(this, location);
 
 		internal TDef? GetDefinition<TDef>(ModuleId module, uint token) where TDef : class {
-			var md = dbgMetadataService.Value.TryGetMetadata(module, DbgLoadModuleOptions.AutoLoaded);
+			// Don't auto-load the module, it would add the assembly to the document tree just
+			// because a bookmark referencing it is displayed.
+			var md = dbgMetadataService.Value.TryGetMetadata(module, DbgLoadModuleOptions.None);
 			return md?.ResolveToken(token) as TDef;
 		}
 	}
