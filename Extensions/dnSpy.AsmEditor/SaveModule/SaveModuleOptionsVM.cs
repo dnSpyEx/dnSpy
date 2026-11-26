@@ -35,7 +35,7 @@ namespace dnSpy.AsmEditor.SaveModule {
 		public override object UndoDocument => document;
 		readonly IDsDocument document;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 		public bool CanSaveMixedModeModule => Module is ModuleDefMD;
 		public bool IsMixedModeModule => CanSaveMixedModeModule && !Module.IsILOnly;
 		public bool CanPreserveOtherMetadataStreams => Module is ModuleDefMD;

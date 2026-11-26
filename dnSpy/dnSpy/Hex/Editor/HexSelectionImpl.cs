@@ -51,7 +51,9 @@ namespace dnSpy.Hex.Editor {
 		}
 		bool activationTracksFocus;
 
+#pragma warning disable WFO2000
 		public override NormalizedHexBufferSpanCollection SelectedSpans => new NormalizedHexBufferSpanCollection(StreamSelectionSpan);
+#pragma warning restore WFO2000
 
 		readonly HexSelectionLayer hexSelectionLayer;
 		HexBufferPoint anchorPoint, activePoint;

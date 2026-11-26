@@ -34,8 +34,8 @@ namespace dnSpy.AsmEditor.Resources {
 		}
 		IOpenFile? openFile;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
-		public ICommand FillDataCommand => new RelayCommand(a => FillData());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
+		public ICommand FillDataCommand => field ??= new RelayCommand(a => FillData());
 
 		ResourceTypeCode resourceTypeCode;
 

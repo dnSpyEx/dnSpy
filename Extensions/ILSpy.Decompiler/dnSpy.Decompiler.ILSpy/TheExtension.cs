@@ -28,7 +28,7 @@ namespace dnSpy.Decompiler.ILSpy {
 			get { yield return "Themes/wpf.styles.templates.xaml"; }
 		}
 
-		public ExtensionInfo ExtensionInfo => new ExtensionInfo {
+		public ExtensionInfo ExtensionInfo => field ??= new ExtensionInfo {
 			ShortDescription = dnSpy_Decompiler_ILSpy_Resources.Plugin_ShortDescription,
 			Copyright = "Copyright 2011-2014 AlphaSierraPapa for the SharpDevelop Team",
 		};

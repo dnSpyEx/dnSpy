@@ -30,8 +30,8 @@ using dnSpy.Tabs;
 
 namespace dnSpy.ToolWindows {
 	sealed class TabContentImpl : ITabContent, IFocusable, INotifyPropertyChanged {
-		public ICommand CloseCommand => new RelayCommand(a => Close(), a => CanClose);
-		public ICommand ShowWindowPositionCommand => new RelayCommand(a => ShowWindowPositionMenu(a), a => CanShowWindowPositionMenu);
+		public ICommand CloseCommand => field ??= new RelayCommand(a => Close(), a => CanClose);
+		public ICommand ShowWindowPositionCommand => field ??= new RelayCommand(a => ShowWindowPositionMenu(a), a => CanShowWindowPositionMenu);
 
 		bool IFocusable.CanFocus {
 			get {

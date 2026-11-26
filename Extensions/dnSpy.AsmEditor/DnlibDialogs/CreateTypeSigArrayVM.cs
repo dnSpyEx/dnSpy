@@ -27,7 +27,7 @@ using dnSpy.Contracts.MVVM;
 
 namespace dnSpy.AsmEditor.DnlibDialogs {
 	sealed class CreateTypeSigArrayVM : ViewModelBase {
-		public ICommand AddCommand => new RelayCommand(a => AddCurrent(), a => AddCurrentCanExecute());
+		public ICommand AddCommand => field ??= new RelayCommand(a => AddCurrent(), a => AddCurrentCanExecute());
 
 		public bool IsEnabled {
 			get => isEnabled;

@@ -28,7 +28,7 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 	sealed class TypeDefOrRefAndCAVM : ViewModelBase {
 		readonly TypeDefOrRefAndCAOptions origOptions;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 		public string FullName => TypeSigCreator.TypeSigDnlibFullName;
 		public TypeSigCreatorVM TypeSigCreator { get; }
 		public CustomAttributesVM CustomAttributesVM { get; }

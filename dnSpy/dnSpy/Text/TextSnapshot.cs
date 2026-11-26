@@ -51,6 +51,7 @@ namespace dnSpy.Text {
 		public void Write(TextWriter writer) => textImage.Write(writer);
 		public void Write(TextWriter writer, Span span) => textImage.Write(writer, span);
 
+#pragma warning disable WFO2000
 		public IEnumerable<ITextSnapshotLine> Lines {
 			get {
 				uint[] lineOffsets;
@@ -74,6 +75,7 @@ namespace dnSpy.Text {
 					yield return GetLineFromLineNumber(lineNo);
 			}
 		}
+#pragma warning restore WFO2000
 
 		public ITextSnapshotLine GetLineFromLineNumber(int lineNumber) {
 			var line = textImage.GetLineFromLineNumber(lineNumber);

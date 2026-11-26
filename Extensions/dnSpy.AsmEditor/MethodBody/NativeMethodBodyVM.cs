@@ -24,7 +24,7 @@ namespace dnSpy.AsmEditor.MethodBody {
 	sealed class NativeMethodBodyVM : ViewModelBase {
 		readonly NativeMethodBodyOptions origOptions;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 		public UInt32VM RVA { get; }
 
 		public NativeMethodBodyVM(NativeMethodBodyOptions options, bool initialize) {

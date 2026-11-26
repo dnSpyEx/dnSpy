@@ -53,7 +53,7 @@ namespace dnSpy.Debugger.ToolWindows.Exceptions {
 
 		public bool IsEmpty => string.IsNullOrWhiteSpace(ConditionText);
 
-		public ICommand RemoveCommand => new RelayCommand(a => owner.RemoveCondition(this));
+		public ICommand RemoveCommand => field ??= new RelayCommand(a => owner.RemoveCondition(this));
 
 		sealed class ConditionTypeVM : ViewModelBase {
 			public DbgExceptionConditionType Type { get; }
@@ -97,7 +97,7 @@ namespace dnSpy.Debugger.ToolWindows.Exceptions {
 		public object Conditions => conditionsList;
 		readonly ObservableCollection<ExceptionConditionVM> conditionsList;
 
-		public ICommand AddConditionCommand => new RelayCommand(a => AddCondition());
+		public ICommand AddConditionCommand => field ??= new RelayCommand(a => AddCondition());
 
 		public EditExceptionConditionsVM(IEnumerable<DbgExceptionConditionSettings> condSettings) {
 			if (condSettings is null)

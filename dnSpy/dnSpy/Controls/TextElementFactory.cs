@@ -169,26 +169,22 @@ namespace dnSpy.Controls {
 				fontSize = TextElement.GetFontSize(parent),
 			};
 
-			int GetStartIndex(int position) {
+			(TextClassificationTag? tag, int end) GetTag(int position) {
 				var list = tagsList;
 				int lo = 0, hi = list.Length - 1;
 				while (lo <= hi) {
 					int index = (lo + hi) / 2;
-
-					var spanData = list[index];
-					if (position < spanData.Span.Start)
-						hi = index - 1;
-					else if (position >= spanData.Span.End)
+					if (list[index].Span.End <= position)
 						lo = index + 1;
-					else {
-						if (index > 0 && list[index - 1].Span.End == position)
-							return index - 1;
-						return index;
-					}
+					else
+						hi = index - 1;
 				}
-				if ((uint)hi < (uint)list.Length && list[hi].Span.End == position)
-					return hi;
-				return lo < list.Length ? lo : -1;
+				if (lo >= list.Length)
+					return (null, text.Length);
+				var tag = list[lo];
+				if (tag.Span.Start <= position)
+					return (tag, Math.Min(tag.Span.End, text.Length));
+				return (null, Math.Min(tag.Span.Start, text.Length));
 			}
 
 			public override TextRun GetTextRun(int textSourceCharacterIndex) {
@@ -203,28 +199,20 @@ namespace dnSpy.Controls {
 					return new TextEndOfParagraph(nlLen);
 				}
 
-				int collIndex = GetStartIndex(index);
-				Debug.Assert(collIndex >= 0);
-				if (collIndex < 0)
-					return new TextCharacters(text.Substring(index), GetDefaultTextRunProperties());
-
-				var info = tagsList[collIndex];
-				if (info.Span.End == index) {
-					Debug.Assert(collIndex + 1 < tagsList.Length);
-					if (collIndex + 1 >= tagsList.Length)
-						return new TextCharacters(text.Substring(index), GetDefaultTextRunProperties());
-					info = tagsList[collIndex + 1];
-				}
-
-				int endIndex = info.Span.End;
+				(var info, int endIndex) = GetTag(index);
+				if (endIndex <= index)
+					endIndex = text.Length;
 
 				int nlIndex = text.IndexOfAny(LineConstants.newLineChars, index, endIndex - index);
 				if (nlIndex > 0)
 					endIndex = nlIndex;
 
-				var props = classificationFormatMap.GetTextProperties(info.ClassificationType);
-
 				var tokenText = text.Substring(index, endIndex - index);
+
+				if (info is null)
+					return new TextCharacters(tokenText, GetDefaultTextRunProperties());
+
+				var props = classificationFormatMap.GetTextProperties(info.ClassificationType);
 
 				var textProps = new TextProps();
 				textProps.fontSize = TextElement.GetFontSize(parent);

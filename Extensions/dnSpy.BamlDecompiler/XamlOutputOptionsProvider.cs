@@ -24,11 +24,13 @@ using dnSpy.Contracts.Decompiler;
 namespace dnSpy.BamlDecompiler {
 	[Export(typeof(IXamlOutputOptionsProvider))]
 	sealed class XamlOutputOptionsProvider : IXamlOutputOptionsProvider {
+#pragma warning disable WFO2000
 		public XamlOutputOptions Default => new XamlOutputOptions {
 			IndentChars = bamlSettings.UseTabs ? "\t" : "    ",
 			NewLineChars = Environment.NewLine,
 			NewLineOnAttributes = bamlSettings.NewLineOnAttributes,
 		};
+#pragma warning restore WFO2000
 
 		readonly BamlSettingsImpl bamlSettings;
 

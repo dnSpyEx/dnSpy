@@ -532,15 +532,23 @@ namespace dnSpy.Contracts.Decompiler {
 			foreach (var ca in property.CustomAttributes)
 				yield return ca;
 			var defMemCa = Find(property.DeclaringType, systemReflectionName, defaultMemberAttributeName);
-			if (defMemCa is not null && defMemCa.ConstructorArguments.Count > 0 &&
-				defMemCa.ConstructorArguments[0].Value is UTF8String defMember &&
-				defMember != itemName && defMember == property.Name) {
-				var module = property.Module;
-				var declType = new TypeRefUser(module, systemRuntimeCompilerServicesName, indexerNameAttributeName, module.CorLibTypes.AssemblyRef);
-				var newCa = new CustomAttribute(new MemberRefUser(module, ctorName, MethodSig.CreateInstance(module.CorLibTypes.Void, module.CorLibTypes.String), declType));
-				newCa.ConstructorArguments.Add(new CAArgument(module.CorLibTypes.String, defMember));
-				yield return newCa;
+			if (defMemCa is not null && defMemCa.ConstructorArguments.Count > 0) {
+				var arg = defMemCa.ConstructorArguments[0];
+				if (arg.Value is UTF8String defMember && defMember != itemName && defMember == property.Name) {
+					yield return CreateIndexerNameAttribute(property, defMember);
+				}
+				else if (arg.Value is string defMember2 && defMember2 != itemName && defMember2 == property.Name) {
+					yield return CreateIndexerNameAttribute(property, defMember2);
+				}
 			}
+		}
+
+		static CustomAttribute CreateIndexerNameAttribute(PropertyDef property, UTF8String defMember) {
+			var module = property.Module;
+			var declType = new TypeRefUser(module, systemRuntimeCompilerServicesName, indexerNameAttributeName, module.CorLibTypes.AssemblyRef);
+			var newCa = new CustomAttribute(new MemberRefUser(module, ctorName, MethodSig.CreateInstance(module.CorLibTypes.Void, module.CorLibTypes.String), declType));
+			newCa.ConstructorArguments.Add(new CAArgument(module.CorLibTypes.String, defMember));
+			return newCa;
 		}
 
 		static IResolutionScope GetSystemRuntimeInteropServicesAssemblyRef(ModuleDef module) {

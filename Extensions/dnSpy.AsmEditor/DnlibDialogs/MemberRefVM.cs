@@ -42,13 +42,13 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 		}
 		ITypeSigCreator? typeSigCreator;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
-		public ICommand InitializeFromFieldCommand => new RelayCommand(a => InitializeFromField());
-		public ICommand InitializeFromMethodCommand => new RelayCommand(a => InitializeFromMethod());
-		public ICommand PickTypeCommand => new RelayCommand(a => PickType());
-		public ICommand PickTypeSpecCommand => new RelayCommand(a => PickTypeSpec());
-		public ICommand PickMethodDefCommand => new RelayCommand(a => PickMethodDef());
-		public ICommand PickModuleRefCommand => new RelayCommand(a => PickModuleRef());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
+		public ICommand InitializeFromFieldCommand => field ??= new RelayCommand(a => InitializeFromField());
+		public ICommand InitializeFromMethodCommand => field ??= new RelayCommand(a => InitializeFromMethod());
+		public ICommand PickTypeCommand => field ??= new RelayCommand(a => PickType());
+		public ICommand PickTypeSpecCommand => field ??= new RelayCommand(a => PickTypeSpec());
+		public ICommand PickMethodDefCommand => field ??= new RelayCommand(a => PickMethodDef());
+		public ICommand PickModuleRefCommand => field ??= new RelayCommand(a => PickModuleRef());
 
 		public IMemberRefParent? Class {
 			get => @class;

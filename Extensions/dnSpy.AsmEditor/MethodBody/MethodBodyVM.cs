@@ -28,7 +28,7 @@ namespace dnSpy.AsmEditor.MethodBody {
 	sealed class MethodBodyVM : ViewModelBase {
 		readonly MethodBodyOptions origOptions;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 		public bool IsNativeBody => (MethodBodyType)MethodBodyTypeVM.SelectedItem! == MethodBodyType.Native;
 		public bool IsCilBody => (MethodBodyType)MethodBodyTypeVM.SelectedItem! == MethodBodyType.Cil;
 

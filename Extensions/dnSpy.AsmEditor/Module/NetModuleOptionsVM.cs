@@ -44,7 +44,7 @@ namespace dnSpy.AsmEditor.Module {
 
 		public EnumListVM ClrVersion { get; } = new EnumListVM(clrVersionList);
 		public GuidVM Mvid { get; }
-		public ICommand GenerateNewMvidCommand => new RelayCommand(a => Mvid.Value = Guid.NewGuid());
+		public ICommand GenerateNewMvidCommand => field ??= new RelayCommand(a => Mvid.Value = Guid.NewGuid());
 
 		public NetModuleOptionsVM(ModuleDef? module = null) {
 			Name = "MyNetModule.netmodule";

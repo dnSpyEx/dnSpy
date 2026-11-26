@@ -63,8 +63,8 @@ namespace dnSpy.Output {
 
 	[Export(typeof(IOutputServiceInternal)), Export(typeof(IOutputService))]
 	sealed class OutputService : ViewModelBase, IOutputServiceInternal {
-		public ICommand ClearAllCommand => new RelayCommand(a => ClearAll(), a => CanClearAll);
-		public ICommand SaveCommand => new RelayCommand(a => SaveText(), a => CanSaveText);
+		public ICommand ClearAllCommand => field ??= new RelayCommand(a => ClearAll(), a => CanClearAll);
+		public ICommand SaveCommand => field ??= new RelayCommand(a => SaveText(), a => CanSaveText);
 
 		public string ClearAllToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Resources.Output_ClearAll_ToolTip, dnSpy_Resources.ShortCutKeyCtrlL);
 		public string SaveToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Resources.Output_Save_ToolTip, dnSpy_Resources.ShortCutKeyCtrlS);

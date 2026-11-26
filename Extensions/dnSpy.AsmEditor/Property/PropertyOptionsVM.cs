@@ -30,7 +30,7 @@ namespace dnSpy.AsmEditor.Property {
 	sealed class PropertyOptionsVM : ViewModelBase {
 		readonly PropertyDefOptions origOptions;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 
 		public PropertyAttributes Attributes {
 			get => attributes;

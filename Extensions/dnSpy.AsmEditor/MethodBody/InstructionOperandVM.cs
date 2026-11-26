@@ -53,7 +53,7 @@ namespace dnSpy.AsmEditor.MethodBody {
 		}
 		IEditOperand? editOperand;
 
-		public ICommand EditOtherCommand => new RelayCommand(a => EditOther(a), a => EditOtherCanExecute(a));
+		public ICommand EditOtherCommand => field ??= new RelayCommand(a => EditOther(a), a => EditOtherCanExecute(a));
 
 		public InstructionOperandType InstructionOperandType {
 			get => operandType;

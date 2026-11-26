@@ -40,14 +40,14 @@ namespace dnSpy.AsmEditor.MethodBody {
 		}
 		ISelectItems<InstructionVM>? selectItems;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
-		public ICommand SimplifyAllInstructionsCommand => new RelayCommand(a => SimplifyAllInstructions(), a => SimplifyAllInstructionsCanExecute());
-		public ICommand OptimizeAllInstructionsCommand => new RelayCommand(a => OptimizeAllInstructions(), a => OptimizeAllInstructionsCanExecute());
-		public ICommand ReplaceInstructionWithNopCommand => new RelayCommand(a => ReplaceInstructionWithNop((InstructionVM[])a!), a => ReplaceInstructionWithNopCanExecute((InstructionVM[])a!));
-		public ICommand ReplaceInstructionWithMultipleNopsCommand => new RelayCommand(a => ReplaceInstructionWithMultipleNops((InstructionVM[])a!), a => ReplaceInstructionWithMultipleNopsCanExecute((InstructionVM[])a!));
-		public ICommand InvertBranchCommand => new RelayCommand(a => InvertBranch((InstructionVM[])a!), a => InvertBranchCanExecute((InstructionVM[])a!));
-		public ICommand ConvertBranchToUnconditionalBranchCommand => new RelayCommand(a => ConvertBranchToUnconditionalBranch((InstructionVM[])a!), a => ConvertBranchToUnconditionalBranchCanExecute((InstructionVM[])a!));
-		public ICommand RemoveInstructionAndAddPopsCommand => new RelayCommand(a => RemoveInstructionAndAddPops((InstructionVM[])a!), a => RemoveInstructionAndAddPopsCanExecute((InstructionVM[])a!));
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
+		public ICommand SimplifyAllInstructionsCommand => field ??= new RelayCommand(a => SimplifyAllInstructions(), a => SimplifyAllInstructionsCanExecute());
+		public ICommand OptimizeAllInstructionsCommand => field ??= new RelayCommand(a => OptimizeAllInstructions(), a => OptimizeAllInstructionsCanExecute());
+		public ICommand ReplaceInstructionWithNopCommand => field ??= new RelayCommand(a => ReplaceInstructionWithNop((InstructionVM[])a!), a => ReplaceInstructionWithNopCanExecute((InstructionVM[])a!));
+		public ICommand ReplaceInstructionWithMultipleNopsCommand => field ??= new RelayCommand(a => ReplaceInstructionWithMultipleNops((InstructionVM[])a!), a => ReplaceInstructionWithMultipleNopsCanExecute((InstructionVM[])a!));
+		public ICommand InvertBranchCommand => field ??= new RelayCommand(a => InvertBranch((InstructionVM[])a!), a => InvertBranchCanExecute((InstructionVM[])a!));
+		public ICommand ConvertBranchToUnconditionalBranchCommand => field ??= new RelayCommand(a => ConvertBranchToUnconditionalBranch((InstructionVM[])a!), a => ConvertBranchToUnconditionalBranchCanExecute((InstructionVM[])a!));
+		public ICommand RemoveInstructionAndAddPopsCommand => field ??= new RelayCommand(a => RemoveInstructionAndAddPops((InstructionVM[])a!), a => RemoveInstructionAndAddPopsCanExecute((InstructionVM[])a!));
 
 		public bool KeepOldMaxStack {
 			get => keepOldMaxStack;

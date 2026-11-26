@@ -24,7 +24,7 @@ namespace dnSpy.AsmEditor.Namespace {
 	sealed class NamespaceVM : ViewModelBase {
 		readonly string origName;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 
 		public string? Name {
 			get => name;

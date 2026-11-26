@@ -56,10 +56,10 @@ namespace dnSpy.Bookmarks.ToolWindows.Bookmarks {
 
 		public IBookmarkContext Context { get; }
 		public Bookmark Bookmark { get; }
-		public object NameObject => new FormatterObject<BookmarkVM>(this, PredefinedTextClassifierTags.BookmarksWindowName);
-		public object LabelsObject => new FormatterObject<BookmarkVM>(this, PredefinedTextClassifierTags.BookmarksWindowLabels);
-		public object LocationObject => new FormatterObject<BookmarkVM>(this, PredefinedTextClassifierTags.BookmarksWindowLocation);
-		public object ModuleObject => new FormatterObject<BookmarkVM>(this, PredefinedTextClassifierTags.BookmarksWindowModule);
+		public object NameObject => field ??= new FormatterObject<BookmarkVM>(this, PredefinedTextClassifierTags.BookmarksWindowName);
+		public object LabelsObject => field ??= new FormatterObject<BookmarkVM>(this, PredefinedTextClassifierTags.BookmarksWindowLabels);
+		public object LocationObject => field ??= new FormatterObject<BookmarkVM>(this, PredefinedTextClassifierTags.BookmarksWindowLocation);
+		public object ModuleObject => field ??= new FormatterObject<BookmarkVM>(this, PredefinedTextClassifierTags.BookmarksWindowModule);
 		internal int Order { get; }
 
 		public IEditableValue NameEditableValue { get; }

@@ -34,10 +34,12 @@ namespace dnSpy.Analyzer.TreeNodes {
 			var ca = type.CustomAttributes.Find("System.Runtime.InteropServices.GuidAttribute");
 			if (ca is null || ca.ConstructorArguments.Count != 1)
 				return false;
-			if (!(ca.ConstructorArguments[0].Value is UTF8String guidStr) || !Guid.TryParse(guidStr, out guid))
+			var arg = ca.ConstructorArguments[0];
+			string guidStr = arg.Value as UTF8String ?? arg.Value as string;
+			if (guidStr is null)
 				return false;
 
-			return true;
+			return Guid.TryParse(guidStr, out guid);
 		}
 
 		public static bool ComEquals(TypeDef type, ref Guid guid) {
@@ -50,7 +52,11 @@ namespace dnSpy.Analyzer.TreeNodes {
 			var ca = type.CustomAttributes.Find("System.Runtime.InteropServices.GuidAttribute");
 			if (ca is null || ca.ConstructorArguments.Count != 1)
 				return false;
-			if (!(ca.ConstructorArguments[0].Value is UTF8String guidStr) || !Guid.TryParse(guidStr, out var g))
+			var arg = ca.ConstructorArguments[0];
+			string guidStr = arg.Value as UTF8String ?? arg.Value as string;
+			if (guidStr is null)
+				return false;
+			if (!Guid.TryParse(guidStr, out var g))
 				return false;
 
 			return g == guid;

@@ -53,7 +53,9 @@ namespace dnSpy.Documents.TreeView.Resources {
 		byte[]? imageData;
 
 		public override Guid Guid => new Guid(DocumentTreeViewConstants.SERIALIZED_IMAGE_LIST_STREAMER_RESOURCE_ELEMENT_NODE_GUID);
+#pragma warning disable WFO2000
 		public override ImageListOptions ImageListOptions => new ImageListOptions(imageListOptions!) { Name = Name };
+#pragma warning restore WFO2000
 		protected override ImageReference GetIcon() => DsImages.Image;
 
 		public SerializedImageListStreamerResourceElementNodeImpl(ITreeNodeGroup treeNodeGroup, ResourceElement resourceElement, byte[] imageData)

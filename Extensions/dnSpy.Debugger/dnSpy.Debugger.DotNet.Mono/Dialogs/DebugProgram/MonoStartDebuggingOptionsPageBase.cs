@@ -97,9 +97,9 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 			set => BreakProcessKindVM.SelectedItem = value;
 		}
 
-		public ICommand PickFilenameCommand => new RelayCommand(a => PickNewFilename());
-		public ICommand PickWorkingDirectoryCommand => new RelayCommand(a => PickNewWorkingDirectory());
-		public ICommand EditEnvironmentCommand => new RelayCommand(a => EditEnvironment());
+		public ICommand PickFilenameCommand => field ??= new RelayCommand(a => PickNewFilename());
+		public ICommand PickWorkingDirectoryCommand => field ??= new RelayCommand(a => PickNewWorkingDirectory());
+		public ICommand EditEnvironmentCommand => field ??= new RelayCommand(a => EditEnvironment());
 
 		public override bool IsValid => isValid;
 		bool isValid;

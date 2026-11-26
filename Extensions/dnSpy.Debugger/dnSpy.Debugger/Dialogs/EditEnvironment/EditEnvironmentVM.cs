@@ -36,15 +36,15 @@ namespace dnSpy.Debugger.Dialogs.EditEnvironment {
 		public ObservableCollection<EnvironmentVariableVM> EnvironmentVariables { get; }
 		public ObservableCollection<EnvironmentVariableVM> SelectedItems { get; }
 
-		IEditValueProvider KeyEditValueProvider => keyEditValueProvider ?? (keyEditValueProvider = editValueProviderService.Create(ContentTypes.EnvironmentVariableKey, Array.Empty<string>()));
+		IEditValueProvider KeyEditValueProvider => keyEditValueProvider ??= editValueProviderService.Create(ContentTypes.EnvironmentVariableKey, Array.Empty<string>());
 		IEditValueProvider? keyEditValueProvider;
-		IEditValueProvider ValueEditValueProvider => valueEditValueProvider ?? (valueEditValueProvider = editValueProviderService.Create(ContentTypes.EnvironmentVariableValue, Array.Empty<string>()));
+		IEditValueProvider ValueEditValueProvider => valueEditValueProvider ??= editValueProviderService.Create(ContentTypes.EnvironmentVariableValue, Array.Empty<string>());
 		IEditValueProvider? valueEditValueProvider;
 
-		public ICommand AddEnvironmentVariableCommand => new RelayCommand(a => AddEnvironmentVariable());
-		public ICommand AddManyEnvironmentVariablesCommand => new RelayCommand(a => AddManyEnvironmentVariables());
-		public ICommand RemoveEnvironmentVariableCommand => new RelayCommand(a => RemoveEnvironmentVariable(), a => SelectedItems.Count > 0);
-		public ICommand ResetCommand => new RelayCommand(a => Reset());
+		public ICommand AddEnvironmentVariableCommand => field ??= new RelayCommand(a => AddEnvironmentVariable());
+		public ICommand AddManyEnvironmentVariablesCommand => field ??= new RelayCommand(a => AddManyEnvironmentVariables());
+		public ICommand RemoveEnvironmentVariableCommand => field ??= new RelayCommand(a => RemoveEnvironmentVariable(), a => SelectedItems.Count > 0);
+		public ICommand ResetCommand => field ??= new RelayCommand(a => Reset());
 
 		public EditEnvironmentVM(EditValueProviderService editValueProviderService) : this(editValueProviderService, new DbgEnvironment()) { }
 

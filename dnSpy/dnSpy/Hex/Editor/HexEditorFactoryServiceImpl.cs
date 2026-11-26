@@ -60,9 +60,9 @@ namespace dnSpy.Hex.Editor {
 		readonly IThemeService themeService;
 		readonly Lazy<HexCursorProviderFactory, ITextViewRoleMetadata>[] hexCursorProviderFactories;
 
-		public override VSTE.ITextViewRoleSet AllPredefinedRoles => new TE.TextViewRoleSet(allPredefinedRolesList);
-		public override VSTE.ITextViewRoleSet DefaultRoles => new TE.TextViewRoleSet(defaultRolesList);
-		public override VSTE.ITextViewRoleSet NoRoles => new TE.TextViewRoleSet(Array.Empty<string>());
+		public override VSTE.ITextViewRoleSet AllPredefinedRoles => field ??= new TE.TextViewRoleSet(allPredefinedRolesList);
+		public override VSTE.ITextViewRoleSet DefaultRoles => field ??= new TE.TextViewRoleSet(defaultRolesList);
+		public override VSTE.ITextViewRoleSet NoRoles => field ??= new TE.TextViewRoleSet(Array.Empty<string>());
 		static readonly string[] allPredefinedRolesList = new string[] {
 			PredefinedHexViewRoles.Analyzable,
 			PredefinedHexViewRoles.Debuggable,

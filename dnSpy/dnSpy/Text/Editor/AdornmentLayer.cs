@@ -35,7 +35,9 @@ namespace dnSpy.Text.Editor {
 		public IWpfTextView TextView { get; }
 		public MetadataAndOrder<IAdornmentLayersMetadata> Info { get; }
 		public bool IsEmpty => adornmentLayerElements.Count == 0;
+#pragma warning disable WFO2000
 		public ReadOnlyCollection<IAdornmentLayerElement> Elements => new ReadOnlyCollection<IAdornmentLayerElement>(adornmentLayerElements.ToArray());
+#pragma warning restore WFO2000
 		readonly List<AdornmentLayerElement> adornmentLayerElements;
 		readonly LayerKind layerKind;
 

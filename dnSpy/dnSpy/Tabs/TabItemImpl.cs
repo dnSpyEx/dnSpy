@@ -60,7 +60,7 @@ namespace dnSpy.Tabs {
 
 			public object? ToolTip => impl.tabContent.ToolTip;
 			public string? Header => impl.tabContent.Title;
-			public ICommand CloseCommand => new RelayCommand(a => impl.Close(), a => impl.CanClose);
+			public ICommand CloseCommand => field ??= new RelayCommand(a => impl.Close(), a => impl.CanClose);
 
 			public TheHeader(TabItemImpl impl) {
 				this.impl = impl;

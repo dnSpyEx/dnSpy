@@ -25,11 +25,23 @@ using dnSpy.Contracts.Settings;
 
 namespace dnSpy.Documents.Tabs {
 	interface IDocumentTabServiceSettings : INotifyPropertyChanged {
+		bool RestoreAssemblies { get; set; }
 		bool RestoreTabs { get; set; }
 		bool DecompileFullType { get; set; }
 	}
 
 	class DocumentTabServiceSettings : ViewModelBase, IDocumentTabServiceSettings {
+		public bool RestoreAssemblies {
+			get => restoreAssemblies;
+			set {
+				if (restoreAssemblies != value) {
+					restoreAssemblies = value;
+					OnPropertyChanged(nameof(RestoreAssemblies));
+				}
+			}
+		}
+		bool restoreAssemblies = true;
+
 		public bool RestoreTabs {
 			get => restoreTabs;
 			set {
@@ -54,6 +66,7 @@ namespace dnSpy.Documents.Tabs {
 
 		public DocumentTabServiceSettings Clone() => CopyTo(new DocumentTabServiceSettings());
 		public DocumentTabServiceSettings CopyTo(DocumentTabServiceSettings other) {
+			other.RestoreAssemblies = RestoreAssemblies;
 			other.RestoreTabs = RestoreTabs;
 			other.DecompileFullType = DecompileFullType;
 			return other;
@@ -71,6 +84,7 @@ namespace dnSpy.Documents.Tabs {
 			this.settingsService = settingsService;
 
 			var sect = settingsService.GetOrCreateSection(SETTINGS_GUID);
+			RestoreAssemblies = sect.Attribute<bool?>(nameof(RestoreAssemblies)) ?? RestoreAssemblies;
 			RestoreTabs = sect.Attribute<bool?>(nameof(RestoreTabs)) ?? RestoreTabs;
 			DecompileFullType = sect.Attribute<bool?>(nameof(DecompileFullType)) ?? DecompileFullType;
 			PropertyChanged += DocumentTabServiceSettingsImpl_PropertyChanged;
@@ -78,6 +92,7 @@ namespace dnSpy.Documents.Tabs {
 
 		void DocumentTabServiceSettingsImpl_PropertyChanged(object? sender, PropertyChangedEventArgs e) {
 			var sect = settingsService.RecreateSection(SETTINGS_GUID);
+			sect.Attribute(nameof(RestoreAssemblies), RestoreAssemblies);
 			sect.Attribute(nameof(RestoreTabs), RestoreTabs);
 			sect.Attribute(nameof(DecompileFullType), DecompileFullType);
 		}

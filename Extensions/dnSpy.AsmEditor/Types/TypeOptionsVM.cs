@@ -77,7 +77,7 @@ namespace dnSpy.AsmEditor.Types {
 	sealed class TypeOptionsVM : ViewModelBase {
 		readonly TypeDefOptions origOptions;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 		public bool IsNonNestedType => !IsNestedType;
 		public bool IsNestedType { get; }
 		public string VisibilityAccessbilityText => IsNestedType ? dnSpy_AsmEditor_Resources.Type_Flags_Accessibility : dnSpy_AsmEditor_Resources.Type_Flags_Visibility;

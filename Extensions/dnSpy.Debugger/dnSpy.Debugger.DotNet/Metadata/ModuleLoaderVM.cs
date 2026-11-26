@@ -32,7 +32,7 @@ using dnSpy.Debugger.DotNet.UI;
 
 namespace dnSpy.Debugger.DotNet.Metadata {
 	sealed class ModuleLoaderVM : ViewModelBase, IDisposable {
-		public ICommand CancelCommand => new RelayCommand(a => AskCancel(), a => CanCancel);
+		public ICommand CancelCommand => field ??= new RelayCommand(a => AskCancel(), a => CanCancel);
 
 		readonly UIDispatcher uiDispatcher;
 		readonly DbgRuntime runtime;

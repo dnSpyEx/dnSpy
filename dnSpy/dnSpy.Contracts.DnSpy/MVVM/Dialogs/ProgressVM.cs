@@ -84,7 +84,7 @@ namespace dnSpy.Contracts.MVVM.Dialogs {
 		/// <summary>
 		/// Cancel command
 		/// </summary>
-		public ICommand CancelCommand => new RelayCommand(a => Cancel(), a => CanCancel);
+		public ICommand CancelCommand => field ??= new RelayCommand(a => Cancel(), a => CanCancel);
 
 		readonly Dispatcher dispatcher;
 		readonly IProgressTask task;

@@ -23,7 +23,9 @@ namespace Example2.Extension {
 
 		// Since we open files from disk, we return a FilenameKey.
 		// If this gets changed, also update MyDsDocumentProvider.CreateKey()
+#pragma warning disable WFO2000
 		public override IDsDocumentNameKey Key => new FilenameKey(Filename);
+#pragma warning restore WFO2000
 
 		// Used by MyDsDocumentNode.Decompile() to show the file in the text editor
 		public string Text {

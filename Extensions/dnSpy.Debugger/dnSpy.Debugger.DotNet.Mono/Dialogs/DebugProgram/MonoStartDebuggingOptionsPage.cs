@@ -46,7 +46,7 @@ namespace dnSpy.Debugger.DotNet.Mono.Dialogs.DebugProgram {
 		}
 		string? monoExePath;
 
-		public ICommand PickMonoExePathCommand => new RelayCommand(a => PickMonoExePath());
+		public ICommand PickMonoExePathCommand => field ??= new RelayCommand(a => PickMonoExePath());
 
 		public MonoStartDebuggingOptionsPage(IPickFilename pickFilename, IPickDirectory pickDirectory, IDbgEnvironmentEditorService environmentEditorService)
 			: base(pickFilename, pickDirectory, environmentEditorService) {

@@ -36,7 +36,9 @@ namespace dnSpy.Hex.Editor {
 		public override WpfHexView HexView { get; }
 		public MetadataAndOrder<IAdornmentLayersMetadata> Info { get; }
 		public override bool IsEmpty => adornmentLayerElements.Count == 0;
+#pragma warning disable WFO2000
 		public override ReadOnlyCollection<HexAdornmentLayerElement> Elements => new ReadOnlyCollection<HexAdornmentLayerElement>(adornmentLayerElements.ToArray());
+#pragma warning restore WFO2000
 		readonly List<HexAdornmentLayerElementImpl> adornmentLayerElements;
 		readonly HexLayerKind layerKind;
 		readonly Canvas canvas;

@@ -82,17 +82,17 @@ namespace dnSpy.Debugger.ToolWindows.Threads {
 
 		public IThreadContext Context { get; }
 		public DbgThread Thread { get; }
-		public object IdObject => new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowId);
-		public object ManagedIdObject => new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowManagedId);
-		public object CategoryTextObject => new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowCategoryText);
-		public object NameObject => new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowName);
-		public object LocationObject => new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowLocation);
-		public object PriorityObject => new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowPriority);
-		public object AffinityMaskObject => new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowAffinityMask);
-		public object SuspendedCountObject => new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowSuspended);
-		public object ProcessNameObject => new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowProcess);
-		public object AppDomainObject => new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowAppDomain);
-		public object StateObject => new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowUserState);
+		public object IdObject => field ??= new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowId);
+		public object ManagedIdObject => field ??= new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowManagedId);
+		public object CategoryTextObject => field ??= new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowCategoryText);
+		public object NameObject => field ??= new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowName);
+		public object LocationObject => field ??= new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowLocation);
+		public object PriorityObject => field ??= new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowPriority);
+		public object AffinityMaskObject => field ??= new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowAffinityMask);
+		public object SuspendedCountObject => field ??= new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowSuspended);
+		public object ProcessNameObject => field ??= new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowProcess);
+		public object AppDomainObject => field ??= new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowAppDomain);
+		public object StateObject => field ??= new FormatterObject<ThreadVM>(this, PredefinedTextClassifierTags.ThreadsWindowUserState);
 		internal int Order { get; }
 
 		public ImageReference CategoryImageReference {

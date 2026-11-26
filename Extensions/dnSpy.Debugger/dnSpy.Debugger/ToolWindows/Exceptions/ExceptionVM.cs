@@ -61,9 +61,9 @@ namespace dnSpy.Debugger.ToolWindows.Exceptions {
 
 		public IExceptionContext Context { get; }
 		public DbgExceptionDefinition Definition { get; }
-		public object NameObject => new FormatterObject<ExceptionVM>(this, PredefinedTextClassifierTags.ExceptionSettingsWindowName);
-		public object CategoryObject => new FormatterObject<ExceptionVM>(this, PredefinedTextClassifierTags.ExceptionSettingsWindowCategory);
-		public object ConditionsObject => new FormatterObject<ExceptionVM>(this, PredefinedTextClassifierTags.ExceptionSettingsWindowConditions);
+		public object NameObject => field ??= new FormatterObject<ExceptionVM>(this, PredefinedTextClassifierTags.ExceptionSettingsWindowName);
+		public object CategoryObject => field ??= new FormatterObject<ExceptionVM>(this, PredefinedTextClassifierTags.ExceptionSettingsWindowCategory);
+		public object ConditionsObject => field ??= new FormatterObject<ExceptionVM>(this, PredefinedTextClassifierTags.ExceptionSettingsWindowConditions);
 		internal int Order { get; }
 
 		public ExceptionVM(in DbgExceptionSettingsInfo info, IExceptionContext context, int order) {

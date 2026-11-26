@@ -80,8 +80,8 @@ namespace dnSpy.AsmEditor.SaveModule {
 		}
 		SaveState saveState = SaveState.Loaded;
 
-		public ICommand SaveCommand => new RelayCommand(a => Save(), a => CanExecuteSave);
-		public ICommand CancelSaveCommand => new RelayCommand(a => CancelSave(), a => IsSaving && moduleSaver is not null);
+		public ICommand SaveCommand => field ??= new RelayCommand(a => Save(), a => CanExecuteSave);
+		public ICommand CancelSaveCommand => field ??= new RelayCommand(a => CancelSave(), a => IsSaving && moduleSaver is not null);
 		public event EventHandler? OnSavedEvent;
 		public bool IsLoaded => State == SaveState.Loaded;
 		public bool IsSaving => State == SaveState.Saving;

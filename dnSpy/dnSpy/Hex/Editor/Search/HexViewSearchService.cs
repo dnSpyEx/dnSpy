@@ -161,12 +161,12 @@ namespace dnSpy.Hex.Editor.Search {
 		public string MatchCaseToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Resources.Search_MatchCaseToolTip, dnSpy_Resources.ShortCutKeyAltC);
 		public string BigEndianToolTip => ToolTipHelper.AddKeyboardShortcut(dnSpy_Resources.Search_BigEndianToolTip, dnSpy_Resources.ShortCutKeyAltB);
 
-		public ICommand CloseSearchUICommand => new RelayCommand(a => CloseSearchControl());
-		public ICommand FindNextCommand => new RelayCommand(a => FindNext(true));
-		public ICommand FindPreviousCommand => new RelayCommand(a => FindNext(false));
-		public ICommand ReplaceNextCommand => new RelayCommand(a => ReplaceNext(), a => CanReplaceNext);
-		public ICommand ReplaceAllCommand => new RelayCommand(a => ReplaceAll(), a => CanReplaceAll);
-		public ICommand ToggleFindReplaceCommand => new RelayCommand(a => ToggleFindReplace(), a => CanToggleFindReplace);
+		public ICommand CloseSearchUICommand => field ??= new RelayCommand(a => CloseSearchControl());
+		public ICommand FindNextCommand => field ??= new RelayCommand(a => FindNext(true));
+		public ICommand FindPreviousCommand => field ??= new RelayCommand(a => FindNext(false));
+		public ICommand ReplaceNextCommand => field ??= new RelayCommand(a => ReplaceNext(), a => CanReplaceNext);
+		public ICommand ReplaceAllCommand => field ??= new RelayCommand(a => ReplaceAll(), a => CanReplaceAll);
+		public ICommand ToggleFindReplaceCommand => field ??= new RelayCommand(a => ToggleFindReplace(), a => CanToggleFindReplace);
 
 		public string ReplaceString {
 			get => replaceString;

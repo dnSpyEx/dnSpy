@@ -24,6 +24,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using dnlib.DotNet;
 using dnSpy.Decompiler.Properties;
 
 namespace dnSpy.Decompiler.MSBuild {
@@ -114,7 +115,7 @@ namespace dnSpy.Decompiler.MSBuild {
 					options.CancellationToken.ThrowIfCancellationRequested();
 					try {
 						ProjectWriterBase writer;
-						if (options.GenerateSDKStyleProjects)
+						if (options.GenerateSDKStyleProjects || NeedsSdkStyleProject(p.Module))
 							writer = new SdkProjectWriter(p, p.Options.ProjectVersion ?? options.ProjectVersion, projects, options.UserGACPaths);
 						else
 							writer = new DefaultProjectWriter(p, p.Options.ProjectVersion ?? options.ProjectVersion, projects, options.UserGACPaths);
@@ -148,6 +149,11 @@ namespace dnSpy.Decompiler.MSBuild {
 			finally {
 				satelliteAssemblyFinder?.Dispose();
 			}
+		}
+
+		static bool NeedsSdkStyleProject(ModuleDef module) {
+			var framework = TargetFrameworkInfo.Create(module).Framework;
+			return framework == ".NETCoreApp" || framework == ".NETStandard";
 		}
 
 		IEnumerable<IJob> GetJobs() {

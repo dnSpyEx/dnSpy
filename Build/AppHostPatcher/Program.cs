@@ -97,6 +97,11 @@ namespace AppHostPatcher {
 				}
 				for (int i = 0; i < newPathBytes.Length; i++)
 					apphostExeBytes[offset + i] = newPathBytes[i];
+
+				// .NET x86 apphosts do not have IMAGE_FILE_LARGE_ADDRESS_AWARE set
+				// Setting this flag allows dnSpy x86 to use more than 2GB of memory.
+				SetLargeAddressAware(apphostExeBytes);
+
 				File.WriteAllBytes(apphostExe, apphostExeBytes);
 				return 0;
 			}
@@ -128,6 +133,33 @@ namespace AppHostPatcher {
 					return false;
 			}
 			return true;
+		}
+
+		static void SetLargeAddressAware(byte[] bytes) {
+			const ushort IMAGE_FILE_MACHINE_I386 = 0x014C;
+			const ushort IMAGE_FILE_LARGE_ADDRESS_AWARE = 0x0020;
+
+			if (bytes.Length < 0x40)
+				return;
+
+			int peOffset = BitConverter.ToInt32(bytes, 0x3C);
+
+			if (peOffset < 0 || peOffset > bytes.Length - 24)
+				return;
+			if (BitConverter.ToUInt32(bytes, peOffset) != 0x4550)
+				return;
+			if (BitConverter.ToUInt16(bytes, peOffset + 4) != IMAGE_FILE_MACHINE_I386)
+				return;
+
+			int cOffset = peOffset + 22;
+
+			ushort characteristics = BitConverter.ToUInt16(bytes, cOffset);
+			if ((characteristics & IMAGE_FILE_LARGE_ADDRESS_AWARE) != 0)
+				return;
+
+			characteristics |= IMAGE_FILE_LARGE_ADDRESS_AWARE;
+			bytes[cOffset] = (byte)characteristics;
+			bytes[cOffset + 1] = (byte)(characteristics >> 8);
 		}
 	}
 }

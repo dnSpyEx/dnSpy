@@ -26,8 +26,8 @@ using dnSpy.Debugger.Properties;
 
 namespace dnSpy.Debugger.Breakpoints.Code.TextEditor {
 	sealed class BreakpointGlyphPopupVM : ViewModelBase {
-		public ICommand SettingsCommand => new RelayCommand(a => ShowSettings(), a => CanShowSettings);
-		public ICommand ToggleBreakpointCommand => new RelayCommand(a => ToggleBreakpoint(), a => CanToggleBreakpoint);
+		public ICommand SettingsCommand => field ??= new RelayCommand(a => ShowSettings(), a => CanShowSettings);
+		public ICommand ToggleBreakpointCommand => field ??= new RelayCommand(a => ToggleBreakpoint(), a => CanToggleBreakpoint);
 
 		public string SettingsToolTip => dnSpy_Debugger_Resources.Breakpoints_GlyphMargin_ShowSettingsToolTip;
 		public string ToggleBreakpointToolTip => breakpoint.IsEnabled ? dnSpy_Debugger_Resources.Breakpoints_GlyphMargin_DisableBreakpoint : dnSpy_Debugger_Resources.Breakpoints_GlyphMargin_EnableBreakpoint;

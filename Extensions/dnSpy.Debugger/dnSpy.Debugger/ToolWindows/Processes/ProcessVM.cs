@@ -73,13 +73,13 @@ namespace dnSpy.Debugger.ToolWindows.Processes {
 			}
 		}
 
-		public object NameObject => new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowName);
-		public object IdObject => new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowId);
-		public object TitleObject => new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowTitle);
-		public object StateObject => new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowState);
-		public object DebuggingObject => new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowDebugging);
-		public object ArchitectureObject => new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowArchitecture);
-		public object PathObject => new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowPath);
+		public object NameObject => field ??= new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowName);
+		public object IdObject => field ??= new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowId);
+		public object TitleObject => field ??= new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowTitle);
+		public object StateObject => field ??= new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowState);
+		public object DebuggingObject => field ??= new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowDebugging);
+		public object ArchitectureObject => field ??= new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowArchitecture);
+		public object PathObject => field ??= new FormatterObject<ProcessVM>(this, PredefinedTextClassifierTags.ProcessesWindowPath);
 		public DbgProcess Process { get; }
 		public IProcessContext Context { get; }
 

@@ -76,7 +76,7 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Dialogs.DebugProgram {
 
 		public UInt32VM ConnectionTimeout { get; }
 
-		public ICommand PickHostFilenameCommand => new RelayCommand(a => PickNewHostFilename(), a => CanPickNewHostFilename);
+		public ICommand PickHostFilenameCommand => field ??= new RelayCommand(a => PickNewHostFilename(), a => CanPickNewHostFilename);
 
 		public DotNetStartDebuggingOptionsPage(IPickFilename pickFilename, IPickDirectory pickDirectory, IDbgEnvironmentEditorService environmentEditorService)
 			: base(pickFilename, pickDirectory, environmentEditorService) => ConnectionTimeout = new UInt32VM(a => UpdateIsValid(), useDecimal: true);

@@ -21,6 +21,7 @@ using System;
 using System.Diagnostics;
 using dndbg.COM.CorDebug;
 
+#pragma warning disable WFO2000
 namespace dndbg.Engine {
 	sealed class CorValue : COMObject<ICorDebugValue>, IEquatable<CorValue?> {
 		public bool IsGeneric => obj is ICorDebugGenericValue;

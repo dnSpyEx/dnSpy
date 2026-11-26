@@ -29,7 +29,7 @@ namespace dnSpy.AsmEditor.Resources {
 	sealed class ImageListVM : ViewModelBase {
 		readonly ImageListOptions origOptions;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 
 		public string? Name {
 			get => name;

@@ -6,14 +6,14 @@
         - .github/workflows/build.yml
         - DnSpyRoslyn.props
     NOTE: Update the ABOVE files when TargetFrameworks is updated -->
-    <TargetFrameworks>net48;net10.0-windows</TargetFrameworks>
+    <TargetFrameworks>net48;net11.0-windows</TargetFrameworks>
     <IsDotNetFramework>false</IsDotNetFramework>
     <IsDotNet>false</IsDotNet>
     <IsSelfContainedDotNet>false</IsSelfContainedDotNet>
     <IsDotNetFramework Condition=" $(TargetFramework.StartsWith(net4)) ">true</IsDotNetFramework>
     <IsDotNet Condition=" !$(TargetFramework.StartsWith(net4)) ">true</IsDotNet>
     <IsSelfContainedDotNet Condition=" '$(IsDotNet)' == 'true' ">true</IsSelfContainedDotNet>
-    <Features>strict;nullablePublicOnly</Features>
+    <Features>strict;nullablePublicOnly;runtime-async=on</Features>
     <LangVersion>latest</LangVersion>
     <LangVersion Condition=" $(MSBuildProjectFile.EndsWith('.vbproj')) " >latest</LangVersion>
     <NeutralLanguage>en</NeutralLanguage>
@@ -41,25 +41,25 @@
 
     <!-- AD0001: buggy Roslyn analyzer(s) crash, disable that warning -->
     <!-- WFAC010,WFO0003: Prevent warning about app.manifest properties -->
-    <NoWarn>NU1701;AD0001;WFAC010;NETSDK1189;WFO0003</NoWarn>
+    <!-- VSMEF016: Warning about lack of source-generated metadata types in referenced assemblies -->
+    <NoWarn>NU1701;AD0001;WFAC010;NETSDK1189;WFO0003;VSMEF016</NoWarn>
     <NoWarn Condition=" '$(IsDotNetFramework)' == 'true' ">$(NoWarn);CS8767</NoWarn>
 
     <!-- Update app.config whenever some of these versions change (eg. dnlib version) -->
     <DiaSymReaderVersion>1.7.0</DiaSymReaderVersion>
     <DnlibVersion>4.5.0</DnlibVersion>
-    <IcedVersion>1.21.0</IcedVersion>
+    <IcedVersion>1.22.0</IcedVersion>
     <MSBuildNuGetVersion>17.12.50</MSBuildNuGetVersion>
     <MSDiagRuntimeVersion>1.1.142101</MSDiagRuntimeVersion>
-    <MSVSCompositionVersion>17.13.41</MSVSCompositionVersion>
+    <MSVSCompositionVersion>18.9.89</MSVSCompositionVersion>
     <MSVSIntellisenseVersion>15.5.27130</MSVSIntellisenseVersion>
     <MSVSTextVersion>15.5.27130</MSVSTextVersion>
     <NewtonsoftJsonVersion>13.0.4</NewtonsoftJsonVersion>
     <OokiiDialogsWpfVersion>5.0.1</OokiiDialogsWpfVersion>
-    <RoslynVersion>5.9.0</RoslynVersion>
-    <NuGetVersion>7.9.0</NuGetVersion>
-    <DbgShimVersion>9.0.661903</DbgShimVersion>
-    <DotNetPackageVersion>10.0.11</DotNetPackageVersion>
-    <MessagePackVersion>2.5.302</MessagePackVersion>
+    <RoslynVersion>5.12.0</RoslynVersion>
+    <NuGetVersion>8.0.0</NuGetVersion>
+    <DbgShimVersion>10.0.750501</DbgShimVersion>
+    <DotNetPackageVersion>11.0.0</DotNetPackageVersion>
   </PropertyGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)Build\ConvertToNetstandardReferences\ConvertToNetstandardReferences.tasks" Condition=" '$(IsDotNet)' == 'true' " />

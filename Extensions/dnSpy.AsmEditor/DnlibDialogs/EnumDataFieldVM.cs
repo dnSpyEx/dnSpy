@@ -75,7 +75,7 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 		}
 		IDnlibTypePicker? dnlibTypePicker;
 
-		public ICommand PickEnumTypeCommand => new RelayCommand(a => PickEnumType());
+		public ICommand PickEnumTypeCommand => field ??= new RelayCommand(a => PickEnumType());
 
 		public ITypeDefOrRef? EnumType {
 			get => enumInfo.EnumType;

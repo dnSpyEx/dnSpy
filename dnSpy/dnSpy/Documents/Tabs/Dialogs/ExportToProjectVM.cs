@@ -41,9 +41,9 @@ namespace dnSpy.Documents.Tabs.Dialogs {
 			Complete,
 		}
 
-		public ICommand PickDestDirCommand => new RelayCommand(a => PickDestDir(), a => CanPickDestDir);
-		public ICommand ExportProjectsCommand => new RelayCommand(a => ExportProjects(), a => CanExportProjects);
-		public ICommand GenerateNewProjectGuidCommand => new RelayCommand(a => ProjectGuid.Value = Guid.NewGuid());
+		public ICommand PickDestDirCommand => field ??= new RelayCommand(a => PickDestDir(), a => CanPickDestDir);
+		public ICommand ExportProjectsCommand => field ??= new RelayCommand(a => ExportProjects(), a => CanExportProjects);
+		public ICommand GenerateNewProjectGuidCommand => field ??= new RelayCommand(a => ProjectGuid.Value = Guid.NewGuid());
 
 		public string? Directory {
 			get => directory;

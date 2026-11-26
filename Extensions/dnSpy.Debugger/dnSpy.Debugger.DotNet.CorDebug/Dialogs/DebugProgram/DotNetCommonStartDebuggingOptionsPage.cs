@@ -86,9 +86,9 @@ namespace dnSpy.Debugger.DotNet.CorDebug.Dialogs.DebugProgram {
 
 		public DbgEnvironment Environment { get; } = new DbgEnvironment();
 
-		public ICommand PickFilenameCommand => new RelayCommand(a => PickNewFilename());
-		public ICommand PickWorkingDirectoryCommand => new RelayCommand(a => PickNewWorkingDirectory());
-		public ICommand EditEnvironmentCommand => new RelayCommand(a => EditEnvironment());
+		public ICommand PickFilenameCommand => field ??= new RelayCommand(a => PickNewFilename());
+		public ICommand PickWorkingDirectoryCommand => field ??= new RelayCommand(a => PickNewWorkingDirectory());
+		public ICommand EditEnvironmentCommand => field ??= new RelayCommand(a => EditEnvironment());
 
 		public EnumListVM BreakProcessKindVM => breakProcessKindVM;
 		readonly EnumListVM breakProcessKindVM = new EnumListVM(BreakProcessKindsUtils.BreakProcessKindList);

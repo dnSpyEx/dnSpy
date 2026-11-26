@@ -28,8 +28,8 @@ using Microsoft.VisualStudio.Text.Classification;
 
 namespace dnSpy.Documents.Tabs.Dialogs {
 	sealed class TabsVM : ViewModelBase {
-		public ICommand SaveCommand => new RelayCommand(a => Save(), a => CanSave);
-		public ICommand CloseTabCommand => new RelayCommand(a => CloseTab(), a => CanCloseTab);
+		public ICommand SaveCommand => field ??= new RelayCommand(a => Save(), a => CanSave);
+		public ICommand CloseTabCommand => field ??= new RelayCommand(a => CloseTab(), a => CanCloseTab);
 		public ObservableCollection<TabVM> Collection => tabsList;
 		public ITabsVMSettings Settings { get; }
 

@@ -56,7 +56,7 @@ namespace dnSpy.AsmEditor.Method {
 	sealed class MethodOptionsVM : ViewModelBase {
 		readonly MethodDefOptions origOptions;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 
 		internal static readonly EnumVM[] codeTypeList = EnumVM.Create(typeof(CodeType));
 		public EnumListVM CodeType { get; } = new EnumListVM(codeTypeList);

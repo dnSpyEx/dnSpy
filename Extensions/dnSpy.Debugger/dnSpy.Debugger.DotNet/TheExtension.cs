@@ -27,7 +27,7 @@ namespace dnSpy.Debugger.DotNet {
 			get { yield break; }
 		}
 
-		public ExtensionInfo ExtensionInfo => new ExtensionInfo {
+		public ExtensionInfo ExtensionInfo => field ??= new ExtensionInfo {
 			ShortDescription = ".NET Debugger",
 		};
 

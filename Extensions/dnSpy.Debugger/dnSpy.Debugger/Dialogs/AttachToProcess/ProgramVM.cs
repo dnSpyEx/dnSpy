@@ -40,13 +40,13 @@ namespace dnSpy.Debugger.Dialogs.AttachToProcess {
 		public string Architecture => GetArchitectureString(attachableProcessInfo.Architecture);
 
 		public IAttachToProcessContext Context { get; }
-		public object ProcessObject => new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowProcess);
-		public object IdObject => new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowPid);
-		public object TitleObject => new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowTitle);
-		public object RuntimeNameObject => new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowType);
-		public object ArchitectureObject => new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowMachine);
-		public object PathObject => new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowFullPath);
-		public object CommandLineObject => new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowCommandLine);
+		public object ProcessObject => field ??= new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowProcess);
+		public object IdObject => field ??= new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowPid);
+		public object TitleObject => field ??= new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowTitle);
+		public object RuntimeNameObject => field ??= new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowType);
+		public object ArchitectureObject => field ??= new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowMachine);
+		public object PathObject => field ??= new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowFullPath);
+		public object CommandLineObject => field ??= new FormatterObject<ProgramVM>(this, PredefinedTextClassifierTags.AttachToProcessWindowCommandLine);
 
 		readonly AttachableProcessInfo attachableProcessInfo;
 

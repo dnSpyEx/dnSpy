@@ -29,17 +29,17 @@ using dnSpy.Debugger.UI;
 namespace dnSpy.Debugger.ToolWindows.Modules {
 	sealed class ModuleVM : ViewModelBase {
 		public ImageReference ImageReference => Module.IsExe ? DsImages.AssemblyExe : DsImages.ModulePublic;
-		public object NameObject => new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowName);
-		public object PathObject => new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowPath);
-		public object OptimizedObject => new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowOptimized);
-		public object DynamicObject => new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowDynamic);
-		public object InMemoryObject => new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowInMemory);
-		public object OrderObject => new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowOrder);
-		public object VersionObject => new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowVersion);
-		public object TimestampObject => new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowTimestamp);
-		public object AddressObject => new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowAddress);
-		public object ProcessObject => new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowProcess);
-		public object AppDomainObject => new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowAppDomain);
+		public object NameObject => field ??= new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowName);
+		public object PathObject => field ??= new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowPath);
+		public object OptimizedObject => field ??= new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowOptimized);
+		public object DynamicObject => field ??= new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowDynamic);
+		public object InMemoryObject => field ??= new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowInMemory);
+		public object OrderObject => field ??= new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowOrder);
+		public object VersionObject => field ??= new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowVersion);
+		public object TimestampObject => field ??= new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowTimestamp);
+		public object AddressObject => field ??= new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowAddress);
+		public object ProcessObject => field ??= new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowProcess);
+		public object AppDomainObject => field ??= new FormatterObject<ModuleVM>(this, PredefinedTextClassifierTags.ModulesWindowAppDomain);
 		public DbgModule Module { get; }
 		public IModuleContext Context { get; }
 		internal int Order { get; }

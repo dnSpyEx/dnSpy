@@ -52,12 +52,12 @@ namespace dnSpy.Debugger.Evaluation.ViewModel.Impl {
 		public event PropertyChangedEventHandler? PropertyChanged;
 		public override ImageReference Icon => Context.ValueNodeImageReferenceService.GetImageReference(RawNode.ImageName);
 
-		public override ICommand RefreshExpressionCommand => new RelayCommand(a => RefreshExpression(), a => CanRefreshExpression);
+		public override ICommand RefreshExpressionCommand => field ??= new RelayCommand(a => RefreshExpression(), a => CanRefreshExpression);
 		public override string RefreshExpressionToolTip => dnSpy_Debugger_Resources.RefreshExpressionButtonToolTip;
 
-		public override FormatterObject<ValueNode> NameObject => new FormatterObject<ValueNode>(this, Context.NameColumnName);
-		public override FormatterObject<ValueNode> ValueObject => new FormatterObject<ValueNode>(this, Context.ValueColumnName);
-		public override FormatterObject<ValueNode> TypeObject => new FormatterObject<ValueNode>(this, Context.TypeColumnName);
+		public override FormatterObject<ValueNode> NameObject => field ??= new FormatterObject<ValueNode>(this, Context.NameColumnName);
+		public override FormatterObject<ValueNode> ValueObject => field ??= new FormatterObject<ValueNode>(this, Context.ValueColumnName);
+		public override FormatterObject<ValueNode> TypeObject => field ??= new FormatterObject<ValueNode>(this, Context.TypeColumnName);
 
 		public override ref readonly ClassifiedTextCollection CachedName {
 			get {

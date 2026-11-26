@@ -40,7 +40,7 @@ namespace dnSpy.AsmEditor.Field {
 	sealed class FieldOptionsVM : ViewModelBase {
 		readonly FieldDefOptions origOptions;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
 
 		static readonly EnumVM[] fieldAccessList = EnumVM.Create(typeof(FieldAccess));
 		public EnumListVM FieldAccess { get; } = new EnumListVM(fieldAccessList);

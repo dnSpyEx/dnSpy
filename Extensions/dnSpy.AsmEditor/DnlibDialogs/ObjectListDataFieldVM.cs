@@ -36,9 +36,9 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 		}
 		ICreateConstantType? createConstantType;
 
-		public ICommand AddObjectCommand => new RelayCommand(a => AddObject());
-		public ICommand RemoveObjectCommand => new RelayCommand(a => RemoveObject(), a => RemoveObjectCanExecute());
-		public ICommand ClearObjectsCommand => new RelayCommand(a => ClearObjects(), a => ClearObjectsCanExecute());
+		public ICommand AddObjectCommand => field ??= new RelayCommand(a => AddObject());
+		public ICommand RemoveObjectCommand => field ??= new RelayCommand(a => RemoveObject(), a => RemoveObjectCanExecute());
+		public ICommand ClearObjectsCommand => field ??= new RelayCommand(a => ClearObjects(), a => ClearObjectsCanExecute());
 
 		readonly ModuleDef ownerModule;
 

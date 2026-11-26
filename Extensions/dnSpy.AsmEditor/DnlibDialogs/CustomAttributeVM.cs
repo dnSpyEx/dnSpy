@@ -40,8 +40,8 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 		}
 		IDnlibTypePicker? dnlibTypePicker;
 
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
-		public ICommand PickConstructorCommand => new RelayCommand(a => PickConstructor());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
+		public ICommand PickConstructorCommand => field ??= new RelayCommand(a => PickConstructor());
 
 		public string TypeFullName {
 			get {

@@ -23,6 +23,7 @@ using System.Diagnostics;
 using dndbg.COM.CorDebug;
 using dndbg.COM.MetaData;
 
+#pragma warning disable WFO2000
 namespace dndbg.Engine {
 	sealed class CorFrame : COMObject<ICorDebugFrame>, IEquatable<CorFrame?> {
 		public CorFrame? Callee {

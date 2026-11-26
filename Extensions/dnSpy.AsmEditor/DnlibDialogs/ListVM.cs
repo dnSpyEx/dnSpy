@@ -54,8 +54,8 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 
 		public bool InlineEditing => inlineEditing;
 		public bool NotInlineEditing => !InlineEditing;
-		public ICommand EditCommand => new RelayCommand(a => EditItem(), a => EditItemCanExecute());
-		public ICommand AddCommand => new RelayCommand(a => AddItem(), a => AddItemCanExecute());
+		public ICommand EditCommand => field ??= new RelayCommand(a => EditItem(), a => EditItemCanExecute());
+		public ICommand AddCommand => field ??= new RelayCommand(a => AddItem(), a => AddItemCanExecute());
 		public MyObservableCollection<TVM> Collection { get; } = new MyObservableCollection<TVM>();
 		public ModuleDef OwnerModule { get; }
 

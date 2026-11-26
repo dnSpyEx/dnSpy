@@ -411,6 +411,7 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 			}
 		}
 
+#pragma warning disable WFO2000
 		public MarshalType? Type {
 			get {
 				if (!IsEnabled)
@@ -528,5 +529,6 @@ namespace dnSpy.AsmEditor.DnlibDialogs {
 				NativeType.SelectedItem = value.NativeType;
 			}
 		}
+#pragma warning restore WFO2000
 	}
 }

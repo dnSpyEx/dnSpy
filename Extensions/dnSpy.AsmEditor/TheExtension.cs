@@ -69,13 +69,9 @@ namespace dnSpy.AsmEditor {
 			}
 		}
 
-		public ExtensionInfo ExtensionInfo {
-			get {
-				return new ExtensionInfo {
-					ShortDescription = dnSpy_AsmEditor_Resources.Plugin_ShortDescription,
-				};
-			}
-		}
+		public ExtensionInfo ExtensionInfo => field ??= new ExtensionInfo {
+			ShortDescription = dnSpy_AsmEditor_Resources.Plugin_ShortDescription,
+		};
 
 		public void OnEvent(ExtensionEvent @event, object? obj) {
 		}

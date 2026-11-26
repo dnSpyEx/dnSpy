@@ -59,8 +59,10 @@ namespace dnSpy.Text.Editor {
 		}
 		bool activationTracksFocus;
 
+#pragma warning disable WFO2000
 		public NormalizedSnapshotSpanCollection SelectedSpans => new NormalizedSnapshotSpanCollection(GetSelectedSpans().Select(a => a.SnapshotSpan));
 		public ReadOnlyCollection<VirtualSnapshotSpan> VirtualSelectedSpans => new ReadOnlyCollection<VirtualSnapshotSpan>(GetSelectedSpans());
+#pragma warning restore WFO2000
 
 		List<VirtualSnapshotSpan> GetSelectedSpans() {
 			var list = new List<VirtualSnapshotSpan>();

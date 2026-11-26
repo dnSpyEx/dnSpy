@@ -46,11 +46,11 @@ namespace dnSpy.AsmEditor.Module {
 		}
 		IDnlibTypePicker? dnlibTypePicker;
 
-		public ICommand PickManagedEntryPointCommand => new RelayCommand(a => PickManagedEntryPoint());
-		public ICommand ReinitializeCommand => new RelayCommand(a => Reinitialize());
-		public ICommand GenerateNewMvidCommand => new RelayCommand(a => Mvid.Value = Guid.NewGuid());
-		public ICommand GenerateNewEncIdCommand => new RelayCommand(a => EncId.Value = Guid.NewGuid());
-		public ICommand GenerateNewEncBaseIdCommand => new RelayCommand(a => EncBaseId.Value = Guid.NewGuid());
+		public ICommand PickManagedEntryPointCommand => field ??= new RelayCommand(a => PickManagedEntryPoint());
+		public ICommand ReinitializeCommand => field ??= new RelayCommand(a => Reinitialize());
+		public ICommand GenerateNewMvidCommand => field ??= new RelayCommand(a => Mvid.Value = Guid.NewGuid());
+		public ICommand GenerateNewEncIdCommand => field ??= new RelayCommand(a => EncId.Value = Guid.NewGuid());
+		public ICommand GenerateNewEncBaseIdCommand => field ??= new RelayCommand(a => EncBaseId.Value = Guid.NewGuid());
 		public NullableGuidVM Mvid { get; }
 		public NullableGuidVM EncId { get; }
 		public NullableGuidVM EncBaseId { get; }
